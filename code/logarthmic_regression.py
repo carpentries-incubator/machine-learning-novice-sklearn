@@ -8,7 +8,6 @@ Created on Fri Apr  5 18:05:11 2019
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 import math
 
 
@@ -52,7 +51,6 @@ def measure_error(data1, data2):
     '''Measure the RMS error between data1 and data2'''
     assert len(data1) == len(data2)
     err_total = 0
-    items_counted = 0 
     for i in range(0, len(data1)):
         err_total = err_total + (data1[i] - data2[i]) ** 2
 
@@ -72,23 +70,25 @@ def make_graph(x_data, y_data, y_model):
 
     # evenly space y axis, interval of 1, between the min and max life exp
     # set to 1000 when using linearised data
-    yticks = list(range(0,max_y,1))
-    # uncomment for linearised version
-    #yticks = list(range(0,max_y,5000))
+
+    # logarthmic version
+    # yticks = list(range(0, max_y, 1))
+    # linearised version
+    yticks = list(range(0, max_y, 5000))
     labels = []
     for y in yticks:
-        #comment out if using linearisd data
-        labels.append(int(math.exp(y)))
-        #uncomment if using linearised data
-        #labels.append(int(y))
+        # comment out if using linearisd data
+        # labels.append(int(math.exp(y)))
+        # uncomment if using linearised data
+        labels.append(int(y))
 
-
-    print(yticks,labels)
-    plt.yticks(yticks,labels)
-#                           (max_y - min_y)+1))
+    print(yticks, labels)
+    plt.yticks(yticks, labels)
 
     plt.xlim(min(x_data), max(x_data))
-    plt.ylim(min_y, max_y)
+    # pad by 2% of the total range underneath to make the graph clearer
+    # plt.ylim(min_y-((max_y-min_y)*0.02), max_y + ((max_y-min_y)*0.02))
+    # sometimes 0 or a small negative value instead of min_y looks better
 
     # label axes
     plt.ylabel("GDP (US $)")
@@ -107,12 +107,13 @@ def make_graph(x_data, y_data, y_model):
     plt.show()
 
 
-def read_data(gdp_file,life_expectancy_file, year):
+def read_data(gdp_file, life_expectancy_file, year):
     df_gdp = pd.read_csv(gdp_file, index_col="Country Name")
 
     gdp = df_gdp.loc[:, year]
 
-    df_life_expt = pd.read_csv(life_expectancy_file, index_col="Life expectancy")
+    df_life_expt = pd.read_csv(life_expectancy_file,
+                               index_col="Life expectancy")
 
     # get the life expectancy for the specified country/dates
     # we have to convert the dates to strings as pandas treats them that way
@@ -121,19 +122,24 @@ def read_data(gdp_file,life_expectancy_file, year):
     data = []
     for country in life_expectancy.index:
         if country in gdp.index:
-            # exclude any country where either (or both) pieces of data are unknown
-            if math.isnan(life_expectancy[country]) == False and math.isnan(gdp[country]) == False:
-                data.append((country, life_expectancy[country], gdp[country]))
+            # exclude any country where data is unknown
+            if (math.isnan(life_expectancy[country]) is False) and \
+               (math.isnan(gdp[country]) is False):
+                    data.append((country, life_expectancy[country],
+                                 gdp[country]))
             else:
-                print("Excluding ",country,",NaN in data (life_exp = ",life_expectancy[country],"gdp=",gdp[country],")")
+                print("Excluding ", country, ",NaN in data (life_exp = ",
+                      life_expectancy[country], "gdp=", gdp[country], ")")
         else:
-            print(country,"is not in the GDP country data")
+            print(country, "is not in the GDP country data")
 
-    combined = pd.DataFrame.from_records(data,columns=("Country","Life Expectancy","GDP"))
+    combined = pd.DataFrame.from_records(data, columns=("Country",
+                                         "Life Expectancy", "GDP"))
     combined = combined.set_index("Country")
     # we'll need sorted data for graphing properly later on
     combined = combined.sort_values("Life Expectancy")
     return combined
+
 
 def process_data(gdp_file, life_expectancy_file, year):
     data = read_data(gdp_file, life_expectancy_file, year)
@@ -142,23 +148,26 @@ def process_data(gdp_file, life_expectancy_file, year):
     gdp_log = data["GDP"].apply(math.log).tolist()
     life_exp = data["Life Expectancy"].tolist()
 
-    m,c = least_squares([life_exp,gdp_log])
+    m, c = least_squares([life_exp, gdp_log])
 
+    # list for logarithmic version
+    y_log_model = []
+    # list for raw version
     y_model = []
     for x in life_exp:
-        y_log = m *x +c
+        y_log = m * x + c
+        y_log_model.append(y_log)
+
         y = math.exp(y_log)
+        y_model.append(y)
 
-        y_model.append(y_log)
-
-    print("done making y_model")
-    print("life_exp:",life_exp)
-    print("gdp:",gdp)
-    print("y_model:",y_model)
-    make_graph(life_exp, gdp_log, y_model)
-    print("made graph")
+    # uncomment for log version, further changes needed in make_graph too
+    # make_graph(life_exp, gdp_log, y_log_model)
+    make_graph(life_exp, gdp, y_model)
 
     err = measure_error(y_model, gdp)
-    print("error=",err)
+    print("error=", err)
 
-process_data("../data/worldbank-gdp.csv", "../data/gapminder-life-expectancy.csv", "1980")
+
+process_data("../data/worldbank-gdp.csv",
+             "../data/gapminder-life-expectancy.csv", "2010")

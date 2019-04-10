@@ -8,7 +8,6 @@ Created on Fri Apr  5 18:05:11 2019
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 import math
 
 
@@ -70,8 +69,7 @@ def make_graph(x_data, y_data, y_model):
     max_y = math.ceil(max(y_data))
 
     # evenly space y axis, interval of 1, between the min and max life exp
-    plt.yticks(np.linspace(min_y, max_y,
-                           (max_y - min_y)+1))
+    plt.yticks(list(range(min_y, max_y, 1)))
 
     plt.xlim(min(x_data), max(x_data))
     plt.ylim(min_y, max_y)

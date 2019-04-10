@@ -16,27 +16,29 @@ FIXME
 
 # What is machine learning?
 
-Machine learning is a set of of tools and techniques which let us find patterns in data. 
+Machine learning is a set of of tools and techniques which let us find patterns in data. This lesson will introduce you to a few of these techniques, but there are many more which we simply don't have time to cover here. 
 
-(FIXME): introduce both prediction and classification here? 
+The techniques breakdown into two broad categories, predictors and classifiers. Predictors are used to predict a value (or set of value) given a set of inputs, for example trying to predict the cost of something given the economic conditions and the cost of raw materials or predicting a country's GDP given its life expectancy. Classifiers try to classify data into different categories, for example deciding what characters are visible in a picture of some writing or if a message is spam or not. 
 
-
-In its most basic form machine learning lets us predict the value of something given at least one other variable. For example given a country's GDP we can predict what its life expectancy might be. We can do this by using data from lots of other countries to form a model linking the two variables. We can now use the model to calculate what the life expectancy of a given country will be if we know its GDP. If our machine learning system works correctly it will hopefully give us an accurate answer. 
 
 ## Training Data
 
-Machine learning systems "learn" by taking a series of input data and output data and using it to form a model. The maths behind the machine learning doesn't care what the data is as long as it can represented numerically or categorised. Some examples might include:
+Many (but not all) machine learning systems "learn" by taking a series of input data and output data and using it to form a model. The maths behind the machine learning doesn't care what the data is as long as it can represented numerically or categorised. Some examples might include:
 
 * predicting a person's weight based on their height
 * predicting commute times given traffic conditions
 * predicting house prices given stock market prices
+* classifying if an email is spam or not
+* classifying what if an image contains a person or not
 
 
-Typically we will need to train our models with hundreds, thousands or even millions of examples before they work well enough to do any useful predictions on. 
+Typically we will need to train our models with hundreds, thousands or even millions of examples before they work well enough to do any useful predictions or classifications with them. 
+
+Some systems will do training as a one shot process which produces a model. Others might try to continuosuly refine their training through the real use of the system and human feedback to it. For example every time you mark an email as spam or not spam you are probably contributing to further training of your spam filter's model. 
 
 ### Types of output
 
-Some systems will involve a continous scale of outputs, such as predicting the price of something. But many machine learning systems predict which class something belongs to given an input value. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
+Predictors will usually involve a continous scale of outputs, such as the price of something. Classifiers will tell you which class (or classes) are present in the data. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
 
 
 ## Machine learning vs Artificial Intelligence
@@ -75,6 +77,13 @@ character recognition
 
 https://www.youtube.com/watch?v=ocB8uDYXtt0
 
+insurance payout predictions
+https://www.youtube.com/watch?v=Q3vknDOy6Bs
+
+crime prediction
+
+https://www.youtube.com/watch?v=7Ly7yAzLDjA
+
 
 ### Example of machine learning in research
 
@@ -103,6 +112,10 @@ https://pure.aber.ac.uk/portal/en/publications/a-novel-behavioral-model-of-the-p
 
 There is a classic expression in Computer Science, "Garbage In = Garbage Out". This means that if the input data we use is garbage then the ouput will be too. If for instance we try to get a machine learning system to find a link between two unlinked variables then it might still come up with a model that attempts this, but the output will be meaningless. 
 
+#### Bias or lacking 
+
+Input data may also be lacking enough diversity to cover all examples. Due to how the data was obtained there might be biases in it that are then refelected in the ML system. For example if we collect data on crime reporting it could be biased towards wealthier areas where crimes are more likely to be reported. Historical data might not cover enough history.
+
 #### Extrapolation
 
 We can only make reliable predictions about data which is in the same range as our training data. If we try to extrapolate beyond what was covered in the training data we'll probably get wrong answers. 
@@ -110,28 +123,6 @@ We can only make reliable predictions about data which is in the same range as o
 #### Over fitting
 
 Some ML techniques more resistant to this than others 
-
-
-
-## Classification
-
-
-
-
-
-
-
-# What is machine learning?
-
-data input
-
-training
-
-classification
-
-
-
-
 
 
 
