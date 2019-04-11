@@ -194,3 +194,9 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 
 
 ## Other types of regression 
+
+Linear regression obviously has its limits for working with data that isn't linear. Scikit-learn has a number of other regression techniques 
+which can be used on non-linear data. Some of these (such as isotonic regression) will only interpolate data in the range of the training
+data and can't extrapolate beyond it. One non-linear technique that works with many types of data is polynomial regression. This creates a polynomial 
+equation of the form y = a + bx + cx^2 + dx^3 etc. The more terms we add to the polynomial the more accurately we can model a system.
+
