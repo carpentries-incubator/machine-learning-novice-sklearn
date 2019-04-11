@@ -151,21 +151,21 @@ def process_data(gdp_file, life_expectancy_file, year):
     m, c = least_squares([life_exp, gdp_log])
 
     # list for logarithmic version
-    y_log_model = []
+    log_data = []
     # list for raw version
-    y_model = []
+    linear_data = []
     for x in life_exp:
         y_log = m * x + c
-        y_log_model.append(y_log)
+        log_data.append(y_log)
 
         y = math.exp(y_log)
-        y_model.append(y)
+        linear_data.append(y)
 
     # uncomment for log version, further changes needed in make_graph too
-    # make_graph(life_exp, gdp_log, y_log_model)
-    make_graph(life_exp, gdp, y_model)
+    # make_graph(life_exp, gdp_log, log_data)
+    make_graph(life_exp, gdp, linear_data)
 
-    err = measure_error(y_model, gdp)
+    err = measure_error(linear_data, gdp)
     print("error=", err)
 
 

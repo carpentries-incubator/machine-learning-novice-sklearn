@@ -106,18 +106,18 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
     # calculate line of best fit
     m, c = least_squares([x_data, life_expectancy])
 
-    y_model = []
+    linear_model = []
     # calculate the y coordinates for every point in the list x
     for x in x_data:
         y = m * x + c
         # add the result to the y_model list
-        y_model.append(y)
+        linear_model.append(y)
 
-    error = measure_error(life_expectancy, y_model)
+    error = measure_error(life_expectancy, linear_model)
     print("error is ", error)
 
-    make_graph(x_data, life_expectancy, y_model)
+    make_graph(x_data, life_expectancy, linear_model)
 
 
 process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "Canada", 1800, 1920)
+                             "Canada", 1800, 2000)

@@ -1,9 +1,10 @@
 ---
 title: "Regression"
-teaching: 0
-exercises: 0
+teaching: 30
+exercises: 30
 questions:
-- "Making linear regression models from data. Using logarithmic regression to work with non-linear data."
+- "How can I make linear regression models from data?"
+- "How can I use logarithmic regression to work with non-linear data?"
 objectives:
 - "Learn how to use linear regression to produce a model from data."
 - "Learn how to model non-linear data using a logarithmic."
@@ -105,15 +106,15 @@ To calculate the RMS for the test data we just used we need to calculate the y c
 m, c = least_squares([x_data,y_data])
 
 # create an empty list for the model y data
-y_model = []
+linear_data = []
 
 for x in x_data:
     y = m * x + c
-    # add the result to the y_model list
-    y_model.append(y)
+    # add the result to the linear_data list
+    linear_data.append(y)
 
 # calculate the error
-print(measure_error(y_data,y_model))
+print(measure_error(y_data,linear_data))
 ~~~
 {: .python}
 
@@ -127,10 +128,10 @@ To compare our model and data lets graph both of them using matplotlib.
 ~~~
 import matplotlib as plt
 
-def make_graph(x_data, y_data, y_model):
+def make_graph(x_data, y_data, linear_data):
 
     plt.plot(x_data, y_data, label="Original Data")
-    plt.plot(x_data, y_model, label="Line of best fit")
+    plt.plot(x_data, linear_data, label="Line of best fit")
 
     plt.grid()
     plt.legend()
@@ -141,14 +142,14 @@ x_data = [2,3,5,7,9]
 y_data = [4,5,7,10,15]]
 m,c = least_squares([x_data,y_data])
 
-y_model = []
+linear_data = []
 
 for x in x_data:
     y = m * x + c
-    # add the result to the y_model list
-    y_model.append(y)
+    # add the result to the linear_data list
+    linear_data.append(y)
     
-make_graph(x_data, y_data, y_model)
+make_graph(x_data, y_data, linear_data)
 ~~~
 {: .python}
 
@@ -177,15 +178,15 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
     # calculate line of best fit
     m, c = least_squares([x_data, life_expectancy])
 
-    y_model = []
+    linear_data = []
     for x in x_data:
         y = m * x + c
-        y_model.append(y)
+        linear_data.append(y)
 
-    error = measure_error(life_expectancy, y_model)
+    error = measure_error(life_expectancy, linear_data)
     print("error is ", error)
 
-    make_graph(x_data, life_expectancy, y_model)
+    make_graph(x_data, life_expectancy, linear_data)
 
 process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
                              "United Kingdom", 1950, 2010)
@@ -380,7 +381,7 @@ def read_data(gdp_file, life_expectancy_file, year):
 
 Once the data is loaded we'll need to convert the GDP data to its logarithmic form by using the `math.log()` function. Pandas has a special function called `apply` which can apply an operation to every item in a column, by using the statement `data["GDP"].apply(math.log)` it will calculate the logarithmic form of every value in the GDP column and turn it into a new dataframe. We'll convert the data into two lists to simplify working with it, these can be used by the least_squares, make_graph and measure_error functions. 
 
-Once we've calculated the line of best fit with the least_squares function we can graph it. But now we have two choices on how to do the graphing, we can either leave the data in its logarithmic form and draw a straight line of best fit. Or we could convert it back to its original form with the `math.exp()` function and graph the curved line of best fit. To allow us to do either we'll calculate both forms of the line of best fit and store them in the lists y_model and y_log_model.
+Once we've calculated the line of best fit with the least_squares function we can graph it. But now we have two choices on how to do the graphing, we can either leave the data in its logarithmic form and draw a straight line of best fit. Or we could convert it back to its original form with the `math.exp()` function and graph the curved line of best fit. To allow us to do either we'll calculate both forms of the line of best fit and store them in the lists linear_data and log_data.
 
 ~~~
 def process_data(gdp_file, life_expectancy_file, year):
@@ -393,21 +394,21 @@ def process_data(gdp_file, life_expectancy_file, year):
     m, c = least_squares([life_exp, gdp_log])
 
     # list for logarithmic version
-    y_log_model = []
+    log_data = []
     # list for raw version
-    y_model = []
+    linear_data = []
     for x in life_exp:
         y_log = m * x + c
-        y_log_model.append(y_log)
+        log_data.append(y_log)
 
         y = math.exp(y_log)
-        y_model.append(y)
+        linear_data.append(y)
 
     # uncomment for log version, further changes needed in make_graph too
-    # make_graph(life_exp, gdp_log, y_log_model)
-    make_graph(life_exp, gdp, y_model)
+    # make_graph(life_exp, gdp_log, log_data)
+    make_graph(life_exp, gdp, linear_data)
 
-    err = measure_error(y_model, gdp)
+    err = measure_error(linear_data, gdp)
     print("error=", err)
     
 ~~~
@@ -443,10 +444,10 @@ process_data("../data/worldbank-gdp.csv",
 Previously we drew a line graph showing life expectancy over time. This made sense as a line as it was tracking a single variable over time. But now we are plotting two variables against each other and need to use a scatter graph instead, so we'll change the first `plt.plot` call to `plt.scatter`. 
 
 ~~~
-def make_graph(x_data, y_data, y_model):
+def make_graph(x_data, y_data, linear_data):
 
     plt.scatter(x_data, y_data, label="Original Data")
-    plt.plot(x_data, y_model, color="orange", label="Line of best fit")
+    plt.plot(x_data, linear_data, color="orange", label="Line of best fit")
 
     plt.grid()
     plt.legend()
@@ -455,7 +456,7 @@ def make_graph(x_data, y_data, y_model):
 ~~~
 {: .python}
 
-The process_data function gave us a choice of plotting either the logarithmic or non-logarithmic version of the data depending on which data we pass to make_graph. If we uncomment the line `# make_graph(life_exp, gdp_log, y_log_model)` and comment the line `make_graph(life_exp, gdp, y_model)` then we can switch to showing the logarithmic version. 
+The process_data function gave us a choice of plotting either the logarithmic or non-logarithmic version of the data depending on which data we pass to make_graph. If we uncomment the line `# make_graph(life_exp, gdp_log, log_data)` and comment the line `make_graph(life_exp, gdp, linear_data)` then we can switch to showing the logarithmic version. 
 
 
 > # Comparing the logarithmic and non-logarithmic graphs
