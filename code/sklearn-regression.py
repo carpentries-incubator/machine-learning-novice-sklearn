@@ -85,7 +85,8 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
     linear_data = regression.predict(x_data_arr)
 
     # calcualte the root mean squared error
-    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
+    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr,
+                                                     linear_data))
     print("linear error is ", error)
 
     polynomial_error = math.sqrt(
@@ -98,11 +99,12 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
                              polynomial_features.fit_transform(predictions_x))
 
     life_exp_test = df.loc[country, "2001":"2016"].tolist()
-    linear_error = math.sqrt(skl_metrics.mean_squared_error(predictions_linear, life_exp_test))
+    linear_error = math.sqrt(skl_metrics.mean_squared_error(predictions_linear,
+                                                            life_exp_test))
     print("linear prediction error is ", linear_error)
 
-    polynomial_error = math.sqrt(
-            skl_metrics.mean_squared_error(predictions_polynomial, life_exp_test))
+    polynomial_error = math.sqrt(skl_metrics.mean_squared_error(
+            predictions_polynomial, life_exp_test))
     print("polynomial prediction error is", polynomial_error)
 
     print("actual values", life_exp_test)
