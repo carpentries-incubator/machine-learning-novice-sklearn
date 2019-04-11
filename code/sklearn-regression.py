@@ -8,14 +8,13 @@ Created on Wed Apr 10 16:44:31 2019
 import pandas as pd
 import matplotlib.pyplot as plt
 import math
+import numpy as np
 import sklearn.linear_model as skl_lin
 import sklearn.metrics as skl_metrics
-import numpy as np
 import sklearn.preprocessing as skl_pre
-import sklearn.pipeline as skl_pipe
 
 
-def make_graph(x_data, y_data, y_model, isotonic_model):
+def make_graph(x_data, y_data, y_model, polynomial_model):
 
     # rotate the x labels to fit better
     plt.xticks(rotation=90)
@@ -23,18 +22,18 @@ def make_graph(x_data, y_data, y_model, isotonic_model):
     # calculate the minimum and maximum life expectancy
     # floor rounds down, ceil rounds up
     min_y = math.floor(min(y_data))
-    max_y = math.ceil(max(y_data))
+    max_y = math.ceil(max(polynomial_model))
 
     # evenly space y axis, interval of 1, between the min and max life exp
-    plt.yticks(list(range(min_y, max_y, 1)))
+    plt.yticks(list(range(min_y, max_y, 5)))
 
     plt.xlim(min(x_data), max(x_data))
     plt.ylim(min_y, max_y)
 
     # draw the line
-    plt.plot(x_data, y_data, label="Original Data")
-    plt.plot(x_data, y_model, label="Line of best fit")
-    plt.plot(x_data, isotonic_model, label="Polynomial model")
+    plt.plot(x_data, y_data, label="Actual Data")
+    plt.plot(x_data, y_model, label="Linear")
+    plt.plot(x_data, polynomial_model, label="Polynomial model")
 
     plt.grid()
 
@@ -67,27 +66,14 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 
     # perform the lienar regression
     regression = skl_lin.LinearRegression().fit(x_data_arr, life_exp_arr)
-    print(type(x_data),type(life_expectancy.tolist()))
-    #iso = ir.IsotonicRegression()
-    #isotonic_model = iso.fit(x_data, life_expectancy.tolist())
-    #predictions_isotonic = iso.predict(list=(range(1999,1999.5)))
-    predictions_x = np.array(list(range(2001,2016)))
-    predictions_linear = regression.predict(predictions_x.reshape(-1,1))
+
 
     polynomial_features = skl_pre.PolynomialFeatures(degree=10)
     x_poly = polynomial_features.fit_transform(x_data_arr)
     polynomial_model = skl_lin.LinearRegression().fit(x_poly, life_exp_arr)
     polynomial_data = polynomial_model.predict(x_poly)
-    
-    predictions_polynomial = polynomial_model.predict(
-                             polynomial_features.fit_transform(predictions_x.reshape(-1,1)))
 
-    #polynomial_model = skl_pipe.make_pipeline(skl_pre.PolynomialFeatures(degree = 8),skl_lin.LinearRegression())
-    #polynomial_model.fit(x_data_arr,life_exp_arr)
 
-    print("polynomial predicitons",predictions_polynomial)
-    print("linear predcitions",predictions_linear)
-    print("actual values",df.loc[country, "2001":"2016"])
 
     # get the parameters from the regression
     m = regression.coef_[0][0]
@@ -96,19 +82,38 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
     print("m =", m, "c=", c)
 
     # generate the line of best fit from our model
-    y_model = regression.predict(x_data_arr)
-    #isotonic_model = iso.predict(x_data)
+    linear_data = regression.predict(x_data_arr)
 
     # calcualte the root mean squared error
-    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, y_model))
-    print("error is ", error)
+    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
+    print("linear error is ", error)
 
-    polynomial_error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, polynomial_data))
+    polynomial_error = math.sqrt(
+            skl_metrics.mean_squared_error(life_exp_arr, polynomial_data))
     print("polynomial error is", polynomial_error)
 
+    predictions_x = np.array(list(range(2001, 2017))).reshape(-1, 1)
+    predictions_linear = regression.predict(predictions_x)
+    predictions_polynomial = polynomial_model.predict(
+                             polynomial_features.fit_transform(predictions_x))
 
-    make_graph(x_data, life_expectancy, y_model, polynomial_data)
+    life_exp_test = df.loc[country, "2001":"2016"].tolist()
+    linear_error = math.sqrt(skl_metrics.mean_squared_error(predictions_linear, life_exp_test))
+    print("linear prediction error is ", linear_error)
+
+    polynomial_error = math.sqrt(
+            skl_metrics.mean_squared_error(predictions_polynomial, life_exp_test))
+    print("polynomial prediction error is", polynomial_error)
+
+    print("actual values", life_exp_test)
+    print("polynomial predicitons", predictions_polynomial)
+    print("linear predcitions", predictions_linear)
+
+
+    make_graph(x_data, life_expectancy, linear_data, polynomial_data)
+
+    #make_graph(predictions_x, life_exp_test, predictions_linear, predictions_polynomial)
 
 
 process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1960, 2000)
+                             "China", 1960, 2000)

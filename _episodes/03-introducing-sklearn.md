@@ -1,13 +1,13 @@
 ---
 title: "Introducing Scikit Learn"
-teaching: 0
-exercises: 0
+teaching: 15
+exercises: 20
 questions:
-- "Key question (FIXME)"
+- "How can I use scikit-learn to process data?"
 objectives:
 - "Use the scikit-learn library to perform a linear regression."
 - "Use the scikit-learn library to measure the error from a regression."
-- "Use an isotonic regression and compare its results to a linear regression."
+- "Use a polynomial model and compare its results to a linear regression."
 keypoints:
 - "First key point. Brief Answer to questions. (FIXME)"
 ---
@@ -23,7 +23,7 @@ First lets add the import for sklearn, we're also going to need the numpy librar
 
 ~~~
 import numpy as np
-import sklearn.linear_model as skl
+import sklearn.linear_model as skl_lin
 ~~~
 {: .python}
 
@@ -42,7 +42,7 @@ to
     x_data_arr = np.array(x_data).reshape(-1, 1)
     life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
 
-    regression = skl.LinearRegression().fit(x_data_arr, life_exp_arr)
+    regression = skl_lin.LinearRegression().fit(x_data_arr, life_exp_arr)
 
     m = regression.coef_[0][0]
     c = regression.intercept_[0]
@@ -52,38 +52,38 @@ to
 Now we can use scikit-learn's predict function to predict values in our model instead of having to work them out ourselves by computing y = mx+c. We can change
 
 ~~~
-    y_model = []
+    linear_data = []
     
     for x in x_data:
         y = m * x + c
-        y_model.append(y)
+        linear_data.append(y)
 ~~~
 {: .python}
 
 to just one line:
 
 ~~~
-    y_model = regression.predict(x_data_arr)
+    linear_data = regression.predict(x_data_arr)
 ~~~
 {: .python}
 
-This line will populate the list y_model with the predicted values for every item in x_data_arr. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calcuate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
+This line will populate the list linear_data with the predicted values for every item in x_data_arr. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calcuate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
 
 ~~~
-import sklearn.metrics as metrics
+import sklearn.metrics as skl_metrics
 ~~~
 {: .python}
 
 Now lets replace
 
 ~~~
-    error = measure_error(life_expectancy, y_model)
+    error = measure_error(life_expectancy, linear_data)
 ~~~
 
 with
 
 ~~~
-    error = math.sqrt(metrics.mean_squared_error(life_exp_arr, y_model))
+    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
 ~~~
 {: .python}
 
@@ -104,19 +104,19 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
     x_data_arr = np.array(x_data).reshape(-1, 1)
     life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
 
-    regression = skl.LinearRegression().fit(x_data_arr, life_exp_arr)
+    regression = skl_lin.LinearRegression().fit(x_data_arr, life_exp_arr)
 
     m = regression.coef_[0][0]
     c = regression.intercept_[0]
 
     print("m =", m, "c=", c)
 
-    y_model = regression.predict(x_data_arr)
+    linear_data = regression.predict(x_data_arr)
 
-    error = math.sqrt(metrics.mean_squared_error(life_exp_arr, y_model))
+    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
     print("error is ", error)
 
-    make_graph(x_data, life_expectancy, y_model)
+    make_graph(x_data, life_expectancy, linear_data)
 ~~~
 {: .python}
 
@@ -200,3 +200,76 @@ which can be used on non-linear data. Some of these (such as isotonic regression
 data and can't extrapolate beyond it. One non-linear technique that works with many types of data is polynomial regression. This creates a polynomial 
 equation of the form y = a + bx + cx^2 + dx^3 etc. The more terms we add to the polynomial the more accurately we can model a system.
 
+Scikit-learn includes a polynomial modelling tool as part of its pre-processing library which we'll need to add to our list of imports.
+
+~~~
+import sklearn.preprocessing as skl_pre
+~~~
+{: .python}
+
+
+Now lets modify the `process_life_expectancy_data` function to calculate the polynomial. This takes two parts, the first is to pre-process the data into polynomial form. We first call the PolynomialFeatures function with the parameter degree. The degree parameter controls how many components the polynomial will have, a polynomial of the form y = a + bx + cx^2 + dx^3 has 4 degrees. Typically a value between 5 and 10 is sufficient. We must then process the numpy array that we used for the X axis in the linear regression to convert it into a set of polynomial features.
+
+~~~
+    polynomial_features = skl_pre.PolynomialFeatures(degree=5)
+    x_poly = polynomial_features.fit_transform(x_data_arr)
+~~~
+{: .python}
+
+This only gets us halfway to being able to create a model that we can use for predictions. To form the complete model we actually have to perform a linear regression on the polynomial model, but we'll use the polynomial features
+as the X axis instead of the numpy array. The Y axis will still be the life expectancy numpy array that we used before. The resulting model can now be used to make some predictions like we did before using the predict function.
+
+If we want to draw the line of best fit we can pass the polynomial features in as a parameter to predict() and this will generate the y values for the full range of our data. This can be plotted by passing it to make_graph in place of the linear data. 
+
+~~~
+    polynomial_model = skl_lin.LinearRegression().fit(x_poly, life_exp_arr)
+    polynomial_data = polynomial_model.predict(x_poly)
+    
+    make_graph(x_data, life_expectancy, polynomial_data)
+
+~~~
+{: .python}
+
+
+Finally we can make some predictions of future data. Lets create a list containing the date range we'd like to predict, as with other lists/arrays we've used we'll have to reshape it to make scikit-learn work with it.
+Now lets use this list of dates to predict life expectancy using both our linear and polynomial models. 
+
+~~~
+    predictions_x = np.array(list(range(2001,2017))).reshape(-1, 1)
+    
+    predictions_polynomial = polynomial_model.predict(polynomial_features.fit_transform(predictions_x))
+                             
+    predictions_linear = regression.predict(predictions_x)
+~~~
+{: .python}
+
+
+To measure the error lets calculate the RMS error on both the linear and polynomial data. 
+
+~~~
+    # calcualte the root mean squared error
+    linear_error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
+    print("linear error is ", linear_error)
+
+    polynomial_error = math.sqrt(
+            skl_metrics.mean_squared_error(life_exp_arr, polynomial_data))
+    print("polynomial error is", polynomial_error)
+~~~
+{:. python}
+
+
+> Train a linear and polynomial model on life expectancy data from China between 1960 and 2000. Then predict life expectancy from 2001 to 2016 using both methods. Compare their root mean squared errors, which is more accurate? Why do you think this model is the more accurate one?
+> > ## Solution
+> > modify the call to the process_life_expectancy_data
+> > ~~~
+> > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "China", 1960, 2000)
+> > ~~~ 
+> > {: .python}
+> > 
+> > linear prediction error is  5.385162846665607
+> > polynomial prediction error is 28.169167771983528
+> > The linear model is more accurate, polynomial models often become wildly inaccurate beyond the range they were trained on. Look at the predicted life expectancies, the polynomial model predicts a life expectancy of 131 by 2016!
+> > ![China 1960-2000](../fig/polynomial_china_training.png)
+> > ![China 2001-2016 predictions](../fig/polynomial_china_overprediction.png)
+> {: .solution}
+{: .challenge}
