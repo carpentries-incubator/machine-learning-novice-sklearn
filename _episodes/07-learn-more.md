@@ -1,6 +1,6 @@
 ---
 title: "Find out more"
-teaching: 0
+teaching: 10
 exercises: 0
 questions:
 - "Key question (FIXME)"
