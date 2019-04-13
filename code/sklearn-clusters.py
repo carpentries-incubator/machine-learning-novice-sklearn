@@ -17,11 +17,12 @@ def cluster_blobs():
     clusters = Kmean.predict(data)
 
     # plot the data, colouring it by cluster
-    plt.scatter(data[:, 0], data[:, 1], s=5, c=clusters)
+    plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0,c=clusters)
 
     # plot the centres of each cluster as an X
     for cluster_x, cluster_y in Kmean.cluster_centers_:
-        plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='X')
+        plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
 
+    plt.show()
 
 cluster_blobs()
