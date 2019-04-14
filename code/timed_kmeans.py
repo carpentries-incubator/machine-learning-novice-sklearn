@@ -13,7 +13,7 @@ import time
 
 
 start_time = time.time()
-data, cluster_id = skl_smpl.make_blobs(n_samples=800000, cluster_std=3,
+data, cluster_id = skl_smpl.make_blobs(n_samples=8000, cluster_std=3,
                                        centers=4, random_state=1)
 
 for cluster_count in range(2,11):
