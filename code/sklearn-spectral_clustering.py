@@ -29,8 +29,6 @@ def plot_3d_separation(circles,labels):
     ax.scatter(circles2[1][:, 0],circles2[1][:, 1],circles2[1][:, 2],c=matplotlib.cm.flag(255))
 
     plt.show()
-    #plt3d.Axes3D.plot(x,y,labels)
-
 
 
 def cluster_circles():
@@ -59,6 +57,7 @@ def cluster_circles():
     print(labels)
     plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0, c=labels, cmap='flag')
     plt.show()
-    plot_3d_separation(circles,labels)
+    # uncomment to show separation in 3D
+    # plot_3d_separation(circles,labels)
 
 cluster_circles()
