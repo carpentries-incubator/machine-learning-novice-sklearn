@@ -12,6 +12,17 @@ keypoints:
 FIXME
 
 
+# Other algorithms
+
+https://scikit-learn.org/stable/index.html
+
+## Genetic Algorithms
+
+https://www.youtube.com/watch?v=qv6UVOQ0F44
+
+
+
+## Machine Learning for Everyone
 
 https://vas3k.com/blog/machine_learning/
 
@@ -26,3 +37,6 @@ https://research.fb.com/the-facebook-field-guide-to-machine-learning-video-serie
 
 Amazon Machine Learning guide
 https://docs.aws.amazon.com/machine-learning/latest/dg/amazon-machine-learning-key-concepts.html
+
+
+# Cloud AI technologies
