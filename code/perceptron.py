@@ -33,6 +33,7 @@ for input in inputs:
 
 
 #AND
+print("computing AND")
 inputs = [[0.0,0.0],[1.0,0.0],[0.0,1.0],[1.0,1.0]]
 for input in inputs:
     print(input,perceptron(input, [0.5,0.5], 1.0))
