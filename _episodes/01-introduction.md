@@ -9,10 +9,13 @@ objectives:
 - "Understand how machine learning and artificial intelligence differ."
 - "Understand some common examples of machine learning being used in our daily lives"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Machine learning is a set of tools and techniques to find patterns in data."
+- "Some machine learning techniques are useful for prediciting something given some input data."
+- "Some machine learning techniques are useful for classifying input data and working out which class it belongs to."
+- "Artificial Intelligence is a broader term that refers to making computers show human like intelligence."
+- "Some people say Artificial Intelligence to mean machine learning"
+- "All machine learning systems have some kinds of limitations"
 ---
-FIXME
-
 
 # What is machine learning?
 
@@ -61,37 +64,18 @@ The Gartner Hype Cycle looks at which technologies are being over-hyped. In the 
 
 ### Machine learning in our daily lives
 
-[Speech to text (watch with the subtitles on)](https://www.youtube.com/watch?v=J3lYLphzAnw)
-
-[Image recognition](https://www.youtube.com/watch?v=eve8DkkVdhI)
-
-[Object classification](https://www.youtube.com/watch?v=VOC3huqHrss)
-
-[Character recognition](https://www.youtube.com/watch?v=ocB8uDYXtt0)
-
-[Insurance payout predictions](https://www.youtube.com/watch?v=Q3vknDOy6Bs)
-
-[Crime prediction](https://www.youtube.com/watch?v=7Ly7yAzLDjA)
+ * [Speech to text (watch with the subtitles on)](https://www.youtube.com/watch?v=J3lYLphzAnw)
+ * [Image recognition](https://www.youtube.com/watch?v=eve8DkkVdhI)
+ * [Object classification](https://www.youtube.com/watch?v=VOC3huqHrss)
+ * [Character recognition](https://www.youtube.com/watch?v=ocB8uDYXtt0)
+ * [Insurance payout predictions](https://www.youtube.com/watch?v=Q3vknDOy6Bs)
+ * [Crime prediction](https://www.youtube.com/watch?v=7Ly7yAzLDjA)
 
 
 ### Example of machine learning in research
-
-Classifying remote sensing images to find water.
-
-https://pure.aber.ac.uk/portal/en/publications/automatic-detection-of-open-and-vegetated-water-bodies-using-sentinel-1-to-map-african-malaria-vector-mosquito-breeding-habitats(be685278-6eb8-46d0-aad9-be17add5639a).html
-
-https://pure.aber.ac.uk/portal/files/29140808/remotesensing_11_00593.pdf
-
-
-looking for breast cancer in medical images
-
-https://pure.aber.ac.uk/portal/en/publications/automated-breast-ultrasound-lesions-detection-using-convolutional-neural-networks(6ede5cbd-75d6-48d6-9f7c-cb943081bbb0).html
-
-https://pure.aber.ac.uk/portal/files/28421096/08003418.pdf
-
-predicting what cows are doing from GPS data
-
-https://pure.aber.ac.uk/portal/en/publications/a-novel-behavioral-model-of-the-pasturebased-dairy-cow-from-gps-data-using-data-mining-and-machine-learning-techniques(2660287d-f99c-428d-8a24-194a152dcccb).html
+ * [Classifying remote sensing images to find water.](https://pure.aber.ac.uk/portal/files/29140808/remotesensing_11_00593.pdf)
+ * [Looking for breast cancer in medical images](https://pure.aber.ac.uk/portal/files/28421096/08003418.pdf)
+ * [Predicting what cows are doing from GPS data](https://pure.aber.ac.uk/portal/files/6707587/JDS_DairyModel_Revised_2.docx)
 
 
 
@@ -101,7 +85,7 @@ https://pure.aber.ac.uk/portal/en/publications/a-novel-behavioral-model-of-the-p
 
 There is a classic expression in Computer Science, "Garbage In = Garbage Out". This means that if the input data we use is garbage then the ouput will be too. If for instance we try to get a machine learning system to find a link between two unlinked variables then it might still come up with a model that attempts this, but the output will be meaningless. 
 
-#### Bias or lacking 
+#### Bias or lacking training data
 
 Input data may also be lacking enough diversity to cover all examples. Due to how the data was obtained there might be biases in it that are then refelected in the ML system. For example if we collect data on crime reporting it could be biased towards wealthier areas where crimes are more likely to be reported. Historical data might not cover enough history.
 
@@ -111,10 +95,11 @@ We can only make reliable predictions about data which is in the same range as o
 
 #### Over fitting
 
-Some ML techniques more resistant to this than others 
+Sometimes ML algorithms become over trained to their training data and struggle to work when presented with real data. In some cases it best not to train too many times. 
 
+#### Inability to explain answers
 
-
+Many machine learning techniques will give us an answer given some input data even if that answer is wrong. Most are unable to explain any kind of logic in arriving at that answer. This can make diagnosing and even detecting problems with them difficult. 
 
 > ## Where have you encountered machine learning already?
 >
