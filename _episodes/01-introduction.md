@@ -3,7 +3,7 @@ title: "Introduction"
 teaching: 30
 exercises: 10
 questions:
-- What is machine learning?"
+- What is machine learning?
 objectives:
 - "Gain an overview of what machine learning is."
 - "Understand how machine learning and artificial intelligence differ."
@@ -43,15 +43,17 @@ Predictors will usually involve a continous scale of outputs, such as the price 
 
 ## Machine learning vs Artificial Intelligence
 
-A lot of hype around machine learning right now. Recent advances in computer hardware and machine learning algorithms have made it a lot more useful, but its been around over 50 years. 
+Artificial Intelligence often means a system with general intelligence, able to solve any problem. AI is a very broad term. ML systems are usually trained to work on a particular problem. But they can appear to "learn" but isn't a general intelligence that can solve anything a human could. They often need hundreds or thousands of examples to learn and are confined to relatively simple classifications. A human like system could learn from a single example. 
 
-Artificial Intelligence often means a system with general intelligence, able to solve any problem. AI is a very broad term. 
+Another definition of Artificial Intelligence dates back to the 1950s and Alan Turing's "Immitation Game". This said that we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts at this are getting close to fooling humans, but we are still a very long way from a machine which has full human like intelligence.
 
-ML trained to work on a particular problem. Can appear to "learn" but isn't a general intelligence. Often needs many many examples to learn. A human like system could learn from a single example. 
+### Over Hyping of Artificial Intelligence and Machine Learning
 
-Turing Test 
+There is a lot of hype around machine learning and artificial intelligence right now, while many real advances have been made a lot of people are overstating what can be achieved. Recent advances in computer hardware and machine learning algorithms have made it a lot more useful, but its been around over 50 years. 
 
+The Gartner Hype Cycle looks at which technologies are being over-hyped. In the August 2018 analysis AI Platform as a service, Deep Learning chips, Deep learning neural networks, Conversational AI and Self Driving Cars are all shown near the "Peak of inflated expectations". 
 
+![The Gartner Hype Cycle curve August 2018](https://blogs.gartner.com/smarterwithgartner/files/2018/08/PR_490866_5_Trends_in_the_Emerging_Tech_Hype_Cycle_2018_Hype_Cycle.png)
 
 # Examples of machine learning
 
@@ -59,30 +61,17 @@ Turing Test
 
 ### Machine learning in our daily lives
 
-Speech to text
+[Speech to text (watch with the subtitles on)](https://www.youtube.com/watch?v=J3lYLphzAnw)
 
-Siri/Alexa/Google assistant
+[Image recognition](https://www.youtube.com/watch?v=eve8DkkVdhI)
 
-https://www.youtube.com/watch?v=J3lYLphzAnw (turn on subtitles)
+[Object classification](https://www.youtube.com/watch?v=VOC3huqHrss)
 
-Image recognition
+[Character recognition](https://www.youtube.com/watch?v=ocB8uDYXtt0)
 
-https://www.youtube.com/watch?v=eve8DkkVdhI
+[Insurance payout predictions](https://www.youtube.com/watch?v=Q3vknDOy6Bs)
 
-object classification
-
-https://www.youtube.com/watch?v=VOC3huqHrss
-
-character recognition
-
-https://www.youtube.com/watch?v=ocB8uDYXtt0
-
-insurance payout predictions
-https://www.youtube.com/watch?v=Q3vknDOy6Bs
-
-crime prediction
-
-https://www.youtube.com/watch?v=7Ly7yAzLDjA
+[Crime prediction](https://www.youtube.com/watch?v=7Ly7yAzLDjA)
 
 
 ### Example of machine learning in research
@@ -132,7 +121,7 @@ Some ML techniques more resistant to this than others
 > Discuss with the person next to you:
 >
 > 1. Where have I seen machine learning in use?
-> 2. What kind of input data does that machine learning system use?
+> 2. What kind of input data does that machine learning system use to make predictions/classifications?
 > 3. Is there any evidence that your interaction with the system contributes to further training?
 > 4. Do you have any examples of the system failing?
 >
