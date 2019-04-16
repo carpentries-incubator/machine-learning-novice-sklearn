@@ -15,7 +15,6 @@ keypoints:
 - "We should split up our training dataset and use part of it to test the model."
 - "For non-linear data we can use logarithms to make the data linear."
 ---
-FIXME
 
 # Linear regression
 
@@ -69,7 +68,7 @@ Lets test our code by using the example data from the mathsisfun link above.
 
 ~~~
 x_data = [2,3,5,7,9]
-y_data = [4,5,7,10,15]]
+y_data = [4,5,7,10,15]
 least_squares([x_data,y_data])
 ~~~
 {: .python}
@@ -126,7 +125,7 @@ This will output an error of 0.7986268703523449, which means that on average the
 To compare our model and data lets graph both of them using matplotlib.
 
 ~~~
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def make_graph(x_data, y_data, linear_data):
 
@@ -153,10 +152,12 @@ make_graph(x_data, y_data, linear_data)
 ~~~
 {: .python}
 
-
+![graph of the test regression data](../fig/regression_test_graph.png)
 
 
 ### Predicting life expectancy
+
+Now lets try and model some real data with linear regression. We'll use the [Gapminder Foundation's](http://www.gapminder.org) life expectancy data for this. Click [here](../data/gapminder-life-expectancy.csv) to download it.
 
 ~~~
 # put this line at the top of the file
