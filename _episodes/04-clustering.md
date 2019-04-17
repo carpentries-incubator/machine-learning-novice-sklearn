@@ -135,7 +135,7 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
 > # Exercise: How many clusters should we look for?
 > As K-Means requires us to specify the number of clusters to expect a common strategy to get around this is to vary the number of clusters we are looking for. 
 > Modify the program to loop through searching for between 2 and 10 clusters. Which (if any) of the results look more sensible? What criteria might you use to select the best one?
-> > # Solution
+> > ## Solution
 > > ~~~
 > >     for cluster_count in range(2,11):
 > >         Kmean = skl_cluster.KMeans(n_clusters=cluster_count)
@@ -231,7 +231,7 @@ plt.show()
 > How much did your run times differ?
 > How much do they differ if you increase the number of samples to 8,000?
 > How long do you think it would take to compute 800,000 samples (estimate this, it might take a while to run for real)?
-> > # Solution
+> > ## Solution
 > > KMeans version, runtime around 4 seconds (your computer might be faster/slower)
 > > ~~~
 > > import matplotlib.pyplot as plt

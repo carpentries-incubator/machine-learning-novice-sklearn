@@ -240,12 +240,19 @@ print("Testing set score", mlp.score(data_test, labels_test))
 
 > # Using your own handwriting
 > Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be greyscale and 28 x 28 pixels.
+>
 > Try and draw a digit (0-9) in the image and save it into your code directory.
+>
 > The code below loads the image (called digit.png, change to whatever your file is called) using the OpenCV library. Some Anaconda installations need this installed either through the package manager or by running the command: `conda install -c conda-forge opencv ` from the anaconda terminal.
+>
 > OpenCV assumes that images are 3 channel red, green, blue and we have to convert to one channel greyscale with cvtColor.
+>
 > We also need to normalise the image by dividing each pixel by 255.
+>
 > To verify the image we can plot it by using plt.matshow.
+>
 > To check what digit it is we can pass it into mlp.predict, but we have to convert it from a 28x28 array to a one dimensional 784 byte long array with the reshape function.
+>
 > Did it correctly classify your hand(mouse) writing? Try a few images. 
 > If you have time try drawing images on a touch screen or taking a photo of something you've really written by hand. Remember that you'll have to resize it to be 28x28 pixels.
 > ~~~

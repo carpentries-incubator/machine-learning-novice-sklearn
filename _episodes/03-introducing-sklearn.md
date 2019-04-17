@@ -123,7 +123,8 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 {: .python}
 
 > # Comparing the Scikit learn and our own linear regression implementations. 
-> Adjust both the original program (using our own linear regression implementation) and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation linking date and life expectancy? Are they the same in both?
+> Adjust both the original program (using our own linear regression implementation) and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation 
+> linking date and life expectancy? Are they the same in both?
 > > ## Solution
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Germany", 1950, 2000)
