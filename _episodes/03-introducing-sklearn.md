@@ -194,6 +194,8 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 > > 2015 Predicted 80.83820814453003 Real 80.8 Difference 0.03820814453
 > > 2016 Predicted 81.05042805403201 Real 80.9 Difference 0.150428054032
 > > ~~~
+> {: .solution}
+{: .challenge}
 
 
 ## Other types of regression 
