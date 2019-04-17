@@ -10,7 +10,7 @@ objectives:
 - "Understand some common examples of machine learning being used in our daily lives"
 keypoints:
 - "Machine learning is a set of tools and techniques to find patterns in data."
-- "Some machine learning techniques are useful for prediciting something given some input data."
+- "Some machine learning techniques are useful for predicting something given some input data."
 - "Some machine learning techniques are useful for classifying input data and working out which class it belongs to."
 - "Artificial Intelligence is a broader term that refers to making computers show human like intelligence."
 - "Some people say Artificial Intelligence to mean machine learning"
@@ -37,11 +37,11 @@ Many (but not all) machine learning systems "learn" by taking a series of input 
 
 Typically we will need to train our models with hundreds, thousands or even millions of examples before they work well enough to do any useful predictions or classifications with them. 
 
-Some systems will do training as a one shot process which produces a model. Others might try to continuosuly refine their training through the real use of the system and human feedback to it. For example every time you mark an email as spam or not spam you are probably contributing to further training of your spam filter's model. 
+Some systems will do training as a one shot process which produces a model. Others might try to continuosly refine their training through the real use of the system and human feedback to it. For example every time you mark an email as spam or not spam you are probably contributing to further training of your spam filter's model. 
 
 ### Types of output
 
-Predictors will usually involve a continous scale of outputs, such as the price of something. Classifiers will tell you which class (or classes) are present in the data. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
+Predictors will usually involve a continuos scale of outputs, such as the price of something. Classifiers will tell you which class (or classes) are present in the data. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
 
 
 ## Machine learning vs Artificial Intelligence
@@ -54,7 +54,7 @@ Another definition of Artificial Intelligence dates back to the 1950s and Alan T
 
 There is a lot of hype around machine learning and artificial intelligence right now, while many real advances have been made a lot of people are overstating what can be achieved. Recent advances in computer hardware and machine learning algorithms have made it a lot more useful, but its been around over 50 years. 
 
-The Gartner Hype Cycle looks at which technologies are being over-hyped. In the August 2018 analysis AI Platform as a service, Deep Learning chips, Deep learning neural networks, Conversational AI and Self Driving Cars are all shown near the "Peak of inflated expectations". 
+The [Gartner Hype Cycle](https://www.gartner.com/en/research/methodologies/gartner-hype-cycle) looks at which technologies are being over-hyped. In the August 2018 analysis AI Platform as a service, Deep Learning chips, Deep learning neural networks, Conversational AI and Self Driving Cars are all shown near the "Peak of inflated expectations". 
 
 ![The Gartner Hype Cycle curve August 2018](https://blogs.gartner.com/smarterwithgartner/files/2018/08/PR_490866_5_Trends_in_the_Emerging_Tech_Hype_Cycle_2018_Hype_Cycle.png)
 
@@ -85,7 +85,7 @@ There is a classic expression in Computer Science, "Garbage In = Garbage Out". T
 
 ## Bias or lacking training data
 
-Input data may also be lacking enough diversity to cover all examples. Due to how the data was obtained there might be biases in it that are then refelected in the ML system. For example if we collect data on crime reporting it could be biased towards wealthier areas where crimes are more likely to be reported. Historical data might not cover enough history.
+Input data may also be lacking enough diversity to cover all examples. Due to how the data was obtained there might be biases in it that are then reflected in the ML system. For example if we collect data on crime reporting it could be biased towards wealthier areas where crimes are more likely to be reported. Historical data might not cover enough history.
 
 ## Extrapolation
 
