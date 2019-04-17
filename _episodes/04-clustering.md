@@ -125,7 +125,7 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
 > Do the clusters that are identified make sense?
 > Is there any strange behaviour from this?
 > 
-> > # Solution
+> > ## Solution
 > > The resulting image from increasing n_samples to 4000 and cluster_std to 3.0 looks like this:
 > > ![Kmeans attempting to classify overlapping clusters](../fig/kmeans_overlapping_clusters.png)
 > > The straight line boundaries between clusters look a bit strange.
