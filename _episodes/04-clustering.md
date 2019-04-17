@@ -171,7 +171,7 @@ A K-means classifier will fail to do this and will end up effectively drawing a 
 Spectral clustering will introduce an additional dimension that effectively moves one of the circles away from the other in the
 additional dimension. This has the downside of being more computationally expensive than k-means clustering.
 
-[!Spectral clustering viewed with an extra dimension](../fig/spectral_concentric_3d.png)
+![Spectral clustering viewed with an extra dimension](../fig/spectral_concentric_3d.png)
 
 ### Spectral Clustering with Scikit Learn
 
