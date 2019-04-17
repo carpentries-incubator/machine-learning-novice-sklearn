@@ -201,8 +201,8 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 >
 > In the parent directory create another directory called data
 >
-> Download the file https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv into the data directory 
-> The full code from above is also available to download from https://scw-aberystwyth.github.io/machine-learning-novice/code/linear_regression.py
+> Download the file [https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv](https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv) into the data directory 
+> The full code from above is also available to download from [https://scw-aberystwyth.github.io/machine-learning-novice/code/linear_regression.py](https://scw-aberystwyth.github.io/machine-learning-novice/code/linear_regression.py)
 >
 > If you're using a Unix or Unix like environment the following commands will do this in your home directory:
 >
