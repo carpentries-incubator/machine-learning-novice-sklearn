@@ -57,7 +57,7 @@ Some questions you might want to ask yourself (and which an ethics committe migh
  * Will anything your machine learning system does make a decision that somehow affects an animials life?
  * Are there any inherent biases in the dataset(s) you're using for training?
 
-> #Ethical implications of your own research
+> # Exercsie: Ethical implications of your own research
 > Split into pairs or groups of three.
 > Think of a use case for machine learning in your research areas.
 > What ethical implications (if any) might there be from using machine learning in your research?

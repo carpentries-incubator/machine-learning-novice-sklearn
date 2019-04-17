@@ -466,9 +466,11 @@ The process_data function gave us a choice of plotting either the logarithmic or
 > Save the graph.
 > Now change back to the non-logarithmic version.
 > Compare the two graphs, which one do you think is easier to read? 
+{: .challenge}
 
 
 > # Removing outliers from the data
 > The correlation of GDP and life expectancy has a few big outliers that are probably increasing the error rate on this model. These are typically countries with very high GDP and sometimes not very high life expectancy. These tend to be either small countries with artificially high GDPs such as Monaco and Luxemborg or oil rich countries such as Qatar or Brunei. Kuwait, Qatar and Brunei have already been removed from this data set, but are available in the file worldbank-gdp-outliers.csv. Try experimenting with adding and removing some of these high income countries to see what effect it has on your model's error rate.
 > Do you think its a good idea to remove these outliers from your model?
 > How might you do this automatically?
+{: .challenge}

@@ -58,11 +58,9 @@ The Gartner Hype Cycle looks at which technologies are being over-hyped. In the 
 
 ![The Gartner Hype Cycle curve August 2018](https://blogs.gartner.com/smarterwithgartner/files/2018/08/PR_490866_5_Trends_in_the_Emerging_Tech_Hype_Cycle_2018_Hype_Cycle.png)
 
-# Examples of machine learning
+# Applications of machine learning
 
-## Applications of machine learning
-
-### Machine learning in our daily lives
+## Machine learning in our daily lives
 
  * [Speech to text (watch with the subtitles on)](https://www.youtube.com/watch?v=J3lYLphzAnw)
  * [Image recognition](https://www.youtube.com/watch?v=eve8DkkVdhI)
@@ -72,32 +70,32 @@ The Gartner Hype Cycle looks at which technologies are being over-hyped. In the 
  * [Crime prediction](https://www.youtube.com/watch?v=7Ly7yAzLDjA)
 
 
-### Example of machine learning in research
+## Example of machine learning in research
  * [Classifying remote sensing images to find water.](https://pure.aber.ac.uk/portal/files/29140808/remotesensing_11_00593.pdf)
  * [Looking for breast cancer in medical images](https://pure.aber.ac.uk/portal/files/28421096/08003418.pdf)
  * [Predicting what cows are doing from GPS data](https://pure.aber.ac.uk/portal/files/6707587/JDS_DairyModel_Revised_2.docx)
 
 
 
-### Limitations of Machine Learning
+# Limitations of Machine Learning
 
-#### Garbage In = Garbage Out
+## Garbage In = Garbage Out
 
 There is a classic expression in Computer Science, "Garbage In = Garbage Out". This means that if the input data we use is garbage then the ouput will be too. If for instance we try to get a machine learning system to find a link between two unlinked variables then it might still come up with a model that attempts this, but the output will be meaningless. 
 
-#### Bias or lacking training data
+## Bias or lacking training data
 
 Input data may also be lacking enough diversity to cover all examples. Due to how the data was obtained there might be biases in it that are then refelected in the ML system. For example if we collect data on crime reporting it could be biased towards wealthier areas where crimes are more likely to be reported. Historical data might not cover enough history.
 
-#### Extrapolation
+## Extrapolation
 
 We can only make reliable predictions about data which is in the same range as our training data. If we try to extrapolate beyond what was covered in the training data we'll probably get wrong answers. 
 
-#### Over fitting
+## Over fitting
 
 Sometimes ML algorithms become over trained to their training data and struggle to work when presented with real data. In some cases it best not to train too many times. 
 
-#### Inability to explain answers
+## Inability to explain answers
 
 Many machine learning techniques will give us an answer given some input data even if that answer is wrong. Most are unable to explain any kind of logic in arriving at that answer. This can make diagnosing and even detecting problems with them difficult. 
 

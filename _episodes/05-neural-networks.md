@@ -368,5 +368,7 @@ Google, Microsoft, Amazon and many others now have Cloud based Application Progr
 > How many objects has it correctly classified? How many did it incorrectly classify?
 > Try the same iamge with Microsoft's Computer Vision API at https://azure.microsoft.com/en-gb/services/cognitive-services/computer-vision/
 > Does it do any better/worse than Google?
+{: .challenge}
+
 
 
