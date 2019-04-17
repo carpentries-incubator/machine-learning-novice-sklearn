@@ -120,4 +120,4 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 
 
 process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "Canada", 1800, 2000)
+                             "United Kingdom", 1950, 2000)
