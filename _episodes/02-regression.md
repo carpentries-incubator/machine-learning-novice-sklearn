@@ -335,6 +335,10 @@ The relationship between these two variables clearly isn't linear. But there is 
 
 ## Coding a logarithmic regression
 
+### Downloading the data
+
+Download the GDP data from [http://scw-aberystwyth.github.io/machine-learning-novice/data/worldbank-gdp.csv](http://scw-aberystwyth.github.io/machine-learning-novice/data/worldbank-gdp.csv)
+
 ### Loading the data
 
 We need to modify our code a little to work with this example. Firstly the data is now stored in two different files so we'll have to read both of them and combine them together. The two datasets don't quite have an identical list of countries, the life expectancy data is from gapminder themselves and includes French Overseas Departments and British Overseas Territories as seperate entities, it also includes Taiwan. The GDP data is from the World Bank and doesn't differentiate many of the overseas territories/departments and doesn't include Taiwan. Some countries are also lacking GDP data, life expectancy or both. When we load the data we'll have to discard any country which doesn't have valid data in both datasets. Missing data is marked as an NaN (not a number), when loading it we'll have to check for NaN's using the `math.isnan()` function. 
