@@ -6,12 +6,12 @@ questions:
 - "How can we classify images using a neural network?"
 objectives:
 - "Understand how a single artificial neuron (perceptron) works"
-- "Understand that layers of perceptrons allow non-linear seperable problems to be solved"
+- "Understand that layers of perceptrons allow non-linear separable problems to be solved"
 - "Train a neural network"
 - "Understand cross validation"
 keypoints:
 - "Perceptrons are artificial neurons which build neural networks."
-- "A perceptron takes multiple inputs, multplies each by a weight value and sums the weighted inputs. It then applies an activation function to the sum."
+- "A perceptron takes multiple inputs, multiplies each by a weight value and sums the weighted inputs. It then applies an activation function to the sum."
 - "A single perceptron can solve simple functions which are linearly separable."
 - "Multiple perceptrons can be combined to form a neural network which can solve functions that aren't linearly separable."
 - "We can train a whole neural network with the back propagation algorithm. Scikit-learn includes an implementation of this algorithm."
@@ -162,7 +162,7 @@ This function outputs a zero both when all its inputs are one or zero and its no
 
 ## Multi Layer Perceptrons
 
-A single perceptron cannot be used to solve a non-linearly seperable function. For that we need to use multiple perceptrons and typically multiple layers of perceptrons. They are formed of networks of artificial neurons which each take one or more inputs and typically have a single output. The neurons are connected together in large networks typically of 10s to 1000s of neurons. Typically networks are connected in layers with an input layer, middle or hidden layer (or layers) and finally an output layer. 
+A single perceptron cannot be used to solve a non-linearly separable function. For that we need to use multiple perceptrons and typically multiple layers of perceptrons. They are formed of networks of artificial neurons which each take one or more inputs and typically have a single output. The neurons are connected together in large networks typically of 10s to 1000s of neurons. Typically networks are connected in layers with an input layer, middle or hidden layer (or layers) and finally an output layer. 
 
 ![A multilayer perceptron](../fig/multilayer_perceptron.svg)
 
@@ -239,10 +239,10 @@ print("Testing set score", mlp.score(data_test, labels_test))
 
 
 > # Using your own handwriting
-> Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be grayscale and 28 x 28 pixels.
+> Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be greyscale and 28 x 28 pixels.
 > Try and draw a digit (0-9) in the image and save it into your code directory.
 > The code below loads the image (called digit.png, change to whatever your file is called) using the OpenCV library. Some Anaconda installations need this installed either through the package manager or by running the command: `conda install -c conda-forge opencv ` from the anaconda terminal.
-> OpenCV assumes that images are 3 channel red, green, blue and we have to convert to one channel grayscale with cvtColor.
+> OpenCV assumes that images are 3 channel red, green, blue and we have to convert to one channel greyscale with cvtColor.
 > We also need to normalise the image by dividing each pixel by 255.
 > To verify the image we can plot it by using plt.matshow.
 > To check what digit it is we can pass it into mlp.predict, but we have to convert it from a 28x28 array to a one dimensional 784 byte long array with the reshape function.

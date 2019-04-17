@@ -100,7 +100,7 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
 > ## Working in multiple dimensions
 > Although this example shows two dimensions the kmeans algorithm can work in more than two, it just becomes very difficult to show this visually
 > once we get beyond 3 dimensions. Its very common in machine learning to be working with multiple variables and so our classifiers are working in
-> multidimensonal spaces. 
+> multi-dimensonal spaces. 
 {: .callout}
 
 ### Limitations of K-Means
@@ -166,9 +166,9 @@ Here is an example of using spectral clustering on two concentric circles
 ![Spectral clustering on two concentric circles](../fig/spectral_concentric_circle.png)
 
 Spectral clustering uses something called a kernel trick to introduce additional dimensions to the data. 
-A common example of this is trying to cluster two almost overlapping crescent moon shapes or one circle within another.
-A K-means classifier will fail to do this and will end up effectively drawing a line which crosses the cresecents/circles.  
-Spectral clustering will introduce an additional dimension that effectively moves one of the cresecents (or circles) away from the other in the
+A common example of this is trying to cluster one circle within another (concentric circles).
+A K-means classifier will fail to do this and will end up effectively drawing a line which crosses the circles.  
+Spectral clustering will introduce an additional dimension that effectively moves one of the circles away from the other in the
 additional dimension. This has the downside of being more computationally expensive than k-means clustering.
 
 [!Spectral clustering viewed with an extra dimension](../fig/spectral_concentric_3d.png)
@@ -225,7 +225,7 @@ plt.show()
 
 > # Comparing k-means and spectral clustering performance
 > Modify the program we wrote in the previous exercise to use spectral clustering instead of k-means, save it as a new file. 
-> Time how long both programs take to run. Add the line `import time` at the top of boths file, as the first line in the file get the start time with `start_time = time.time()`.
+> Time how long both programs take to run. Add the line `import time` at the top of both files, as the first line in the file get the start time with `start_time = time.time()`.
 > End the program by getting the time again and subtracting the start time from it to get the total run time. Add `end_time = time.time()` and `print("Elapsed time:",end_time-start_time,"seconds")` to the end of both files.
 > Compare how long both programs take to run generating 4,000 samples and testing them for between 2 and 10 clusters. 
 > How much did your run times differ?

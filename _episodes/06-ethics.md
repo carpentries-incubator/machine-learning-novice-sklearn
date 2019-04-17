@@ -42,19 +42,20 @@ difficult to provide any rationale as to how a decision was arrived at.
 ## Problems with accuracy
 
 No machine learning system is ever 100% accurate. Getting into the high 90s is usually considered good. 
-But when we're evaluating millions of data items this can translate into 100s of thousands of misidentifications. 
+But when we're evaluating millions of data items this can translate into 100s of thousands of mis-identifications. 
 If the implications of these incorrect decisions are serious then it will cause major problems. For instance if it results in somebody 
 being imprisoned or even investigated for a crime or maybe just being denied insurance or a credit card.
 
 # Ethics of machine learning in research
 
 Not all research using machine learning will have major ethical implications. 
-Many reserach projects don't directly affect the lives of other people, but this isn't always the case.
+Many research projects don't directly affect the lives of other people, but this isn't always the case.
 
-Some questions you might want to ask yourself (and which an ethics committe might also ask you):
+Some questions you might want to ask yourself (and which an ethics committee might also ask you):
 
  * Will anything your machine learning system does make a decision that somehow affects a person's life?
- * Will anything your machine learning system does make a decision that somehow affects an animials life?
+ * Will anything your machine learning system does make a decision that somehow affects an animial's life?
+ * Will you be using any people to create your training data? Will they have to look at any disturbing or traumatic material during the training process?
  * Are there any inherent biases in the dataset(s) you're using for training?
 
 > # Exercsie: Ethical implications of your own research
