@@ -143,7 +143,8 @@ A perceptron can be trained to compute any function which is has linear separabi
 > >    print(input,perceptron(input, [-0.5,-0.5,1.0], 1.0))
 > > ~~~
 > > {: .python}
-> {: .challenge}
+> {: .solution}
+{: .challenge}
 
 
 ### Perceptron Limitations
