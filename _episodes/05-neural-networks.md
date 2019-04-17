@@ -136,13 +136,15 @@ A perceptron can be trained to compute any function which is has linear separabi
 > | 1       |0        |1       |
 > | 1       |1        |0       |
 >
->> #Solution
->>~~~
->>inputs = [[0.0,1.0],[1.0,1.0]]
->>for input in inputs:
->>   print(input,perceptron(input, [-1.0,1.0], 1.0))
->>~~~
-{: .python}
+> > #Solution
+> > ~~~
+> > inputs = [[0.0,1.0],[1.0,1.0]]
+> > for input in inputs:
+> >    print(input,perceptron(input, [-1.0,1.0], 1.0))
+> > ~~~
+> > {: .python}
+> {: .challenge}
+
 
 ### Perceptron Limitations
 
