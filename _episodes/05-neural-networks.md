@@ -126,7 +126,7 @@ for input in inputs:
 A perceptron can be trained to compute any function which is has linear separability. A simple training algorithm called the perceptron learning algorithm can be used to do this and scikit-learn has its own implementation of it. We're going to skip over the perceptron learning algorithm and move straight onto more powerful techniques. If you want to learn more about it see [this page](https://computing.dcu.ie/~humphrys/Notes/Neural/single.neural.html) from Dublin City University. 
 
 > # Building a perceptron for NAND
-> Try and modify the perceptron examples above to calculate the NAND function. 
+> Try and modify the perceptron examples above to calculate the NAND function. (Hint: you'll need a bias term like the NOT function)
 > This is the inverse of the AND function and its truth table looks like:
 >
 > | Input 1 | Input 2 | Output |
@@ -138,9 +138,9 @@ A perceptron can be trained to compute any function which is has linear separabi
 >
 > > #Solution
 > > ~~~
-> > inputs = [[0.0,1.0],[1.0,1.0]]
+> > inputs = [[0.0,0.0,1.0],[0.0,1.0,1.0],[1.0,0.0,1.0],[1.0,1.0,1.0]]
 > > for input in inputs:
-> >    print(input,perceptron(input, [-1.0,1.0], 1.0))
+> >    print(input,perceptron(input, [-0.5,-0.5,1.0], 1.0))
 > > ~~~
 > > {: .python}
 > {: .challenge}
