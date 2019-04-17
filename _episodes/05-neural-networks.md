@@ -10,9 +10,16 @@ objectives:
 - "Train a neural network"
 - "Understand cross validation"
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Perceptrons are artificial neurons which build neural networks."
+- "A perceptron takes multiple inputs, multplies each by a weight value and sums the weighted inputs. It then applies an activation function to the sum."
+- "A single perceptron can solve simple functions which are linearly separable."
+- "Multiple perceptrons can be combined to form a neural network which can solve functions that aren't linearly separable."
+- "We can train a whole neural network with the back propagation algorithm. Scikit-learn includes an implementation of this algorithm."
+- "Training a neural network requires some training data to show the network examples of what to learn."
+- "To validate our training we split the the training data into a training set and a test set."
+- "To ensure the whole dataset can be used in training and testing we can train multiple times with different subsets of the data acting as training/testing data. This is called cross validation."
 ---
-FIXME
+
 
 # Introduction
 
