@@ -1,7 +1,7 @@
 ---
 title: "Clustering with Scikit Learn"
-teaching: 0
-exercises: 0
+teaching: 15
+exercises: 20
 questions:
 - "How can we use clustering to find data points with similar attributes?"
 objectives:

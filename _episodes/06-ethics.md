@@ -62,5 +62,7 @@ Some questions you might want to ask yourself (and which an ethics committe migh
 > Think of a use case for machine learning in your research areas.
 > What ethical implications (if any) might there be from using machine learning in your research?
 > Write down your group's answers in the etherpad.
+{: .challenge}
+
 
 
