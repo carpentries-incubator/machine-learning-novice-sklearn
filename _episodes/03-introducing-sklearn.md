@@ -30,7 +30,7 @@ import sklearn.linear_model as skl_lin
 {: .python}
 
 
-Now lets replace the calculation with our own least_squares function with the one from scikit-learn. The scikit-learn regression function is much more capable than the simple one we wrote earlier and is designed for datasets where multiple parameters are used, its expecting to be given multidemnsional arrays data. To get it to accept single dimension data such as we have we need to convert the array to a numpy one and use numpy's reshape function. The resulting data is also designed to show us multiple coefficients and intercepts, so these values will be arrays, since we've just got one parameter we can just grab the first item from each of these arrays. 
+Now lets replace the calculation with our own least_squares function with the one from scikit-learn. The scikit-learn regression function is much more capable than the simple one we wrote earlier and is designed for datasets where multiple parameters are used, its expecting to be given multi-demnsional arrays data. To get it to accept single dimension data such as we have we need to convert the array to a numpy one and use numpy's reshape function. The resulting data is also designed to show us multiple coefficients and intercepts, so these values will be arrays, since we've just got one parameter we can just grab the first item from each of these arrays. 
 
 Lets go ahead and change 
 ~~~
@@ -69,7 +69,7 @@ to just one line:
 ~~~
 {: .python}
 
-This line will populate the list linear_data with the predicted values for every item in x_data_arr. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calcuate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
+This line will populate the list linear_data with the predicted values for every item in x_data_arr. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
 
 ~~~
 import sklearn.metrics as skl_metrics
@@ -249,7 +249,7 @@ Now lets use this list of dates to predict life expectancy using both our linear
 To measure the error lets calculate the RMS error on both the linear and polynomial data. 
 
 ~~~
-    # calcualte the root mean squared error
+    # calculate the root mean squared error
     linear_error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
     print("linear error is ", linear_error)
 
@@ -257,7 +257,7 @@ To measure the error lets calculate the RMS error on both the linear and polynom
             skl_metrics.mean_squared_error(life_exp_arr, polynomial_data))
     print("polynomial error is", polynomial_error)
 ~~~
-{:. python}
+{: .python}
 
 
 > Train a linear and polynomial model on life expectancy data from China between 1960 and 2000. Then predict life expectancy from 2001 to 2016 using both methods. Compare their root mean squared errors, which is more accurate? Why do you think this model is the more accurate one?
