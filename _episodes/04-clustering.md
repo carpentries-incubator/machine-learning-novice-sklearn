@@ -69,7 +69,7 @@ clusters = Kmean.predict(data)
 {: .python}
 
 The data can now be plotted to show all the points we randomly generated. To make it clearer which cluster points have been classified to we can set the colours (the c parameter) to use the `clusters` list that was returned
-by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster as. These are stored as a list called cluster_centers_ inside the Kmean object. Lets go ahead and plot the points from the clusters, colouring them by the output from the K-means algorithm and also plot the centres of each cluster as a red X. 
+by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster as. These are stored as a list called `cluster_centers_` inside the `Kmean` object. Lets go ahead and plot the points from the clusters, colouring them by the output from the K-means algorithm and also plot the centres of each cluster as a red X. 
 
 ~~~
 plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0, c=clusters)
