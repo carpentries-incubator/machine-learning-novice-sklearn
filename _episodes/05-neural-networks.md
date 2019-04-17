@@ -18,6 +18,8 @@ keypoints:
 - "Training a neural network requires some training data to show the network examples of what to learn."
 - "To validate our training we split the the training data into a training set and a test set."
 - "To ensure the whole dataset can be used in training and testing we can train multiple times with different subsets of the data acting as training/testing data. This is called cross validation."
+- "Deep learning neural networks are a very powerful modern technique. Scikit learn doesn't support these but other libraries like Tensorflow do."
+- "Several companies now offer cloud APIs where we can train neural networks on powerful computers."
 ---
 
 

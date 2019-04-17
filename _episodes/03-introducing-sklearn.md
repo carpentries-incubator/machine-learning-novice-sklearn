@@ -9,7 +9,9 @@ objectives:
 - "Use the scikit-learn library to measure the error from a regression."
 - "Use a polynomial model and compare its results to a linear regression."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "Scikit Learn is a Python library with lots of useful machine learning functions."
+- "Scikit Learn includes a linear regression function."
+- "It also includes a polynomial modelling function which is useful for modelling non-linear data."
 ---
 
 
