@@ -125,33 +125,33 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
 > Do the clusters that are identified make sense?
 > Is there any strange behaviour from this?
 > 
->> # Solution
->> The resulting image from increasing n_samples to 4000 and cluster_std to 3.0 looks like this:
->> ![Kmeans attempting to classify overlapping clusters](../fig/kmeans_overlapping_clusters.png)
->> The straight line boundaries between clusters look a bit strange.
+> > # Solution
+> > The resulting image from increasing n_samples to 4000 and cluster_std to 3.0 looks like this:
+> > ![Kmeans attempting to classify overlapping clusters](../fig/kmeans_overlapping_clusters.png)
+> > The straight line boundaries between clusters look a bit strange.
 > {: .solution}
 {: .challenge}
 
 > # Exercise: How many clusters should we look for?
 > As K-Means requires us to specify the number of clusters to expect a common strategy to get around this is to vary the number of clusters we are looking for. 
 > Modify the program to loop through searching for between 2 and 10 clusters. Which (if any) of the results look more sensible? What criteria might you use to select the best one?
->> # Solution
->> ~~~
->>     for cluster_count in range(2,11):
->>         Kmean = skl_cluster.KMeans(n_clusters=cluster_count)
->>         Kmean.fit(data)
->>         clusters = Kmean.predict(data)
->>         plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0,c=clusters)
->>         for cluster_x, cluster_y in Kmean.cluster_centers_:
->>            plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
->>            # give the graph a title with the number of clusters
->>            plt.title(str(cluster_count)+" Clusters")
->>            plt.show()
->> ~~~
->> {: .python}
->> 
->> None of these look very sensible clusterings because all the points really form one large cluster.
->> We might look at a measure of similarity of the cluster to test if its really multiple clusters. A simple standard deviation or interquartile range might be a good starting point.
+> > # Solution
+> > ~~~
+> >     for cluster_count in range(2,11):
+> >         Kmean = skl_cluster.KMeans(n_clusters=cluster_count)
+> >         Kmean.fit(data)
+> >         clusters = Kmean.predict(data)
+> >         plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0,c=clusters)
+> >         for cluster_x, cluster_y in Kmean.cluster_centers_:
+> >            plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
+> >            # give the graph a title with the number of clusters
+> >            plt.title(str(cluster_count)+" Clusters")
+> >            plt.show()
+> > ~~~
+> > {: .python}
+> > 
+> > None of these look very sensible clusterings because all the points really form one large cluster.
+> > We might look at a measure of similarity of the cluster to test if its really multiple clusters. A simple standard deviation or interquartile range might be a good starting point.
 > {: .solution}
 {: .challenge}
 
@@ -231,61 +231,61 @@ plt.show()
 > How much did your run times differ?
 > How much do they differ if you increase the number of samples to 8,000?
 > How long do you think it would take to compute 800,000 samples (estimate this, it might take a while to run for real)?
->> # Solution
->> KMeans version, runtime around 4 seconds (your computer might be faster/slower)
->> ~~~
->> import matplotlib.pyplot as plt
->> import sklearn.cluster as skl_cluster
->> import sklearn.datasets.samples_generator as skl_smpl
->> import time
->> 
->> start_time = time.time()
->> data, cluster_id = skl_smpl.make_blobs(n_samples=4000, cluster_std=3,
->>                                        centers=4, random_state=1)
->> 
->> for cluster_count in range(2,11):
->>     Kmean = skl_cluster.KMeans(n_clusters=cluster_count)
->>     Kmean.fit(data)
->>     clusters = Kmean.predict(data)
->> 
->>     plt.scatter(data[:, 0], data[:, 1], s=15, linewidth=0, c=clusters)
->>     plt.title(str(cluster_count)+" Clusters")
->>     plt.show()
->> 
->> end_time = time.time()
->> print("Elapsed time = ", end_time-start_time, "seconds")
->> ~~~
->> {: .python}
->>
->> Spectral version, runtime around 9 seconds (your computer might be faster/slower)
->> ~~~
->> import matplotlib.pyplot as plt
->> import sklearn.cluster as skl_cluster
->> import sklearn.datasets.samples_generator as skl_smpl
->> import time
->> start_time = time.time()
->> data, cluster_id = skl_smpl.make_blobs(n_samples=4000, cluster_std=3,
->>                                        centers=4, random_state=1)
->> 
->> for cluster_count in range(2,11):
->>     model = skl_cluster.SpectralClustering(n_clusters=cluster_count,
->>                                        affinity='nearest_neighbors',
->>                                        assign_labels='kmeans')
->>     labels = model.fit_predict(data)
->>     plt.scatter(data[:, 0], data[:, 1], s=15, linewidth=0, c=labels)
->>     plt.title(str(cluster_count)+" Clusters")
->>     plt.show()
->> end_time = time.time()
->> print("Elapsed time = ", end_time-start_time, "seconds")
->> ~~~
->> {: .python}
->>
->> When the number of points increases to 8000 the runtimes are 24 seconds for the spectral version and 5.6 seconds for kmeans. 
->> The runtime numbers will differ depending on the speed of your computer, but the relative different should be similar. 
->> For 4000 points kmeans took 4 seconds, spectral 9 seconds, 2.25 fold difference.
->> For 8000 points kmeans took 5.6 seconds, spectral took 24 seconds. 4.28 fold difference. Kmeans 1.4 times slower for double the data, spectral 2.6 times slower. 
->> The realative difference is diverging. Its double by doubling the amount of data. If we use 100 times more data we might expect a 100 fold divergence in execution times. 
->> Kmeans might take a few minutes, spectral will take hours.
+> > # Solution
+> > KMeans version, runtime around 4 seconds (your computer might be faster/slower)
+> > ~~~
+> > import matplotlib.pyplot as plt
+> > import sklearn.cluster as skl_cluster
+> > import sklearn.datasets.samples_generator as skl_smpl
+> > import time
+> > 
+> > start_time = time.time()
+> > data, cluster_id = skl_smpl.make_blobs(n_samples=4000, cluster_std=3,
+> >                                        centers=4, random_state=1)
+> > 
+> > for cluster_count in range(2,11):
+> >     Kmean = skl_cluster.KMeans(n_clusters=cluster_count)
+> >     Kmean.fit(data)
+> >     clusters = Kmean.predict(data)
+> > 
+> >     plt.scatter(data[:, 0], data[:, 1], s=15, linewidth=0, c=clusters)
+> >     plt.title(str(cluster_count)+" Clusters")
+> >     plt.show()
+> > 
+> > end_time = time.time()
+> > print("Elapsed time = ", end_time-start_time, "seconds")
+> > ~~~
+> > {: .python}
+> >
+> > Spectral version, runtime around 9 seconds (your computer might be faster/slower)
+> > ~~~
+> > import matplotlib.pyplot as plt
+> > import sklearn.cluster as skl_cluster
+> > import sklearn.datasets.samples_generator as skl_smpl
+> > import time
+> > start_time = time.time()
+> > data, cluster_id = skl_smpl.make_blobs(n_samples=4000, cluster_std=3,
+> >                                        centers=4, random_state=1)
+> > 
+> > for cluster_count in range(2,11):
+> >     model = skl_cluster.SpectralClustering(n_clusters=cluster_count,
+> >                                        affinity='nearest_neighbors',
+> >                                        assign_labels='kmeans')
+> >     labels = model.fit_predict(data)
+> >     plt.scatter(data[:, 0], data[:, 1], s=15, linewidth=0, c=labels)
+> >     plt.title(str(cluster_count)+" Clusters")
+> >     plt.show()
+> > end_time = time.time()
+> > print("Elapsed time = ", end_time-start_time, "seconds")
+> > ~~~
+> > {: .python}
+> >
+> > When the number of points increases to 8000 the runtimes are 24 seconds for the spectral version and 5.6 seconds for kmeans. 
+> > The runtime numbers will differ depending on the speed of your computer, but the relative different should be similar. 
+> > For 4000 points kmeans took 4 seconds, spectral 9 seconds, 2.25 fold difference.
+> > For 8000 points kmeans took 5.6 seconds, spectral took 24 seconds. 4.28 fold difference. Kmeans 1.4 times slower for double the data, spectral 2.6 times slower. 
+> > The realative difference is diverging. Its double by doubling the amount of data. If we use 100 times more data we might expect a 100 fold divergence in execution times. 
+> > Kmeans might take a few minutes, spectral will take hours.
 > {: .solution}
 {: .challenge}
 

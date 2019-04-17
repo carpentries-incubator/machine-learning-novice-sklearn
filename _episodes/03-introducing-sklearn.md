@@ -122,8 +122,8 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 ~~~
 {: .python}
 
-
-> Lets repeat the calculations we previously did with the linear regression and compare them. Adjust both the original program and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation linking date and life expectancy? Are they the same in both?
+> # Comparing the Scikit learn and our own linear regression implementations. 
+> Adjust both the original program (using our own linear regression implementation) and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation linking date and life expectancy? Are they the same in both?
 > > ## Solution
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Germany", 1950, 2000)
@@ -259,7 +259,7 @@ To measure the error lets calculate the RMS error on both the linear and polynom
 ~~~
 {: .python}
 
-
+> # Exercise: Comparing linear and polynomial models
 > Train a linear and polynomial model on life expectancy data from China between 1960 and 2000. Then predict life expectancy from 2001 to 2016 using both methods. Compare their root mean squared errors, which is more accurate? Why do you think this model is the more accurate one?
 > > ## Solution
 > > modify the call to the process_life_expectancy_data

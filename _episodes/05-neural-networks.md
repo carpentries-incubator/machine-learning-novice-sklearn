@@ -257,8 +257,8 @@ print("Testing set score", mlp.score(data_test, labels_test))
 > plt.matshow(digit_norm)
 > plt.show()
 > print("Your digit is",mlp.predict([digit_norm.reshape(784)]))
->~~~
->{: .python}
+> ~~~
+> {: .python}
 {: .challenge}
 
 
