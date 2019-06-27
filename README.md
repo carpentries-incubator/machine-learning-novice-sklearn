@@ -26,6 +26,53 @@ Current maintainers of this lesson are
 
 * Colin Sauze
 
+## Outline
+As determined by the attendees of CarpentryConnect Manchester 2019, the proposed outline of this lesson is as follows:
+
+### Unsupervised Learning
+#### Clustering
+##### Kmeans
+#### Dimesionality Reduction
+##### PCA
+##### TSNE
+
+
+### Supervised Learning
+
+    All models, objectives:
+
+    - What it is;
+    - when to use it and on what type of data;
+    - how to evaluate the fit, over/underfitting;
+    - computational complexity
+
+
+#### Regression
+
+##### Linear
+##### Polynomial
+- Overfitting/underfitting
+- Test sets (how and why)
+
+#### Classification
+
+##### Logistic regression
+- Over/underfitting can happen in regression too
+- Accuracy
+- Confusion Matrix
+- Precision
+- Recall
+
+
+##### Random Forest
+
+##### Neural Networks
+
+- Evaluation
+- Cross Validation
+
+### Ethics
+
 
 ## Authors
 
