@@ -30,11 +30,11 @@ Current maintainers of this lesson are
 As determined by the attendees of CarpentryConnect Manchester 2019, the proposed outline of this lesson is as follows:
 
 ### Unsupervised Learning
-#### Clustering
-##### Kmeans
-#### Dimesionality Reduction
-##### PCA
-##### TSNE
+#### I. Clustering
+##### 1. Kmeans
+#### II. Dimesionality Reduction
+##### 1. PCA
+##### 2. TSNE
 
 
 ### Supervised Learning
@@ -47,16 +47,16 @@ As determined by the attendees of CarpentryConnect Manchester 2019, the proposed
     - computational complexity
 
 
-#### Regression
+#### I. Regression
 
-##### Linear
-##### Polynomial
+##### 1. Linear
+##### 2. Polynomial
 - Overfitting/underfitting
 - Test sets (how and why)
 
-#### Classification
+#### II. Classification
 
-##### Logistic regression
+##### 1. Logistic regression
 - Over/underfitting can happen in regression too
 - Accuracy
 - Confusion Matrix
@@ -64,9 +64,9 @@ As determined by the attendees of CarpentryConnect Manchester 2019, the proposed
 - Recall
 
 
-##### Random Forest
+##### 2. Random Forest
 
-##### Neural Networks
+##### 3. Neural Networks
 
 - Evaluation
 - Cross Validation
