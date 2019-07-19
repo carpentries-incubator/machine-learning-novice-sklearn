@@ -51,7 +51,7 @@ def least_squares(data):
         x_sq_sum = x_sq_sum + (x**2)
         xy_sum = xy_sum + (x*y)
 
-    m = ((n * xy_sum) - (x_sum * y_sum))
+    m = ((n * xy_sum) - float(x_sum * y_sum))
     m = m / ((n * x_sq_sum) - (x_sum ** 2))
     c = (y_sum - m * x_sum) / n
 
