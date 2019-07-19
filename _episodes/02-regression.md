@@ -86,6 +86,7 @@ m= 1.5182926829268293 c= 0.30487804878048763
 We now have a simple linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model's y value with the original. We can turn this into a single overall error number by calculating the root mean square (RMS), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMS gives us an overall error number which we can then use to measure our model's accuracy with. The following code calculates RMS in Python. 
 
 ~~~
+import math
 def measure_error(data1, data2):
     assert len(data1) == len(data2)
     err_total = 0
