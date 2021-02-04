@@ -56,7 +56,8 @@ There is a lot of hype around machine learning and artificial intelligence right
 
 The [Gartner Hype Cycle](https://www.gartner.com/en/research/methodologies/gartner-hype-cycle) looks at which technologies are being over-hyped. In the August 2018 analysis AI Platform as a service, Deep Learning chips, Deep learning neural networks, Conversational AI and Self Driving Cars are all shown near the "Peak of inflated expectations". 
 
-![The Gartner Hype Cycle curve August 2018](https://blogs.gartner.com/smarterwithgartner/files/2018/08/PR_490866_5_Trends_in_the_Emerging_Tech_Hype_Cycle_2018_Hype_Cycle.png)
+![The Gartner Hype Cycle curve](https://upload.wikimedia.org/wikipedia/commons/9/94/Gartner_Hype_Cycle.svg)
+[Image from Jeremy Kemp via Wikimedia](https://en.wikipedia.org/wiki/File:Gartner_Hype_Cycle.svg)
 
 # Applications of machine learning
 
