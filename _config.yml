@@ -10,7 +10,7 @@
 carpentry: "swc"
 
 # Overall title for pages.
-title: "Machine Learning"
+title: "Introduction to Machine Learning with Scikit Learn"
 
 # Life cycle stage of the lesson
 # possible values: "pre-alpha", "alpha", "beta", "stable"
