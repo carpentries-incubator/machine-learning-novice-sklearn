@@ -1,4 +1,4 @@
-# FIXME Lesson title
+# Introduction to Machine Learning with Scikit Learn and Python
 
 [![Create a Slack Account with us](https://img.shields.io/badge/Create_Slack_Account-The_Carpentries-071159.svg)](https://swc-slack-invite.herokuapp.com/)
 
