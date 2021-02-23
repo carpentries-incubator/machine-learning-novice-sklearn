@@ -5,10 +5,13 @@ exercises: 30
 questions:
 - "How can we classify images using a neural network?"
 objectives:
-- "Understand how a single artificial neuron (perceptron) works"
-- "Understand that layers of perceptrons allow non-linear separable problems to be solved"
-- "Train a neural network"
-- "Understand cross validation"
+- "Explain the basic architecture of a perceptron."
+- "Create a perceptron to encode a simple function."
+- "Understand that a single perceptron cannot solve a problem requiring non-linear separability."
+- "Understand that layers of perceptrons allow non-linear separable problems to be solved."
+- "Train a multilayer perceptron using scikit-learn."
+- "Evaluate the accuracy of a multilayer perceptron using real input data."
+- "Understand that cross validation allows the entire data set to be used in the training process."
 keypoints:
 - "Perceptrons are artificial neurons which build neural networks."
 - "A perceptron takes multiple inputs, multiplies each by a weight value and sums the weighted inputs. It then applies an activation function to the sum."
