@@ -5,9 +5,12 @@ exercises: 20
 questions:
 - "How can I use scikit-learn to process data?"
 objectives:
-- "Use the scikit-learn library to perform a linear regression."
-- "Use the scikit-learn library to measure the error from a regression."
-- "Use a polynomial model and compare its results to a linear regression."
+- "Recall that scikit-learn has built in linear regression functions."
+- "Measure the error between a regression model and real data."
+- "Apply scikit-learn's linear regression to create a model."
+- "Analyse and assess the accuracy of a linear model using scikit-learn's metrics library."
+- "Understand that more complex models can be built with non-linear equations."
+- "Apply scikit-learn's polynomial modelling to non-linear data."
 keypoints:
 - "Scikit Learn is a Python library with lots of useful machine learning functions."
 - "Scikit Learn includes a linear regression function."
