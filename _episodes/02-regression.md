@@ -127,6 +127,14 @@ To compare our model and data lets graph both of them using matplotlib.
 ~~~
 import matplotlib.pyplot as plt
 
+def make_linear(x_data, m, c):
+    linear_data = []
+    for x in x_data:
+        y = m * x + c
+        #add the result to the linear_data list
+        linear_data.append(y)
+    return(linear_data)
+
 def make_graph(x_data, y_data, linear_data):
 
     plt.plot(x_data, y_data, label="Original Data")
@@ -139,16 +147,11 @@ def make_graph(x_data, y_data, linear_data):
     
 x_data = [2,3,5,7,9]
 y_data = [4,5,7,10,15]]
-m,c = least_squares([x_data,y_data])
 
-linear_data = []
+m, c = least_squares([x_data, y_data])
+linear_data = make_linear(x_data, m, c)
+make_graph(x_data, y_data, make_linear(x_data, m, c))
 
-for x in x_data:
-    y = m * x + c
-    # add the result to the linear_data list
-    linear_data.append(y)
-    
-make_graph(x_data, y_data, linear_data)
 ~~~
 {: .python}
 
@@ -178,11 +181,7 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 
     # calculate line of best fit
     m, c = least_squares([x_data, life_expectancy])
-
-    linear_data = []
-    for x in x_data:
-        y = m * x + c
-        linear_data.append(y)
+    linear_data = make_linear(x_data, m, c)
 
     error = measure_error(life_expectancy, linear_data)
     print("error is ", error)
