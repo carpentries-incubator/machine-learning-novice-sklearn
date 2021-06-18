@@ -22,9 +22,10 @@ Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%
 
 ## Maintainer(s)
 
-Current maintainers of this lesson are 
+Current maintainers of this lesson are:
 
-* Colin Sauze
+* [Colin Sauze](https://github.com/colinsauze)
+* [Vini Salazar](https://github.com/vinisalazar)
 
 ## Outline
 As determined by the attendees of CarpentryConnect Manchester 2019, the proposed outline of this lesson is as follows:
