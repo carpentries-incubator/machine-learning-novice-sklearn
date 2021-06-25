@@ -63,7 +63,7 @@ def perceptron(inputs, weights, threshold):
     else:
         return 1
 ~~~
-{: .python}
+{: .language-python}
 
 ### Computing with a perceptron
 
@@ -104,7 +104,7 @@ inputs = [[0.0,0.0],[1.0,0.0],[0.0,1.0],[1.0,1.0]]
 for input in inputs:
     print(input,perceptron(input, [0.5,0.5], 0.5))
 ~~~
-{: .python}
+{: .language-python}
 
 
 AND:
@@ -113,7 +113,7 @@ inputs = [[0.0,0.0],[1.0,0.0],[0.0,1.0],[1.0,1.0]]
 for input in inputs:
     print(input,perceptron(input, [0.5,0.5], 1.0))
 ~~~
-{: .python}
+{: .language-python}
 
 
 NOT:
@@ -124,7 +124,7 @@ inputs = [[0.0,1.0],[1.0,1.0]]
 for input in inputs:
     print(input,perceptron(input, [-1.0,1.0], 1.0))
 ~~~
-{: .python}
+{: .language-python}
 
 A perceptron can be trained to compute any function which is has linear separability. A simple training algorithm called the perceptron learning algorithm can be used to do this and scikit-learn has its own implementation of it. We're going to skip over the perceptron learning algorithm and move straight onto more powerful techniques. If you want to learn more about it see [this page](https://computing.dcu.ie/~humphrys/Notes/Neural/single.neural.html) from Dublin City University. 
 
@@ -145,7 +145,7 @@ A perceptron can be trained to compute any function which is has linear separabi
 > > for input in inputs:
 > >    print(input,perceptron(input, [-0.5,-0.5,1.0], 1.0))
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > {: .solution}
 {: .challenge}
 
@@ -199,7 +199,7 @@ labels_train = labels[0:60000]
 data_test = X[60001:]
 labels_test = y[60001:]
 ~~~
-{: .python}
+{: .language-python}
 
 Now lets go ahead and train the network, this line will take about one minute to run. We do this by calling the `fit` function inside the mlp class instance, this needs two arguments the data itself and the labels showing what class each item should be classified to. `mlp.fit(data_train,labels_train)`
 
@@ -209,7 +209,7 @@ Finally lets score the accuracy of our network against both the original trainin
 print("Training set score", mlp.score(data_train, labels_train))
 print("Testing set score", mlp.score(data_test, labels_test))
 ~~~
-{: .python}
+{: .language-python}
 
 Here is the complete program:
 
@@ -235,7 +235,7 @@ mlp.fit(data_train, labels_train)
 print("Training set score", mlp.score(data_train, labels_train))
 print("Testing set score", mlp.score(data_test, labels_test))
 ~~~
-{: .python}
+{: .language-python}
 
 
 > # Changing the learning parameters
@@ -271,7 +271,7 @@ print("Testing set score", mlp.score(data_test, labels_test))
 > plt.show()
 > print("Your digit is",mlp.predict([digit_norm.reshape(784)]))
 > ~~~
-> {: .python}
+> {: .language-python}
 {: .challenge}
 
 
@@ -322,8 +322,8 @@ Now inside the loop we can select the data by doing `data_train = data[train]` a
     
     data_test = data[test]
     labels_test = labels[test]
- ~~~
- {: .python}
+~~~
+{: .language-python}
  
  
  Finally we need to train the classifier with the selected training data and then score it against the test data. The scores for each set of test data should be similar. 
@@ -332,7 +332,7 @@ Now inside the loop we can select the data by doing `data_train = data[train]` a
     mlp.fit(data_train,labels_train)
     print("Testing set score", mlp.score(data_test, labels_test))
  ~~~
- {: .python}
+ {: .language-python}
  
  Once we've established that cross validation was ok we can go ahead and train using the entire dataset by doing `mlp.fit(data,labels)`.
  
@@ -363,7 +363,7 @@ for (train, test) in kfold.split(data):
    
 mlp.fit(data,labels)
 ~~~
-{: .python}
+{: .language-python}
 
 ## Deep Learning
 
