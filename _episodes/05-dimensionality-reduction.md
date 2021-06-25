@@ -47,7 +47,7 @@ X = digits.data
 y = digits.target
 
 ~~~
-{: .python}
+{: .language-python}
 
 ### Principle Component Analysis (PCA)
 
@@ -68,7 +68,7 @@ plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap=plt.cm.nipy_spectral,
 plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
 plt.savefig("pca.svg")
 ~~~
-{: .python}
+{: .language-python}
 
 ![Reduction using PCA](../fig/pca.svg)
 
@@ -86,7 +86,7 @@ plt.scatter(X_tsne[:, 0], X_tsne[:, 1], c=y, cmap=plt.cm.nipy_spectral,
 plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
 plt.savefig("tsne.svg")
 ~~~
-{: .python}
+{: .langauge-python}
 
 ![Reduction using t-SNE](../fig/tsne.svg)
 
@@ -112,7 +112,7 @@ plt.savefig("tsne.svg")
 > >           cmap=plt.cm.nipy_spectral, s=9, lw=0)
 > > plt.savefig("pca_3d.svg")
 > > ~~~
-> > {. :python}
+> > {. :language-python}
 > >
 > > ![Reduction to 3 components using pca](../fig/pca_3d.svg)
 > >
@@ -128,11 +128,14 @@ plt.savefig("tsne.svg")
 > >           cmap=plt.cm.nipy_spectral, s=9, lw=0)
 > > plt.savefig("tsne_3d.svg")
 > > ~~~
-> > {. :python}
+> > {. :langauge-python}
 > >
 > > ![Reduction to 3 components using tsne](../fig/tsne_3d.svg)
 > >
 > >
+> { .solution}
+{. challenge}
+
 >
 > # Exercise: Parameters
 >
@@ -140,7 +143,8 @@ plt.savefig("tsne.svg")
 > and experiment with these. How do they change your resulting
 > plots?  Might the choice of parameters lead you to make different
 > conclusions about your data?
->
+{. challenge}
+
 > # Exercise: Other Algorithms
 >
 > There are other algorithms that can be used for doing dimensionality
@@ -150,3 +154,4 @@ plt.savefig("tsne.svg")
 > poorly? What level of care might you need to use before applying such methods
 > for automation in critical scenarios?  What about for interactive data 
 > exploration?
+{. challenge}
