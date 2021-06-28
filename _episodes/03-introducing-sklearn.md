@@ -125,7 +125,7 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 ~~~
 {: .language-python}
 
-> # Comparing the Scikit learn and our own linear regression implementations. 
+> ## Comparing the Scikit learn and our own linear regression implementations. 
 > Adjust both the original program (using our own linear regression implementation) and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation 
 > linking date and life expectancy? Are they the same in both?
 > > ## Solution
@@ -140,7 +140,7 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 {: .challenge}
 
 
-> # Predicting Life Expectancy
+> ## Predicting Life Expectancy
 > Use the linear equation you've just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers?
 > If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
 > > ## Solution
@@ -265,7 +265,7 @@ To measure the error lets calculate the RMS error on both the linear and polynom
 ~~~
 {: .language-python}
 
-> # Exercise: Comparing linear and polynomial models
+> ## Exercise: Comparing linear and polynomial models
 > Train a linear and polynomial model on life expectancy data from China between 1960 and 2000. Then predict life expectancy from 2001 to 2016 using both methods. Compare their root mean squared errors, which is more accurate? Why do you think this model is the more accurate one?
 > > ## Solution
 > > modify the call to the process_life_expectancy_data

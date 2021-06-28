@@ -119,7 +119,7 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
 * Suitable for large datasets due to its low memory and computing requirements.
 
 
-> # Excercise: K-Means with overlapping clusters
+> ## Excercise: K-Means with overlapping clusters
 > Adjust the program above to increase the standard deviation of the blobs (the cluster_std parameter to make_blobs) and increase the number of samples (n_samples) to 4000.
 > You should start to see the clusters overlapping.
 > Do the clusters that are identified make sense?
@@ -132,7 +132,7 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
 > {: .solution}
 {: .challenge}
 
-> # Exercise: How many clusters should we look for?
+> ## Exercise: How many clusters should we look for?
 > As K-Means requires us to specify the number of clusters to expect a common strategy to get around this is to vary the number of clusters we are looking for. 
 > Modify the program to loop through searching for between 2 and 10 clusters. Which (if any) of the results look more sensible? What criteria might you use to select the best one?
 > > ## Solution
@@ -223,7 +223,7 @@ plt.show()
 {: .language-python}
 
 
-> # Comparing k-means and spectral clustering performance
+> ## Comparing k-means and spectral clustering performance
 > Modify the program we wrote in the previous exercise to use spectral clustering instead of k-means, save it as a new file. 
 > Time how long both programs take to run. Add the line `import time` at the top of both files, as the first line in the file get the start time with `start_time = time.time()`.
 > End the program by getting the time again and subtracting the start time from it to get the total run time. Add `end_time = time.time()` and `print("Elapsed time:",end_time-start_time,"seconds")` to the end of both files.

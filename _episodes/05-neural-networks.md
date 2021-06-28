@@ -128,7 +128,7 @@ for input in inputs:
 
 A perceptron can be trained to compute any function which is has linear separability. A simple training algorithm called the perceptron learning algorithm can be used to do this and scikit-learn has its own implementation of it. We're going to skip over the perceptron learning algorithm and move straight onto more powerful techniques. If you want to learn more about it see [this page](https://computing.dcu.ie/~humphrys/Notes/Neural/single.neural.html) from Dublin City University. 
 
-> # Building a perceptron for NAND
+> ## Building a perceptron for NAND
 > Try and modify the perceptron examples above to calculate the NAND function. (Hint: you'll need a bias term like the NOT function)
 > This is the inverse of the AND function and its truth table looks like:
 >
@@ -238,13 +238,13 @@ print("Testing set score", mlp.score(data_test, labels_test))
 {: .language-python}
 
 
-> # Changing the learning parameters
+> ## Changing the learning parameters
 > There are several parameters which control the training of the data. One of these is called the learning rate, increasing this can reduce how many learning iterations we need. But make it too large and we'll end up overshooting.
 > Try tweaking this parameter by adding the parameter `learning_rate_init`, the default value of this is 0.001. Try increasing it to around 0.1
 {: .challenge}
 
 
-> # Using your own handwriting
+> ## Using your own handwriting
 > Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be greyscale and 28 x 28 pixels.
 >
 > Try and draw a digit (0-9) in the image and save it into your code directory.
@@ -375,7 +375,7 @@ Scikit learn isn't really setup for Deep Learning and we'll have to rely on othe
 
 Google, Microsoft, Amazon and many others now have Cloud based Application Programming Interfaces (APIs) where you can upload an image and have them return you the result. Most of these services rely on a large pre-trained (and often proprietary) neural network. 
 
-> # Exercise: Try cloud image classification
+> ## Exercise: Try cloud image classification
 > Take a photo with your phone camera or find an image online of a common daily scene. 
 > Upload it Google's Vision AI example at https://cloud.google.com/vision/
 > How many objects has it correctly classified? How many did it incorrectly classify?

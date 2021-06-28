@@ -195,7 +195,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 {: .language-python}
 
 
-> # Modelling Life Expectancy
+> ## Modelling Life Expectancy
 >
 > Combine all the code above into a single Python file, save it into a directory called code. 
 >
@@ -227,7 +227,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 {: .challenge}
 
 
-> # Predicting Life Expectancy
+> ## Predicting Life Expectancy
 > Use the linear equation you've just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers?
 > If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
 > > ## Solution
@@ -292,7 +292,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 
 
 
-> # Predicting Historical Life Expectancy
+> ## Predicting Historical Life Expectancy
 > 
 > Now change your program to measure life expectancy in Canada between 1890 and 1914. Use the resulting m and c values to predict life expectancy in 1918. How accurate is your answer?
 > If your answer was inaccurate, why was it inaccurate? What does this tell you about extrapolating models like this?
@@ -313,21 +313,25 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > {: .solution}
 {: .challenge}
 
-# logarithmic Regression
+# Logarithmic Regression
 
 We've now seen how we can use linear regression to make a simple model and use that to predict values, but what do we do when the relationship between the data isn't linear? 
 
 As an example lets take the relationship between income (GDP per Capita) and life expectancy. The gapminder website will [graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) this for us. 
 
 > ## Logarithms Introduction
-> Logarithms are the inverse of an exponent (raising a number by a power). 
-> logb(a) = c 
+> Logarithms are the inverse of an exponent (raising a number by a power).
+> ``` 
+> log b(a) = c 
 > b^c = a
+> ```
 > For example:
+> ```
 > 2^5 = 32
-> log2(32) = 5
+> log 2(32) = 5
+> ```
 > If you need more help on logarithms see the [Khan Academy's page](https://www.khanacademy.org/math/algebra2/exponential-and-logarithmic-functions/introduction-to-logarithms/a/intro-to-logarithms)
-> {: .callout}
+{: .callout}
 
 
 The relationship between these two variables clearly isn't linear. But there is a trick we can do to make the data appear to be linear, we can take the logarithm of the Y axis (the GDP) by clicking on the arrow on the left next to GDP/capita and choosing log. [This graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&scaleType=log&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) now appears to be linear. 
@@ -425,14 +429,14 @@ A small change to the least_squares function is needed to handle this data. Prev
 
 
 ~~~
-        x = int(data[0][i])
+x = int(data[0][i])
 ~~~
 {: .language-python}
 
 to 
 
 ~~~
-        x = data[0][i]
+x = data[0][i]
 ~~~
 {: .language-python}
 
@@ -465,7 +469,7 @@ def make_graph(x_data, y_data, linear_data):
 The process_data function gave us a choice of plotting either the logarithmic or non-logarithmic version of the data depending on which data we pass to make_graph. If we uncomment the line `# make_graph(life_exp, gdp_log, log_data)` and comment the line `make_graph(life_exp, gdp, linear_data)` then we can switch to showing the logarithmic version. 
 
 
-> # Comparing the logarithmic and non-logarithmic graphs
+> ## Comparing the logarithmic and non-logarithmic graphs
 >
 > Convert the code above to plot the logarithmic version of the graph.
 > Save the graph.
@@ -474,7 +478,7 @@ The process_data function gave us a choice of plotting either the logarithmic or
 {: .challenge}
 
 
-> # Removing outliers from the data
+> ## Removing outliers from the data
 > The correlation of GDP and life expectancy has a few big outliers that are probably increasing the error rate on this model. These are typically countries with very high GDP and sometimes not very high life expectancy. These tend to be either small countries with artificially high GDPs such as Monaco and Luxemborg or oil rich countries such as Qatar or Brunei. Kuwait, Qatar and Brunei have already been removed from this data set, but are available in the file worldbank-gdp-outliers.csv. Try experimenting with adding and removing some of these high income countries to see what effect it has on your model's error rate.
 > Do you think its a good idea to remove these outliers from your model?
 > How might you do this automatically?
