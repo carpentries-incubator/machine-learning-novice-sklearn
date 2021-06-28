@@ -49,3 +49,4 @@ introduction to the key concepts in machine learning from Amazon.
 
 * [Azure AI](https://azure.microsoft.com/en-gb/overview/ai-platform/) - Microsoft's Cloud based AI platform.
 
+{% include links.md %}

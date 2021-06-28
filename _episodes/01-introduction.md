@@ -112,3 +112,4 @@ Many machine learning techniques will give us an answer given some input data ev
 > Write your answers into the etherpad.
 {: .challenge}
 
+{% include links.md %}

@@ -65,5 +65,4 @@ Some questions you might want to ask yourself (and which an ethics committee mig
 > Write down your group's answers in the etherpad.
 {: .challenge}
 
-
-
+{% include links.md %}

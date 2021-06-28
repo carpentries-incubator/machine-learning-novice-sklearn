@@ -80,6 +80,7 @@ Results of linear regression:
 x_sum= 26 y_sum= 41 x_sq_sum= 168 xy_sum= 263
 m= 1.5182926829268293 c= 0.30487804878048763
 ~~~
+{: .output}
 
 ### Testing the accuracy of a linear regression model
 
@@ -483,3 +484,5 @@ The process_data function gave us a choice of plotting either the logarithmic or
 > Do you think its a good idea to remove these outliers from your model?
 > How might you do this automatically?
 {: .challenge}
+
+{% include links.md %}

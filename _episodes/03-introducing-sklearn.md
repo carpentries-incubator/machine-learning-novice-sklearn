@@ -84,6 +84,8 @@ Now lets replace
 ~~~
     error = measure_error(life_expectancy, linear_data)
 ~~~
+{: .language-python}
+
 
 with
 
@@ -281,3 +283,5 @@ To measure the error lets calculate the RMS error on both the linear and polynom
 > > ![China 2001-2016 predictions](../fig/polynomial_china_overprediction.png)
 > {: .solution}
 {: .challenge}
+
+{% include links.md %}

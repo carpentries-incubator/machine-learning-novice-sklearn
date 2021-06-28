@@ -38,6 +38,6 @@ wget https://scw-aberystwyth.github.io/machine-learning-novice/data/worldbank-gd
 wget https://scw-aberystwyth.github.io/machine-learning-novice/data/worldbank-gdp-outliers.csv
 wget https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv
 ~~~
-{: .bash}
+{: .language-bash}
 
 {% include links.md %}

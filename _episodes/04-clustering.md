@@ -289,8 +289,4 @@ plt.show()
 > {: .solution}
 {: .challenge}
 
-
-
-
-
-
+{% include links.md %}

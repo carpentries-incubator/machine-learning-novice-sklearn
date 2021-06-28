@@ -13,7 +13,7 @@ We'd like to ask you to familiarize yourself with our [Contribution Guide](CONTR
 the [more detailed guidelines][lesson-example] on proper formatting, ways to render the lesson locally, and even
 how to write new episodes.
 
-Please see the current list of [issues][FIXME] for ideas for contributing to this
+Please see the current list of [issues](https://github.com/carpentries-incubator/machine-learning-novice-sklearn/issues) for ideas for contributing to this
 repository. For making your contribution, we use the GitHub flow, which is
 nicely explained in the chapter [Contributing to a Project](http://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project) in Pro Git
 by Scott Chacon.
@@ -40,12 +40,11 @@ As determined by the attendees of CarpentryConnect Manchester 2019, the proposed
 
 ### Supervised Learning
 
-    All models, objectives:
-
-    - What it is;
-    - when to use it and on what type of data;
-    - how to evaluate the fit, over/underfitting;
-    - computational complexity
+All models, objectives:
+- What it is;
+- when to use it and on what type of data;
+- how to evaluate the fit, over/underfitting;
+- computational complexity
 
 
 #### I. Regression

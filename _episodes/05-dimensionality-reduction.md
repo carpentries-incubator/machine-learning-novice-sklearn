@@ -15,3 +15,9 @@ keypoints:
 - "PCA is a dimensionality reduction technique"
 - "TSNE is another dimensionality reduction technique"
 ---
+
+# Placeholder text
+
+This will hopefully pass lesson-check
+
+{% include links.md %}
