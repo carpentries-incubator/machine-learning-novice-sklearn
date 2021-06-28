@@ -43,21 +43,21 @@ To perform a k-means clustering with Scikit learn we first need to import the sk
 ~~~
 import sklearn.cluster as skl_cluster
 ~~~
-{: .python}
+{: .language-python}
 
 For this example we're going to use scikit learn's built in random data blob generator instead of using an external dataset. For this we'll also need the `sklearn.datasets.samples_generator` module.
 
 ~~~
 import sklearn.datasets.samples_generator as skl_smpl
 ~~~
-{: .python}
+{: .language-python}
 
 Now lets create some random blobs using the make_blobs function. The `n_samples` argument sets how many points we want to use in all of our blobs. `cluster_std` sets the standard deviation of the points, the smaller this value the closer together they will be. `centers` sets how many clusters we'd like. `random_state` is the initial state of the random number generator, by specifying this we'll get the same results every time we run the program. If we don't specify a random state then we'll get different points every time we run. This function returns two things, an array of data points and a list of which cluster each point belongs to.
 
 ~~~
 data, cluster_id = skl_smpl.make_blobs(n_samples=400, cluster_std=0.75, centers=4, random_state=1)
 ~~~
-{: .python}
+{: .language-python}
 
 Now that we have some data we can go ahead and try to identify the clusters using K-means. First we need to initalise the KMeans module and tell it how many clusters to look for. Next we supply it some data via the fit function, in much the same we did with the regression functions earlier on. Finally we run the predict function to find the clusters. 
 
@@ -66,7 +66,7 @@ Kmean = skl_cluster.KMeans(n_clusters=4)
 Kmean.fit(data)
 clusters = Kmean.predict(data)
 ~~~
-{: .python}
+{: .language-python}
 
 The data can now be plotted to show all the points we randomly generated. To make it clearer which cluster points have been classified to we can set the colours (the c parameter) to use the `clusters` list that was returned
 by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster as. These are stored as a list called `cluster_centers_` inside the `Kmean` object. Lets go ahead and plot the points from the clusters, colouring them by the output from the K-means algorithm and also plot the centres of each cluster as a red X. 
@@ -76,7 +76,7 @@ plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0, c=clusters)
 for cluster_x, cluster_y in Kmean.cluster_centers_:
     plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
 ~~~
-{: .python}
+{: .language-python}
 
 
 ~~~
@@ -95,7 +95,7 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
     plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
 
 ~~~
-{: .python}
+{: .language-python}
 
 > ## Working in multiple dimensions
 > Although this example shows two dimensions the kmeans algorithm can work in more than two, it just becomes very difficult to show this visually
@@ -148,7 +148,7 @@ for cluster_x, cluster_y in Kmean.cluster_centers_:
 > >            plt.title(str(cluster_count)+" Clusters")
 > >            plt.show()
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > > 
 > > None of these look very sensible clusterings because all the points really form one large cluster.
 > > We might look at a measure of similarity of the cluster to test if its really multiple clusters. A simple standard deviation or interquartile range might be a good starting point.
@@ -182,20 +182,20 @@ import sklearn.datasets as skl_data
 
 circles, circles_clusters = skl_data.make_circles(n_samples=400, noise=.01, random_state=0)
 ~~~
-{: .python}
+{: .language-python}
 
 The code for calculating the SpectralClustering is very similar to the kmeans clustering, instead of using the sklearn.cluster.KMeans class we use the sklearn.cluster.SpectralClustering class.
 ~~~
 model = skl_cluster.SpectralClustering(n_clusters=2, affinity='nearest_neighbors', assign_labels='kmeans')
 ~~~
-{: .python}
+{: .language-python}
 
 The SpectralClustering class combines the fit and predict functions into a single function called fit_predict.
 
 ~~~
 labels = model.fit_predict(circles)
 ~~~
-{: .python}
+{: .language-python}
 
 Here is the whole program combined with the kmeans clustering for comparison. Note that this produces two figures, to view both of them use the "Inline" graphics terminal inside the Python console instead of the "Automatic" method which will open a window and only show you one of the graphs.
 
@@ -220,7 +220,7 @@ labels = model.fit_predict(circles)
 plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0, c=labels, cmap='flag')
 plt.show()
 ~~~
-{: .python}
+{: .language-python}
 
 
 > # Comparing k-means and spectral clustering performance
@@ -255,7 +255,7 @@ plt.show()
 > > end_time = time.time()
 > > print("Elapsed time = ", end_time-start_time, "seconds")
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > >
 > > Spectral version, runtime around 9 seconds (your computer might be faster/slower)
 > > ~~~
@@ -278,7 +278,7 @@ plt.show()
 > > end_time = time.time()
 > > print("Elapsed time = ", end_time-start_time, "seconds")
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > >
 > > When the number of points increases to 8000 the runtimes are 24 seconds for the spectral version and 5.6 seconds for kmeans. 
 > > The runtime numbers will differ depending on the speed of your computer, but the relative different should be similar. 
