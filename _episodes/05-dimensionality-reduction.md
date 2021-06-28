@@ -38,14 +38,11 @@ from sklearn import manifold
 digits = datasets.load_digits()
 
 # Examine the dataset
-
 print(digits.data)
-
 print(digits.target)
 
 X = digits.data
 y = digits.target
-
 ~~~
 {: .language-python}
 
@@ -92,7 +89,7 @@ plt.savefig("tsne.svg")
 
 
 
-> # Exercise: Working in three dimensions
+> ## Exercise: Working in three dimensions
 > The above example has considered only two dimensions since humans
 > can visualize two dimensions very well. However, there can be cases
 > where a dataset requires more than two dimensions to be appropriately
@@ -138,7 +135,7 @@ plt.savefig("tsne.svg")
 > {: .solution}
 {: .challenge}
 
-> # Exercise: Parameters
+> ## Exercise: Parameters
 >
 > Look up parameters that can be changed in PCA and t-SNE,
 > and experiment with these. How do they change your resulting
@@ -146,7 +143,7 @@ plt.savefig("tsne.svg")
 > conclusions about your data?
 {: .challenge}
 
-> # Exercise: Other Algorithms
+> ## Exercise: Other Algorithms
 >
 > There are other algorithms that can be used for doing dimensionality
 > reduction, for example the Higher Order Singular Value Decomposition (HOSVD)
