@@ -30,7 +30,7 @@ First lets add the import for sklearn, we're also going to need the numpy librar
 import numpy as np
 import sklearn.linear_model as skl_lin
 ~~~
-{: .python}
+{: .language-python}
 
 
 Now lets replace the calculation with our own least_squares function with the one from scikit-learn. The scikit-learn regression function is much more capable than the simple one we wrote earlier and is designed for datasets where multiple parameters are used, its expecting to be given multi-demnsional arrays data. To get it to accept single dimension data such as we have we need to convert the array to a numpy one and use numpy's reshape function. The resulting data is also designed to show us multiple coefficients and intercepts, so these values will be arrays, since we've just got one parameter we can just grab the first item from each of these arrays. 
@@ -39,7 +39,7 @@ Lets go ahead and change
 ~~~
 m, c = least_squares([x_data, life_expectancy])
 ~~~
-{: .python}
+{: .language-python}
 
 to
 
@@ -52,7 +52,7 @@ to
     m = regression.coef_[0][0]
     c = regression.intercept_[0]
 ~~~
-{: .python}
+{: .language-python}
 
 Now we can use scikit-learn's predict function to predict values in our model instead of having to work them out ourselves by computing y = mx+c. We can change
 
@@ -63,21 +63,21 @@ Now we can use scikit-learn's predict function to predict values in our model in
         y = m * x + c
         linear_data.append(y)
 ~~~
-{: .python}
+{: .language-python}
 
 to just one line:
 
 ~~~
     linear_data = regression.predict(x_data_arr)
 ~~~
-{: .python}
+{: .language-python}
 
 This line will populate the list linear_data with the predicted values for every item in x_data_arr. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
 
 ~~~
 import sklearn.metrics as skl_metrics
 ~~~
-{: .python}
+{: .language-python}
 
 Now lets replace
 
@@ -90,7 +90,7 @@ with
 ~~~
     error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
 ~~~
-{: .python}
+{: .language-python}
 
 Now if we go ahead and run the new program we should get the same answers and same graph as before.
 
@@ -123,16 +123,16 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 
     make_graph(x_data, life_expectancy, linear_data)
 ~~~
-{: .python}
+{: .language-python}
 
-> # Comparing the Scikit learn and our own linear regression implementations. 
+> ## Comparing the Scikit learn and our own linear regression implementations. 
 > Adjust both the original program (using our own linear regression implementation) and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation 
 > linking date and life expectancy? Are they the same in both?
 > > ## Solution
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Germany", 1950, 2000)
 > > ~~~ 
-> > {: .python}
+> > {: .language-python}
 > > 
 > > m= 0.212219909502 c= -346.784909502
 > > They should be identical
@@ -140,7 +140,7 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 {: .challenge}
 
 
-> # Predicting Life Expectancy
+> ## Predicting Life Expectancy
 > Use the linear equation you've just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers?
 > If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
 > > ## Solution
@@ -148,7 +148,7 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 > > for x in range(2001,2017):
 > >     print(x,0.212219909502 * x - 346.784909502)
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > > 
 > > Predicted answers:
 > > ~~~
@@ -177,7 +177,7 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 > >     real = df.loc['Germany', str(x)]
 > >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > > 
 > > ~~~
 > > 2001 Predicted 77.86712941150199 Real 78.4 Difference -0.532870588498
@@ -213,7 +213,7 @@ Scikit-learn includes a polynomial modelling tool as part of its pre-processing 
 ~~~
 import sklearn.preprocessing as skl_pre
 ~~~
-{: .python}
+{: .language-python}
 
 
 Now lets modify the `process_life_expectancy_data` function to calculate the polynomial. This takes two parts, the first is to pre-process the data into polynomial form. We first call the PolynomialFeatures function with the parameter degree. The degree parameter controls how many components the polynomial will have, a polynomial of the form y = a + bx + cx^2 + dx^3 has 4 degrees. Typically a value between 5 and 10 is sufficient. We must then process the numpy array that we used for the X axis in the linear regression to convert it into a set of polynomial features.
@@ -222,7 +222,7 @@ Now lets modify the `process_life_expectancy_data` function to calculate the pol
     polynomial_features = skl_pre.PolynomialFeatures(degree=5)
     x_poly = polynomial_features.fit_transform(x_data_arr)
 ~~~
-{: .python}
+{: .language-python}
 
 This only gets us halfway to being able to create a model that we can use for predictions. To form the complete model we actually have to perform a linear regression on the polynomial model, but we'll use the polynomial features
 as the X axis instead of the numpy array. The Y axis will still be the life expectancy numpy array that we used before. The resulting model can now be used to make some predictions like we did before using the predict function.
@@ -236,7 +236,7 @@ If we want to draw the line of best fit we can pass the polynomial features in a
     make_graph(x_data, life_expectancy, polynomial_data)
 
 ~~~
-{: .python}
+{: .language-python}
 
 
 Finally we can make some predictions of future data. Lets create a list containing the date range we'd like to predict, as with other lists/arrays we've used we'll have to reshape it to make scikit-learn work with it.
@@ -249,7 +249,7 @@ Now lets use this list of dates to predict life expectancy using both our linear
                              
     predictions_linear = regression.predict(predictions_x)
 ~~~
-{: .python}
+{: .language-python}
 
 
 To measure the error lets calculate the RMS error on both the linear and polynomial data. 
@@ -263,16 +263,16 @@ To measure the error lets calculate the RMS error on both the linear and polynom
             skl_metrics.mean_squared_error(life_exp_arr, polynomial_data))
     print("polynomial error is", polynomial_error)
 ~~~
-{: .python}
+{: .language-python}
 
-> # Exercise: Comparing linear and polynomial models
+> ## Exercise: Comparing linear and polynomial models
 > Train a linear and polynomial model on life expectancy data from China between 1960 and 2000. Then predict life expectancy from 2001 to 2016 using both methods. Compare their root mean squared errors, which is more accurate? Why do you think this model is the more accurate one?
 > > ## Solution
 > > modify the call to the process_life_expectancy_data
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "China", 1960, 2000)
 > > ~~~ 
-> > {: .python}
+> > {: .language-python}
 > > 
 > > linear prediction error is  5.385162846665607
 > > polynomial prediction error is 28.169167771983528
