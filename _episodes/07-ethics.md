@@ -58,6 +58,7 @@ Some questions you might want to ask yourself (and which an ethics committee mig
  * Will you be using any people to create your training data? Will they have to look at any disturbing or traumatic material during the training process?
  * Are there any inherent biases in the dataset(s) you're using for training?
 
+
 > ## Exercise: Ethical implications of your own research
 > Split into pairs or groups of three.
 > Think of a use case for machine learning in your research areas.

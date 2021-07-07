@@ -65,6 +65,7 @@ def perceptron(inputs, weights, threshold):
 ~~~
 {: .language-python}
 
+
 ### Computing with a perceptron
 
 A single perceptron can perform basic linear classification problems such as computing the logical AND, OR and NOT functions.
@@ -107,6 +108,7 @@ for input in inputs:
 {: .language-python}
 
 
+
 AND:
 ~~~
 inputs = [[0.0,0.0],[1.0,0.0],[0.0,1.0],[1.0,1.0]]
@@ -114,6 +116,7 @@ for input in inputs:
     print(input,perceptron(input, [0.5,0.5], 1.0))
 ~~~
 {: .language-python}
+
 
 
 NOT:
@@ -243,7 +246,6 @@ print("Testing set score", mlp.score(data_test, labels_test))
 > Try tweaking this parameter by adding the parameter `learning_rate_init`, the default value of this is 0.001. Try increasing it to around 0.1
 {: .challenge}
 
-
 > ## Using your own handwriting
 > Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be greyscale and 28 x 28 pixels.
 >
@@ -333,6 +335,7 @@ Finally we need to train the classifier with the selected training data and then
     print("Testing set score", mlp.score(data_test, labels_test))
 ~~~
 {: .language-python}
+
  
  Once we've established that cross validation was ok we can go ahead and train using the entire dataset by doing `mlp.fit(data,labels)`.
  
