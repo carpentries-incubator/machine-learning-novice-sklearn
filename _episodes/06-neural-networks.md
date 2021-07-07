@@ -322,17 +322,17 @@ Now inside the loop we can select the data by doing `data_train = data[train]` a
     
     data_test = data[test]
     labels_test = labels[test]
- ~~~
- {: .language-python}
+~~~
+{: .language-python}
  
  
- Finally we need to train the classifier with the selected training data and then score it against the test data. The scores for each set of test data should be similar. 
+Finally we need to train the classifier with the selected training data and then score it against the test data. The scores for each set of test data should be similar. 
  
- ~~~
+~~~
     mlp.fit(data_train,labels_train)
     print("Testing set score", mlp.score(data_test, labels_test))
- ~~~
- {: .language-python}
+~~~
+{: .language-python}
  
  Once we've established that cross validation was ok we can go ahead and train using the entire dataset by doing `mlp.fit(data,labels)`.
  
@@ -383,5 +383,4 @@ Google, Microsoft, Amazon and many others now have Cloud based Application Progr
 > Does it do any better/worse than Google?
 {: .challenge}
 
-
-
+{% include links.md %}
