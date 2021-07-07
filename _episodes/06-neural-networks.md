@@ -63,7 +63,9 @@ def perceptron(inputs, weights, threshold):
     else:
         return 1
 ~~~
-{: .python}
+
+{: .language-python}
+
 
 ### Computing with a perceptron
 
@@ -104,7 +106,8 @@ inputs = [[0.0,0.0],[1.0,0.0],[0.0,1.0],[1.0,1.0]]
 for input in inputs:
     print(input,perceptron(input, [0.5,0.5], 0.5))
 ~~~
-{: .python}
+{: .language-python}
+
 
 
 AND:
@@ -113,7 +116,8 @@ inputs = [[0.0,0.0],[1.0,0.0],[0.0,1.0],[1.0,1.0]]
 for input in inputs:
     print(input,perceptron(input, [0.5,0.5], 1.0))
 ~~~
-{: .python}
+{: .language-python}
+
 
 
 NOT:
@@ -124,11 +128,11 @@ inputs = [[0.0,1.0],[1.0,1.0]]
 for input in inputs:
     print(input,perceptron(input, [-1.0,1.0], 1.0))
 ~~~
-{: .python}
+{: .language-python}
 
 A perceptron can be trained to compute any function which is has linear separability. A simple training algorithm called the perceptron learning algorithm can be used to do this and scikit-learn has its own implementation of it. We're going to skip over the perceptron learning algorithm and move straight onto more powerful techniques. If you want to learn more about it see [this page](https://computing.dcu.ie/~humphrys/Notes/Neural/single.neural.html) from Dublin City University. 
 
-> # Building a perceptron for NAND
+> ## Building a perceptron for NAND
 > Try and modify the perceptron examples above to calculate the NAND function. (Hint: you'll need a bias term like the NOT function)
 > This is the inverse of the AND function and its truth table looks like:
 >
@@ -145,7 +149,7 @@ A perceptron can be trained to compute any function which is has linear separabi
 > > for input in inputs:
 > >    print(input,perceptron(input, [-0.5,-0.5,1.0], 1.0))
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > {: .solution}
 {: .challenge}
 
@@ -199,7 +203,7 @@ labels_train = labels[0:60000]
 data_test = X[60001:]
 labels_test = y[60001:]
 ~~~
-{: .python}
+{: .language-python}
 
 Now lets go ahead and train the network, this line will take about one minute to run. We do this by calling the `fit` function inside the mlp class instance, this needs two arguments the data itself and the labels showing what class each item should be classified to. `mlp.fit(data_train,labels_train)`
 
@@ -209,7 +213,7 @@ Finally lets score the accuracy of our network against both the original trainin
 print("Training set score", mlp.score(data_train, labels_train))
 print("Testing set score", mlp.score(data_test, labels_test))
 ~~~
-{: .python}
+{: .language-python}
 
 Here is the complete program:
 
@@ -235,16 +239,15 @@ mlp.fit(data_train, labels_train)
 print("Training set score", mlp.score(data_train, labels_train))
 print("Testing set score", mlp.score(data_test, labels_test))
 ~~~
-{: .python}
+{: .language-python}
 
 
-> # Changing the learning parameters
+> ## Changing the learning parameters
 > There are several parameters which control the training of the data. One of these is called the learning rate, increasing this can reduce how many learning iterations we need. But make it too large and we'll end up overshooting.
 > Try tweaking this parameter by adding the parameter `learning_rate_init`, the default value of this is 0.001. Try increasing it to around 0.1
 {: .challenge}
 
-
-> # Using your own handwriting
+> ## Using your own handwriting
 > Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be greyscale and 28 x 28 pixels.
 >
 > Try and draw a digit (0-9) in the image and save it into your code directory.
@@ -271,7 +274,7 @@ print("Testing set score", mlp.score(data_test, labels_test))
 > plt.show()
 > print("Your digit is",mlp.predict([digit_norm.reshape(784)]))
 > ~~~
-> {: .python}
+> {: .language-python}
 {: .challenge}
 
 
@@ -322,17 +325,18 @@ Now inside the loop we can select the data by doing `data_train = data[train]` a
     
     data_test = data[test]
     labels_test = labels[test]
- ~~~
- {: .python}
+~~~
+{: .language-python}
  
  
- Finally we need to train the classifier with the selected training data and then score it against the test data. The scores for each set of test data should be similar. 
+Finally we need to train the classifier with the selected training data and then score it against the test data. The scores for each set of test data should be similar. 
  
- ~~~
+~~~
     mlp.fit(data_train,labels_train)
     print("Testing set score", mlp.score(data_test, labels_test))
- ~~~
- {: .python}
+~~~
+{: .language-python}
+
  
  Once we've established that cross validation was ok we can go ahead and train using the entire dataset by doing `mlp.fit(data,labels)`.
  
@@ -363,7 +367,7 @@ for (train, test) in kfold.split(data):
    
 mlp.fit(data,labels)
 ~~~
-{: .python}
+{: .language-python}
 
 ## Deep Learning
 
@@ -375,7 +379,7 @@ Scikit learn isn't really setup for Deep Learning and we'll have to rely on othe
 
 Google, Microsoft, Amazon and many others now have Cloud based Application Programming Interfaces (APIs) where you can upload an image and have them return you the result. Most of these services rely on a large pre-trained (and often proprietary) neural network. 
 
-> # Exercise: Try cloud image classification
+> ## Exercise: Try cloud image classification
 > Take a photo with your phone camera or find an image online of a common daily scene. 
 > Upload it Google's Vision AI example at https://cloud.google.com/vision/
 > How many objects has it correctly classified? How many did it incorrectly classify?
@@ -383,5 +387,4 @@ Google, Microsoft, Amazon and many others now have Cloud based Application Progr
 > Does it do any better/worse than Google?
 {: .challenge}
 
-
-
+{% include links.md %}

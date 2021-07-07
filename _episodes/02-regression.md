@@ -62,7 +62,7 @@ def least_squares(data):
 
     return m, c
 ~~~
-{: .python}
+{: .language-python}
 
 Lets test our code by using the example data from the mathsisfun link above. 
 
@@ -71,7 +71,7 @@ x_data = [2,3,5,7,9]
 y_data = [4,5,7,10,15]
 least_squares([x_data,y_data])
 ~~~
-{: .python}
+{: .language-python}
 
 We should get the following results:
 
@@ -80,6 +80,7 @@ Results of linear regression:
 x_sum= 26 y_sum= 41 x_sq_sum= 168 xy_sum= 263
 m= 1.5182926829268293 c= 0.30487804878048763
 ~~~
+{: .output}
 
 ### Testing the accuracy of a linear regression model
 
@@ -96,7 +97,7 @@ def measure_error(data1, data2):
     err = math.sqrt(err_total / len(data1))
     return err
 ~~~
-{: .python}
+{: .language-python}
 
 
 To calculate the RMS for the test data we just used we need to calculate the y coordinate for every x coordinate (2,3,5,7,9) that we had in the original data. 
@@ -116,7 +117,7 @@ for x in x_data:
 # calculate the error
 print(measure_error(y_data,linear_data))
 ~~~
-{: .python}
+{: .language-python}
 
 This will output an error of 0.7986268703523449, which means that on average the difference between our model and the real values is 0.7986268703523449. The less linear the data is the bigger this number will be. If the model perfectly matches the data then the value will be zero.
 
@@ -154,7 +155,7 @@ linear_data = make_linear(x_data, m, c)
 make_graph(x_data, y_data, make_linear(x_data, m, c))
 
 ~~~
-{: .python}
+{: .language-python}
 
 ![graph of the test regression data](../fig/regression_test_graph.png)
 
@@ -192,10 +193,10 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
                              "United Kingdom", 1950, 2010)
 ~~~
-{: .python}
+{: .language-python}
 
 
-> # Modelling Life Expectancy
+> ## Modelling Life Expectancy
 >
 > Combine all the code above into a single Python file, save it into a directory called code. 
 >
@@ -213,21 +214,21 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > cd data
 > wget https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv
 > ~~~
-> {: .bash}
+> {: .language-bash}
 >
 > Adjust the program to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation linking date and life expectancy?
 > > ## Solution
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Germany", 1950, 2000)
 > > ~~~ 
-> > {: .python}
+> > {: .language-python}
 > > 
 > > m= 0.212219909502 c= -346.784909502
 > {: .solution}
 {: .challenge}
 
 
-> # Predicting Life Expectancy
+> ## Predicting Life Expectancy
 > Use the linear equation you've just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers?
 > If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
 > > ## Solution
@@ -235,7 +236,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > > for x in range(2001,2017):
 > >     print(x,0.212219909502 * x - 346.784909502)
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > > 
 > > Predicted answers:
 > > ~~~
@@ -264,7 +265,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > >     real = df.loc['Germany', str(x)]
 > >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > > 
 > > ~~~
 > > 2001 Predicted 77.86712941150199 Real 78.4 Difference -0.532870588498
@@ -292,7 +293,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 
 
 
-> # Predicting Historical Life Expectancy
+> ## Predicting Historical Life Expectancy
 > 
 > Now change your program to measure life expectancy in Canada between 1890 and 1914. Use the resulting m and c values to predict life expectancy in 1918. How accurate is your answer?
 > If your answer was inaccurate, why was it inaccurate? What does this tell you about extrapolating models like this?
@@ -300,34 +301,38 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Canada", 1890, 1914)
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > > 
 > > m = 0.369807692308 c = -654.215830769
 > > ~~~
 > > print(1918 * 0.369807692308  -654.215830769)
 > > ~~~
-> > {: .python}
+> > {: .language-python}
 > > predicted age: 55.0753, actual 47.17
 > > Inaccurate due to WW1 and flu epedemic. Major events can produce trends that we've not seen before (or not for a long time), our models struggle to take account of things they've never seen.
 > > Even if we look back to 1800, the earliest date we have data for we never see a sudden drop in life expectancy like the 1918 one.
 > {: .solution}
 {: .challenge}
 
-# logarithmic Regression
+# Logarithmic Regression
 
 We've now seen how we can use linear regression to make a simple model and use that to predict values, but what do we do when the relationship between the data isn't linear? 
 
 As an example lets take the relationship between income (GDP per Capita) and life expectancy. The gapminder website will [graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) this for us. 
 
 > ## Logarithms Introduction
-> Logarithms are the inverse of an exponent (raising a number by a power). 
-> logb(a) = c 
+> Logarithms are the inverse of an exponent (raising a number by a power).
+> ``` 
+> log b(a) = c 
 > b^c = a
+> ```
 > For example:
+> ```
 > 2^5 = 32
-> log2(32) = 5
+> log 2(32) = 5
+> ```
 > If you need more help on logarithms see the [Khan Academy's page](https://www.khanacademy.org/math/algebra2/exponential-and-logarithmic-functions/introduction-to-logarithms/a/intro-to-logarithms)
-> {: .callout}
+{: .callout}
 
 
 The relationship between these two variables clearly isn't linear. But there is a trick we can do to make the data appear to be linear, we can take the logarithm of the Y axis (the GDP) by clicking on the arrow on the left next to GDP/capita and choosing log. [This graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&scaleType=log&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) now appears to be linear. 
@@ -381,7 +386,7 @@ def read_data(gdp_file, life_expectancy_file, year):
     combined = combined.sort_values("Life Expectancy")
     return combined
 ~~~
-{: .python}
+{: .language-python}
 
 ### Processing the data
 
@@ -418,23 +423,23 @@ def process_data(gdp_file, life_expectancy_file, year):
     print("error=", err)
     
 ~~~
-{: .python}
+{: .language-python}
 
 
 A small change to the least_squares function is needed to handle this data. Previously we were working with dates on the x-axis and these were all strings which the least_squares function converted into integers. Now we have life expectancy on the x-axis and that data is already floats, so we need to remove the conversion to integers. Lets change the following line in our least_squares function to do this:
 
 
 ~~~
-        x = int(data[0][i])
+x = int(data[0][i])
 ~~~
-{: .python}
+{: .language-python}
 
 to 
 
 ~~~
-        x = data[0][i]
+x = data[0][i]
 ~~~
-{: .python}
+{: .language-python}
 
 Finally to run everything we need to call the process_data function, this takes three parameters, the GDP filename, the life expectancy filename and the year we want to process as a string.
 
@@ -442,7 +447,7 @@ Finally to run everything we need to call the process_data function, this takes 
 process_data("../data/worldbank-gdp.csv",
              "../data/gapminder-life-expectancy.csv", "1980")
 ~~~
-{: .python}
+{: .language-python}
 
 
 ### Graphing the data
@@ -460,12 +465,12 @@ def make_graph(x_data, y_data, linear_data):
 
     plt.show()
 ~~~
-{: .python}
+{: .language-python}
 
 The process_data function gave us a choice of plotting either the logarithmic or non-logarithmic version of the data depending on which data we pass to make_graph. If we uncomment the line `# make_graph(life_exp, gdp_log, log_data)` and comment the line `make_graph(life_exp, gdp, linear_data)` then we can switch to showing the logarithmic version. 
 
 
-> # Comparing the logarithmic and non-logarithmic graphs
+> ## Comparing the logarithmic and non-logarithmic graphs
 >
 > Convert the code above to plot the logarithmic version of the graph.
 > Save the graph.
@@ -474,8 +479,10 @@ The process_data function gave us a choice of plotting either the logarithmic or
 {: .challenge}
 
 
-> # Removing outliers from the data
+> ## Removing outliers from the data
 > The correlation of GDP and life expectancy has a few big outliers that are probably increasing the error rate on this model. These are typically countries with very high GDP and sometimes not very high life expectancy. These tend to be either small countries with artificially high GDPs such as Monaco and Luxemborg or oil rich countries such as Qatar or Brunei. Kuwait, Qatar and Brunei have already been removed from this data set, but are available in the file worldbank-gdp-outliers.csv. Try experimenting with adding and removing some of these high income countries to see what effect it has on your model's error rate.
 > Do you think its a good idea to remove these outliers from your model?
 > How might you do this automatically?
 {: .challenge}
+
+{% include links.md %}

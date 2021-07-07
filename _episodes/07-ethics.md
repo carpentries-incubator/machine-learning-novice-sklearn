@@ -23,7 +23,7 @@ In recent year's we've seen a number of worrying problems from machine learning 
 * Highly targetted advertising based around social media and internet usage. [\[2\]](https://www.wired.com/story/big-tech-can-use-ai-to-extract-many-more-ad-dollars-from-our-clicks/)
 * The outcomes of elections and referendums being influenced by highly targetted social media posts . This is compunded by the data being obtained without the users's consent. [\[3\]](https://www.vox.com/policy-and-politics/2018/3/23/17151916/facebook-cambridge-analytica-trump-diagram)
 * The mass deploymeny of facial recognition technologies. [\[4\]](https://www.bbc.co.uk/news/technology-44089161)
-* Increasing worries about the deployment of machine learning for military use. [\[5\]](https://www.independent.co.uk/life-style/gadgets-and-tech/killer-robots-ban-treaty-weapons-ai-rogue-states-military-research-development-human-rights-watch-a8778576.html)
+* The possible first use of autonomous military robots making a decision to kill in battle. [\[5\]](https://www.theverge.com/2021/6/3/22462840/killer-robot-autonomous-drone-attack-libya-un-report-context)
 
 ## Problems with bias
 
@@ -58,12 +58,12 @@ Some questions you might want to ask yourself (and which an ethics committee mig
  * Will you be using any people to create your training data? Will they have to look at any disturbing or traumatic material during the training process?
  * Are there any inherent biases in the dataset(s) you're using for training?
 
-> # Exercsie: Ethical implications of your own research
+
+> ## Exercise: Ethical implications of your own research
 > Split into pairs or groups of three.
 > Think of a use case for machine learning in your research areas.
 > What ethical implications (if any) might there be from using machine learning in your research?
 > Write down your group's answers in the etherpad.
 {: .challenge}
 
-
-
+{% include links.md %}

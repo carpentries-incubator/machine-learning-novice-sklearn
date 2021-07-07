@@ -15,6 +15,7 @@ keypoints:
 - "PCA is a linear dimensionality reduction technique for tabular data"
 - "t-SNE is another dimensionality reduction technique for tabular data that is more general than PCA"
 ---
+
 # Dimensionality Reduction
 
 Dimensionality reduction is the process of using a subset of the coordinates, 
@@ -153,3 +154,6 @@ plt.savefig("tsne.svg")
 > for automation in critical scenarios?  What about for interactive data 
 > exploration?
 {: .challenge}
+
+{% include links.md %}
+
