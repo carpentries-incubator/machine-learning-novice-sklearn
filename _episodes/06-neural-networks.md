@@ -63,7 +63,6 @@ def perceptron(inputs, weights, threshold):
     else:
         return 1
 ~~~
-
 {: .language-python}
 
 
