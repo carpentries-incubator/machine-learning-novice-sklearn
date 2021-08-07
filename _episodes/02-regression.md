@@ -148,7 +148,7 @@ def make_graph(x_data, y_data, linear_data):
     plt.show()
     
 x_data = [2,3,5,7,9]
-y_data = [4,5,7,10,15]]
+y_data = [4,5,7,10,15]
 
 m, c = least_squares([x_data, y_data])
 linear_data = make_linear(x_data, m, c)
