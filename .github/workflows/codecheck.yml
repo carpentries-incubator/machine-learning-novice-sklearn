@@ -1,0 +1,49 @@
+name: Code Check
+on:
+  push:
+    branches:
+      - gh-pages
+      - main
+      - code-check-action
+  pull_request: []
+  workflow_dispatch:
+jobs:
+  code-check:
+    runs-on: ubuntu-20.04
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install Python modules
+        run: |
+          python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests matplotlib scikit-learn pandas
+      - name: Install Code Checker
+        run: |
+          python3 -m pip install --upgrade git+https://github.com/esciencecenter-digital-skills/cce.git#egg=cce
+      - name: Checkout the lesson
+        uses: actions/checkout@v2
+
+      - name: Download prerequisite files
+        run: |
+          wget -O gapminder-life-expectancy.csv https://github.com/carpentries-incubator/machine-learning-novice-sklearn/blob/gh-pages/data/gapminder-life-expectancy.csv
+          wget -O worldbank-gdp.csv https://github.com/carpentries-incubator/machine-learning-novice-sklearn/blob/gh-pages/data/worldbank-gdp.csv
+          wget -O worldbank-gdp-outliers.csv https://github.com/carpentries-incubator/machine-learning-novice-sklearn/blob/gh-pages/data/worldbank-gdp-outliers.csv
+      - name: Run code checker
+        run: |
+          ls -l
+          pwd
+          ls -l _episodes/
+          FILES="_episodes/*"
+          for f in $FILES
+          do
+            echo "Checking $f"
+            cce -f "$f"
+          done
+        shell: bash {0} # opt out of fail-fast
