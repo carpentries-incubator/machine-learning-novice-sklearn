@@ -26,7 +26,9 @@ jobs:
           python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests matplotlib scikit-learn pandas
       - name: Install Code Checker
         run: |
-          python3 -m pip install --upgrade git+https://github.com/esciencecenter-digital-skills/cce.git#egg=cce
+          #python3 -m pip install --upgrade git+https://github.com/esciencecenter-digital-skills/cce.git#egg=cce
+          wget -O /usr/local/bin/cce https://raw.githubusercontent.com/colinsauze/cce/master/cce/main.py 
+          chmod 755 /usr/local/bin/cce
       - name: Checkout the lesson
         uses: actions/checkout@v2
 
