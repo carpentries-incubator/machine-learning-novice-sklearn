@@ -8,7 +8,7 @@ questions:
 objectives:
 - "Learn how to use linear regression to produce a model from data."
 - "Learn how to model non-linear data using a logarithmic."
-- "Learn how to measure the error between the original data and a linear model." 
+- "Learn how to measure the error between the original data and a linear model."
 keypoints:
 - "We can model linear data using a linear or least squares regression."
 - "A linear regression model can be used to predict future values."
@@ -18,16 +18,16 @@ keypoints:
 
 # Linear regression
 
-If we take two variable and graph them against each other we can look for relationships between them. Once this relationship is established we can use that to produce a model which will help us predict future values of one variable given the other. 
+If we take two variable and graph them against each other we can look for relationships between them. Once this relationship is established we can use that to produce a model which will help us predict future values of one variable given the other.
 
-If the two variables form a linear relationship (a straight line can be drawn to link them) then we can create a linear equation to link them. This will be of the form y = m * x + c, where x is the variable we know, y is the variable we're calculating, m is the slope of the line linking them and c is the point at which the line crosses the y axis (where x = 0). 
+If the two variables form a linear relationship (a straight line can be drawn to link them) then we can create a linear equation to link them. This will be of the form y = m * x + c, where x is the variable we know, y is the variable we're calculating, m is the slope of the line linking them and c is the point at which the line crosses the y axis (where x = 0).
 
 Using the Gapminder website we can graph all sorts of data about the development of different countries. Lets have a look at the change in [life expectancy over time in the United Kingdom](https://www.gapminder.org/tools/#$state$time$value=2018&showForecast:true&delay:100;&entities$filter$;&dim=geo;&marker$select@$geo=gbr&trailStartTime=1800;;&axis_x$which=time&domainMin:null&domainMax:null&zoomedMin=1800&zoomedMax=2018&scaleType=time&spaceRef:null;&axis_y$domainMin:null&domainMax:null&zoomedMin:1&zoomedMax:84.17&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles).
 
-Since around 1950 life expectancy appears to be increasing with a pretty straight line in other words a linear relationship. We can use this data to try and calculate a line of best fit that will attempt to draw a perfectly straight line through this data. One method we can use is called [linear regression or least square regression](https://www.mathsisfun.com/data/least-squares-regression.html). The linear regression will create a linear equation that minimises the average distance from the line of best fit to each point in the graph. It will calculate the values of m and c for a linear equation for us. We could do this manually, but lets use Python to do it for us. 
+Since around 1950 life expectancy appears to be increasing with a pretty straight line in other words a linear relationship. We can use this data to try and calculate a line of best fit that will attempt to draw a perfectly straight line through this data. One method we can use is called [linear regression or least square regression](https://www.mathsisfun.com/data/least-squares-regression.html). The linear regression will create a linear equation that minimises the average distance from the line of best fit to each point in the graph. It will calculate the values of m and c for a linear equation for us. We could do this manually, but lets use Python to do it for us.
 
 
-## Coding a linear regression with Python 
+## Coding a linear regression with Python
 This code will calculate a least squares or linear regression for us.
 
 ~~~
@@ -64,7 +64,7 @@ def least_squares(data):
 ~~~
 {: .language-python}
 
-Lets test our code by using the example data from the mathsisfun link above. 
+Lets test our code by using the example data from the mathsisfun link above.
 
 ~~~
 x_data = [2,3,5,7,9]
@@ -84,11 +84,12 @@ m= 1.5182926829268293 c= 0.30487804878048763
 
 ### Testing the accuracy of a linear regression model
 
-We now have a simple linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model's y value with the original. We can turn this into a single overall error number by calculating the root mean square (RMS), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMS gives us an overall error number which we can then use to measure our model's accuracy with. The following code calculates RMS in Python. 
+We now have a simple linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model's y value with the original. We can turn this into a single overall error number by calculating the root mean square (RMS), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMS gives us an overall error number which we can then use to measure our model's accuracy with. The following code calculates RMS in Python.
 
 ~~~
 import math
 def measure_error(data1, data2):
+
     assert len(data1) == len(data2)
     err_total = 0
     for i in range(0, len(data1)):
@@ -100,7 +101,7 @@ def measure_error(data1, data2):
 {: .language-python}
 
 
-To calculate the RMS for the test data we just used we need to calculate the y coordinate for every x coordinate (2,3,5,7,9) that we had in the original data. 
+To calculate the RMS for the test data we just used we need to calculate the y coordinate for every x coordinate (2,3,5,7,9) that we had in the original data.
 
 ~~~
 # get the m and c values from the least_squares function
@@ -129,7 +130,7 @@ To compare our model and data lets graph both of them using matplotlib.
 ~~~
 import matplotlib.pyplot as plt
 
-def make_linear(x_data, m, c):
+def calculate_linear(x_data, m, c):
     linear_data = []
     for x in x_data:
         y = m * x + c
@@ -145,13 +146,13 @@ def make_graph(x_data, y_data, linear_data):
     plt.legend()
 
     plt.show()
-    
+
 x_data = [2,3,5,7,9]
 y_data = [4,5,7,10,15]
 
 m, c = least_squares([x_data, y_data])
-linear_data = make_linear(x_data, m, c)
-make_graph(x_data, y_data, make_linear(x_data, m, c))
+linear_data = calculate_linear(x_data, m, c)
+make_graph(x_data, y_data, calculate_linear(x_data, m, c))
 
 ~~~
 {: .language-python}
@@ -165,7 +166,7 @@ Now lets try and model some real data with linear regression. We'll use the [Gap
 
 ~~~
 # put this line at the top of the file
-import pandas as pd 
+import pandas as pd
 
 def process_life_expectancy_data(filename, country, min_date, max_date):
     df = pd.read_csv(filename, index_col="Life expectancy")
@@ -181,7 +182,7 @@ def process_life_expectancy_data(filename, country, min_date, max_date):
 
     # calculate line of best fit
     m, c = least_squares([x_data, life_expectancy])
-    linear_data = make_linear(x_data, m, c)
+    linear_data = calculate_linear(x_data, m, c)
 
     error = measure_error(life_expectancy, linear_data)
     print("error is ", error)
@@ -196,11 +197,11 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 
 > ## Modelling Life Expectancy
 >
-> Combine all the code above into a single Python file, save it into a directory called code. 
+> Combine all the code above into a single Python file, save it into a directory called code.
 >
 > In the parent directory create another directory called data
 >
-> Download the file [https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv](https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv) into the data directory 
+> Download the file [https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv](https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv) into the data directory
 > The full code from above is also available to download from [https://scw-aberystwyth.github.io/machine-learning-novice/code/linear_regression.py](https://scw-aberystwyth.github.io/machine-learning-novice/code/linear_regression.py)
 >
 > If you're using a Unix or Unix like environment the following commands will do this in your home directory:
@@ -218,9 +219,9 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > > ## Solution
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Germany", 1950, 2000)
-> > ~~~ 
+> > ~~~
 > > {: .language-python}
-> > 
+> >
 > > m= 0.212219909502 c= -346.784909502
 > {: .solution}
 {: .challenge}
@@ -235,7 +236,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > >     print(x,0.212219909502 * x - 346.784909502)
 > > ~~~
 > > {: .language-python}
-> > 
+> >
 > > Predicted answers:
 > > ~~~
 > > 2001 77.86712941150199
@@ -255,6 +256,8 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > > 2015 80.83820814453003
 > > 2016 81.05042805403201
 > > ~~~
+> > {: .output}
+> >
 > > Compare with the real values:
 > > ~~~
 > > df = pd.read_csv('../data/gapminder-life-expectancy.csv',index_col="Life expectancy")
@@ -264,7 +267,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
 > > ~~~
 > > {: .language-python}
-> > 
+> >
 > > ~~~
 > > 2001 Predicted 77.86712941150199 Real 78.4 Difference -0.532870588498
 > > 2002 Predicted 78.07934932100403 Real 78.6 Difference -0.520650678996
@@ -283,7 +286,9 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > > 2015 Predicted 80.83820814453003 Real 80.8 Difference 0.03820814453
 > > 2016 Predicted 81.05042805403201 Real 80.9 Difference 0.150428054032
 > > ~~~
-> > Answers are between 0.15 years over and 0.77 years under the reality. 
+> > {: .output}
+
+> > Answers are between 0.15 years over and 0.77 years under the reality.
 > > If this was being used in a pension scheme it might lead to a slight under prediction of life expectancy and cost the pension scheme a little more than expected.
 > {: .solution}
 {: .challenge}
@@ -292,7 +297,7 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 
 
 > ## Predicting Historical Life Expectancy
-> 
+>
 > Now change your program to measure life expectancy in Canada between 1890 and 1914. Use the resulting m and c values to predict life expectancy in 1918. How accurate is your answer?
 > If your answer was inaccurate, why was it inaccurate? What does this tell you about extrapolating models like this?
 > > ## Solution
@@ -300,28 +305,31 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Canada", 1890, 1914)
 > > ~~~
 > > {: .language-python}
-> > 
+> >
+> > ~~~
 > > m = 0.369807692308 c = -654.215830769
+> > ~~~
+> > {: .output}
+> >
 > > ~~~
 > > print(1918 * 0.369807692308  -654.215830769)
 > > ~~~
 > > {: .language-python}
-> > predicted age: 55.0753, actual 47.17
-> > Inaccurate due to WW1 and flu epedemic. Major events can produce trends that we've not seen before (or not for a long time), our models struggle to take account of things they've never seen.
+> > The predicted age is 55.0753 but the actual age is 47.17. This is inaccurate due to WW1 and the subsequent flu epidemic. Major events can produce trends that we've not seen before (or not for a long time), our models struggle to take account of things they've never seen.
 > > Even if we look back to 1800, the earliest date we have data for we never see a sudden drop in life expectancy like the 1918 one.
 > {: .solution}
 {: .challenge}
 
 # Logarithmic Regression
 
-We've now seen how we can use linear regression to make a simple model and use that to predict values, but what do we do when the relationship between the data isn't linear? 
+We've now seen how we can use linear regression to make a simple model and use that to predict values, but what do we do when the relationship between the data isn't linear?
 
-As an example lets take the relationship between income (GDP per Capita) and life expectancy. The gapminder website will [graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) this for us. 
+As an example lets take the relationship between income (GDP per Capita) and life expectancy. The gapminder website will [graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) this for us.
 
 > ## Logarithms Introduction
 > Logarithms are the inverse of an exponent (raising a number by a power).
-> ``` 
-> log b(a) = c 
+> ```
+> log b(a) = c
 > b^c = a
 > ```
 > For example:
@@ -333,7 +341,7 @@ As an example lets take the relationship between income (GDP per Capita) and lif
 {: .callout}
 
 
-The relationship between these two variables clearly isn't linear. But there is a trick we can do to make the data appear to be linear, we can take the logarithm of the Y axis (the GDP) by clicking on the arrow on the left next to GDP/capita and choosing log. [This graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&scaleType=log&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) now appears to be linear. 
+The relationship between these two variables clearly isn't linear. But there is a trick we can do to make the data appear to be linear, we can take the logarithm of the Y axis (the GDP) by clicking on the arrow on the left next to GDP/capita and choosing log. [This graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&scaleType=log&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) now appears to be linear.
 
 
 ## Coding a logarithmic regression
@@ -344,11 +352,11 @@ Download the GDP data from [http://scw-aberystwyth.github.io/machine-learning-no
 
 ### Loading the data
 
-We need to modify our code a little to work with this example. Firstly the data is now stored in two different files so we'll have to read both of them and combine them together. The two datasets don't quite have an identical list of countries, the life expectancy data is from gapminder themselves and includes French Overseas Departments and British Overseas Territories as seperate entities, it also includes Taiwan. The GDP data is from the World Bank and doesn't differentiate many of the overseas territories/departments and doesn't include Taiwan. Some countries are also lacking GDP data, life expectancy or both. When we load the data we'll have to discard any country which doesn't have valid data in both datasets. Missing data is marked as an NaN (not a number), when loading it we'll have to check for NaN's using the `math.isnan()` function. 
+We need to modify our code a little to work with this example. Firstly the data is now stored in two different files so we'll have to read both of them and combine them together. The two datasets don't quite have an identical list of countries, the life expectancy data is from gapminder themselves and includes French Overseas Departments and British Overseas Territories as seperate entities, it also includes Taiwan. The GDP data is from the World Bank and doesn't differentiate many of the overseas territories/departments and doesn't include Taiwan. Some countries are also lacking GDP data, life expectancy or both. When we load the data we'll have to discard any country which doesn't have valid data in both datasets. Missing data is marked as an NaN (not a number), when loading it we'll have to check for NaN's using the `math.isnan()` function.
 
-To match the analysis we just did on the gapminder website we only want to focus on a single year, so we'll filter the data down to a single year which the user can specify. 
+To match the analysis we just did on the gapminder website we only want to focus on a single year, so we'll filter the data down to a single year which the user can specify.
 
-Finally the data is sorted in the files by country name, but to help with graphing it later on we need to sort it by life expectancy instead. For this we can use Pandas `sort_values()` function to do this. 
+Finally the data is sorted in the files by country name, but to help with graphing it later on we need to sort it by life expectancy instead. For this we can use Pandas `sort_values()` function to do this.
 
 ~~~
 def read_data(gdp_file, life_expectancy_file, year):
@@ -388,7 +396,7 @@ def read_data(gdp_file, life_expectancy_file, year):
 
 ### Processing the data
 
-Once the data is loaded we'll need to convert the GDP data to its logarithmic form by using the `math.log()` function. Pandas has a special function called `apply` which can apply an operation to every item in a column, by using the statement `data["GDP"].apply(math.log)` it will calculate the logarithmic form of every value in the GDP column and turn it into a new dataframe. We'll convert the data into two lists to simplify working with it, these can be used by the least_squares, make_graph and measure_error functions. 
+Once the data is loaded we'll need to convert the GDP data to its logarithmic form by using the `math.log()` function. Pandas has a special function called `apply` which can apply an operation to every item in a column, by using the statement `data["GDP"].apply(math.log)` it will calculate the logarithmic form of every value in the GDP column and turn it into a new dataframe. We'll convert the data into two lists to simplify working with it, these can be used by the least_squares, make_graph and measure_error functions.
 
 Once we've calculated the line of best fit with the least_squares function we can graph it. But now we have two choices on how to do the graphing, we can either leave the data in its logarithmic form and draw a straight line of best fit. Or we could convert it back to its original form with the `math.exp()` function and graph the curved line of best fit. To allow us to do either we'll calculate both forms of the line of best fit and store them in the lists linear_data and log_data.
 
@@ -419,23 +427,45 @@ def process_data(gdp_file, life_expectancy_file, year):
 
     err = measure_error(linear_data, gdp)
     print("error=", err)
-    
+
 ~~~
 {: .language-python}
 
 
-A small change to the least_squares function is needed to handle this data. Previously we were working with dates on the x-axis and these were all strings which the least_squares function converted into integers. Now we have life expectancy on the x-axis and that data is already floats, so we need to remove the conversion to integers. Lets change the following line in our least_squares function to do this:
+A small change to the least_squares function is needed to handle this data. Previously we were working with dates on the x-axis and these were all strings which the least_squares function converted into integers. Now we have life expectancy on the x-axis and that data is already floats, so we need to remove the conversion to integers. Lets change the line ```x = int(data[0][1]``` in our least_squares function to ```x = data[0][1]```.
 
 
 ~~~
-x = int(data[0][i])
-~~~
-{: .language-python}
+def least_squares(data):
+    x_sum = 0
+    y_sum = 0
+    x_sq_sum = 0
+    xy_sum = 0
 
-to 
+    # the list of data should have two equal length columns
+    assert len(data) == 2
+    assert len(data[0]) == len(data[1])
 
-~~~
-x = data[0][i]
+    n = len(data[0])
+    # least squares regression calculation
+    for i in range(0, n):
+        x = data[0][i]
+        y = data[1][i]
+        x_sum = x_sum + x
+        y_sum = y_sum + y
+        x_sq_sum = x_sq_sum + (x**2)
+        xy_sum = xy_sum + (x*y)
+
+    m = ((n * xy_sum) - (x_sum * y_sum))
+    m = m / ((n * x_sq_sum) - (x_sum ** 2))
+    c = (y_sum - m * x_sum) / n
+
+    print("Results of linear regression:")
+    print("x_sum=", x_sum, "y_sum=", y_sum, "x_sq_sum=", x_sq_sum, "xy_sum=",
+          xy_sum)
+    print("m=", m, "c=", c)
+
+    return m, c
 ~~~
 {: .language-python}
 
@@ -450,7 +480,7 @@ process_data("../data/worldbank-gdp.csv",
 
 ### Graphing the data
 
-Previously we drew a line graph showing life expectancy over time. This made sense as a line as it was tracking a single variable over time. But now we are plotting two variables against each other and need to use a scatter graph instead, so we'll change the first `plt.plot` call to `plt.scatter`. 
+Previously we drew a line graph showing life expectancy over time. This made sense as a line as it was tracking a single variable over time. But now we are plotting two variables against each other and need to use a scatter graph instead, so we'll change the first `plt.plot` call to `plt.scatter`.
 
 ~~~
 def make_graph(x_data, y_data, linear_data):
@@ -464,7 +494,7 @@ def make_graph(x_data, y_data, linear_data):
 ~~~
 {: .language-python}
 
-The process_data function gave us a choice of plotting either the logarithmic or non-logarithmic version of the data depending on which data we pass to make_graph. If we uncomment the line `# make_graph(life_exp, gdp_log, log_data)` and comment the line `make_graph(life_exp, gdp, linear_data)` then we can switch to showing the logarithmic version. 
+The process_data function gave us a choice of plotting either the logarithmic or non-logarithmic version of the data depending on which data we pass to make_graph. If we uncomment the line `# make_graph(life_exp, gdp_log, log_data)` and comment the line `make_graph(life_exp, gdp, linear_data)` then we can switch to showing the logarithmic version.
 
 
 > ## Comparing the logarithmic and non-logarithmic graphs
@@ -472,7 +502,7 @@ The process_data function gave us a choice of plotting either the logarithmic or
 > Convert the code above to plot the logarithmic version of the graph.
 > Save the graph.
 > Now change back to the non-logarithmic version.
-> Compare the two graphs, which one do you think is easier to read? 
+> Compare the two graphs, which one do you think is easier to read?
 {: .challenge}
 
 
