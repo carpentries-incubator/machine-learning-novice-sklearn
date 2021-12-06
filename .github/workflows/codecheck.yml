@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Python modules
         run: |
-          python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests matplotlib scikit-learn pandas
+          python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests matplotlib scikit-learn pandas pytest dataclasses
       - name: Install Code Checker
         run: |
           #python3 -m pip install --upgrade git+https://github.com/esciencecenter-digital-skills/cce.git#egg=cce
