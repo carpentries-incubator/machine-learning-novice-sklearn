@@ -38,8 +38,8 @@ def least_squares(data):
     xy_sum = 0
 
     # the list of data should have two equal length columns
-    assert len(data[0]) == len(data[1])
     assert len(data) == 2
+    assert len(data[0]) == len(data[1])
 
     n = len(data[0])
     # least squares regression calculation
@@ -104,7 +104,7 @@ To calculate the RMS for the test data we just used we need to calculate the y c
 
 ~~~
 # get the m and c values from the least_squares function
-m, c = least_squares([x_data,y_data])
+m, c = least_squares([x_data, y_data])
 
 # create an empty list for the model y data
 linear_data = []
@@ -138,7 +138,6 @@ def make_linear(x_data, m, c):
     return(linear_data)
 
 def make_graph(x_data, y_data, linear_data):
-
     plt.plot(x_data, y_data, label="Original Data")
     plt.plot(x_data, linear_data, label="Line of best fit")
 
@@ -148,7 +147,7 @@ def make_graph(x_data, y_data, linear_data):
     plt.show()
     
 x_data = [2,3,5,7,9]
-y_data = [4,5,7,10,15]]
+y_data = [4,5,7,10,15]
 
 m, c = least_squares([x_data, y_data])
 linear_data = make_linear(x_data, m, c)
@@ -169,7 +168,6 @@ Now lets try and model some real data with linear regression. We'll use the [Gap
 import pandas as pd 
 
 def process_life_expectancy_data(filename, country, min_date, max_date):
-
     df = pd.read_csv(filename, index_col="Life expectancy")
 
     # get the life expectancy for the specified country/dates
@@ -456,7 +454,6 @@ Previously we drew a line graph showing life expectancy over time. This made sen
 
 ~~~
 def make_graph(x_data, y_data, linear_data):
-
     plt.scatter(x_data, y_data, label="Original Data")
     plt.plot(x_data, linear_data, color="orange", label="Line of best fit")
 
