@@ -5,7 +5,7 @@ title: Setup
 
 You will need to have an installation of Python 3 with the matplotlib, pandas, numpy and optionally opencv packages. 
 
-The [Anaconda Distribution](https://www.anaconda.com/distribution/#download-section) includes all of these except opencv by default.
+The [Anaconda Distribution](https://www.anaconda.com/products/individual#Downloads) includes all of these except opencv by default.
 
 ## Installing OpenCV with Anaconda
 
