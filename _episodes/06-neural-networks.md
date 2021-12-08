@@ -9,8 +9,8 @@ objectives:
 - "Create a perceptron to encode a simple function."
 - "Understand that a single perceptron cannot solve a problem requiring non-linear separability."
 - "Understand that layers of perceptrons allow non-linear separable problems to be solved."
-- "Train a multilayer perceptron using scikit-learn."
-- "Evaluate the accuracy of a multilayer perceptron using real input data."
+- "Train a multi-layer perceptron using scikit-learn."
+- "Evaluate the accuracy of a multi-layer perceptron using real input data."
 - "Understand that cross validation allows the entire data set to be used in the training process."
 keypoints:
 - "Perceptrons are artificial neurons which build neural networks."
@@ -149,27 +149,27 @@ A single perceptron cannot solve any function that is not linearly separable, me
 This function outputs a zero both when all its inputs are one or zero and its not possible to separate with a straight line. This is known as linear separability, when this limitation was discovered in the 1960s it effectively halted development of neural networks for over a decade in a period known as the "AI Winter".
 
 
-## Multi Layer Perceptrons
+## Multi-layer Perceptrons
 
 A single perceptron cannot be used to solve a non-linearly separable function. For that we need to use multiple perceptrons and typically multiple layers of perceptrons. They are formed of networks of artificial neurons which each take one or more inputs and typically have a single output. The neurons are connected together in large networks typically of 10s to 1000s of neurons. Typically networks are connected in layers with an input layer, middle or hidden layer (or layers) and finally an output layer.
 
-![A multilayer perceptron](../fig/multilayer_perceptron.svg)
+![A multi-layer perceptron](../fig/multilayer_perceptron.svg)
 
-### Training multi layer perceptrons
+### Training Multi-layer perceptrons
 
-Multilayer perceptrons need to be trained by showing them a set of training data and measuring the error between the network's predicted output and the true value. Training takes an iterative approach that improves the network a little each time a new training example is presented. There are a number of training algorithms available for a neural network today, but we are going to use one of the best established and well known, the backpropagation algorithm. The algorithm is called back propagation because it takes the error calculated between an output of the network and the true value and takes it back through the network to update the weights. If you want to read more about back propagation see [this chapter](http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf) from the book "Neural Networks - A Systematic Introduction".
+Multi-layer perceptrons need to be trained by showing them a set of training data and measuring the error between the network's predicted output and the true value. Training takes an iterative approach that improves the network a little each time a new training example is presented. There are a number of training algorithms available for a neural network today, but we are going to use one of the best established and well known, the backpropagation algorithm. The algorithm is called back propagation because it takes the error calculated between an output of the network and the true value and takes it back through the network to update the weights. If you want to read more about back propagation see [this chapter](http://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf) from the book "Neural Networks - A Systematic Introduction".
 
-### Multilayer perceptrons in scikit-learn
+### Multi-layer perceptrons in scikit-learn
 
-We're going to build a multilayer perceptron for recognising handwriting from images. Scikit Learn includes some example handwriting data from the [MNIST data set](http://yann.lecun.com/exdb/mnist/), this consists of 70,000 images of hand written digits. Each image is 28x28 pixels in size (784 pixels in total) and is represented in grayscale with values between zero for fully black and 255 for fully white. This means we'll need 784 perceptrons in our input layer, each taking the input of one pixel and 10 in our output layer to represent each digit we might classify. If trained correctly  then only the perceptron in the output layer to "fire" will be on the one representing the in the image (this is a massive oversimplification!).
+We're going to build a multi-layer perceptron for recognising handwriting from images. Scikit Learn includes some example handwriting data from the [MNIST data set](http://yann.lecun.com/exdb/mnist/), this consists of 70,000 images of hand written digits. Each image is 28x28 pixels in size (784 pixels in total) and is represented in grayscale with values between zero for fully black and 255 for fully white. This means we'll need 784 perceptrons in our input layer, each taking the input of one pixel and 10 in our output layer to represent each digit we might classify. If trained correctly  then only the perceptron in the output layer to "fire" will be on the one representing the in the image (this is a massive oversimplification!).
 
 We can import this dataset by doing `import sklearn.datasets as skl_data` and then load it into memory with `X, y = skl_data.fetch_openml('mnist_784', version=1, return_X_y=True)`. This creates two arrays of data, one called `data` contains the image data and the other `labels` contains the labels for those data which will tell us which digit is in the image.
 
 As neural networks typically want to work with data that ranges between 0 and 1.0 we need to normalise our data to this range. Python has a shortcut which lets us divide the entire data array by 255 and store the result, we can simply do `data = data / 255.0` instead of writing a loop ourselves to divide every pixel by 255. Although the final result is the same and will take the same (or very similar) amount of computation.
 
-Now we need to initalise a neural network, scikit learn has an entire library `sklearn.neural_network` for this and the `MLPClassifier` class handles multilayer perceptrons. This network takes a few parameters including the size of the hidden layer, the maximum number of training iterations we're going to allow, the exact algorithm to use, if we'd like verbose output about what the training is doing and the initial state of the random number generator.
+Now we need to initalise a neural network, scikit learn has an entire library `sklearn.neural_network` for this and the `MLPClassifier` class handles multi-layer perceptrons. This network takes a few parameters including the size of the hidden layer, the maximum number of training iterations we're going to allow, the exact algorithm to use, if we'd like verbose output about what the training is doing and the initial state of the random number generator.
 
-In this example we specify a multilayer perceptron with 50 hidden nodes, we allow a maximum of 50 iterations to train it, we turn on verbose output to see what's happening and initalise the random state to 1 so that we always get the same behaviour.
+In this example we specify a multi-layer perceptron with 50 hidden nodes, we allow a maximum of 50 iterations to train it, we turn on verbose output to see what's happening and initalise the random state to 1 so that we always get the same behaviour.
 
 `mlp = skl_nn.MLPClassifier(hidden_layer_sizes=(50,), max_iter=50, verbose=1, random_state=1)`
 
