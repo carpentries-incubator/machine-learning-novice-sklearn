@@ -16,7 +16,7 @@ keypoints:
 
 # Ethics and Machine Learning
 
-There are increasing worries about the ethics of using machine learning. 
+There are increasing worries about the ethics of using machine learning.
 In recent year's we've seen a number of worrying problems from machine learning entering all kinds of aspects of daily life and the economy:
 
 * The first death from an autonomous car which failed to brake for a pedestrian.[\[1\]](https://www.forbes.com/sites/meriameberboucha/2018/05/28/uber-self-driving-car-crash-what-really-happened/)
@@ -27,28 +27,32 @@ In recent year's we've seen a number of worrying problems from machine learning 
 
 ## Problems with bias
 
-Machine learning systems are often presented as more impartial and consistent ways to make decisions. For example sentencing criminals or 
-deciding if somebody should be granted bail. There have been a number of examples recently where machine learning systems have been shown to 
-be biased because the data they were trained on was already biased. This can occur due to the training data being unrepresentative and 
-under representing certain groups. For example if you were trying to automatically screen job candidates and used a sample of people the 
+Machine learning systems are often presented as more impartial and consistent ways to make decisions. For example sentencing criminals or
+deciding if somebody should be granted bail. There have been a number of examples recently where machine learning systems have been shown to
+be biased because the data they were trained on was already biased. This can occur due to the training data being unrepresentative and
+under representing certain groups. For example if you were trying to automatically screen job candidates and used a sample of people the
 same company had previously decided to employ then any biases in their past employment processes would be reflected in the machine learning.
 
 ## Problems with explaining decisions
 
 Many machine learning systems (e.g. neural networks) can't really explain their decisions. Although the input and output are known trying to
-explain why the training caused the network to behave in a certain way can be very difficult. If a decision is questioned by a human its 
+explain why the training caused the network to behave in a certain way can be very difficult. If a decision is questioned by a human its
 difficult to provide any rationale as to how a decision was arrived at.
 
 ## Problems with accuracy
 
-No machine learning system is ever 100% accurate. Getting into the high 90s is usually considered good. 
-But when we're evaluating millions of data items this can translate into 100s of thousands of mis-identifications. 
-If the implications of these incorrect decisions are serious then it will cause major problems. For instance if it results in somebody 
+No machine learning system is ever 100% accurate. Getting into the high 90s is usually considered good.
+But when we're evaluating millions of data items this can translate into 100s of thousands of mis-identifications.
+If the implications of these incorrect decisions are serious then it will cause major problems. For instance if it results in somebody
 being imprisoned or even investigated for a crime or maybe just being denied insurance or a credit card.
+
+## Energy Usage
+
+Many machine learning systems (especially deep learning) need vast amounts of computational power which in turn can consume vast amounts of energy. Depending on the source of that energy this might account for significant amounts of fossil fuels being burned. It is not uncommon for a modern GPU accelerated computer to use several kilowatts of power, running this for one hour could easily use as much energy a typical home would use in an entire day. This can be particularly bad when models are constantly being retrained or when "parameter sweeps" are done to find the best set of parameters to train with.
 
 # Ethics of machine learning in research
 
-Not all research using machine learning will have major ethical implications. 
+Not all research using machine learning will have major ethical implications.
 Many research projects don't directly affect the lives of other people, but this isn't always the case.
 
 Some questions you might want to ask yourself (and which an ethics committee might also ask you):
@@ -57,6 +61,7 @@ Some questions you might want to ask yourself (and which an ethics committee mig
  * Will anything your machine learning system does make a decision that somehow affects an animial's life?
  * Will you be using any people to create your training data? Will they have to look at any disturbing or traumatic material during the training process?
  * Are there any inherent biases in the dataset(s) you're using for training?
+ * How much energy will this computation use? Are there more efficient ways to get the same answer?
 
 
 > ## Exercise: Ethical implications of your own research
