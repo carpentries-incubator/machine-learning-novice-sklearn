@@ -287,7 +287,6 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > > 2016 Predicted 81.05042805403201 Real 80.9 Difference 0.150428054032
 > > ~~~
 > > {: .output}
-
 > > Answers are between 0.15 years over and 0.77 years under the reality.
 > > If this was being used in a pension scheme it might lead to a slight under prediction of life expectancy and cost the pension scheme a little more than expected.
 > {: .solution}
