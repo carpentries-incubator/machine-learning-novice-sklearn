@@ -292,13 +292,11 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
 > {: .solution}
 {: .challenge}
 
-
-
-
 > ## Predicting Historical Life Expectancy
 >
 > Now change your program to measure life expectancy in Canada between 1890 and 1914. Use the resulting m and c values to predict life expectancy in 1918. How accurate is your answer?
 > If your answer was inaccurate, why was it inaccurate? What does this tell you about extrapolating models like this?
+> 
 > > ## Solution
 > > ~~~
 > > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Canada", 1890, 1914)
