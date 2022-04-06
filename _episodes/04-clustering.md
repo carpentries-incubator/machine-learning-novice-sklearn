@@ -26,7 +26,7 @@ means it can be applied quickly.
 
 ## Applications of Clustering
 * Looking for trends in data
-* Data compression, all data clustering around a point can be reduced to just that point. For example reducing colour depth of an image.
+* Data compression, all data clustering around a point can be reduced to just that point. For example, reducing colour depth of an image.
 * Pattern recognition
 
 ## K-means Clustering
@@ -45,21 +45,21 @@ import sklearn.cluster as skl_cluster
 ~~~
 {: .language-python}
 
-For this example we're going to use scikit learn's built in random data blob generator instead of using an external dataset. For this we'll also need the `sklearn.datasets.samples_generator` module.
+For this example, we're going to use scikit learn's built in random data blob generator instead of using an external dataset. For this we'll also need the `sklearn.datasets.samples_generator` module.
 
 ~~~
 import sklearn.datasets as skl_datasets
 ~~~
 {: .language-python}
 
-Now lets create some random blobs using the make_blobs function. The `n_samples` argument sets how many points we want to use in all of our blobs. `cluster_std` sets the standard deviation of the points, the smaller this value the closer together they will be. `centers` sets how many clusters we'd like. `random_state` is the initial state of the random number generator, by specifying this we'll get the same results every time we run the program. If we don't specify a random state then we'll get different points every time we run. This function returns two things, an array of data points and a list of which cluster each point belongs to.
+Now let's create some random blobs using the make_blobs function. The `n_samples` argument sets how many points we want to use in all of our blobs. `cluster_std` sets the standard deviation of the points, the smaller this value the closer together they will be. `centers` sets how many clusters we'd like. `random_state` is the initial state of the random number generator, by specifying this we'll get the same results every time we run the program. If we don't specify a random state then we'll get different points every time we run. This function returns two things, an array of data points and a list of which cluster each point belongs to.
 
 ~~~
 data, cluster_id = skl_datasets.make_blobs(n_samples=400, cluster_std=0.75, centers=4, random_state=1)
 ~~~
 {: .language-python}
 
-Now that we have some data we can go ahead and try to identify the clusters using K-means. First we need to initalise the KMeans module and tell it how many clusters to look for. Next we supply it some data via the fit function, in much the same we did with the regression functions earlier on. Finally we run the predict function to find the clusters.
+Now that we have some data we can go ahead and try to identify the clusters using K-means. First, we need to initialise the KMeans module and tell it how many clusters to look for. Next, we supply it some data via the fit function, in much the same we did with the regression functions earlier on. Finally, we run the predict function to find the clusters.
 
 ~~~
 Kmean = skl_cluster.KMeans(n_clusters=4)
@@ -69,7 +69,7 @@ clusters = Kmean.predict(data)
 {: .language-python}
 
 The data can now be plotted to show all the points we randomly generated. To make it clearer which cluster points have been classified to we can set the colours (the c parameter) to use the `clusters` list that was returned
-by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster as. These are stored as a list called `cluster_centers_` inside the `Kmean` object. Lets go ahead and plot the points from the clusters, colouring them by the output from the K-means algorithm and also plot the centres of each cluster as a red X.
+by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster as. These are stored as a list called `cluster_centers_` inside the `Kmean` object. Let's go ahead and plot the points from the clusters, colouring them by the output from the K-means algorithm, and also plot the centres of each cluster as a red X.
 
 ~~~
 import matplotlib.pyplot as plt
@@ -102,7 +102,7 @@ plt.show()
 > ## Working in multiple dimensions
 > Although this example shows two dimensions the kmeans algorithm can work in more than two, it just becomes very difficult to show this visually
 > once we get beyond 3 dimensions. Its very common in machine learning to be working with multiple variables and so our classifiers are working in
-> multi-dimensonal spaces.
+> multi-dimensional spaces.
 {: .callout}
 
 ### Limitations of K-Means
@@ -121,7 +121,7 @@ plt.show()
 * Suitable for large datasets due to its low memory and computing requirements.
 
 
-> ## Excercise: K-Means with overlapping clusters
+> ## Exercise: K-Means with overlapping clusters
 > Adjust the program above to increase the standard deviation of the blobs (the cluster_std parameter to make_blobs) and increase the number of samples (n_samples) to 4000.
 > You should start to see the clusters overlapping.
 > Do the clusters that are identified make sense?
