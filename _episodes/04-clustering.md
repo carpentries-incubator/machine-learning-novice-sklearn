@@ -238,11 +238,11 @@ plt.show()
 > > ~~~
 > > import matplotlib.pyplot as plt
 > > import sklearn.cluster as skl_cluster
-> > import sklearn.datasets.samples_generator as skl_smpl
+> > from sklearn.datasets import make_blobs 
 > > import time
 > >
 > > start_time = time.time()
-> > data, cluster_id = skl_smpl.make_blobs(n_samples=4000, cluster_std=3,
+> > data, cluster_id = make_blobs(n_samples=4000, cluster_std=3,
 > >                                        centers=4, random_state=1)
 > >
 > > for cluster_count in range(2,11):
@@ -252,6 +252,7 @@ plt.show()
 > >
 > >     plt.scatter(data[:, 0], data[:, 1], s=15, linewidth=0, c=clusters)
 > >     plt.title(str(cluster_count)+" Clusters")
+> > 
 > > plt.show()
 > >
 > > end_time = time.time()
@@ -263,10 +264,11 @@ plt.show()
 > > ~~~
 > > import matplotlib.pyplot as plt
 > > import sklearn.cluster as skl_cluster
-> > import sklearn.datasets.samples_generator as skl_smpl
+> > from sklearn.datasets import make_blobs 
 > > import time
+> > 
 > > start_time = time.time()
-> > data, cluster_id = skl_smpl.make_blobs(n_samples=4000, cluster_std=3,
+> > data, cluster_id = make_blobs(n_samples=4000, cluster_std=3,
 > >                                        centers=4, random_state=1)
 > >
 > > for cluster_count in range(2,11):
@@ -274,6 +276,7 @@ plt.show()
 > >                                        affinity='nearest_neighbors',
 > >                                        assign_labels='kmeans')
 > >     labels = model.fit_predict(data)
+> >     
 > >     plt.scatter(data[:, 0], data[:, 1], s=15, linewidth=0, c=labels)
 > >     plt.title(str(cluster_count)+" Clusters")
 > > plt.show()
