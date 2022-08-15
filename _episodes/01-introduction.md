@@ -63,7 +63,6 @@ The [Gartner Hype Cycle](https://www.gartner.com/en/research/methodologies/gartn
 
 ## Machine learning in our daily lives
 
- * [Speech to text (watch with the subtitles on)](https://www.youtube.com/watch?v=J3lYLphzAnw)
  * [Image recognition](https://www.youtube.com/watch?v=eve8DkkVdhI)
  * [Object classification](https://www.youtube.com/watch?v=VOC3huqHrss)
  * [Character recognition](https://www.youtube.com/watch?v=ocB8uDYXtt0)
