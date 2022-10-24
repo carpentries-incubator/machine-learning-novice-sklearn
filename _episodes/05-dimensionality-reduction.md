@@ -105,6 +105,7 @@ plt.ylabel("% of Total Variance")
 plt.show()
 ~~~
 {: .language-python}
+![Percent Variance Explained - Data](../fig/PCA_percent_variance.svg)
 
 ~~~
 # PCA
