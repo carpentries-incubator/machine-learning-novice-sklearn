@@ -47,20 +47,30 @@ y = digits.target
 ~~~
 {: .language-python}
 
+Check data type of X and y.
 ~~~
 print(type(X))
 print(type(y))
 ~~~
 {: .language-python}
-
+~~~
+<class 'numpy.ndarray'>
+<class 'numpy.ndarray'>
+~~~
+{: .output}
 ~~~
 print(np.shape(X)) # 1797 observations, 64 features/pixels
 print(np.shape(y))
 ~~~
 {: .language-python}
-
 ~~~
-# Calculate the percentage of variance accounted for by each variable in this dataset
+(1797, 64)
+(1797,)
+~~~
+{: .output}
+
+Calculate the percentage of variance accounted for by each variable in this dataset.
+~~~
 var_per_feat = np.var(X,0) # variance of each feature
 sum_var = np.sum(var_per_feat) # total variability summed across all features
 var_ratio_per_feat = var_per_feat/sum_var # 
@@ -73,6 +83,7 @@ plt.ylabel("% of Total Variance")
 plt.show()
 ~~~
 {: .language-python}
+![Percent Variance Explained - Data](../fig/Data_percent_variance.svg)
 
 This data has 64 pixels or features that can be fed into a model to predict digit classes. Features or pixels with more variability will often be more predictive of the target class because those pixels will tend to vary more with digit assignments. Unfortunately, each pixel/feature contributes just a small percentage of the total variance found in this dataset. This means that a machine learning model will likley require many training examples to learn how the features interact to predict a specific digit.
 
