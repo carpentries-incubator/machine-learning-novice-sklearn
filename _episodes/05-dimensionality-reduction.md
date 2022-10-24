@@ -47,11 +47,53 @@ y = digits.target
 ~~~
 {: .language-python}
 
+~~~
+print(type(X))
+print(type(y))
+~~~
+{: .language-python}
+
+~~~
+print(np.shape(X)) # 1797 observations, 64 features/pixels
+print(np.shape(y))
+~~~
+{: .language-python}
+
+~~~
+# Calculate the percentage of variance accounted for by each variable in this dataset
+var_per_feat = np.var(X,0) # variance of each feature
+sum_var = np.sum(var_per_feat) # total variability summed across all features
+var_ratio_per_feat = var_per_feat/sum_var # 
+print(sum(var_ratio_per_feat)) # should sum to 1.0
+
+# Plot the variance ratios ordered from largest to smallest
+plt.plot(np.sort(var_ratio_per_feat)[::-1]*100)
+plt.xlabel("Pixel ID")
+plt.ylabel("% of Total Variance")
+plt.show()
+~~~
+{: .language-python}
+
+This data has 64 pixels or features that can be fed into a model to predict digit classes. Features or pixels with more variability will often be more predictive of the target class because those pixels will tend to vary more with digit assignments. Unfortunately, each pixel/feature contributes just a small percentage of the total variance found in this dataset. This means that a machine learning model will likley require many training examples to learn how the features interact to predict a specific digit.
+
+As a general rule of thumb (with some [notable exceptions](https://openai.com/blog/deep-double-descent/)), as you increase the number of predictor variables used by a model, additional data is needed to fit a good model (i.e., one that isn't extremely overfit). When additional data isn't an option, a good choice is often dimensionality reduction techniques.
+
 ### Principle Component Analysis (PCA)
 
 PCA is a technique that does rotations of data in a two dimensional
 array to decompose the array into combinations vectors that are orthogonal
 and can be ordered according to the amount of information they carry.
+
+~~~
+pca = decomposition.PCA()
+pca.fit(X) # run PCA on X
+plt.plot(pca.explained_variance_ratio_*100)
+X_pca = pca.transform(X)
+plt.xlabel("Principal Component ID")
+plt.ylabel("% of Total Variance")
+plt.show()
+~~~
+{: .language-python}
 
 ~~~
 # PCA
