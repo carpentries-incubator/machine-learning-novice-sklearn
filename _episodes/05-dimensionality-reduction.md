@@ -58,6 +58,7 @@ print(type(y))
 <class 'numpy.ndarray'>
 ~~~
 {: .output}
+Check shape of X and y.
 ~~~
 print(np.shape(X)) # 1797 observations, 64 features/pixels
 print(np.shape(y))
