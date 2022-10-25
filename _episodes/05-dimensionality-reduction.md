@@ -194,6 +194,48 @@ print('Train accuracy:', train_accuracy)
 ~~~
 {: .language-python}
 
+> ## PCA when more data is available
+> Try changing the test_size argument to 0.2 in the two previous train_test_split() calls, and retrain the two decision tree models (one for X, one for X_pca[:,:10]). Does the model that uses only 10 principal components outperform (i.e., in terms of test accuracy) the model that uses untransformed data? Explain your observations.
+> > ## Solution
+> > When we increase the size of the training set, the larger model (trained on X) appears to outperform the model trained on only 10 principal components. With abundant data, additional features typically lead to enhanced predictive power. When we only consider 10 principal components, we ignore ~26% of the remaining variance in the data. By tossing out some of this variance, we reduce our likelihood of overfitting, but also reduce our ability to detect more complex mappings between additional features and our target class. 
+> > 
+> > ~~~
+> > X_train , X_test ,y_train, y_test = train_test_split(X, y, test_size =0.2, shuffle = True, random_state = 0, stratify=y)
+> > print('(#obs, #feats)=', X_train.shape)
+> >
+> > clf = DecisionTreeClassifier(random_state=0)
+> > clf.fit(X_train , y_train)
+> >
+> > y_pred = clf.predict(X_test)
+> > conf_mat = confusion_matrix(y_test,y_pred)
+> > print(conf_mat)
+> > test_accuracy = clf.score(X_test , y_test) # Returns the mean accuracy on the given test data and labels.
+> > print('Test accuracy:', test_accuracy)
+> > train_accuracy = clf.score(X_train , y_train) # Returns the mean accuracy on the given test data and labels.
+> > print('Train accuracy:', train_accuracy)
+> >
+> > X_train , X_test ,y_train, y_test = train_test_split(X_pca[:,:10], y, test_size =0.2, shuffle = True, random_state = 0, stratify=y) # model just the first 10 principal components
+> > print('(#obs, #feats)=', X_train.shape)
+> >
+> > clf = DecisionTreeClassifier(random_state=0)
+> > clf.fit(X_train , y_train)
+> >
+> > y_pred = clf.predict(X_test)
+> >
+> > conf_mat = confusion_matrix(y_test,y_pred)
+> > print(conf_mat)
+> >
+> > test_accuracy = clf.score(X_test , y_test) # Returns the mean accuracy on the given test data and labels.
+> > print('Test accuracy:', test_accuracy)
+> > train_accuracy = clf.score(X_train , y_train) # Returns the mean accuracy on the given test data and labels.
+> > print('Train accuracy:', train_accuracy)
+> > 
+> > ~~~
+> > {: .language-python}
+> >
+> {: .solution}
+{: .challenge}
+
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
 
 ~~~
