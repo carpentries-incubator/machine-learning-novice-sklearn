@@ -69,6 +69,14 @@ print(np.shape(y))
 (1797,)
 ~~~
 {: .output}
+~~~
+# create a quick histogram to show number of observations per class
+plt.hist(y)
+plt.ylabel('Count')
+plt.xlabel('Digit')
+plt.show()
+~~~
+{: .language-python}
 
 Calculate the percentage of variance accounted for by each variable in this dataset.
 ~~~
@@ -88,13 +96,11 @@ plt.show()
 
 This data has 64 pixels or features that can be fed into a model to predict digit classes. Features or pixels with more variability will often be more predictive of the target class because those pixels will tend to vary more with digit assignments. Unfortunately, each pixel/feature contributes just a small percentage of the total variance found in this dataset. This means that a machine learning model will likley require many training examples to learn how the features interact to predict a specific digit.
 
-As a general rule of thumb (with some [notable exceptions](https://openai.com/blog/deep-double-descent/)), as you increase the number of predictor variables used by a model, additional data is needed to fit a good model (i.e., one that isn't extremely overfit). When additional data isn't an option, a good choice is often dimensionality reduction techniques.
-
 ### Principle Component Analysis (PCA)
 
-PCA is a technique that does rotations of data in a two dimensional
-array to decompose the array into combinations vectors that are orthogonal
-and can be ordered according to the amount of information they carry.
+PCA is a data transformation technique that allows you to represent variance across variables more efficiently. Specifically, PCA does rotations of data matrix (N observations x C features) in a two dimensional array to decompose the array into vectors that are orthogonal and can be ordered according to the amount of information/variance they carry. After transforming the data with PCA, each new variable (or pricipal component) can be thought of as a linear combination of several of the original variables. 
+
+Use the below code to run PCA on the MNIST dataset. This code will also plot the percentage of variance explained by each  principal component in the transformed dataset. Note how the percentage of variance explained is quite high for the first 10 or so principal components. Compare this plot with the one we made previously.
 
 ~~~
 pca = decomposition.PCA()
@@ -108,6 +114,7 @@ plt.show()
 {: .language-python}
 ![Percent Variance Explained - Data](../fig/PCA_percent_variance.svg)
 
+We can plot the data for the first two pricipal directions of variation — color coded according to digit class. Notice how the data separates rather nicely into different clusters representative of different digits.
 ~~~
 # PCA
 pca = decomposition.PCA(n_components=2)
@@ -124,6 +131,68 @@ plt.savefig("pca.svg")
 {: .language-python}
 
 ![Reduction using PCA](../fig/pca.svg)
+
+### PCA and Modeling
+In general (with some [notable exceptions](https://openai.com/blog/deep-double-descent/)), as you increase the number of predictor variables used by a model, additional data is needed to fit a good model (i.e., one that doesn't overfit the training data). Overfitting refers to when a model fits the training data *too well*, resulting in a model that fails to generalize to unseen test data. 
+
+A common solution to overfitting is to simply collect more data. However, data can be expensive to collect and label. When additional data isn't an option, a good choice is often dimensionality reduction techniques.
+
+To observe the benefits of dimensionality reduction in the context of modeling, let's fit a decision tree model to a small subset of our original MNIST dataset.
+
+~~~
+# fit model using just 5% for training data
+from sklearn.model_selection import train_test_split
+X_train , X_test ,y_train, y_test = train_test_split(X, y, test_size =0.95, shuffle = True, random_state = 0, stratify=y)
+print('(#obs, #feats)=', X_train.shape)
+
+from sklearn.tree import DecisionTreeClassifier 
+clf = DecisionTreeClassifier(random_state=0)
+clf.fit(X_train , y_train)
+
+from sklearn.metrics import confusion_matrix
+y_pred = clf.predict(X_test)
+
+conf_mat = confusion_matrix(y_test,y_pred)
+print(conf_mat)
+test_accuracy = clf.score(X_test , y_test) # Returns the mean accuracy on the given test data and labels.
+print('Test accuracy:', test_accuracy)
+train_accuracy = clf.score(X_train , y_train) # Returns the mean accuracy on the given test data and labels.
+print('Train accuracy:', train_accuracy)
+~~~
+{: .language-python}
+
+This model has a low accuracy score on the test dataset because we trained our model using only 89 observations. With few observations to learn from, the model appears to overfit the training data. If training set accuracy is high and test set accuracy is low, this is good evidence that you have an overfit model.
+
+To improve model performance and avoid overfitting, we can try to model the data using just the first ten principal components as input features to the model. With a smaller number of highly informative features to use in the decision tree, we should see an improvement in test accuracy.
+
+~~~
+# How much of the data's variance is explained by just the first 10 principal components?
+sum(pca.explained_variance_ratio_[0:10]*100)
+~~~
+{: .language-python}
+
+Even though we are using just 10 features to predict digit class, those 10 features (or principal components) account for a whopping 73.82% of the variance in our data. Let's see if these informative features will allow us to fit a decision tree model using a small dataset.
+
+~~~
+from sklearn.model_selection import train_test_split
+X_train , X_test ,y_train, y_test = train_test_split(X_pca[:,:10], y, test_size =0.95, shuffle = True, random_state = 0, stratify=y) # model just the first 10 principal components
+print(X_train.shape)
+
+clf = DecisionTreeClassifier(random_state=0)
+clf.fit(X_train , y_train)
+
+from sklearn.metrics import confusion_matrix
+y_pred = clf.predict(X_test)
+
+conf_mat = confusion_matrix(y_test,y_pred)
+print(conf_mat)
+
+test_accuracy = clf.score(X_test , y_test) # Returns the mean accuracy on the given test data and labels.
+print('Test accuracy:', test_accuracy)
+train_accuracy = clf.score(X_train , y_train) # Returns the mean accuracy on the given test data and labels.
+print('Train accuracy:', train_accuracy)
+~~~
+{: .language-python}
 
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
 
