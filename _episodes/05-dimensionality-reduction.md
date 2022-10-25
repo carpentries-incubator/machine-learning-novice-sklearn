@@ -180,7 +180,6 @@ print(X_train.shape)
 clf = DecisionTreeClassifier(random_state=0)
 clf.fit(X_train , y_train)
 
-from sklearn.metrics import confusion_matrix
 y_pred = clf.predict(X_test)
 
 conf_mat = confusion_matrix(y_test,y_pred)
