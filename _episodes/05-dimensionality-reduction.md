@@ -174,7 +174,6 @@ sum(pca.explained_variance_ratio_[0:10]*100)
 Even though we are using just 10 features to predict digit class, those 10 features (or principal components) account for a whopping 73.82% of the variance in our data. Let's see if these informative features will allow us to fit a decision tree model using a small dataset.
 
 ~~~
-from sklearn.model_selection import train_test_split
 X_train , X_test ,y_train, y_test = train_test_split(X_pca[:,:10], y, test_size =0.95, shuffle = True, random_state = 0, stratify=y) # model just the first 10 principal components
 print(X_train.shape)
 
@@ -213,7 +212,25 @@ print('Train accuracy:', train_accuracy)
 > > print('Test accuracy:', test_accuracy)
 > > train_accuracy = clf.score(X_train , y_train) # Returns the mean accuracy on the given test data and labels.
 > > print('Train accuracy:', train_accuracy)
-> >
+> > ~~~
+> > {: .language-python}
+> > ~~~
+> > (#obs, #feats)= (1437, 64)
+> > [[33  0  1  0  1  0  0  0  1  0]
+> >  [ 0 30  1  0  1  0  0  1  2  1]
+> >  [ 1  1 30  0  0  0  0  1  1  1]
+> >  [ 0  1  2 30  0  1  0  1  2  0]
+> >  [ 0  0  0  0 33  1  0  1  0  1]
+> >  [ 0  0  0  3  0 34  0  0  0  0]
+> >  [ 0  0  0  0  2  1 32  1  0  0]
+> >  [ 0  0  0  0  0  0  0 35  0  1]
+> >  [ 0  1  0  0  2  1  1  1 28  1]
+> >  [ 0  2  0  1  1  1  0  0  0 31]]
+> > Test accuracy: 0.8777777777777778
+> > Train accuracy: 1.0
+> > ~~~
+> > {: .output}
+> > ~~~
 > > X_train , X_test ,y_train, y_test = train_test_split(X_pca[:,:10], y, test_size =0.2, shuffle = True, random_state = 0, stratify=y) # model just the first 10 principal components
 > > print('(#obs, #feats)=', X_train.shape)
 > >
@@ -229,10 +246,24 @@ print('Train accuracy:', train_accuracy)
 > > print('Test accuracy:', test_accuracy)
 > > train_accuracy = clf.score(X_train , y_train) # Returns the mean accuracy on the given test data and labels.
 > > print('Train accuracy:', train_accuracy)
-> > 
 > > ~~~
 > > {: .language-python}
-> >
+> > ~~~
+> > (#obs, #feats)= (1437, 10)
+> > [[34  0  0  0  0  0  0  0  1  1]
+> >  [ 0 31  1  0  0  0  1  0  2  1]
+> >  [ 0  2 30  2  0  0  0  0  1  0]
+> >  [ 0  0  0 30  0  0  0  1  5  1]
+> >  [ 0  1  0  0 34  0  0  0  1  0]
+> >  [ 0  1  1  2  0 30  1  0  1  1]
+> >  [ 0  1  0  0  0  0 33  0  1  1]
+> >  [ 0  0  0  0  0  0  0 33  0  3]
+> >  [ 1  4  2  0  0  0  0  1 25  2]
+> >  [ 0  2  0  3  0  3  0  2  0 26]]
+> > Test accuracy: 0.85
+> > Train accuracy: 1.0
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
