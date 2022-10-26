@@ -22,73 +22,109 @@ SciKit Learn (also known as sklearn) is an open source machine learning library 
 
 ## Linear Regression with scikit-learn
 
-Lets adapt our linear regression program to use scikit-learn instead of our own regression function. We can go and remove the least_squares and measure_error functions from our code. We'll save this under a different filename to the original linear regression code so that we can compare the answers of the two, they should be identical.
+Instead of coding least squares, an error function, and a model prediction function from scratch, we can use the Sklearn library to help us speed up our machine learning code development. 
 
-First lets add the import for sklearn, we're also going to need the numpy library so we'll import that too:
+Let's create an adapted copy of process_life_expectancy_data() called process_life_expectancy_data_sklearn(). We'll replace our own functions (e.g., least_squares()) with Sklearn function calls.
 
+Start by adding some additional Sklearn modules to the top of our regression_helper_functions.py file. 
 ~~~
-import numpy as np
-import sklearn.linear_model as skl_lin
-~~~
-{: .language-python}
-
-
-Now lets replace the calculation with our own least_squares function with the one from scikit-learn. The scikit-learn regression function is much more capable than the simple one we wrote earlier and is designed for datasets where multiple parameters are used, its expecting to be given multi-demnsional arrays data. To get it to accept single dimension data such as we have we need to convert the array to a numpy one and use numpy's reshape function. The resulting data is also designed to show us multiple coefficients and intercepts, so these values will be arrays, since we've just got one parameter we can just grab the first item from each of these arrays. Instead of manually calculating the results we can now use scikit-learn's predict function. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
-
-~~~
-import sklearn.metrics as skl_metrics
+# Import modules from Sklearn library at top of .py file
+import sklearn.linear_model as skl_lin # linear model
+import sklearn.metrics as skl_metrics # error metrics
 ~~~
 {: .language-python}
 
+Next, locate the process_life_expectancy_data_sklearn() function in regression_helper_functions.py, and replace our custom functions with Sklearn function calls. 
 
-Lets go ahead and change the process_data function for life expectancy to use scikit-learn's LinearRegression function instead of our own version.
+The scikit-learn regression function is much more capable than the simple one we wrote earlier and is designed for datasets where multiple parameters are used, its expecting to be given multi-demnsional arrays data. To get it to accept single dimension data such as we have we need to convert the array to a numpy one and use numpy's reshape function. The resulting data is also designed to show us multiple coefficients and intercepts, so these values will be arrays, since we've just got one parameter we can just grab the first item from each of these arrays. Instead of manually calculating the results we can now use scikit-learn's predict function. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
 
 ~~~
-import pandas as pd
-import math
-def process_life_expectancy_data(filename, country, min_date, max_date):
+def process_life_expectancy_data_sklearn(filename, country, train_data_range, test_data_range=None):
+    """Model and plot life expectancy over time for a specific country. Model is fit to data spanning train_data_range, and tested on data spanning test_data_range"""
+
+    # Extract date range used for fitting the model
+    min_date_train = train_data_range[0]
+    max_date_train = train_data_range[1]
+    
+    # Read life expectancy data
     df = pd.read_csv(filename, index_col="Life expectancy")
 
-    # get the life expectancy for the specified country/dates
+    # get the data used to estimate line of best fit (life expectancy for specific country across some date range)
     # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df.loc[country, str(min_date):str(max_date)]
-    x_data = list(range(min_date, max_date + 1))
+    y_data_train = df.loc[country, str(min_date_train):str(max_date_train)]
+    
+    # create a list with the numerical range of min_date to max_date
+    # we could use the index of life_expectancy but it will be a string
+    # we need numerical data
+    x_data_train = list(range(min_date_train, max_date_train + 1))
+    
+    # NEW: Sklearn functions typically accept numpy arrays as input. This code will convert our list data into numpy arrays (N rows, 1 column)
+    x_data_train = np.array(x_data_train).reshape(-1, 1)
+    y_data_train = np.array(y_data_train).reshape(-1, 1)
 
-    x_data_arr = np.array(x_data).reshape(-1, 1)
-    life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
+    # FIXME: calculate line of best fit using sklearn. OLD VERSION: m, c = least_squares([x_data_train, y_data_train])
+    #ANSWER
+    regression = skl_lin.LinearRegression().fit(x_data_train, y_data_train)
+    m = regression.coef_[0][0] # coefs stored as in matrix as (n_targets, n_features), where n_targets is the number of variables in Y, and n_features is the number of variables in X
+    c = regression.intercept_[0] 
+    
+    # print model parameters
+    print("Results of linear regression:")
+    print("m =", format(m,'.5f'), "c =", format(c,'.5f'))
 
-    regression = skl_lin.LinearRegression().fit(x_data_arr, life_exp_arr)
+    # FIXME: get model predictions for test data. OLD VERSION: y_preds_train = get_model_predictions(x_data_train, m, c)
+    #ANSWER
+    y_preds_train = regression.predict(x_data_train)
+    
+    # FIXME: calculate model train set error. OLD VERSION: train_error = measure_error(y_data_train, y_preds_train)    
+    train_error = math.sqrt(skl_metrics.mean_squared_error(y_data_train, y_preds_train))
 
-    m = regression.coef_[0][0]
-    c = regression.intercept_[0]
+    print("Train RMSE =", format(train_error,'.5f'))
+    make_regression_graph(x_data_train, y_data_train, y_preds_train, ['Year', 'Life Expectancy'])
+    
+    # Test RMSE
+    if test_data_range is not None:
+        min_date_test = test_data_range[0]
+        if len(test_data_range)==1:
+            max_date_test=min_date_test
+        else:
+            max_date_test = test_data_range[1]
+        x_data_test = list(range(min_date_test, max_date_test + 1))
+        y_data_test = df.loc[country, str(min_date_test):str(max_date_test)]
+        
+        x_data_test = np.array(x_data_test).reshape(-1, 1)
+        y_data_test = np.array(y_data_test).reshape(-1, 1)
+        
+        y_preds_test = regression.predict(x_data_test)
+        test_error = math.sqrt(skl_metrics.mean_squared_error(y_data_test, y_preds_test))
+        print("Test RMSE =", format(test_error,'.5f'))
+        make_regression_graph(np.concatenate((x_data_train, x_data_test), axis=0), 
+                              np.concatenate((y_data_train, y_data_test), axis=0), 
+                              np.concatenate((y_preds_train, y_preds_test), axis=0), 
+                              ['Year', 'Life Expectancy'])
 
-    # old manual version
-    #linear_data = calculate_linear(x_data, m, c)
-
-    # new scikit learn version
-    linear_data = regression.predict(x_data_arr)
-
-    # old manual version
-    #error = measure_error(life_expectancy, linear_data)
-
-    # new scikit learn version
-    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
-    print("error=", error)
-
-    # uncomment to make the graph
-    #make_graph(life_exp, gdp, linear_data)
-
-process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1950, 2016)
+    return m, c
 ~~~
 {: .language-python}
-
 
 Now if we go ahead and run the new program we should get the same answers and same graph as before.
 
+~~~
+from regression_helper_functions import process_life_expectancy_data_sklearn
+
+filepath = 'data/gapminder-life-expectancy.csv'
+process_life_expectancy_data_sklearn(filepath,
+                             "United Kingdom", [1950, 2010])
+
+# Let's compare this result to our orginal implementation
+process_life_expectancy_data(filepath,
+                             "United Kingdom", [1950, 2010])
+plt.show()
+~~~
+{: .language-python}
 
 > ## Comparing the Scikit learn and our own linear regression implementations.
-> Adjust both the original program (using our own linear regression implementation) and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation
+> Adjust both the original program and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation
 > linking date and life expectancy? Are they the same in both?
 > > ## Solution
 > > ~~~
@@ -163,7 +199,7 @@ Now if we go ahead and run the new program we should get the same answers and sa
 {: .challenge}
 
 
-## Other types of regression
+## Polynomial regression
 
 Linear regression obviously has its limits for working with data that isn't linear. Scikit-learn has a number of other regression techniques
 which can be used on non-linear data. Some of these (such as isotonic regression) will only interpolate data in the range of the training
@@ -172,90 +208,49 @@ equation of the form y = a + bx + cx^2 + dx^3 etc. The more terms we add to the 
 
 Scikit-learn includes a polynomial modelling tool as part of its pre-processing library which we'll need to add to our list of imports.
 
+1. Add the following line of code to the top of regression_helper_functions(): `import sklearn.preprocessing as skl_pre`
+2. Review the process_life_expectancy_data_poly() function
+3. Fit a linear model to a 5-degree polynomial transformation of x (dates). For a 5-degree polynomial applied to one feature (dates), we will get six new features or predictors: [1, x, x^2, x^3, x^4, x^5]
+
 ~~~
 import sklearn.preprocessing as skl_pre
 ~~~
 {: .language-python}
 
+Next, let's fit a polynomial regression model of life expectancy in the UK between the years 1950 and 1980. How many predictor variables are used to predict life expectancy in this model? What do you notice about the plot? What happens if you decrease the degree of the polynomial?
 
-Now lets modify the `process_life_expectancy_data` function to calculate the polynomial. This takes two parts, the first is to pre-process the data into polynomial form. We first call the PolynomialFeatures function with the parameter degree. The degree parameter controls how many components the polynomial will have, a polynomial of the form y = a + bx + cx^2 + dx^3 has 4 degrees. Typically a value between 5 and 10 is sufficient. We must then process the numpy array that we used for the X axis in the linear regression to convert it into a set of polynomial features.
-
-This only gets us halfway to being able to create a model that we can use for predictions. To form the complete model we actually have to perform a linear regression on the polynomial model, but we'll use the polynomial features as the X axis instead of the numpy array. The Y axis will still be the life expectancy numpy array that we used before. The resulting model can now be used to make some predictions like we did before using the predict function.
-
-If we want to draw the line of best fit we can pass the polynomial features in as a parameter to predict() and this will generate the y values for the full range of our data. This can be plotted by passing it to make_graph in place of the linear data.
-
-
-Finally we can make some predictions of future data. Lets create a list containing the date range we'd like to predict, as with other lists/arrays we've used we'll have to reshape it to make scikit-learn work with it.
-Now lets use this list of dates to predict life expectancy using both our linear and polynomial models.
-
+There are 6 predictor variables in a 5-degree polynomial: [1, x, x^2, x^3, x^4, x^5]. The model appears to fit the data quite well when a 5-degree polynomial is used. As we decrease the degree of the polynomial, the model fits the training data less precisely.
 ~~~
-def process_life_expectancy_data_poly(filename, country, min_date, max_date):
-    df = pd.read_csv(filename, index_col="Life expectancy")
+from regression_helper_functions import process_life_expectancy_data_poly
 
-    # get the life expectancy for the specified country/dates
-    # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df.loc[country, str(min_date):str(max_date)]
-    x_data = list(range(min_date, max_date + 1))
-
-    x_data_arr = np.array(x_data).reshape(-1, 1)
-    life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
-
-    polynomial_features = skl_pre.PolynomialFeatures(degree=5)
-    x_poly = polynomial_features.fit_transform(x_data_arr)
-
-    polynomial_model = skl_lin.LinearRegression().fit(x_poly, life_exp_arr)
-
-    polynomial_data = polynomial_model.predict(x_poly)
-
-    #make_graph(x_data, life_expectancy, polynomial_data)
-
-    # make some predictions
-    predictions_x = list(range(2011,2025))
-    predictions_x_arr = np.array(predictions_x).reshape(-1, 1)
-
-    predictions_polynomial = polynomial_model.predict(polynomial_features.fit_transform(predictions_x_arr))
-    plt.plot(x_data, life_expectancy, label="Original Data")
-    plt.plot(predictions_x, predictions_polynomial, label="Polynomial Prediction")
-    plt.grid()
-    plt.legend()
-    plt.show()
+filepath = 'data/gapminder-life-expectancy.csv'
+process_life_expectancy_data_poly(5, filepath,
+                             "United Kingdom", [1950, 1980])
+plt.show()
 ~~~
 {: .language-python}
 
-
-To measure the error lets calculate the RMS error on both the linear and polynomial data.
+Now let's modify our call to process_life_expectancy_data_poly() to report the model's ability to generalize to future data (left out during the model fitting/training process). What is the model's test set RMSE for the time-span 2005:2016? 
 
 ~~~
-def process_life_expectancy_data_poly(filename, country, min_date, max_date):
-    df = pd.read_csv(filename, index_col="Life expectancy")
-
-    # get the life expectancy for the specified country/dates
-    # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df.loc[country, str(min_date):str(max_date)]
-    x_data = list(range(min_date, max_date + 1))
-
-    x_data_arr = np.array(x_data).reshape(-1, 1)
-    life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
-
-    polynomial_features = skl_pre.PolynomialFeatures(degree=5)
-    x_poly = polynomial_features.fit_transform(x_data_arr)
-
-    polynomial_model = skl_lin.LinearRegression().fit(x_poly, life_exp_arr)
-
-    polynomial_data = polynomial_model.predict(x_poly)
-
-    polynomial_error = math.sqrt(
-                   skl_metrics.mean_squared_error(life_exp_arr, polynomial_data))
-    print("polynomial error is", polynomial_error)
-
-process_life_expectancy_data_poly("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1950, 2016)
-
-process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1950, 2016)
+filepath = 'data/gapminder-life-expectancy.csv'
+process_life_expectancy_data_poly(5, filepath,
+                             "United Kingdom", [1950, 1980],[2005,2016])
+plt.show()
 ~~~
 {: .language-python}
 
+The test RMSE is very high! Sometimes a more complicated model isn't always a better model in terms of the model's ability to generalize to unseen data. When a model fits training data well but poorly generalized to test data, we call this overfitting.
+
+Let's compare the polynomial model with our standard linear model.
+~~~
+process_life_expectancy_data_poly(10, filepath,
+                             "United Kingdom", [1950, 1980],[2005,2016])
+process_life_expectancy_data_sklearn(filepath,
+                             "United Kingdom", [1950, 1980],[2005,2016])
+plt.show()
+~~~
+{: .language-python}
 
 > ## Exercise: Comparing linear and polynomial models
 > Train a linear and polynomial model on life expectancy data from China between 1960 and 2000. Then predict life expectancy from 2001 to 2016 using both methods. Compare their root mean squared errors, which is more accurate? Why do you think this model is the more accurate one?
