@@ -225,11 +225,29 @@ Let's see how the model performs in terms of its ability to predict future years
 m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
                              "United Kingdom", [1950, 1980], test_data_range=[2010,2016])
 ~~~
-{: .language-python
+{: .language-python}
 
 When we train our model using data between 1950 and 1980, we aren't able to accurately predict life expectancy in later decades. To explore this issue further, try out the excercise in the following section
 
 # excercise
+> ## Models Fit Their Training Data — For Better Or Worse
+> What happens to the test RMSE as you extend the training data set to include additional dates? Try out a couple of ranges  (e.g., 1950:1990, 1950:2000, 1950:2005); Explain your observations.
+> 
+> > ## Solution
+> > ~~~
+> > end_date_ranges = [1990, 2000, 2005]
+> > for end_date in end_date_ranges:
+> >     print('Training Data = 1950:' + str(end_date))
+> >     m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
+> >                                  "United Kingdom", [1950, end_date], test_data_range=[2010,2016])
+> > ~~~
+> > {: .language-python}
+> > 
+> > - Models aren't magic. They will take the shape of their training data. 
+> > - When modeling time-series trends, it can be difficult to see longer-duration cycles in the data when we look at only a small window of time.
+> > - If future data doesn't follow the same trends as the past, our model won't perform well on future data.
+> {: .solution}
+{: .challenge}
 
 # exercise
 
