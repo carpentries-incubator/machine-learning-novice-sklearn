@@ -19,11 +19,16 @@ The [Anaconda Distribution](https://www.anaconda.com/products/individual#Downloa
 
 From the Anaconda terminal run the command `conda install -c conda-forge opencv`
 
-# Download the data
+# Download the code and data
 
-Please create a sub directory called data in the directory where you save any code you write.
+1. Please create a directory called IntroML located on your desktop. In this directory, create a subfolder called data (i.e., `/Users/username/Desktop/IntroML/data`)
 
-Download the the following files to this directory:
+2. Download the following python scripts and place them in the IntroML directory located on your Desktop (e.g., `/Users/username/Desktop/IntroML/regression_helper_functions.py`)
+* [regression_helper_functions.py](code/regression_helper_functions.py)
+* [clustering_helper_functions.py](code/clustering_helper_functions.py)
+
+
+3. Download the the following files and place them in the data subfolder you just created (e.g., `/Users/username/Desktop/IntroML/data/gapminder-life-expectancy.csv`):
 
 * [Gapminder Life Expectancy Data](data/gapminder-life-expectancy.csv)
 * [World Bank GDP Data](data/worldbank-gdp.csv)
