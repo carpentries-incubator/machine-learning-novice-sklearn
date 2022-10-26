@@ -129,197 +129,169 @@ This will output an error of 0.7986268703523449, which means that on average the
 > {: .solution}
 {: .challenge}
 
-### Graphing the data
+### Predicting life expectancy
 
-To compare our model and data lets graph both of them using matplotlib.
+Now lets try and model some real data with linear regression. We'll use the [Gapminder Foundation's](http://www.gapminder.org) life expectancy data for this. Click [here](../data/gapminder-life-expectancy.csv) to download it, and place the file in your project's data folder (e.g., `data/gapminder-life-expectancy.csv`)
 
+Let's start by reading in the data and examining it.
 ~~~
-import matplotlib.pyplot as plt
-
-def calculate_linear(x_data, m, c):
-    linear_data = []
-    for x in x_data:
-        y = m * x + c
-        #add the result to the linear_data list
-        linear_data.append(y)
-    return(linear_data)
-
-def make_graph(x_data, y_data, linear_data):
-    plt.plot(x_data, y_data, label="Original Data")
-    plt.plot(x_data, linear_data, label="Line of best fit")
-
-    plt.grid()
-    plt.legend()
-
-    plt.show()
-
-x_data = [2,3,5,7,9]
-y_data = [4,5,7,10,15]
-
-m, c = least_squares([x_data, y_data])
-linear_data = calculate_linear(x_data, m, c)
-make_graph(x_data, y_data, calculate_linear(x_data, m, c))
-
+import pandas as pd
+import numpy as np
+df = pd.read_csv("data/gapminder-life-expectancy.csv", index_col="Life expectancy")
+df.head()
 ~~~
 {: .language-python}
 
-![graph of the test regression data](../fig/regression_test_graph.png)
-
-
-### Predicting life expectancy
-
-Now lets try and model some real data with linear regression. We'll use the [Gapminder Foundation's](http://www.gapminder.org) life expectancy data for this. Click [here](../data/gapminder-life-expectancy.csv) to download it.
-
+Looks like we have data from 1800 to 2016. Let's check how many countries there are.
 ~~~
-# put this line at the top of the file
-import pandas as pd
+print(df.index) # There are 243 countries in this dataset. 
+~~~
+{: .language-python}
 
-def process_life_expectancy_data(filename, country, min_date, max_date):
+Let's try to model life expectancy as a function of time for individual countries. To do this, review the process_life_expectancy_data() function found in regression_helper_functions.py. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life expectancy in the UK between the years 1950 and 1980. How much does the model predict life expectancy to increase or decrease per year?
+~~~
+def process_life_expectancy_data(filename, country, train_data_range, test_data_range=None):
+    """Model and plot life expectancy over time for a specific country. Model is fit to data spanning train_data_range, and tested on data spanning test_data_range"""
+
+    # Extract date range used for fitting the model
+    min_date_train = train_data_range[0]
+    max_date_train = train_data_range[1]
+    
+    # Read life expectancy data
     df = pd.read_csv(filename, index_col="Life expectancy")
 
-    # get the life expectancy for the specified country/dates
+    # get the data used to estimate line of best fit (life expectancy for specific country across some date range)
     # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df.loc[country, str(min_date):str(max_date)]
+    y_data_train = df.loc[country, str(min_date_train):str(max_date_train)]
 
     # create a list with the numerical range of min_date to max_date
     # we could use the index of life_expectancy but it will be a string
     # we need numerical data
-    x_data = list(range(min_date, max_date + 1))
+    x_data_train = list(range(min_date_train, max_date_train + 1))
 
     # calculate line of best fit
-    m, c = least_squares([x_data, life_expectancy])
-    linear_data = calculate_linear(x_data, m, c)
+    # FIXME: Uncomment the below line of code and fill in the blank
+#     m, c = _______([x_data_train, y_data_train])
+    m, c = least_squares([x_data_train, y_data_train])
 
-    error = measure_error(life_expectancy, linear_data)
-    print("error is ", error)
+    # Get model predictions for test data. 
+    # FIXME: Uncomment the below line of code and fill in the blank 
+#     y_preds_train = _______(x_data_train, m, c)
+    y_preds_train = get_model_predictions(x_data_train, m, c)
+    
+    # FIXME: Uncomment the below line of code and fill in the blank
+#     train_error = _______(y_data_train, y_preds_train)
+    train_error = measure_error(y_data_train, y_preds_train)    
+    print("Train RMSE =", format(train_error,'.5f'))
+    make_regression_graph(x_data_train, y_data_train, y_preds_train, ['Year', 'Life Expectancy'])
+    
+    # Test RMSE
+    if test_data_range is not None:
+        min_date_test = test_data_range[0]
+        if len(test_data_range)==1:
+            max_date_test=min_date_test
+        else:
+            max_date_test = test_data_range[1]
+        x_data_test = list(range(min_date_test, max_date_test + 1))
+        y_data_test = df.loc[country, str(min_date_test):str(max_date_test)]
+        y_preds_test = get_model_predictions(x_data_test, m, c)
+        test_error = measure_error(y_data_test, y_preds_test)    
+        print("Test RMSE =", format(test_error,'.5f'))
+        make_regression_graph(x_data_train+x_data_test, pd.concat([y_data_train,y_data_test]), y_preds_train+y_preds_test, ['Year', 'Life Expectancy'])
 
-    make_graph(x_data, life_expectancy, linear_data)
-
-process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1950, 2010)
+    return m, c
 ~~~
 {: .language-python}
 
+Let's use this function to model life expectancy in the UK between the years 1950 and 1980. How much does the model predict life expectancy to increase or decrease per year?
 
-> ## Modelling Life Expectancy
->
-> Combine all the code above into a single Python file, save it into a directory called code.
->
-> In the parent directory create another directory called data
->
-> Download the file [https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv](https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv) into the data directory
-> The full code from above is also available to download from [https://scw-aberystwyth.github.io/machine-learning-novice/code/linear_regression.py](https://scw-aberystwyth.github.io/machine-learning-novice/code/linear_regression.py)
->
-> If you're using a Unix or Unix like environment the following commands will do this in your home directory:
->
-> ~~~
-> cd ~
-> mkdir code
-> mkdir data
-> cd data
-> wget https://scw-aberystwyth.github.io/machine-learning-novice/data/gapminder-life-expectancy.csv
-> ~~~
-> {: .language-bash}
->
-> Adjust the program to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation linking date and life expectancy?
+~~~
+from regression_helper_functions import process_life_expectancy_data
+m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
+                             "United Kingdom", [1950, 1980])
+~~~
+{: .language-python}
+
+~~~
+Results of linear regression:
+m = 0.13687 c = -197.61772
+Train RMSE = 0.32578
+~~~
+{: .output}
+
+Let's see how the model performs in terms of its ability to predict future years. Run the process_life_expectancy_data() function again using the period 1950-1980 to train the model, and the period 2010-2016 to test the model's performance on unseen data.
+
+~~~
+m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
+                             "United Kingdom", [1950, 1980], test_data_range=[2010,2016])
+~~~
+{: .language-python
+
+When we train our model using data between 1950 and 1980, we aren't able to accurately predict life expectancy in later decades. To explore this issue further, try out the excercise in the following section
+
+> ## Models Fit Their Training Data — For Better Or Worse
+> What happens to the test RMSE as you extend the training data set to include additional dates? Try out a couple of ranges  (e.g., 1950:1990, 1950:2000, 1950:2005); Explain your observations.
+> 
 > > ## Solution
 > > ~~~
-> > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Germany", 1950, 2000)
+> > end_date_ranges = [1990, 2000, 2005]
+> > for end_date in end_date_ranges:
+> >     print('Training Data = 1950:' + str(end_date))
+> >     m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
+> >                                  "United Kingdom", [1950, end_date], test_data_range=[2010,2016])
 > > ~~~
 > > {: .language-python}
-> >
-> > m= 0.212219909502 c= -346.784909502
+> > 
+> > - Models aren't magic. They will take the shape of their training data. 
+> > - When modeling time-series trends, it can be difficult to see longer-duration cycles in the data when we look at only a small window of time.
+> > - If future data doesn't follow the same trends as the past, our model won't perform well on future data.
 > {: .solution}
 {: .challenge}
 
-
 > ## Predicting Life Expectancy
-> Use the linear equation you've just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers?
-> If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
+> - Model Germany's predicted life expectancy between the years 1950 and 2000. What is the value of and c?
+> - Use the linear model you’ve just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers? If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
 > > ## Solution
 > > ~~~
+> > m,c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
+> >                              "Germany", [1950, 2000])
 > > for x in range(2001,2017):
 > >     print(x,0.212219909502 * x - 346.784909502)
 > > ~~~
 > > {: .language-python}
-> >
-> > Predicted answers:
+> > 
 > > ~~~
-> > 2001 77.86712941150199
-> > 2002 78.07934932100403
-> > 2003 78.29156923050601
-> > 2004 78.503789140008
-> > 2005 78.71600904951003
-> > 2006 78.92822895901202
-> > 2007 79.140448868514
-> > 2008 79.35266877801604
-> > 2009 79.56488868751802
-> > 2010 79.77710859702
-> > 2011 79.98932850652199
-> > 2012 80.20154841602402
-> > 2013 80.41376832552601
-> > 2014 80.62598823502799
-> > 2015 80.83820814453003
-> > 2016 81.05042805403201
-> > ~~~
-> > {: .output}
-> >
-> > Compare with the real values:
-> > ~~~
-> > df = pd.read_csv('../data/gapminder-life-expectancy.csv',index_col="Life expectancy")
+> > df = pd.read_csv('data/gapminder-life-expectancy.csv',index_col="Life expectancy")
 > > for x in range(2001,2017):
-> >     y = 0.215621719457 * x - 351.935837103
+> >     y = m*x + c
 > >     real = df.loc['Germany', str(x)]
 > >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
 > > ~~~
 > > {: .language-python}
 > >
+> > Predicted answers
 > > ~~~
-> > 2001 Predicted 77.86712941150199 Real 78.4 Difference -0.532870588498
-> > 2002 Predicted 78.07934932100403 Real 78.6 Difference -0.520650678996
-> > 2003 Predicted 78.29156923050601 Real 78.8 Difference -0.508430769494
-> > 2004 Predicted 78.503789140008 Real 79.2 Difference -0.696210859992
-> > 2005 Predicted 78.71600904951003 Real 79.4 Difference -0.68399095049
-> > 2006 Predicted 78.92822895901202 Real 79.7 Difference -0.771771040988
-> > 2007 Predicted 79.140448868514 Real 79.9 Difference -0.759551131486
-> > 2008 Predicted 79.35266877801604 Real 80.0 Difference -0.647331221984
-> > 2009 Predicted 79.56488868751802 Real 80.1 Difference -0.535111312482
-> > 2010 Predicted 79.77710859702 Real 80.3 Difference -0.52289140298
-> > 2011 Predicted 79.98932850652199 Real 80.5 Difference -0.510671493478
-> > 2012 Predicted 80.20154841602402 Real 80.6 Difference -0.398451583976
-> > 2013 Predicted 80.41376832552601 Real 80.7 Difference -0.286231674474
-> > 2014 Predicted 80.62598823502799 Real 80.7 Difference -0.074011764972
-> > 2015 Predicted 80.83820814453003 Real 80.8 Difference 0.03820814453
-> > 2016 Predicted 81.05042805403201 Real 80.9 Difference 0.150428054032
+> > 2001 Predicted 77.86712941175517 Real 78.4 Difference -0.5328705882448332
+> > 2002 Predicted 78.07934932125704 Real 78.6 Difference -0.5206506787429532
+> > 2003 Predicted 78.29156923075897 Real 78.8 Difference -0.5084307692410306
+> > 2004 Predicted 78.50378914026084 Real 79.2 Difference -0.6962108597391676
+> > 2005 Predicted 78.71600904976276 Real 79.4 Difference -0.683990950237245
+> > 2006 Predicted 78.92822895926463 Real 79.7 Difference -0.7717710407353735
+> > 2007 Predicted 79.1404488687665 Real 79.9 Difference -0.7595511312335077
+> > 2008 Predicted 79.35266877826842 Real 80.0 Difference -0.6473312217315765
+> > 2009 Predicted 79.56488868777029 Real 80.1 Difference -0.5351113122297022
+> > 2010 Predicted 79.77710859727222 Real 80.3 Difference -0.5228914027277796
+> > 2011 Predicted 79.98932850677409 Real 80.5 Difference -0.5106714932259138
+> > 2012 Predicted 80.20154841627601 Real 80.6 Difference -0.3984515837239826
+> > 2013 Predicted 80.41376832577788 Real 80.7 Difference -0.2862316742221225
+> > 2014 Predicted 80.6259882352798 Real 80.7 Difference -0.07401176472019699
+> > 2015 Predicted 80.83820814478167 Real 80.8 Difference 0.03820814478167733
+> > 2016 Predicted 81.0504280542836 Real 80.9 Difference 0.1504280542835943
 > > ~~~
 > > {: .output}
+> >
 > > Answers are between 0.15 years over and 0.77 years under the reality.
 > > If this was being used in a pension scheme it might lead to a slight under prediction of life expectancy and cost the pension scheme a little more than expected.
-> {: .solution}
-{: .challenge}
-
-> ## Predicting Historical Life Expectancy
->
-> Now change your program to measure life expectancy in Canada between 1890 and 1914. Use the resulting m and c values to predict life expectancy in 1918. How accurate is your answer?
-> If your answer was inaccurate, why was it inaccurate? What does this tell you about extrapolating models like this?
-> 
-> > ## Solution
-> > ~~~
-> > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Canada", 1890, 1914)
-> > ~~~
-> > {: .language-python}
-> >
-> > ~~~
-> > m = 0.369807692308 c = -654.215830769
-> > ~~~
-> > {: .output}
-> >
-> > ~~~
-> > print(1918 * 0.369807692308  -654.215830769)
-> > ~~~
-> > {: .language-python}
-> > The predicted age is 55.0753 but the actual age is 47.17. This is inaccurate due to WW1 and the subsequent flu epidemic. Major events can produce trends that we've not seen before (or not for a long time), our models struggle to take account of things they've never seen.
-> > Even if we look back to 1800, the earliest date we have data for we never see a sudden drop in life expectancy like the 1918 one.
 > {: .solution}
 {: .challenge}
 
