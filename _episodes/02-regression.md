@@ -28,71 +28,79 @@ Since around 1950 life expectancy appears to be increasing with a pretty straigh
 
 
 ## Coding a linear regression with Python
-This code will calculate a least squares or linear regression for us.
-
-~~~
-def least_squares(data):
-    x_sum = 0
-    y_sum = 0
-    x_sq_sum = 0
-    xy_sum = 0
-
-    # the list of data should have two equal length columns
-    assert len(data) == 2
-    assert len(data[0]) == len(data[1])
-
-    n = len(data[0])
-    # least squares regression calculation
-    for i in range(0, n):
-        x = int(data[0][i])
-        y = data[1][i]
-        x_sum = x_sum + x
-        y_sum = y_sum + y
-        x_sq_sum = x_sq_sum + (x**2)
-        xy_sum = xy_sum + (x*y)
-
-    m = ((n * xy_sum) - (x_sum * y_sum))
-    m = m / ((n * x_sq_sum) - (x_sum ** 2))
-    c = (y_sum - m * x_sum) / n
-
-    print("Results of linear regression:")
-    print("x_sum=", x_sum, "y_sum=", y_sum, "x_sq_sum=", x_sq_sum, "xy_sum=",
-          xy_sum)
-    print("m=", m, "c=", c)
-
-    return m, c
-~~~
-{: .language-python}
-
-Lets test our code by using the example data from the mathsisfun link above.
-
+We'll start by creating a toy dataset of x and y coordinates that we can model.
 ~~~
 x_data = [2,3,5,7,9]
 y_data = [4,5,7,10,15]
-least_squares([x_data,y_data])
 ~~~
 {: .language-python}
 
-We should get the following results:
+Let's take a look at the math required to fit a line of best fit to this data. Open regression_helper_functions.py and view the code for the least_squares() function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes SSE, we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal model values of these parameters. The terms used in the for loop are derived from these partial derivatives.
+
+To see how ordinary least squares optimization is derived, visit: https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf
+
+~~~
+from regression_helper_functions import least_squares
+m, b = least_squares([x_data,y_data])
+~~~
+{: .language-python}
 
 ~~~
 Results of linear regression:
-x_sum= 26 y_sum= 41 x_sq_sum= 168 xy_sum= 263
-m= 1.5182926829268293 c= 0.30487804878048763
+m = 1.51829 c = 0.30488
 ~~~
 {: .output}
 
-### Testing the accuracy of a linear regression model
+We can use our new model to generate a line that predicts y-values at all x-coordinates fed into the model. Open regression_helper_functions.py and view the code for the get_model_predictions() function. Find the FIXME tag in the function, and fill in the missing code to output linear model predicitons.
 
-We now have a simple linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model's y value with the original. We can turn this into a single overall error number by calculating the root mean square (RMS), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMS gives us an overall error number which we can then use to measure our model's accuracy with. The following code calculates RMS in Python.
+~~~
+def get_model_predictions(x_data, m, c):
+    """Using the input slope (m) and y-intercept (c), calculate linear model predictions (y-values) for a given list of x-coordinates."""
+    
+    linear_preds = []
+    for x in x_data:
+        # FIXME: Uncomment below line and complete the line of code to get a model prediction from each x value
+#         y = _______
+        # ANSWER
+        y = m * x + c
+        
+        #add the result to the linear_data list
+        linear_preds.append(y)
+    return(linear_preds)
+~~~
+{: .language-python}
+
+Using this function, let's return the model's predictions for the data we used to fit the model (i.e., the line of best fit). The data used to fit or train a model is referred to as the model's training dataset.
+
+~~~
+from regression_helper_functions import get_model_predictions
+y_preds = get_model_predictions(x_data, m, b)
+~~~
+{: .language-python}
+
+We can now plot our model predictions along with the actual data using the make_regression_graph() function.
+
+~~~
+from regression_helper_functions import make_regression_graph
+make_regression_graph(x_data, y_data, y_preds, ['X', 'Y'])
+~~~
+{: .language-python}
+
+### Testing the accuracy of a linear regression model
+We now have a linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model’s y value with the original. We can turn this into a single overall error number by calculating the root mean square error (RMSE), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMSE gives us an overall error number which we can then use to measure our model’s accuracy with. 
+
+Open regression_helper_functions.py and view the code for the measure_error() function. Find the FIXME tag in the function, and fill in the missing code to calculate RMSE.
 
 ~~~
 import math
 def measure_error(data1, data2):
-
+    """Calculating RMSE (root mean square error) of model."""
+    
     assert len(data1) == len(data2)
     err_total = 0
     for i in range(0, len(data1)):
+        # FIXME: Uncomment the below line and fill in the blank to add up the squared error for each observation
+#         err_total = err_total + ________
         err_total = err_total + (data1[i] - data2[i]) ** 2
 
     err = math.sqrt(err_total / len(data1))
@@ -100,28 +108,26 @@ def measure_error(data1, data2):
 ~~~
 {: .language-python}
 
-
-To calculate the RMS for the test data we just used we need to calculate the y coordinate for every x coordinate (2,3,5,7,9) that we had in the original data.
-
+Using this function, let's calculate the error of our model in term's of its RMSE. Since we are calculating RMSE on the same data that was used to fit or "train" the model, we call this error the model's training error.
 ~~~
-# get the m and c values from the least_squares function
-m, c = least_squares([x_data, y_data])
-
-# create an empty list for the model y data
-linear_data = []
-
-for x in x_data:
-    y = m * x + c
-    # add the result to the linear_data list
-    linear_data.append(y)
-
-# calculate the error
-print(measure_error(y_data,linear_data))
+from regression_helper_functions import measure_error
+print(measure_error(y_data,y_preds))
 ~~~
 {: .language-python}
+~~~
+0.7986268703523449
+~~~
+{: .output}
 
 This will output an error of 0.7986268703523449, which means that on average the difference between our model and the real values is 0.7986268703523449. The less linear the data is the bigger this number will be. If the model perfectly matches the data then the value will be zero.
 
+> ## Model Parameters VS Hyperparameters
+> Model parameters/coefficients/weights are parameters that are learned during the model-fitting stage. How many parameters does our linear model have? In addition, what hyperparameters does this model have, if any?
+> 
+> > ## Solution
+> > In a univariate linear model (with only one variable predicting y), the two parameters learned from the data include the model's slope and its intercept. One hyperparameter of a linear model is the number of variables being used to predict y. In our previous example, we used only one variable, x, to predict y. However, it is possible to use additional predictor variables in a linear model (e.g., multivariate linear regression).
+> {: .solution}
+{: .challenge}
 
 ### Graphing the data
 
