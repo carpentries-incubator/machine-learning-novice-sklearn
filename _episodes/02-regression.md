@@ -37,7 +37,7 @@ y_data = [4,5,7,10,15]
 
 Let's take a look at the math required to fit a line of best fit to this data. Open regression_helper_functions.py and view the code for the least_squares() function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes SSE, we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal model values of these parameters. The terms used in the for loop are derived from these partial derivatives.
 
-To see how ordinary least squares optimization is derived, visit: https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf
+To see how ordinary least squares optimization is derived, visit: [https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf)
 
 ~~~
 from regression_helper_functions import least_squares
@@ -326,57 +326,21 @@ The relationship between these two variables clearly isn't linear. But there is 
 Download the GDP data from [http://scw-aberystwyth.github.io/machine-learning-novice/data/worldbank-gdp.csv](http://scw-aberystwyth.github.io/machine-learning-novice/data/worldbank-gdp.csv)
 
 ### Loading the data
-
-We need to modify our code a little to work with this example. Firstly the data is now stored in two different files so we'll have to read both of them and combine them together. The two datasets don't quite have an identical list of countries, the life expectancy data is from gapminder themselves and includes French Overseas Departments and British Overseas Territories as seperate entities, it also includes Taiwan. The GDP data is from the World Bank and doesn't differentiate many of the overseas territories/departments and doesn't include Taiwan. Some countries are also lacking GDP data, life expectancy or both. When we load the data we'll have to discard any country which doesn't have valid data in both datasets. Missing data is marked as an NaN (not a number), when loading it we'll have to check for NaN's using the `math.isnan()` function.
-
-To match the analysis we just did on the gapminder website we only want to focus on a single year, so we'll filter the data down to a single year which the user can specify.
-
-Finally the data is sorted in the files by country name, but to help with graphing it later on we need to sort it by life expectancy instead. For this we can use Pandas `sort_values()` function to do this.
+Let's start by reading in the data. We'll collect GDP and life expectancy from two separate files using the read_data() function stored in regression_helper_functions.py. Use the read_data function to get GDP and life-expectancy in the year 1980 from all countries that have this data available.
 
 ~~~
-def read_data(gdp_file, life_expectancy_file, year):
-    df_gdp = pd.read_csv(gdp_file, index_col="Country Name")
-
-    gdp = df_gdp.loc[:, year]
-
-    df_life_expt = pd.read_csv(life_expectancy_file,
-                               index_col="Life expectancy")
-
-    # get the life expectancy for the specified country/dates
-    # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df_life_expt.loc[:, year]
-
-    data = []
-    for country in life_expectancy.index:
-        if country in gdp.index:
-            # exclude any country where data is unknown
-            if (math.isnan(life_expectancy[country]) is False) and \
-               (math.isnan(gdp[country]) is False):
-                    data.append((country, life_expectancy[country],
-                                 gdp[country]))
-            else:
-                print("Excluding ", country, ",NaN in data (life_exp = ",
-                      life_expectancy[country], "gdp=", gdp[country], ")")
-        else:
-            print(country, "is not in the GDP country data")
-
-    combined = pd.DataFrame.from_records(data, columns=("Country",
-                                         "Life Expectancy", "GDP"))
-    combined = combined.set_index("Country")
-    # we'll need sorted data for graphing properly later on
-    combined = combined.sort_values("Life Expectancy")
-    return combined
+from regression_helper_functions import read_data
+data = read_data("data/worldbank-gdp.csv",
+             "data/gapminder-life-expectancy.csv", "1980")
+data
 ~~~
 {: .language-python}
 
-### Processing the data
-
-Once the data is loaded we'll need to convert the GDP data to its logarithmic form by using the `math.log()` function. Pandas has a special function called `apply` which can apply an operation to every item in a column, by using the statement `data["GDP"].apply(math.log)` it will calculate the logarithmic form of every value in the GDP column and turn it into a new dataframe. We'll convert the data into two lists to simplify working with it, these can be used by the least_squares, make_graph and measure_error functions.
-
-Once we've calculated the line of best fit with the least_squares function we can graph it. But now we have two choices on how to do the graphing, we can either leave the data in its logarithmic form and draw a straight line of best fit. Or we could convert it back to its original form with the `math.exp()` function and graph the curved line of best fit. To allow us to do either we'll calculate both forms of the line of best fit and store them in the lists linear_data and log_data.
-
+### Model GDP vs Life Expectancy
+Review the process_lifeExpt_gdp_data() function found in regression_helper_functions.py. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life-expectancy versus GDP for the year 1980.
 ~~~
-def process_data(gdp_file, life_expectancy_file, year):
+def process_lifeExpt_gdp_data(gdp_file, life_expectancy_file, year):
+    """Model and plot life expectancy vs GDP in a specific year."""
     data = read_data(gdp_file, life_expectancy_file, year)
 
     gdp = data["GDP"].tolist()
@@ -385,101 +349,37 @@ def process_data(gdp_file, life_expectancy_file, year):
 
     m, c = least_squares([life_exp, gdp_log])
 
-    # list for logarithmic version
-    log_data = []
-    # list for raw version
-    linear_data = []
+    # model predictions on transformed data
+    gdp_preds = []
+    # list for plotting model predictions on top of untransformed GDP. For this, we will need to transform the model's predicitons.
+    gdp_preds_transformed = []
     for x in life_exp:
-        y_log = m * x + c
-        log_data.append(y_log)
+        y_pred = m * x + c
+        gdp_preds.append(y_pred)
+        # FIXME: Uncomment the below line of code and fill in the blank
+#         y_pred = math._______
+        y_pred = math.exp(y_pred)
+        gdp_preds_transformed.append(y_pred)
 
-        y = math.exp(y_log)
-        linear_data.append(y)
+    # plot both the transformed and untransformed data
+    make_regression_graph(life_exp, gdp_log, gdp_preds, ['Life Expectancy', 'log(GDP)'])
+    make_regression_graph(life_exp, gdp, gdp_preds_transformed, ['Life Expectancy', 'GDP'])
 
-    # uncomment for log version, further changes needed in make_graph too
-    # make_graph(life_exp, gdp_log, log_data)
-    make_graph(life_exp, gdp, linear_data)
-
-    err = measure_error(linear_data, gdp)
-    print("error=", err)
-
+    train_error = measure_error(gdp_preds, gdp)
+    print("Train RMSE =", format(train_error,'.5f'))
 ~~~
 {: .language-python}
 
-
-A small change to the least_squares function is needed to handle this data. Previously we were working with dates on the x-axis and these were all strings which the least_squares function converted into integers. Now we have life expectancy on the x-axis and that data is already floats, so we need to remove the conversion to integers. Lets change the line ```x = int(data[0][1]``` in our least_squares function to ```x = data[0][1]```.
-
+Let's use this function to model life expectancy versus GDP for the year 1980. How accurate is our model in predicting GDP from life expectancy? How much is GDP predicted to grow as life expectancy increases? 
 
 ~~~
-def least_squares(data):
-    x_sum = 0
-    y_sum = 0
-    x_sq_sum = 0
-    xy_sum = 0
-
-    # the list of data should have two equal length columns
-    assert len(data) == 2
-    assert len(data[0]) == len(data[1])
-
-    n = len(data[0])
-    # least squares regression calculation
-    for i in range(0, n):
-        x = data[0][i]
-        y = data[1][i]
-        x_sum = x_sum + x
-        y_sum = y_sum + y
-        x_sq_sum = x_sq_sum + (x**2)
-        xy_sum = xy_sum + (x*y)
-
-    m = ((n * xy_sum) - (x_sum * y_sum))
-    m = m / ((n * x_sq_sum) - (x_sum ** 2))
-    c = (y_sum - m * x_sum) / n
-
-    print("Results of linear regression:")
-    print("x_sum=", x_sum, "y_sum=", y_sum, "x_sq_sum=", x_sq_sum, "xy_sum=",
-          xy_sum)
-    print("m=", m, "c=", c)
-
-    return m, c
+from regression_helper_functions import process_lifeExpt_gdp_data
+process_lifeExpt_gdp_data("data/worldbank-gdp.csv",
+             "data/gapminder-life-expectancy.csv", "1980")
 ~~~
 {: .language-python}
 
-Finally to run everything we need to call the process_data function, this takes three parameters, the GDP filename, the life expectancy filename and the year we want to process as a string.
-
-~~~
-process_data("../data/worldbank-gdp.csv",
-             "../data/gapminder-life-expectancy.csv", "1980")
-~~~
-{: .language-python}
-
-
-### Graphing the data
-
-Previously we drew a line graph showing life expectancy over time. This made sense as a line as it was tracking a single variable over time. But now we are plotting two variables against each other and need to use a scatter graph instead, so we'll change the first `plt.plot` call to `plt.scatter`.
-
-~~~
-def make_graph(x_data, y_data, linear_data):
-    plt.scatter(x_data, y_data, label="Original Data")
-    plt.plot(x_data, linear_data, color="orange", label="Line of best fit")
-
-    plt.grid()
-    plt.legend()
-
-    plt.show()
-~~~
-{: .language-python}
-
-The process_data function gave us a choice of plotting either the logarithmic or non-logarithmic version of the data depending on which data we pass to make_graph. If we uncomment the line `# make_graph(life_exp, gdp_log, log_data)` and comment the line `make_graph(life_exp, gdp, linear_data)` then we can switch to showing the logarithmic version.
-
-
-> ## Comparing the logarithmic and non-logarithmic graphs
->
-> Convert the code above to plot the logarithmic version of the graph.
-> Save the graph.
-> Now change back to the non-logarithmic version.
-> Compare the two graphs, which one do you think is easier to read?
-{: .challenge}
-
+On average, our model over or underestimates GDP by 14233.73. GDP is predicted to grow by .128 for each year added to life.
 
 > ## Removing outliers from the data
 > The correlation of GDP and life expectancy has a few big outliers that are probably increasing the error rate on this model. These are typically countries with very high GDP and sometimes not very high life expectancy. These tend to be either small countries with artificially high GDPs such as Monaco and Luxemborg or oil rich countries such as Qatar or Brunei. Kuwait, Qatar and Brunei have already been removed from this data set, but are available in the file worldbank-gdp-outliers.csv. Try experimenting with adding and removing some of these high income countries to see what effect it has on your model's error rate.
