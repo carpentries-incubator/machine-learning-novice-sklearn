@@ -63,6 +63,7 @@ import matplotlib.pyplot as plt
 plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0)
 plt.show()
 ~~~
+{: .language-python}
 
 Now that we have some data we can go ahead and try to identify the clusters using K-means. 
 1. To perform a k-means clustering with Scikit learn we first need to import the sklearn.cluster module. 
