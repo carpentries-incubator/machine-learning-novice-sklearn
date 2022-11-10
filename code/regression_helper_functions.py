@@ -72,8 +72,8 @@ def measure_error(data,preds):
     assert len(data)==len(preds)
     err_total = 0
     for i in range(0,len(data)):
-        # FIXME: Uncomment the below line and fill in the blank to add up the squared error for each observation
-#         err_total = err_total + ________
+        # FIXME: Delete the # in the line of code below and fill in the blank to add up the squared error for each observation
+        err_total = err_total # + ________
 
     err = math.sqrt(err_total / len(data))
     return err
