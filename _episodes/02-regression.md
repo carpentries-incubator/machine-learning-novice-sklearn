@@ -35,7 +35,7 @@ y_data = [4,5,7,10,15]
 ~~~
 {: .language-python}
 
-Let's take a look at the math required to fit a line of best fit to this data. Open 'regression_helper_functions.py' and view the code for the 'least_squares()' function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes the sum of squared errors (SSE), we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal values of these parameters. The terms used in the for loop are derived from these partial derivatives.
+Let's take a look at the math required to fit a line of best fit to this data. Open `regression_helper_functions.py` and view the code for the `least_squares()` function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes the sum of squared errors (SSE), we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal values of these parameters. The terms used in the for loop are derived from these partial derivatives.
 
 To see how ordinary least squares optimization is derived, visit: [https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf)
 
@@ -51,7 +51,7 @@ m = 1.51829 c = 0.30488
 ~~~
 {: .output}
 
-We can use our new model to generate a line that predicts y-values at all x-coordinates fed into the model. Open 'regression_helper_functions.py' and view the code for the 'get_model_predictions()' function. Find the FIXME tag in the function, and fill in the missing code to output linear model predicitons.
+We can use our new model to generate a line that predicts y-values at all x-coordinates fed into the model. Open `regression_helper_functions.py` and view the code for the `get_model_predictions()` function. Find the FIXME tag in the function, and fill in the missing code to output linear model predicitons.
 
 ~~~
 def get_model_predictions(x_data, m, c):
