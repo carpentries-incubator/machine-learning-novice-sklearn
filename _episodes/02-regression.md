@@ -35,7 +35,7 @@ y_data = [4,5,7,10,15]
 ~~~
 {: .language-python}
 
-Let's take a look at the math required to fit a line of best fit to this data. Open regression_helper_functions.py and view the code for the least_squares() function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes SSE, we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal model values of these parameters. The terms used in the for loop are derived from these partial derivatives.
+Let's take a look at the math required to fit a line of best fit to this data. Open 'regression_helper_functions.py' and view the code for the 'least_squares()' function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes the sum of squared errors (SSE), we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal values of these parameters. The terms used in the for loop are derived from these partial derivatives.
 
 To see how ordinary least squares optimization is derived, visit: [https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf)
 
@@ -51,7 +51,7 @@ m = 1.51829 c = 0.30488
 ~~~
 {: .output}
 
-We can use our new model to generate a line that predicts y-values at all x-coordinates fed into the model. Open regression_helper_functions.py and view the code for the get_model_predictions() function. Find the FIXME tag in the function, and fill in the missing code to output linear model predicitons.
+We can use our new model to generate a line that predicts y-values at all x-coordinates fed into the model. Open 'regression_helper_functions.py' and view the code for the 'get_model_predictions()' function. Find the FIXME tag in the function, and fill in the missing code to output linear model predicitons.
 
 ~~~
 def get_model_predictions(x_data, m, c):
@@ -78,7 +78,7 @@ y_preds = get_model_predictions(x_data, m, b)
 ~~~
 {: .language-python}
 
-We can now plot our model predictions along with the actual data using the make_regression_graph() function.
+We can now plot our model predictions along with the actual data using the 'make_regression_graph()' function.
 
 ~~~
 from regression_helper_functions import make_regression_graph
@@ -89,7 +89,7 @@ make_regression_graph(x_data, y_data, y_preds, ['X', 'Y'])
 ### Testing the accuracy of a linear regression model
 We now have a linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model’s y value with the original. We can turn this into a single overall error number by calculating the root mean square error (RMSE), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMSE gives us an overall error number which we can then use to measure our model’s accuracy with. 
 
-Open regression_helper_functions.py and view the code for the measure_error() function. Find the FIXME tag in the function, and fill in the missing code to calculate RMSE.
+Open 'regression_helper_functions.py' and view the code for the 'measure_error()' function. Find the FIXME tag in the function, and fill in the missing code to calculate RMSE.
 
 ~~~
 import math
@@ -148,7 +148,7 @@ print(df.index) # There are 243 countries in this dataset.
 ~~~
 {: .language-python}
 
-Let's try to model life expectancy as a function of time for individual countries. To do this, review the process_life_expectancy_data() function found in regression_helper_functions.py. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life expectancy in the UK between the years 1950 and 1980. How much does the model predict life expectancy to increase or decrease per year?
+Let's try to model life expectancy as a function of time for individual countries. To do this, review the 'process_life_expectancy_data()' function found in regression_helper_functions.py. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life expectancy in the UK between the years 1950 and 1980. How much does the model predict life expectancy to increase or decrease per year?
 ~~~
 def process_life_expectancy_data(filename, country, train_data_range, test_data_range=None):
     """Model and plot life expectancy over time for a specific country. Model is fit to data spanning train_data_range, and tested on data spanning test_data_range"""
@@ -219,7 +219,7 @@ Train RMSE = 0.32578
 ~~~
 {: .output}
 
-Let's see how the model performs in terms of its ability to predict future years. Run the process_life_expectancy_data() function again using the period 1950-1980 to train the model, and the period 2010-2016 to test the model's performance on unseen data.
+Let's see how the model performs in terms of its ability to predict future years. Run the 'process_life_expectancy_data()' function again using the period 1950-1980 to train the model, and the period 2010-2016 to test the model's performance on unseen data.
 
 ~~~
 m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
@@ -337,7 +337,7 @@ data
 {: .language-python}
 
 ### Model GDP vs Life Expectancy
-Review the process_lifeExpt_gdp_data() function found in regression_helper_functions.py. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life-expectancy versus GDP for the year 1980.
+Review the 'process_lifeExpt_gdp_data()' function found in 'regression_helper_functions.py'. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life-expectancy versus GDP for the year 1980.
 ~~~
 def process_lifeExpt_gdp_data(gdp_file, life_expectancy_file, year):
     """Model and plot life expectancy vs GDP in a specific year."""
