@@ -249,12 +249,13 @@ When we train our model using data between 1950 and 1980, we aren't able to accu
 {: .challenge}
 
 > ## Predicting Life Expectancy
-> - Model Germany's predicted life expectancy between the years 1950 and 2000. What is the value of and c?
-> - Use the linear model you’ve just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers? If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
+> 1) Model Germany's predicted life expectancy between the years 1950 and 2000. What is the value of and c?
+> 
+> 2) Use the linear model you’ve just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers? If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
 > > ## Solution
 > > ~~~
-> > m,c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
-> >                              "Germany", [1950, 2000])
+> > m,c = process_life_expectancy_data("data/gapminder-life-expectancy.csv", "Germany", [1950, 2000])
+> > 
 > > for x in range(2001,2017):
 > >     print(x,0.212219909502 * x - 346.784909502)
 > > ~~~
@@ -266,6 +267,7 @@ When we train our model using data between 1950 and 1980, we aren't able to accu
 > >     y = m*x + c
 > >     real = df.loc['Germany', str(x)]
 > >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
+> >     
 > > ~~~
 > > {: .language-python}
 > >
