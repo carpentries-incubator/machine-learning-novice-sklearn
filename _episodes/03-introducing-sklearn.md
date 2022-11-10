@@ -24,9 +24,9 @@ SciKit Learn (also known as sklearn) is an open source machine learning library 
 
 Instead of coding least squares, an error function, and a model prediction function from scratch, we can use the Sklearn library to help us speed up our machine learning code development. 
 
-Let's create an adapted copy of process_life_expectancy_data() called process_life_expectancy_data_sklearn(). We'll replace our own functions (e.g., least_squares()) with Sklearn function calls.
+Let's create an adapted copy of `process_life_expectancy_data()` called `process_life_expectancy_data_sklearn()`. We'll replace our own functions (e.g., `least_squares()`) with Sklearn function calls.
 
-Start by adding some additional Sklearn modules to the top of our regression_helper_functions.py file. 
+Start by adding some additional Sklearn modules to the top of our `regression_helper_functions.py` file. 
 ~~~
 # Import modules from Sklearn library at top of .py file
 import sklearn.linear_model as skl_lin # linear model
@@ -34,7 +34,7 @@ import sklearn.metrics as skl_metrics # error metrics
 ~~~
 {: .language-python}
 
-Next, locate the process_life_expectancy_data_sklearn() function in regression_helper_functions.py, and replace our custom functions with Sklearn function calls. 
+Next, locate the `process_life_expectancy_data_sklearn()` function in `regression_helper_functions.py`, and replace our custom functions with Sklearn function calls. 
 
 The scikit-learn regression function is much more capable than the simple one we wrote earlier and is designed for datasets where multiple parameters are used, its expecting to be given multi-demnsional arrays data. To get it to accept single dimension data such as we have we need to convert the array to a numpy one and use numpy's reshape function. The resulting data is also designed to show us multiple coefficients and intercepts, so these values will be arrays, since we've just got one parameter we can just grab the first item from each of these arrays. Instead of manually calculating the results we can now use scikit-learn's predict function. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
 
@@ -230,7 +230,7 @@ plt.show()
 ~~~
 {: .language-python}
 
-Now let's modify our call to process_life_expectancy_data_poly() to report the model's ability to generalize to future data (left out during the model fitting/training process). What is the model's test set RMSE for the time-span 2005:2016? 
+Now let's modify our call to `process_life_expectancy_data_poly()` to report the model's ability to generalize to future data (left out during the model fitting/training process). What is the model's test set RMSE for the time-span 2005:2016? 
 
 ~~~
 filepath = 'data/gapminder-life-expectancy.csv'
