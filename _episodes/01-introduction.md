@@ -7,7 +7,6 @@ questions:
 - What are some of the machine learning techniques that exist?
 objectives:
 - "Gain an overview of what machine learning is and the techniques available."
-- "Understand some common examples of machine learning being used in our daily lives"
 - "Understand how machine learning and artificial intelligence differ."
 keypoints:
 - "Machine learning is a set of tools and techniques to XXXXXXXX."
@@ -18,56 +17,64 @@ keypoints:
 - "All machine learning systems have some kinds of limitations"
 ---
 
-(put this somewhere: what will be covered)
+# What is Machine Learning?
 
-# What is Machine Learning (ML)?
-
-Machine learning is a set of techniques that enable systems to use data to improve the performance of a given task, in much the same way that humans learn to make predictions based upon previous knowledge or experience. Machine learning can address a wide range of tasks and problems, but broadly speaking it can be used to find trends in a given dataset, make predictions and decisions based upon a given dataset, and even "learn" how to interact in an environment that has a given set of rules.
+Machine learning is a set of techniques that enable computers to use data to improve the performance of a given task. This is similar in concept to how humans learn to make predictions based upon previous experience and knowledge. Machine learning can address a wide range of tasks and problems, but broadly speaking it can be used to find trends in a dataset, classify data into groups or categories, make decisions and predictions based upon data, and even "learn" how to interact in an environment when provided with goals to achieve.
 
 ### Machine learning in our daily lives
 
- * [Image recognition](https://www.youtube.com/watch?v=eve8DkkVdhI)
- * [Object classification](https://www.youtube.com/watch?v=VOC3huqHrss)
- * [Character recognition](https://www.youtube.com/watch?v=ocB8uDYXtt0)
- * [Insurance payout predictions](https://www.youtube.com/watch?v=Q3vknDOy6Bs)
- * [Crime prediction](https://www.youtube.com/watch?v=7Ly7yAzLDjA)
+Machine learning has quickly become an integral part of the technology industry and is used throughout many aspects of society. Here are a just a few examples that we may take for granted during our daily lives:
 
+* Banks look for trends in our transaction data to detect outliers that may be fraudulent
+* Email inboxes use text to classify whether an email is spam or not, and adjust their parameters based upon how we flag emails
+* Travel apps use live and historic data to predict traffic, travel times, and journey routes
+* Retail companies and streaming services use our data to recommend new content we might like based upon our demographic and historical preferences
+* Image, object, and pattern recognition is used to identify humans and vehicles, capture text, generate subtitles, and much more
+* Self-driving cars and robots use object detection and performance feedback to improve their interaction with the world
 
-### Example of machine learning in research
- * [Classifying remote sensing images to find water.](https://pure.aber.ac.uk/portal/files/29140808/remotesensing_11_00593.pdf)
- * [Looking for breast cancer in medical images](https://pure.aber.ac.uk/portal/files/28421096/08003418.pdf)
- * [Predicting what cows are doing from GPS data](https://pure.aber.ac.uk/portal/files/6707587/JDS_DairyModel_Revised_2.docx)
-
+> ### Categorise these examples into types of machine learning tasks
+>
+> Using the following 4 broad tasks, categorise the examples of Machine learning in our daily lives into one or more of the following:
+>
+> 1. finding trends in data
+> 2. classifying data into groups and categories
+> 3. making decisions and predictions
+> 4. learning to interact in an environment
+{: .challenge}
 
 ### Artificial Intelligence vs Machine Learning
 
-Artificial Intelligence often means a system with general intelligence, able to solve any problem. AI is a very broad term. ML systems are usually trained to work on a particular problem. But they can appear to "learn" but isn't a general intelligence that can solve anything a human could. They often need hundreds or thousands of examples to learn and are confined to relatively simple classifications. A human like system could learn from a single example. 
+The term machine learning (ML) is often mentioned alongside artificial intelligence (AI) and deep learning (DL). Deep learning is a subset of machine learning, and machine learning is a subset of artificial intelligence.
 
-Another definition of Artificial Intelligence dates back to the 1950s and Alan Turing's "Immitation Game". This said that we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts at this are getting close to fooling humans, but we are still a very long way from a machine which has full human like intelligence.
+AI is a very broad term that is used to describe a system than has a "general intelligence" that it can apply to solve a wide range of different problems, often mimicking the behaviour of intelligent biological systems. Another definition of AI dates back to the 1950s and Alan Turing's "Immitation Game". This said that we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts at this are getting close to fooling humans, but although there have been great advances in AI and ML research recently we can only come close to human like intelligence in a few specialist areas and are still a long way from a general purpose AI.
 
-Deep Learning (DL) is just one of many techniques collectively known as machine learning. Machine learning (ML) refers to techniques where a computer can "learn" patterns in data, usually by being shown numerous examples to train it. People often talk about machine learning being a form of artificial intelligence (AI). Definitions of artificial intelligence vary, but usually involve having computers mimic the behaviour of intelligent biological systems. Since the 1950s many works of science fiction have dealt with the idea of an artificial intelligence which matches (or exceeds) human intelligence in all areas. Although there have been great advances in AI and ML research recently we can only come close to human like intelligence in a few specialist areas and are still a long way from a general purpose AI. The image below shows some differences between artificial intelligence, Machine Learning and Deep Learning.
+ML refers to techniques where a computer can "learn" patterns in data, usually by being shown numerous examples to train it to solve a particular problem. While they can learn to solve specific or similar problems they are not considered a general intelligence as they cannot solve a wide range of different problems. They often need hundreds or thousands of examples to learn a task and are confined to relatively simple classifications. A human-like system could learn much quicker, and potentially from a single example by using it's knowledge of many other problems.
+
+DL is particular field of machine learning that uses a specific type of ML algorithm called a neural network to create highly-complex systems, built out of many neural networks, to learn from vast quantities of data. Deep learning can be used to solve an incredible range of problems, but can require huge amounts of input data and computational resources to train. The image below shows some the relationship between artificial intelligence, Machine Learning and Deep Learning.
 
 ![An infographics showing the relation of AI, ML, NN and DL](../fig/01_AI_ML_DL_differences.png)
 The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original source
 
 # What are some of the types of Machine Learning?
 
-This lesson will introduce you to a few of these techniques, but there are many more which we simply don't have time to cover here. 
+This lesson will introduce you to some of the key concepts and sub-domains of ML such as Supervised learning, Unsupervised learning, as well as the very basics of Neural Networks.
 
-The techniques breakdown into two broad categories, predictors and classifiers. Predictors are used to predict a value (or set of value) given a set of inputs, for example trying to predict the cost of something given the economic conditions and the cost of raw materials or predicting a country's GDP given its life expectancy. Classifiers try to classify data into different categories, for example deciding what characters are visible in a picture of some writing or if a message is spam or not. 
+The figure below provides a nice overview of some of the sub-domains of ML and even techniques used within each sub-domain and we recommend checking out XXXX FOR A MORE COMPREHENSIVE OVERVIEW OF ML TECHNIQUES AND EXAMPLES OF THESE (SKLEARN DOCOS???). In blue we highlight the sub-domains covered in this lesson.
 
-![Types of Machine Learning](../fig/ML_summary.jpg)
-[Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/)
+
+![Types of Machine Learning](../fig/ML_summary.png)
+[Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/) with modifications for lesson content.
+
 
 ### Supervised and unsupervised learning 
 
 Some words about this.
 
+
 ### Training Data
 
 Many (but not all) machine learning systems "learn" by taking a series of input data and output data and using it to form a model. The maths behind the machine learning doesn't care what the data is as long as it can represented numerically or categorised. Some examples might include:
 
-* predicting a person's weight based on their height
 * predicting commute times given traffic conditions
 * predicting house prices given stock market prices
 * classifying if an email is spam or not
@@ -125,12 +132,7 @@ Many machine learning techniques will give us an answer given some input data ev
 > 2. What kind of input data does that machine learning system use to make predictions/classifications?
 > 3. Is there any evidence that your interaction with the system contributes to further training?
 > 4. Do you have any examples of the system failing?
->
-> Write your answers into the etherpad.
+
 {: .challenge}
-
-# Transition to supervised learning: regression with sklearn
-
-Some blurb here about the flow of the lesson, and a lead into the next lesson on regression using sklearn.
 
 {% include links.md %}
