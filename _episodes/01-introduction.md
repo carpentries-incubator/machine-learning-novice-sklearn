@@ -32,7 +32,7 @@ Machine learning has quickly become an integral part of the technology industry 
 * Image, object, and pattern recognition is used to identify humans and vehicles, capture text, generate subtitles, and much more
 * Self-driving cars and robots use object detection and performance feedback to improve their interaction with the world
 
-> ### Categorise these examples into types of machine learning tasks
+> ## Categorise these examples into types of machine learning tasks
 > Using the following 4 broad tasks, categorise the examples of Machine learning in our daily lives into one or more of the following:
 >
 > 1. finding trends in data
