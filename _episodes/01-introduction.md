@@ -59,7 +59,7 @@ The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original
 
 This lesson will introduce you to some of the key concepts and sub-domains of ML such as Supervised learning, Unsupervised learning, as well as the very basics of Neural Networks.
 
-The figure below provides a nice overview of some of the sub-domains of ML and even techniques used within each sub-domain and we recommend checking out XXXX FOR A MORE COMPREHENSIVE OVERVIEW OF ML TECHNIQUES AND EXAMPLES OF THESE (SKLEARN DOCOS???). In blue we highlight the sub-domains covered in this lesson: Classical learning techniques such as regression, classification, clustering, and dimension reduction, as well as a brief glimpse into neural networks using perceptrons.
+The figure below provides a nice overview of some of the sub-domains of ML and even techniques used within each sub-domain. We recommend checking out the Scikit Learn [webpage](https://scikit-learn.org/stable/index.html) for a good overview of, and links to in-depth details of, the topics we will cover in this lesson. Highlighted in blue are the topics covered in this lesson: Classical learning techniques such as regression, classification, clustering, and dimension reduction, as well as a brief glimpse into neural networks using perceptrons.
 
 
 ![Types of Machine Learning](../fig/ML_summary.png)
