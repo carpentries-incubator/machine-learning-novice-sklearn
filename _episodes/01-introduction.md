@@ -17,7 +17,7 @@ keypoints:
 - "All machine learning systems have some kinds of limitations"
 ---
 
-# What is Machine Learning?
+# What is machine learning?
 
 Machine learning is a set of techniques that enable computers to use data to improve the performance of a given task. This is similar in concept to how humans learn to make predictions based upon previous experience and knowledge. Machine learning can address a wide range of tasks and problems, but broadly speaking it can be used to find trends in a dataset, classify data into groups or categories, make decisions and predictions based upon data, and even "learn" how to interact in an environment when provided with goals to achieve.
 
@@ -59,11 +59,11 @@ The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original
 
 This lesson will introduce you to some of the key concepts and sub-domains of ML such as Supervised learning, Unsupervised learning, as well as the very basics of Neural Networks.
 
-The figure below provides a nice overview of some of the sub-domains of ML and even techniques used within each sub-domain and we recommend checking out XXXX FOR A MORE COMPREHENSIVE OVERVIEW OF ML TECHNIQUES AND EXAMPLES OF THESE (SKLEARN DOCOS???). In blue we highlight the sub-domains covered in this lesson.
+The figure below provides a nice overview of some of the sub-domains of ML and even techniques used within each sub-domain and we recommend checking out XXXX FOR A MORE COMPREHENSIVE OVERVIEW OF ML TECHNIQUES AND EXAMPLES OF THESE (SKLEARN DOCOS???). In blue we highlight the sub-domains covered in this lesson: Classical learning techniques such as regression, classification, clustering, and dimension reduction, as well as a brief glimpse into neural networks using perceptrons.
 
 
 ![Types of Machine Learning](../fig/ML_summary.png)
-[Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/) with modifications for lesson content.
+[Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/) with modifications in blue to denote lesson content.
 
 
 ### Supervised and unsupervised learning 
