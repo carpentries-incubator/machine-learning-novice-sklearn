@@ -25,10 +25,10 @@ Machine learning is a set of techniques that enable computers to use data to imp
 
 Machine learning has quickly become an integral part of the technology industry and is used throughout many aspects of society. Here are a just a few examples that we may take for granted during our daily lives:
 
-* Banks look for trends in our transaction data to detect outliers that may be fraudulent
-* Email inboxes use text to classify whether an email is spam or not, and adjust their parameters based upon how we flag emails
+* Banks look for trends in transaction data to detect outliers that may be fraudulent
+* Email inboxes use text to classify whether an email is spam or not, and adjust their classification rules based upon how we flag emails
 * Travel apps use live and historic data to predict traffic, travel times, and journey routes
-* Retail companies and streaming services use our data to recommend new content we might like based upon our demographic and historical preferences
+* Retail companies and streaming services use data to recommend new content we might like based upon our demographic and historical preferences
 * Image, object, and pattern recognition is used to identify humans and vehicles, capture text, generate subtitles, and much more
 * Self-driving cars and robots use object detection and performance feedback to improve their interaction with the world
 
@@ -46,9 +46,9 @@ Machine learning has quickly become an integral part of the technology industry 
 
 The term machine learning (ML) is often mentioned alongside artificial intelligence (AI) and deep learning (DL). Deep learning is a subset of machine learning, and machine learning is a subset of artificial intelligence.
 
-AI is a very broad term that is used to describe a system than has a "general intelligence" that it can apply to solve a wide range of different problems, often mimicking the behaviour of intelligent biological systems. Another definition of AI dates back to the 1950s and Alan Turing's "Immitation Game". This said that we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts at this are getting close to fooling humans, but although there have been great advances in AI and ML research recently we can only come close to human like intelligence in a few specialist areas and are still a long way from a general purpose AI.
+AI is a very broad term that is used to describe a system than has a "general intelligence" that the system can apply to solve a wide range of different problems, often mimicking the behaviour of intelligent biological systems. Another definition of AI dates back to the 1950s and Alan Turing's "Immitation Game". This said that we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts at this are getting close to fooling humans, but although there have been great advances in AI and ML research we can only come close to human-like intelligence in a few specialist areas, and we are still a long way from a general purpose AI.
 
-ML refers to techniques where a computer can "learn" patterns in data, usually by being shown numerous examples to train it to solve a particular problem. While they can learn to solve specific or similar problems they are not considered a general intelligence as they cannot solve a wide range of different problems. They often need hundreds or thousands of examples to learn a task and are confined to relatively simple classifications. A human-like system could learn much quicker, and potentially from a single example by using it's knowledge of many other problems.
+ML refers to techniques where a computer can "learn" patterns in data, usually by being shown numerous examples to train it to solve a particular problem. While they can learn to solve specific problems, or multiple similar problems, they are not considered a general intelligence as they cannot solve a wide range of different problems. They often need hundreds or thousands of examples to learn a task and are confined to relatively simple classifications. A human-like system could learn much quicker, and potentially learn from a single example by using it's knowledge of many other problems.
 
 DL is particular field of machine learning that uses a specific type of ML algorithm called a neural network to create highly-complex systems, built out of many neural networks, to learn from vast quantities of data. Deep learning can be used to solve an incredible range of problems, but can require huge amounts of input data and computational resources to train. The image below shows some the relationship between artificial intelligence, Machine Learning and Deep Learning.
 
@@ -59,7 +59,7 @@ The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original
 
 This lesson will introduce you to some of the key concepts and sub-domains of ML such as Supervised learning, Unsupervised learning, as well as the very basics of Neural Networks.
 
-The figure below provides a nice overview of some of the sub-domains of ML and even techniques used within each sub-domain. We recommend checking out the Scikit Learn [webpage](https://scikit-learn.org/stable/index.html) for a good overview of, and links to in-depth details of, the topics we will cover in this lesson. Highlighted in blue are the topics covered in this lesson: Classical learning techniques such as regression, classification, clustering, and dimension reduction, as well as a brief glimpse into neural networks using perceptrons.
+The figure below provides a nice overview of some of the sub-domains of ML and the techniques used within each sub-domain. We recommend checking out the Scikit Learn [webpage](https://scikit-learn.org/stable/index.html) for additional examples of the topics we will cover in this lesson. Highlighted in blue are the topics covered in this lesson: Classical learning techniques such as regression, classification, clustering, and dimension reduction, as well as a brief glimpse into neural networks using perceptrons.
 
 
 ![Types of Machine Learning](../fig/ML_summary.png)
