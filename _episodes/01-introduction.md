@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-teaching: 40
+teaching: 30
 exercises: 10
 questions:
 - What is machine learning?
@@ -8,13 +8,13 @@ questions:
 objectives:
 - "Gain an overview of what machine learning is and the techniques available."
 - "Understand how machine learning and artificial intelligence differ."
+- "Be aware of some of the caveats involved in using Machine Learning."
+
 keypoints:
-- "Machine learning is a set of tools and techniques to XXXXXXXX."
-- "Some machine learning techniques are useful for predicting something given some input data."
-- "Some machine learning techniques are useful for classifying input data and working out which class it belongs to."
+- "Machine learning is a set of tools and techniques that use data to make predictions about said data."
 - "Artificial Intelligence is a broader term that refers to making computers show human like intelligence."
-- "Some people say Artificial Intelligence to mean machine learning"
-- "All machine learning systems have some kinds of limitations"
+- "Deep Learning is a subset of machine learning"
+- "All machine learning systems have some kinds of limitations to be aware of"
 ---
 
 # What is machine learning?
@@ -64,44 +64,7 @@ The figure below provides a nice overview of some of the sub-domains of ML and t
 ![Types of Machine Learning](../fig/ML_summary.png)
 [Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/) with modifications in blue to denote lesson content.
 
-
-### Supervised and unsupervised learning 
-
-Some words about this.
-
-
-### Training Data
-
-Many (but not all) machine learning systems "learn" by taking a series of input data and output data and using it to form a model. The maths behind the machine learning doesn't care what the data is as long as it can represented numerically or categorised. Some examples might include:
-
-* predicting commute times given traffic conditions
-* predicting house prices given stock market prices
-* classifying if an email is spam or not
-* classifying what if an image contains a person or not
-
-
-Typically we will need to train our models with hundreds, thousands or even millions of examples before they work well enough to do any useful predictions or classifications with them. 
-
-Some systems will do training as a one shot process which produces a model. Others might try to continuosly refine their training through the real use of the system and human feedback to it. For example every time you mark an email as spam or not spam you are probably contributing to further training of your spam filter's model. 
-
-### Types of output
-
-Predictors will usually involve a continuos scale of outputs, such as the price of something. Classifiers will tell you which class (or classes) are present in the data. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
-
-
-
 # What are some limitations of Machine Learning
-
-### Over Hyping of Artificial Intelligence and Machine Learning
-
-There is a lot of hype around machine learning and artificial intelligence right now, while many real advances have been made a lot of people are overstating what can be achieved. Recent advances in computer hardware and machine learning algorithms have made it a lot more useful, but its been around over 50 years. 
-
-The [Gartner Hype Cycle](https://www.gartner.com/en/research/methodologies/gartner-hype-cycle) looks at which technologies are being over-hyped. In the August 2018 analysis AI Platform as a service, Deep Learning chips, Deep learning neural networks, Conversational AI and Self Driving Cars are all shown near the "Peak of inflated expectations". 
-
-![The Gartner Hype Cycle curve](https://upload.wikimedia.org/wikipedia/commons/9/94/Gartner_Hype_Cycle.svg)
-[Image from Jeremy Kemp via Wikimedia](https://en.wikipedia.org/wiki/File:Gartner_Hype_Cycle.svg)
-
-
 
 ### Garbage In = Garbage Out
 
@@ -124,7 +87,7 @@ Sometimes ML algorithms become over trained to their training data and struggle 
 Many machine learning techniques will give us an answer given some input data even if that answer is wrong. Most are unable to explain any kind of logic in arriving at that answer. This can make diagnosing and even detecting problems with them difficult. 
 
 > ## Where have you encountered machine learning already?
-> Discuss with the person next to you:
+> Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
 >
 > 1. Where have I seen machine learning in use?
 > 2. What kind of input data does that machine learning system use to make predictions/classifications?
