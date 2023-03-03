@@ -1,6 +1,6 @@
 ---
-title: "Introducing Scikit Learn"
-teaching: 15
+title: "Regression"
+teaching: 30
 exercises: 20
 questions:
 - "How can I use scikit-learn to process data?"
@@ -17,8 +17,16 @@ keypoints:
 - "It also includes a polynomial modelling function which is useful for modelling non-linear data."
 ---
 
+ ## About Scikit-Learn
 
-SciKit Learn (also known as sklearn) is an open source machine learning library for Python which has a very wide range of machine learning algorithms. It makes it very easy for a Python programmer to use machine learning techniques without having to implement them.
+[Scikit-Learn](http://github.com/scikit-learn/scikit-learn) is a Python package designed to give access to **well-known** machine learning algorithms within Python code, through a **clean, well-thought-out API**. It has been built by hundreds of contributors from around the world, and is used across industry and academia.
+
+Scikit-Learn is built upon Python's [NumPy (Numerical Python)](http://numpy.org) and [SciPy (Scientific Python)](http://scipy.org) libraries, which enable efficient in-core numerical and scientific computation within Python. As such, scikit-learn is not specifically designed for extremely large datasets, though there is [some work](https://github.com/ogrisel/parallel_ml_tutorial) in this area. For this introduction to ML we are going to stick to processing of small to medium datasets with Scikit-learn, without the need for a Graphical Processing Unit (GPU).
+
+
+# Supervised Learning intro
+
+blah
 
 ## Linear Regression with scikit-learn
 
@@ -255,6 +263,27 @@ process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
                              "United Kingdom", 1950, 2016)
 ~~~
 {: .language-python}
+
+
+### Training Data
+
+Many (but not all) machine learning systems "learn" by taking a series of input data and output data and using it to form a model. The maths behind the machine learning doesn't care what the data is as long as it can represented numerically or categorised. Some examples might include:
+
+* predicting commute times given traffic conditions
+* predicting house prices given stock market prices
+* classifying if an email is spam or not
+* classifying what if an image contains a person or not
+
+
+Typically we will need to train our models with hundreds, thousands or even millions of examples before they work well enough to do any useful predictions or classifications with them. 
+
+Some systems will do training as a one shot process which produces a model. Others might try to continuosly refine their training through the real use of the system and human feedback to it. For example every time you mark an email as spam or not spam you are probably contributing to further training of your spam filter's model. 
+
+### Types of output
+
+Predictors will usually involve a continuos scale of outputs, such as the price of something. Classifiers will tell you which class (or classes) are present in the data. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
+
+
 
 
 > ## Exercise: Comparing linear and polynomial models

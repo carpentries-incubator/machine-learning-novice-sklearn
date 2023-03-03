@@ -1,5 +1,5 @@
 ---
-title: "Regression"
+title: "Old- manual Regression"
 teaching: 45
 exercises: 30
 questions:
