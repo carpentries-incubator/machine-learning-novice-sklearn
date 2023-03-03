@@ -16,17 +16,13 @@ keypoints:
 - "t-SNE is another dimensionality reduction technique for tabular data that is more general than PCA"
 ---
 
-# Dimensionality Reduction
+# Dimensionality Reduction (Changed)
 
-Dimensionality reduction is the process of using a subset of the coordinates, 
-which may be transformed, of the dataset to capture the variation in features 
-of the data set.  It can be a helpful pre-processing step before doing other 
-operations on the data, such as classification, regression or visualization.
+As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data. Let's say you want to cluster handwritten numeric images? The dataset we will be using is the Modified National Institute of Standards and Technology database (MNIST). The MNIST dataset contains 60,000 handwritten labelled images from 0-9. An illustration of the dataset is presented below. 
 
-## Dimensionality Reduction with Scikit-learn
+![MNIST example illustrating all the classes in the dataset](../fig/MnistExamples.png)
 
-First setup our environment and load the MNIST digits dataset which will be used 
-as our initial example.
+To code to retrieve the entire dataset with Scikit-learn is given below,
 
 ~~~
 import numpy as np
@@ -47,11 +43,28 @@ y = digits.target
 ~~~
 {: .language-python}
 
-### Principle Component Analysis (PCA)
 
-PCA is a technique that does rotations of data in a two dimensional
-array to decompose the array into combinations vectors that are orthogonal
-and can be ordered according to the amount of information they carry.
+Linear clustering approaches such as K-means would require all the images to be binned into a pre-determined number of clusters, which might not adequately capture the variability in the images. 
+
+Non-linear spectral clustering might fare better but, it would require the images to be projected into a higher dimension space and seperation of the complex projections in higher-order spaces would necessitate complex non-linear seperators.
+
+Utilizing a 2D vector space and by reducing the dimension of the input dataset while preserving their local representations transforms the high-dimension input dataset into lower-order projections. These, lower-order projections can be easily seperated using linear seperators while preserving the variability of images within the dataset.
+
+## Dimensionality Reduction with Scikit-learn
+We will look at two commonly used techniques for dimensionality reduction, Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE) both of which are supported by Scikit-learn.
+
+### Principal Component Analysis (PCA)
+PCA is an important technique for visualizing high-dimensional data. PCA is a deterministic linear technique which projects n-dimensional data into k-dimensions while preserving the global structure of the input data. Dimension reduction in PCA involves transforming highly-correlated data by rotating the original set of vectors into its principal components. The variance between the transformation can be inferred by computing their eigen values. 
+
+The process of reducing dimensionality in PCA is as follows,
+1. calculate the mean of each column
+2. center the value in each column by subtracting the mean column value
+3. calculate covariance matrix of centered matrix
+4. calculate eigendecomposition of the covariance (eigenvectors represent the magnitude of directions or components for the reduce subspace)
+
+Minimizing the eigen values closer to zero implies that the dataset has been successfully decomposed into their respective principal components. 
+
+Utilizing scikit-learn makes applying PCA very easy. Lets code and apply PCA to the MNIST dataset. 
 
 ~~~
 # PCA
@@ -61,7 +74,13 @@ X_pca = pca.transform(X)
 
 fig = plt.figure(1, figsize=(4, 4))
 plt.clf()
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap=plt.cm.nipy_spectral, 
+tx = X_pca[:, 0]
+tx = (tx-np.min(tx)) / (np.max(tx) - np.min(tx))
+
+ty = X_pca[:, 1]
+ty = (ty-np.min(ty)) / (np.max(ty) - np.min(ty))
+
+plt.scatter(tx, ty, c=y, cmap=plt.cm.nipy_spectral, 
         edgecolor='k',label=y)
 plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
 plt.savefig("pca.svg")
@@ -70,12 +89,16 @@ plt.savefig("pca.svg")
 
 ![Reduction using PCA](../fig/pca.svg)
 
+As illustrated in the figure above, PCA does not handle outlier data well (primarily due to global preservation of structural information) and has some of the same drawbacks of pre-determining the principal components as K-means clutering approaches. 
+
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
+t-SNE is a non-deterministic non-linear technique which involves several optional Hyperparameters such as perplexity, learning rate and number of steps. While the t-SNE algorithm is complex to explain, it works on the principle of preserving local similarities by minimizing the pairwise gaussian distance between two or more points in high-dimensional space. The versatility of the algorithm in transforming the underlying structural information into lower-order projections makes t-SNE applicable to a wide range of research domains.
+
+Utilizing scikit-learn makes applying t-SNE very easy. Lets code and apply t-SNE to the MNIST dataset.
 
 ~~~
 # t-SNE embedding
-tsne = manifold.TSNE(n_components=2, init='pca',
-        random_state = 0)
+tsne = manifold.TSNE(n_components=2, init='pca', random_state = 0)
 X_tsne = tsne.fit_transform(X)
 fig = plt.figure(1, figsize=(4, 4))
 plt.clf()
@@ -88,6 +111,7 @@ plt.savefig("tsne.svg")
 
 ![Reduction using t-SNE](../fig/tsne.svg)
 
+The major drawback of applying t-SNE to datasets is it's large computational requirements. Furthermore, Hyperparameter tuning of t-SNE usually requires some trial-and-error to perfect. In the above figure, the algorithm still has trouble in seperating all the classes perfectly. To account for even higher-order input data, neural networks were developed to more accurately extract feature information.
 
 
 > ## Exercise: Working in three dimensions
