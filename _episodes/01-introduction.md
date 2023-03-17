@@ -4,7 +4,7 @@ teaching: 30
 exercises: 10
 questions:
 - What is machine learning?
-- What are some of the machine learning techniques that exist?
+- What are some useful machine learning techniques?
 objectives:
 - "Gain an overview of what machine learning is and the techniques available."
 - "Understand how machine learning and artificial intelligence differ."
