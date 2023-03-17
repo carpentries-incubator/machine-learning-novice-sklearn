@@ -24,7 +24,7 @@ Classification is the process of assigning items to classes, based on observatio
 ## The Penguin dataset
 We're going to be using the penguins dataset, which comprises 342 observations of penguins of three different species: Adelie, Chinstrap & Gentoo. For each penguin we're given measurements of its bill length and depth (mm), flipper length (mm) and body mass (g).
 
-source: {% https://github.com/allisonhorst/palmerpenguins %}
+source: [HERE](https://github.com/allisonhorst/palmerpenguins)
 
 ~~~
 import seaborn as sns
@@ -254,4 +254,4 @@ We can see that both the tree and the decision space are much simpler, but still
 - You generally want to ensure that each class is represented proportionately in both training + testing (beware just taking the first 80%)
 - Sometimes you want to make sure a group is excluded from the train/test split, e.g.: when multiple samples come from one individual
 - This is often called stratification
-See https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators
+See [Scikit-Learn](https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators) for more information.
