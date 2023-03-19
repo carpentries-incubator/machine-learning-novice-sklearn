@@ -5,11 +5,9 @@ exercises: 0
 questions:
 - "Where can you find out more about machine learning?"
 objectives:
-- "To learn more about machine learning"
+- "Know where to go to learn more about machine learning"
 keypoints:
-- "This course has only touched on a few areas of machine learning."
-- "Machine learning is a large and growing field."
-- "This course is designed to teach you just enough to do something useful."
+- "This course has only touched on a few areas of machine learning and is designed to teach you just enough to do something useful."
 - "Machine learning is a rapidly developing field and new tools and techniques are constantly appearing."
 ---
 
@@ -17,19 +15,18 @@ keypoints:
 
 There are many other machine learning algorithms that might be suitable for helping to answer your research questions.
 
-The Scikit Learn [webpage](https://scikit-learn.org/stable/index.html) has a good overview of all the features available in the library.
+The Scikit-Learn [webpage](https://scikit-learn.org/stable/index.html) has a good overview of all the features available in the library.
 
-## Ensemble Learning
+## Ensemble learning
 
 Ensemble Learning is a technique which combines multiple machine learning algorithms together to improve results. A popular ensemble technique
-is Random Forest which creates a "forest" of decision trees and then tries to prune it down to the most effective ones. Its a flexible algorithm
-that can work both as a regression and a classification system. See the article [Random Forest Simple Explanation](https://medium.com/@williamkoehrsen/random-forest-simple-explanation-377895a60d2d) for more information.
+is called 'Random Forest'. This technique creates a "forest" of decision trees and then tries to prune it down to the most effective ones. It is a flexible algorithm that can work both as a regression and a classification system. See the article ["Random forest simple explanation"](https://medium.com/@williamkoehrsen/random-forest-simple-explanation-377895a60d2d) for more information.
 
-## Genetic Algorithms
+## Genetic algorithms
 
-Genetic algorithms are a technique which tries to mimic biological evolution. They will learn to solve a problem through a gradual process 
-of simulated evolution. Each generation is mutated slightly and then evaluated with a fitness function, the fittest "genes" will then be selected
-for the next generation. Sometimes this is combined with neural networks to change the network's size structure. 
+Genetic algorithms are techniques which try to mimic biological evolution. They will learn to solve a problem through a gradual process 
+of simulated evolution. Each generation is mutated slightly and then evaluated with a fitness function. The fittest "genes" will then be selected
+for the next generation. Sometimes this is combined with neural networks to change the networks size structure. 
 
 This [video](https://www.youtube.com/watch?v=qv6UVOQ0F44) shows a genetic algorithm evolving neural networks to play a video game.
 
