@@ -19,7 +19,7 @@ keypoints:
 
 # What is machine learning?
 
-Machine learning is a set of techniques that enable computers to improve in their performance of a given task. This is similar in concept to how humans learn to make predictions based upon previous experience and knowledge. Machine learning encompasses a wide range of activities, but broadly speaking it can be used to: find trends in a dataset, classify data into groups or categories, make decisions and predictions based upon data, and even "learn" how to interact with an environment when provided with goals to achieve.
+Machine learning is a set of techniques that enable computers to use data to improve in their performance of a given task. This is similar in concept to how humans learn to make predictions based upon previous experience and knowledge. Machine learning encompasses a wide range of activities, but broadly speaking it can be used to: find trends in a dataset, classify data into groups or categories, make decisions and predictions based upon data, and even "learn" how to interact with an environment when provided with goals to achieve.
 
 ### Machine learning in our daily lives
 
@@ -45,7 +45,7 @@ Machine learning has quickly become an important technology and is now frequentl
 
 The term machine learning (ML) is often mentioned alongside artificial intelligence (AI) and deep learning (DL). Deep learning is a subset of machine learning, and machine learning is a subset of artificial intelligence.
 
-AI is a broad term used to describe a system possessing a "general intelligence" that can be applied to solve problems, often mimicking the behaviour of intelligent biological systems. Another definition of AI dates back to the 1950s and Alan Turing's "Immitation Game". Turing said we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts are getting close to fooling humans, but although there have been great advances in AI and ML research, human-like intelligence is only possible in a few specialist areas.
+AI is a broad term used to describe a system possessing a "general intelligence" that can be applied to solve a diverse range problems, often mimicking the behaviour of intelligent biological systems. Another definition of AI dates back to the 1950s and Alan Turing's "Immitation Game". Turing said we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts are getting close to fooling humans, but although there have been great advances in AI and ML research, human-like intelligence is only possible in a few specialist areas.
 
 ML refers to techniques where a computer can "learn" patterns in data, usually by being shown many training examples. While computers can learn to solve specific problems, or multiple similar problems, they are not considered to possess a general intelligence. Computers often need hundreds or thousands of examples to learn a task and are confined to relatively simple classifications. A human-like system could learn much quicker, and potentially learn from a single example by using it's knowledge of many other problems.
 
@@ -67,7 +67,7 @@ The figure below provides a nice overview of some of the sub-domains of ML and t
 
 ### Garbage in = garbage out
 
-There is a classic expression in computer science, "garbage in = garbage out". This means that if the input data we use is garbage then the ouput will be too. If, for eample, we try to use a machine learning system to find a link between two unlinked variables then it may well manage to produce a model attempting this, but the output will be meaningless. 
+There is a classic expression in computer science, "garbage in = garbage out". This means that if the input data we use is garbage then the ouput will be too. If, for example, we try to use a machine learning system to find a link between two unlinked variables then it may well manage to produce a model attempting this, but the output will be meaningless. 
 
 ### Biases due to training data
 

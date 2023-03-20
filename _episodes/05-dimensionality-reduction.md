@@ -1,5 +1,5 @@
 ---
-title: "Reducing the Dimensionality of Data"
+title: "Dimensionality reduction"
 teaching: 0
 exercises: 0
 questions:
@@ -46,7 +46,7 @@ Linear clustering approaches such as k-means would require all the images to be 
 
 Non-linear spectral clustering might fare better, but it would require the images to be projected into a higher dimension space, and separating the complex projections in higher-order spaces would necessitate complex non-linear separators.
 
-One option is to reduce the dimensions of the input dataset in 2D vector space while preserving their local representations. This would transform the high-dimension input dataset into lower-order projections. These lower-order projections can be easily separated using linear separators while preserving the variability of images within the dataset.
+One option is to reduce the dimensions of the input dataset into a 2D vector space while preserving their local representations. This would transform the high-dimension input dataset into lower-order projections. These lower-order projections can then be separated using linear separators while preserving the variability of images within the dataset.
 
 ## Dimensionality reduction with Scikit-Learn
 We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE). Both of these techniques are supported by Scikit-Learn.
@@ -114,7 +114,7 @@ The major drawback of applying t-SNE to datasets is the large computational requ
 
 > ## Exercise: Working in three dimensions
 > The above example has considered only two dimensions since humans
-> can only visualize two dimensions well. However, there can be cases
+> can visualize two dimensions very well. However, there can be cases
 > where a dataset requires more than two dimensions to be appropriately
 > decomposed. Modify the above programs to use three dimensions and 
 > create appropriate plots.

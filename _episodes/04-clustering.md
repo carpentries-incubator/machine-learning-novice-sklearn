@@ -25,7 +25,7 @@ Clustering analysis does not usually require any training and is therefore known
 
 ## Applications of clustering
 * Looking for trends in data
-* Reducing the data around a point to just that point using data compression (e.g. reducing colour depth in an image)
+* Reducing the data around a point to just that point as a form of data compression (e.g. reducing colour depth in an image)
 * Pattern recognition
 
 ## K-means clustering
