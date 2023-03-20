@@ -20,29 +20,15 @@ Thoughts to be included longterm
   - fig, ax = plt.subplots() is more concise than this: fig = plt.figure() ax = fig.add_subplot(111)
 
 
-# Step 0: Setting the Scene
-- in this episode, we will apply one of *the two big ML approaches*: Regression and classifiction (supervised)/clustering (unsupervised) which we will talk about in the next episodes
-- imagine in a university-setting, you are frequently asked how hard an exam is, how much time to invest for its preparation and ultimately what restult to expect 
-- For this purpose, we fundamentally have to do two things: 
-  - Task 1: Create a hypothesis about what input we need to predit the exam result
-  - Task 2: Get data, build a *good* model to achieve our end goal of predicting quantitative values (here: The exam results, other similar examples are continuous values such as the price of a car, the weight of a dog).
-- We guess that a direct corellation exists between the hours spent studying for the exam and the result. That is our simplification/abstraction/hypothesis. 
-- while this simplified problem can be solved purely with hand-calculations (maths, statics), we want to establish a link to ML (best) practices (and continue doing so in the long run). This means that:
-  - We will start with a clean dataset. That is unusual in practice. Often we have to consolidate several inputs into one neat table, for example. Some argue that this is of of the most time-consuming aspect while working with data. 
-  - We will split an existing dataset into a training and a testing dataset. Remember, we do not follow classic analytic approaches where we define step by step what the algorithm has to do, we still define the basics (also called *hyper-parameters*), but in a true ML-fashion, the model is trained on data samples (where the *parameters*) are found and in a next step, the success (some refer to this as *accuracy* or *validity*) is evaluated. 
-  - Though the maths/statics background is interesting, we will focus on using ML libraries such as Scikit Learn (sklearn) and will use predefined functions instead of creating these from scratch.
+# Regression
 
+In this episode, we will apply supervised learning via regression to predict how much time should be invested to prepare for an exam, and what result can be expected given the preparation time. To accomplish this we need to hypothesise the kind of input data we need, and then we need to obtain the data and build a useful model. We might hypothesise a correlation between the time spent studying for an exam and the result. For simplicity, we'll start with a clean, existing dataset, as collecting and consolidating data can be time-consuming. We'll then split this into training and testing datasets. We will specify basic hyperparamters but our model find the parameters during training, and then we can evaluate the accuracy/validity of our model. The good news is Scikit-Learn has many of the tools we need to do this.
 
-# Step 1: Envisioned Model
-- For Task 1, we form the hypothesis that we can predict exam results based on the hours of studying invested. Upon reflection we can imagine that there might be more to that; previous experience, procastinating while stuyding, etc. etc.  
-- To create our dataset, we have collected some historic data by asking former students for the time spent preparing the exam and their results.
-- Let's firstly get an impression of our collected data. Maybe we identify some relationship (a trend, for exmaple) which will help us to come up with a prediction (such as: *you are likely to get this many points in the exam* based on the hours you plan to study for it)
-- As an outlook, after we got an understanding of the data, we might find a simplification that we find most appropriate based on some of our data (the training data) and then gauge how well our prediction model performs by now feeding the testing data in, letting the algorithm perform its task and then compare predicted vs. actual values. 
+# Our hypothesis
+We might imagine there is more to getting a good grade than just the time spent studying (as not all study time is high-quality, and previous experience could play a big part in your success). We have a dataset containing variables relating to time spent studying and grades by former students. It's normally useful to visualise the data first to get an impression of trends or relationships which might provide useful context for training and evaluating our model.
 
-
-
-# Step 2: Get data and visualise it
-Lets get some training data and visualise it
+# Visualising the data
+Lets get some training data and visualise it:
 
 ```python
 %matplotlib inline
@@ -60,7 +46,7 @@ plt.title('Scatter plot of all our collected data')
 plt.show()
 ```
 
-# Step 3: Split dataset into Training and Testing data 
+# Splitting dataset into training and testing sets
 
 ```python
 import numpy as np
@@ -72,28 +58,13 @@ x_data, y_data, test_size=0.25, random_state=42)
 print(f"The x-values used to train our model on are: {x}") # Note the random sequence which is also good ML practice
 ```
 
-# Step 4: Create a model
-Let's have another look at the graph we created a few lines above. It seems tempting to simplify (in other words, to *approximate* or to *model*) the given points (also referred to as a *point cloud*) by one line. This is also referred to as *linear regression*. 
+# Create a model
+Based on the graph we created above, it looks like we can simplify the relationship with a straight line. This is referred to as linear regression.  Polynomial regression is a similar approach, but where a curved line is fitted. Linear regression can be consdiered a special case of polynomial regression requiring fewer *terms*, which influence the shape of the line.
 
-Let's call this approximation by a carefully positioned line **Use Case 1** or **UC1** for short. Referring to maths, suitable values for $m$ and $b$ would have to be found for such a line given by an equation of $y=mx +c$.
-
-Another similar approach is called *polynomial regression* which means not a line but a curve will be fit. This concept has many (*poly*) names (*nom*) or in our case: *terms*. How many terms is determined by something called the *degree*. For a degree two (which describes the highest power or exponent in the related equation) we get $y=ax^2 + bx +c$.  
-
-Therefore, the *linear regression* can be consdiered one special case of polynomial regression with a degree of one. So, still $y=mx +c$. (A degree of five would entail and equation of $y=ax^5 +bx^4 \dots$). We will get back to polynomial regression soon. 
-
-
-# Step 5: Code UC1 in Python using SciKitLearn
-- 5.1 Create a linear regression model in Python
-- 5.2 Revisit the resulting equations and the plots, including the deviation as dotted lines
-- 5.3 Create a table with relevant statistical metrics
-  - 5.3.1 residuals (list)
-  - 5.3.2 sum of residuals; highlighting how different signs might cancel each other out
-  - 5.3.3 workaround to square the delta and root; or Python is in part (but not only) a fancy calculator, so just use the abs() function
-  - 5.3.4 R-squared, exaplain, put more info from Youtube StatQuest
-
+To create a linear regression model in Python:
 
 ```python
-# Use Case 1 - Linear Regression 
+# Linear Regression, or 'Use Case 1' (UC1)
 # Calculate the fit line with degree 1 which means a LINEAR REGRESSION
 Model_UC1 = np.polyfit(x, y, deg=1) # this is the regession and we specify the degree to be 1
 Equation_UC1 = np.poly1d(Model_UC1) # poly1d helps us humans read the equation and makes several aspects callable from other functions
@@ -119,20 +90,9 @@ for i in range(len(x)):
 plt.show()
 ```
 
-While this looks quite good, it would be convenient to quantify how good this model/approximation/*the fit* is.
+This looks quite good but it would be better to quantify how well this model fits the data. For our model, we're relying on one input (the number of hours of studying). In other words, we consider the hours of studying to be an important input to get a good prediction. 
 
-We can't go too deep into the statistics foundation but will make use of some predefined functions.
-
-
-Taking one step back, we want to answer students question about what exam result to expect. For our model, we only rely on one metric as an input which is the number of hours of studying.
-We expect that we have this direct **corellation** between hours of studying and exam results. 
-In other words, we consider the hours of studying an important input to get a good prediction. For this step, we have to **find a model** that maps any kind number a particular student gives us for the hours of studying to a realsitic output.
-
-Alternatively, being lazy, we could also just provide the mean result as our prediction no matter what hour of studying a student tells us. 
-
-Let's first calculate the mean of the test results that for our current data set (i.e. the training data set) to have a foundation to compare against. 
-
-Another important metric is the *coefficient of determination* which is often abbreviated as *R-squared* 
+At this point, it would be useful to consider the coefficient of determination (often abbreviated as R-squared): 
 
 $$R^2=\frac{\operatorname{Var}(\text { mean })-\operatorname{Var}(\text { line })}{\operatorname{Var}(\text { mean })}$$
 $ \operatorname{Var}(\text { mean })$ is sum of the squared differences of the actual data values from the **mean**
@@ -141,13 +101,13 @@ this is then normed through dividing by $ \operatorname{Var}(\text { mean })$
 
 $R^2$ values are on a scale of zero to one or can be interpreted as a percentage.
 For example, if $R^2 = 81\%$ this means that there is 81% less variation around the line than the mean. Or the given realtionship (hours of studying corellated with exam result) accounts for 81% of the variation. 
-So most (81% to be exact) of the, variation in the data is explained by the hours/exam-results relationship. Which also means that our understanding that putting in more hours has a direct (but not 1:1) relationsihp with the exam-results is quite right.
+This means putting in more hours has a direct (but not 1:1) relationsihp with the exam-results.
 We can also say the relationship between the two variables explains 81% of the variation in the data.
-Again, we want to see if our identified realtionship is relevant. 
-The disadvantage of $R^2$ is that squaring prevents us from saying the corellation is positive or negative. For many cases this is obvious. Not less studying means better exam results. 
+
+We need to calculate the mean of the test results for the training data set to have a foundation to compare against.
 
 ```python
-# Calculating the some metrics to gauge how well our model fits its underlying data 
+# Calculating some metrics to gauge how well our model fits its underlying data 
 from sklearn.metrics import r2_score, mean_squared_error
 from math import sqrt
 
@@ -253,9 +213,7 @@ print()
 
 Note the hint that Python gives us: *RankWarning: Polyfit may be poorly conditioned*
 
-Also note how this cuved line hits all the data points it *knew of*
-
-This is reflected in our metrics where $R^2$ is 100% and the RMSE = 0.
+The curved line hits all the data points and this is reflected in our metrics where $R^2$ is 100% and the RMSE = 0.
 
 Question: Did we generate the perfect model to predict exam outcomes based on historic data collection of hours spent for preparing the exam using the formula given by 'Equation_UC3'?
 
@@ -264,14 +222,8 @@ POP OUT BOX:
 TRY IN THEIR OWN TIME DEGREE OF: 9, 17, 35
 
 
-# Step 7: Taking one step back and comparing these results
-We could dedut from our previous setps that the higher the degree, the better the prediction.
-
-Let's see all three use-cases in one plot. 
-
-And also get each model's prediction for a student enquiring about the predicted exam result based o **8h of studying**. This value wasn't part of our training dataset. 
-
-
+# Comparing our results
+Let's see all three use-cases in one plot to compare them. We can also get each model's prediction for a student enquiring about the predicted exam result based on 8h of studying. This value wasn't part of our training dataset. 
 
 ```python
 # Overview Plot
@@ -320,7 +272,7 @@ ax.set_title('Overview, points show predicted exam results based on 8h of studyi
 
 ```
 
-# Step 8: Now put the testing dataset into place
+# Using the testing dataset
 
 ```python
 
@@ -390,7 +342,7 @@ ax.scatter(x_test, y_test, c='b')
 # print(y_pred_UC3(x_test))
 ```
 
-# Step 9: Compare training, testing: Over and underfitting
+# Compare training and testing results
 We could put all this into a nice Pandas dataframe
 - Table Column 1 = Degree
 - Table Column 2 = Training RMSE
@@ -400,16 +352,13 @@ We could put all this into a nice Pandas dataframe
 
 
 
-# Step 10: Reflect on these previous results
-- while looking at training dataset in isolation, the higher the degree the better, as the curve hits all the points
-- but as soon as we get to the testing dataset, we see discrepancy, that is called **overfitting**. 
-- This means, our model that is overfitted to the training data set has a low **bias** (as it never systematically over or underestimates the values, especially true for models with high polynomial degree). From another perspective, we can say that they don't reflect the reality and are only overfitted to an artificial abstraction (for more complicated ML tasks it is also said that the ML model might *remember* the training set too well)
-- Another important metric, the **variance** tells us how well the model performs across different datasets. Here, the linear regression is very good. We can also call it robust.
-- So we have to consider all these aspects; and especially for more complex ML tasks where we can't just visualise the 2D or 3D relationship with a simple plot, we have to be very careful; in other words: We won't be able to tell as easily in the realm of ML what errors we made during the model creation for models invovling more dimensions (which most do)
-- AND remember: *Garbage in, Garbage out* and *correlation isn't a sign for causality*, just because almost every winner in the olympic games drank water, drinking heaps of water won't make you an olympic winner.
-  - for some ML tasks it is even worse: The telco provider who knows that some customers will cancel their contract in the next few months might not know at all: WHY and WHAT TO DO AGAINST THAT. 
+# Reflections
+When looking at the training dataset in isolation, it seems the higher the degree the better, as the curve hits all the points. But as soon as we get to the testing dataset, we see a discrepancy (called overfitting). This means our overfitted model has a low bias as it never systematically over or underestimates the values. From another perspective, we can say that they don't reflect reality and are only overfitted to an artificial abstraction. 
 
+Another important metric, the variance, tells us how well the model performs across different datasets. Here the linear regression is very good. So we should consider all of these aspects when evaluating our results. For more complex ML tasks where we can't just visualise the 2D or 3D relationship with a simple plot, we have to be very careful. We won't be able to tell as easily what errors we made during the model creation for models invovling more dimensions.
 
-# Step 11: Outlook
+Remember: *Garbage in, Garbage out* and *correlation does not equal causation*. Just because almost every winner in the olympic games drank water, it doesn't mean that drinking heaps of water will make you an olympic winner.
+
+# Outlook
 - for neuronal networks: non linear activation functions (ReLu, Sigmoid, ... ) 
 - next step: classification and categorisation and clustering (the three c's)
