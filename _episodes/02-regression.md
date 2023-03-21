@@ -3,11 +3,11 @@ title: "Regression"
 teaching: 30
 exercises: 20
 questions:
-- "How can I process data using Scikit-Learn?"
+- "What is Supervised Learning?"
+- "How can I model data and make predictions using regression?"
 objectives:
-- "Be aware of the built-in linear regression functions in Scikit-Learn."
-- "Measure the error between a regression model and real data."
 - "Apply linear regression with Scikit-Learn to create a model."
+- "Measure the error between a regression model and real data."
 - "Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
 - "Understand how more complex models can be built with non-linear equations."
 - "Apply polynomial modelling to non-linear data using Scikit-Learn."

@@ -3,8 +3,10 @@ title: "Clustering with Scikit-Learn"
 teaching: 15
 exercises: 20
 questions:
+- "What is Unsupervised learning?"
 - "How can we use clustering to find data points with similar attributes?"
 objectives:
+- "Understand the difference between supervised and unsupervised learning"
 - "Identify clusters in data using k-means clustering."
 - "Understand the limitations of k-means when clusters overlap."
 - "Use spectral clustering to overcome the limitations of k-means."

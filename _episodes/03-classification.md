@@ -3,14 +3,13 @@ title: "Classification"
 teaching: 15
 exercises: 20
 questions:
-- "How can I use scikit-learn to classify data?"
+- "How can I classify data into known categories?"
 objectives:
-- "Use two different methods to classify data"
-- "Understand the difference between supervised and unsupervised learning"
+- "Use two different supervised methods to classify data."
+- "Learn about the concept of Hyper-parameters."
 - "Learn to validate and ?cross-validate? models"
 keypoints:
 - "Classification requires labelled data (is supervised)"
--
 ---
 
 # Classification
@@ -25,6 +24,8 @@ We're going to be using the penguins dataset, which comprises 342 observations o
 
 source: [HERE](https://github.com/allisonhorst/palmerpenguins)
 
+Let's take a look at a structured toy dataset, The penguin dataset published in 2020 by Allison Horst. To introduce the concept of supervised classification in Scikit-Learn, we will look at the problem of classifying three different palmer penguin species (Chinstrap, Gentoo, Adelie) utilizing several characteristic attributes of these penguins in the dataset. 
+
 ~~~
 import seaborn as sns
 
@@ -34,6 +35,8 @@ dataset.head()
 {: .language-python}
 
 Our aim is to develop a classification model that will predict the species of a penguin given those measurements.
+
+As seen in the table output above, there are various data points that can be utilized for our classification problem. A rule of thumb for ML/DL modelling is to start simple and progressively add complexity to meet the desired classification performance. The above table contains multiple categorical objects such as species, island and sex which might negatively skew classification performance. Therefore, we will limit our dataset to only numerical values such as bill_length_mm, bill_depth_mm, flipper_length_mm and body_mass_g while making only species as our target class for classification.  
 
 ### Training-testing split
 When undertaking any machine learning project, it's important to be able to evaluate how well your model works. In order to do this, we set aside some data (usually 20%) as a testing set, leaving the rest as your training dataset.
