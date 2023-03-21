@@ -3,7 +3,7 @@ title: "Dimensionality reduction"
 teaching: 10
 exercises: 10
 questions:
-- "How do we apply machine learning techniques to data with higher dimensions?
+- How do we apply machine learning techniques to data with higher dimensions?
 objectives:
 - "Recall that most data is inherently multidimensional."
 - "Understand that reducing the number of dimensions can simplify modelling and allow classifications to be performed."

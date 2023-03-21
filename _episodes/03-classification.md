@@ -8,7 +8,6 @@ objectives:
 - "Use two different methods to classify data"
 - "Understand the difference between supervised and unsupervised learning"
 - "Learn to validate and ?cross-validate? models"
-[//]: # (- "Recall that scikit-learn has built in linear regression functions.")
 keypoints:
 - "Classification requires labelled data (is supervised)"
 -
