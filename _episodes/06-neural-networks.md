@@ -3,6 +3,7 @@ title: "Neural Networks"
 teaching: 20
 exercises: 30
 questions:
+- "What are Neural Networks?"
 - "How can we classify images using a neural network?"
 objectives:
 - "Understand the basic architecture of a perceptron."

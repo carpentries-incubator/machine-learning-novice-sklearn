@@ -3,8 +3,10 @@ title: "Clustering with Scikit-Learn"
 teaching: 15
 exercises: 20
 questions:
+- "What is Unsupervised learning?"
 - "How can we use clustering to find data points with similar attributes?"
 objectives:
+- "Understand the difference between supervised and unsupervised learning"
 - "Identify clusters in data using k-means clustering."
 - "Understand the limitations of k-means when clusters overlap."
 - "Use spectral clustering to overcome the limitations of k-means."
@@ -18,6 +20,19 @@ keypoints:
 - "Scikit-Learn has functions to create example data."
 ---
 
+# Unsupervised Learning
+
+In episode 2 we learnt about Supervised Learning. Now it is time to explore Unsupervised Learning. 
+
+Sometimes we do not have the luxury of using labelled data. This could be for a number of reasons:
+
+* We have labelled data, but not enough to accurately our train model
+* Our existing labelled data is low-quality or innacurate
+* It is too time-consuming to (manually) label more data
+* We have data, but no idea what correlations might exist that we could model!
+
+In this case we need to use unsupervised learning. As the name suggests, this time we do not "supervise" the ML-algorithm by providing it labels, but instead we let it try to find its own patterns in the data and report back on any correlations that it might find. In a sense, you can think of unsupervised learning as a means of discovering labels from the data itself.
+
 # Clustering
 
 Clustering is the grouping of data points which are similar to each other. It can be a powerful technique for identifying patterns in data.
@@ -25,7 +40,7 @@ Clustering analysis does not usually require any training and is therefore known
 
 ## Applications of clustering
 * Looking for trends in data
-* Reducing the data around a point to just that point using data compression (e.g. reducing colour depth in an image)
+* Reducing the data around a point to just that point as a form of data compression (e.g. reducing colour depth in an image)
 * Pattern recognition
 
 ## K-means clustering
