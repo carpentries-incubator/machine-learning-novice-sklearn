@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-teaching: 30
+teaching: 20
 exercises: 10
 questions:
 - "What is machine learning?"
@@ -47,12 +47,23 @@ The term machine learning (ML) is often mentioned alongside artificial intellige
 
 AI is a broad term used to describe a system possessing a "general intelligence" that can be applied to solve a diverse range problems, often mimicking the behaviour of intelligent biological systems. Another definition of AI dates back to the 1950s and Alan Turing's "Immitation Game". Turing said we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts are getting close to fooling humans, but although there have been great advances in AI and ML research, human-like intelligence is only possible in a few specialist areas.
 
-ML refers to techniques where a computer can "learn" patterns in data, usually by being shown many training examples. While computers can learn to solve specific problems, or multiple similar problems, they are not considered to possess a general intelligence. Computers often need hundreds or thousands of examples to learn a task and are confined to relatively simple classifications. A human-like system could learn much quicker, and potentially learn from a single example by using it's knowledge of many other problems.
+ML refers to techniques where a computer can "learn" patterns in data, usually by being shown many training examples. While ML-algorithms can learn to solve specific problems, or multiple similar problems, they are not considered to possess a general intelligence. ML-algorithms often need hundreds or thousands of examples to learn a task and are confined to tasks such as simple classifications. A human-like system could learn much quicker than this, and potentially learn from a single example by using it's knowledge of many other problems.
 
-DL is a particular field of machine learning where algorithms called neural networks are used to create highly-complex systems. Large collections of neural networks are able to learn from vast quantities of data. Deep learning can be used to solve a wide range of problems, but it can also require huge amounts of input data and computational resources to train. The image below shows some of the relationships between artificial intelligence, machine learning and deep learning.
+DL is a particular field of machine learning where algorithms called neural networks are used to create highly-complex systems. Large collections of neural networks are able to learn from vast quantities of data. Deep learning can be used to solve a wide range of problems, but it can also require huge amounts of input data and computational resources to train. 
+
+The image below shows the relationships between artificial intelligence, machine learning and deep learning.
 
 ![An infographic showing some of the relationships between AI, ML, and DL](../fig/01_AI_ML_DL_differences.png)
 The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original source
+
+> ## Where have you encountered machine learning already?
+> Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
+>
+> 1. Where have I seen machine learning in use?
+> 2. What kind of input data does that machine learning system use to make predictions/classifications?
+> 3. Is there any evidence that your interaction with the system contributes to further training?
+> 4. Do you have any examples of the system failing?
+{: .challenge}
 
 # What are some useful types of Machine Learning?
 
@@ -84,14 +95,5 @@ Sometimes ML algorithms become over-trained and subsequently don't perform well 
 ### Inability to explain answers
 
 Machine learning techniques will return an answer based on the input data and model parameters even if that answer is wrong. Most systems are unable to explain the logic used to arrive at that answer. This can make detecting and diagnosing problems difficult. 
-
-> ## Where have you encountered machine learning already?
-> Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
->
-> 1. Where have I seen machine learning in use?
-> 2. What kind of input data does that machine learning system use to make predictions/classifications?
-> 3. Is there any evidence that your interaction with the system contributes to further training?
-> 4. Do you have any examples of the system failing?
-{: .challenge}
 
 {% include links.md %}
