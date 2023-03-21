@@ -17,15 +17,23 @@ keypoints:
 - "Scikit Learn includes a polynomial modelling function which is useful for modelling non-linear data."
 ---
 
- ## About Scikit-Learn
+# About Scikit-Learn
 
 [Scikit-Learn](http://github.com/scikit-learn/scikit-learn) is a python package designed to give access to well-known machine learning algorithms within Python code, through a clean API. It has been built by hundreds of contributors from around the world, and is used across industry and academia.
 
 Scikit-Learn is built upon Python's [NumPy (Numerical Python)](http://numpy.org) and [SciPy (Scientific Python)](http://scipy.org) libraries, which enable efficient in-core numerical and scientific computation within Python. As such, Scikit-Learn is not specifically designed for extremely large datasets, though there is [some work](https://github.com/ogrisel/parallel_ml_tutorial) in this area. For this introduction to ML we are going to stick to processing small to medium datasets with Scikit-Learn, without the need for a graphical processing unit (GPU).
 
-# Supervised Learning intro
+# Supervised Learning
 
-blah
+Classical machine learning is often divided into two categories – Supervised and Unsupervised Learning. 
+
+For the case of supervised learning we act as a "supervisor" or "teacher" for our ML-algorithms by providing the algorithm with "labelled data" that contains example answers of what we wish the algorithm to achieve. 
+
+For instance, if we wish to train our algorithm to distinguish between images of cats and dogs, we would provide our algorithm with images that have already been labelled as "cat" or "dog" so that it can learn from these examples. If we wished to train our algorithm to predict house prices over time we would provide our algorithm with example data of house prices that are "labelled" with time values.
+
+Supervised learning is split up into two further categories: classification and regression. For classification the labelled data is discrete, such as the "cat" or "dog" example, whereas for regression the labelled data is continuous, such as the house price example.
+
+In this episode we will explore how we can use regression to build a "model" that can be used to make predictions.
 
 ## Linear Regression with Scikit-Learn
 

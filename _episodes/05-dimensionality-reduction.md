@@ -16,7 +16,7 @@ keypoints:
 
 # Dimensionality reduction
 
-As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 60,000 handwritten labelled images from 0-9. An illustration of the dataset is presented below. 
+As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 60,000 handwritten labelled images from 0-9. An illustration of the dataset is presented below. Our MNIST data has 3 dimensions: an x-component, a Y-component, and an alpha value at each (x,y) coordinate.
 
 ![MNIST example illustrating all the classes in the dataset](../fig/MnistExamples.png)
 
@@ -44,9 +44,10 @@ y = digits.target
 
 Linear clustering approaches such as k-means would require all the images to be binned into a pre-determined number of clusters, which might not adequately capture the variability in the images. 
 
-Non-linear spectral clustering might fare better, but it would require the images to be projected into a higher dimension space, and separating the complex projections in higher-order spaces would necessitate complex non-linear separators.
+Non-linear clustering, such as spectral clustering, might fare better, but requires the images to be projected into a higher dimension space. Separating the existing complex data in higher-order spaces would require complex non-linear separators to divide this data and really increase the computational cost of doing this.
 
-One option is to reduce the dimensions of the input dataset into a 2D vector space while preserving their local representations. This would transform the high-dimension input dataset into lower-order projections. These lower-order projections can then be separated using linear separators while preserving the variability of images within the dataset.
+We can help reduce the computational cost of clustering by transforming our higher-dimension input dataset into lower-order projections. Conceptually this is done by determining which combination of variables explain the most variance in the data, and then working with those variables. 
+
 
 ## Dimensionality reduction with Scikit-Learn
 We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE). Both of these techniques are supported by Scikit-Learn.
