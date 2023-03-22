@@ -16,7 +16,9 @@ keypoints:
 
 # Dimensionality reduction
 
-As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 60,000 handwritten labelled images from 0-9. An illustration of the dataset is presented below. Our MNIST data has 3 dimensions: an x-component, a Y-component, and an alpha value at each (x,y) coordinate.
+As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 60,000 handwritten labelled images from 0-9. An illustration of the dataset is presented below. 
+
+TODO EXPLAIN THE 8x8 64 dimensions
 
 ![MNIST example illustrating all the classes in the dataset](../fig/MnistExamples.png)
 

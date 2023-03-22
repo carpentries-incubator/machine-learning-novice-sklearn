@@ -18,7 +18,7 @@ Classification is a supervised method to recognise and group data objects into a
 
 In this lesson we are going to introduce the concept of supervised classification by classifying penguin data into different species of penguins using Scikit-Learn.
 
-## The Penguin dataset
+### The Penguin dataset
 We're going to be using the penguins dataset of Allison Horst, published [here](https://github.com/allisonhorst/palmerpenguins) in 2020, which is comprised of 342 observations of three species of penguins: Adelie, Chinstrap & Gentoo. For each penguin we have measurements of its bill length and depth (mm), flipper length (mm) and body mass (g), as well as information on its species, island, and sex.
 
 ~~~
@@ -33,7 +33,7 @@ Our aim is to develop a classification model that will predict the species of a 
 
 As a rule of thumb for ML/DL modelling, it is best to start with a simple model and progressively add complexity to in order to meet our desired classification performance.
 
-While we are learning some classification methods we will limit our dataset to only numerical values such as bill_length, bill_depth, flipper_length, and body_mass while we attempt to classify species.
+For this lesson we will limit our dataset to only numerical values such as bill_length, bill_depth, flipper_length, and body_mass while we attempt to classify species.
 
 The above table contains multiple categorical objects such as species,  If we attempt to include the other categorical fields, island and sex, we hinder classification performance due to the complexity of the data.
 
@@ -87,7 +87,7 @@ plt.show()
 
 We can see that penguins from each species form fairly distinct spatial clusters in these plots, so that you could draw lines between those clusters to delineate each species. This is effectively what many classification algorithms do - using the training data to delineate the observation space, in this case the 4 measurement dimensions, into classes. When given new observations the model then finds which of those class areas that observation falls in to.
 
-## Decision Tree
+## Classification using a Decision Tree
 We'll first apply a decision tree classifier to the data. Decisions trees are conceptually similar to flow diagrams (or more precisely for the biologists: dichotomous keys) - they split the classification problem into a binary tree of comparisons, at each step comparing a measurement to a value, and moving left or right down the tree until a classification is reached.
 
 (figure)
@@ -147,7 +147,7 @@ plt.show()
 
 We can see that rather than clean lines between species, the decision tree produces orthogonal regions as each decision only considers a single parameter. Again, we can see that the model is overfit as the decision space is far more complex than needed, with regions that only select a single point.
 
-## SVM
+## Classification using SVM
 Next, we'll look at another commonly used classification algorithm, and see how it compares. Support Vector Machines (SVM) work in a way that is conceptually similar to your own intuition when first looking at the data - they devise a set of hyperplanes that delineate the parameter space, such that each region contains ideally only observations from one class, and the boundaries fall between classes.
 
 ### Normalising data
@@ -249,8 +249,8 @@ plt.show()
 
 We can see that both the tree and the decision space are much simpler, but still do a good job of classifying our data. We've succeeded in reducing over-fitting.
 
-> ## 'Max Depth' is an example of a Hyper-Parameter
-> 'Max Depth' is an example of a *hyper-parameter* to the decision tree model. Where models use the parameters of an observation to predict a result, hyper-parameters are used to tune how a model works. Each model you encounter will have its own set of hyper-parameters, each of which affects model behaviour and performance in a different way. The process of adjusting hyper-parameters in order to improve model performance is called hyper-parameter tuning.
+> ## Hyper-parameters: parameters that tune a model
+> 'Max Depth' is an example of a *hyper-parameter* for the decision tree model. Where models use the parameters of an observation to predict a result, hyper-parameters are used to tune how a model works. Each model you encounter will have its own set of hyper-parameters, each of which affects model behaviour and performance in a different way. The process of adjusting hyper-parameters in order to improve model performance is called hyper-parameter tuning.
 {: .callout}
 
 
