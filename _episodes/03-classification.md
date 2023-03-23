@@ -187,7 +187,7 @@ x2 = x_train_scaled[[feature_names[0], feature_names[1]]]
 SVM = svm.SVC(kernel='poly', degree=3, C=1.5)
 SVM.fit(x2, y_train)
 
-DecisionBoundaryDisplay.from_estimator(SVM, x2) #, ax=ax)
+DecisionBoundaryDisplay.from_estimator(SVM, x2) #, ax=ax
 sns.scatterplot(x2, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
 plt.show()
 ~~~
