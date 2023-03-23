@@ -3,7 +3,7 @@ title: "Clustering with Scikit-Learn"
 teaching: 15
 exercises: 20
 questions:
-- "What is Unsupervised learning?"
+- "What is unsupervised learning?"
 - "How can we use clustering to find data points with similar attributes?"
 objectives:
 - "Understand the difference between supervised and unsupervised learning"
@@ -20,27 +20,27 @@ keypoints:
 - "Scikit-Learn has functions to create example data."
 ---
 
-# Unsupervised Learning
+# Unsupervised learning
 
-In episode 2 we learnt about Supervised Learning. Now it is time to explore Unsupervised Learning. 
+In episode 2 we learnt about supervised learning. Now it is time to explore unsupervised learning. 
 
 Sometimes we do not have the luxury of using labelled data. This could be for a number of reasons:
 
-* We have labelled data, but not enough to accurately our train model
+* We have labelled data, but not enough to accurately train our model
 * Our existing labelled data is low-quality or innacurate
 * It is too time-consuming to (manually) label more data
 * We have data, but no idea what correlations might exist that we could model!
 
-In this case we need to use unsupervised learning. As the name suggests, this time we do not "supervise" the ML-algorithm by providing it labels, but instead we let it try to find its own patterns in the data and report back on any correlations that it might find. In a sense, you can think of unsupervised learning as a means of discovering labels from the data itself.
+In this case we need to use unsupervised learning. As the name suggests, this time we do not "supervise" the ML algorithm by providing it labels, but instead we let it try to find its own patterns in the data and report back on any correlations that it might find. You can think of unsupervised learning as a way to discover labels from the data itself.
 
 # Clustering
 
 Clustering is the grouping of data points which are similar to each other. It can be a powerful technique for identifying patterns in data.
-Clustering analysis does not usually require any training and is therefore known as an 'unsupervised' learning technique. Clustering can be applied quickly due to this lack of training.
+Clustering analysis does not usually require any training and is therefore known as an unsupervised learning technique. Clustering can be applied quickly due to this lack of training.
 
 ## Applications of clustering
 * Looking for trends in data
-* Reducing the data around a point to just that point as a form of data compression (e.g. reducing colour depth in an image)
+* Reducing the data around a point to just that point (e.g. reducing colour depth in an image)
 * Pattern recognition
 
 ## K-means clustering
@@ -73,7 +73,7 @@ data, cluster_id = skl_datasets.make_blobs(n_samples=400, cluster_std=0.75, cent
 ~~~
 {: .language-python}
 
-Now that we have some data we can try to identify the clusters using k-means. First, we need to initialise the KMeans module and tell it how many clusters to look for. Next, we supply it with some data via the `fit` function, in much the same we did with the regression functions earlier on. Finally, we run the predict function to find the clusters.
+Now that we have some data we can try to identify the clusters using k-means. First, we need to initialise the KMeans module and tell it how many clusters to look for. Next, we supply it with some data via the `fit` function, in much the same way we did with the regression functions earlier on. Finally, we run the predict function to find the clusters.
 
 ~~~
 Kmean = skl_cluster.KMeans(n_clusters=4)
@@ -82,7 +82,7 @@ clusters = Kmean.predict(data)
 ~~~
 {: .language-python}
 
-The data can now be plotted to show all the points we randomly generated. To make it clearer which cluster points have been classified we can set the colours (the c parameter) to use the `clusters` list that was returned by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster. These are stored as a list called 'cluster_centers_' inside the `Kmean` object. Let's plot the points from the clusters, colouring them by the output from the K-means algorithm, and also plot the centres of each cluster as a red X.
+The data can now be plotted to show all the points we randomly generated. To make it clearer which cluster points have been classified we can set the colours (the c parameter) to use the `clusters` list that was returned by the `predict` function. The Kmeans algorithm also lets us know where it identified the centre of each cluster. These are stored as a list called 'cluster_centers_' inside the `Kmean` object. Let's plot the points from the clusters, colouring them by the output from the K-means algorithm, and also plot the centres of each cluster as a red X.
 
 ~~~
 import matplotlib.pyplot as plt

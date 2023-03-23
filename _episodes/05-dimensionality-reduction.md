@@ -16,7 +16,7 @@ keypoints:
 
 # Dimensionality reduction
 
-As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 60,000 handwritten labelled images from 0-9. An illustration of the dataset is presented below. 
+As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 70,000 images of handwritten numbers from 0-9, labelled with the number they contain. An illustration of the dataset is presented below. 
 
 TODO EXPLAIN THE 8x8 64 dimensions
 
@@ -65,7 +65,7 @@ The process of reducing dimensionality in PCA is as follows,
 
 Minimizing the eigen values closer to zero implies that the dataset has been successfully decomposed into it's respective principal components. 
 
-Utilizing Scikit-Learn makes applying PCA very easy. Lets code and apply PCA to the MNIST dataset. 
+Scikit-Learn lets us apply PCA in a relatively simple way. Lets code and apply PCA to the MNIST dataset. 
 
 ~~~
 # PCA
@@ -93,7 +93,7 @@ plt.savefig("pca.svg")
 As illustrated in the figure above, PCA does not handle outlier data well, primarily due to global preservation of structural information. Pre-determining the principal components also has some of the same drawbacks as k-means clustering approaches. 
 
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
-t-SNE is a non-deterministic non-linear technique which involves several optional hyperparameters such as perplexity, learning rate, and number of steps. While the t-SNE algorithm is complex to explain, it works on the principle of preserving local similarities by minimizing the pairwise gaussian distance between two or more points in high-dimensional space. The versatility of the algorithm in transforming the underlying structural information into lower-order projections makes t-SNE applicable to a wide range of research domains.
+t-SNE is a non-deterministic non-linear technique which involves several optional hyper-parameters such as perplexity, learning rate, and number of steps. While the t-SNE algorithm is complex to explain, it works on the principle of preserving local similarities by minimizing the pairwise gaussian distance between two or more points in high-dimensional space. The versatility of the algorithm in transforming the underlying structural information into lower-order projections makes t-SNE applicable to a wide range of research domains.
 
 Scikit-Learn allows us to apply t-SNE in a relatively simple way. Lets code and apply t-SNE to the MNIST dataset.
 
@@ -112,7 +112,7 @@ plt.savefig("tsne.svg")
 
 ![Reduction using t-SNE](../fig/tsne.svg)
 
-The major drawback of applying t-SNE to datasets is the large computational requirement. Furthermore, hyperparameter tuning of t-SNE usually requires some trial-and-error to perfect. In the above figure, the algorithm still has trouble in separating all the classes perfectly. To account for even higher-order input data, neural networks were developed to more accurately extract feature information.
+The major drawback of applying t-SNE to datasets is the large computational requirement. Furthermore, hyper-parameter tuning of t-SNE usually requires some trial and error to perfect. In the above figure, the algorithm still has trouble separating all the classes perfectly. To account for even higher-order input data, neural networks were developed to more accurately extract feature information.
 
 
 > ## Exercise: Working in three dimensions

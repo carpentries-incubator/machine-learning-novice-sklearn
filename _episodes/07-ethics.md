@@ -5,7 +5,7 @@ exercises: 5
 questions:
 - "What are the ethical implications of using machine learning in research?"
 objectives:
-- "Consider the ethical implications of machine learning in general and in research."
+- "Consider the ethical implications of machine learning, in general, and in research."
 keypoints:
 - "The results of machine learning reflect biases in the training and input data."
 - "Many machine learning algorithms can't explain how they arrived at a decision."
@@ -19,7 +19,7 @@ As machine learning has risen in visibility, so to have concerns around the ethi
 
 * The first death from a driverless car which failed to brake for a pedestrian.[\[1\]](https://www.forbes.com/sites/meriameberboucha/2018/05/28/uber-self-driving-car-crash-what-really-happened/)
 * Highly targetted advertising based around social media and internet usage. [\[2\]](https://www.wired.com/story/big-tech-can-use-ai-to-extract-many-more-ad-dollars-from-our-clicks/)
-* The outcomes of elections and referenda being influenced by highly targetted social media posts. This is compunded by data being obtained without the users consent. [\[3\]](https://www.vox.com/policy-and-politics/2018/3/23/17151916/facebook-cambridge-analytica-trump-diagram)
+* The outcomes of elections and referenda being influenced by highly targetted social media posts. This is compounded by data being obtained without the user's consent. [\[3\]](https://www.vox.com/policy-and-politics/2018/3/23/17151916/facebook-cambridge-analytica-trump-diagram)
 * The widespread use of facial recognition technologies. [\[4\]](https://www.bbc.co.uk/news/technology-44089161)
 * The potential for autonomous military robots to be deployed in combat. [\[5\]](https://www.theverge.com/2021/6/3/22462840/killer-robot-autonomous-drone-attack-libya-un-report-context)
 
@@ -31,13 +31,13 @@ Machine learning systems are often argued to be be fairer and more impartial in 
 
 Many machine learning systems (e.g. neural networks) can't really explain their decisions. Although the input and output are known, trying to
 explain why the training caused the network to behave in a certain way can be very difficult. When decisions are questioned by a human it's
-difficult to provide any rationale as to how a decision was arrived at.
+difficult to provide any rationale for how a decision was arrived at.
 
 ## Problems with accuracy
 
 No machine learning system is ever 100% accurate. Getting into the high 90s is usually considered good.
 But when we're evaluating millions of data items this can translate into 100s of thousands of mis-identifications.
-This would be an unacceptable margin of error if the results were going to have major implications for people, such as being imprisoned or structuring debt repayments.
+This would be an unacceptable margin of error if the results were going to have major implications for people, such as criminal sentencing decisions or structuring debt repayments.
 
 ## Energy use
 
