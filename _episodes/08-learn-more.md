@@ -8,12 +8,12 @@ objectives:
 - "Know where to go to learn more about machine learning"
 keypoints:
 - "This course has only touched on a few areas of machine learning and is designed to teach you just enough to do something useful."
-- "Machine learning is a rapidly developing field and new tools and techniques are constantly appearing."
+- "Machine learning is a rapidly evolving field and new tools and techniques are constantly appearing."
 ---
 
 # Other algorithms
 
-There are many other machine learning algorithms that might be suitable for helping to answer your research questions.
+There are many other machine learning algorithms that might be suitable for helping you to answer your research questions.
 
 The Scikit-Learn [webpage](https://scikit-learn.org/stable/index.html) has a good overview of all the features available in the library.
 
