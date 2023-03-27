@@ -3,7 +3,7 @@ title: "Regression"
 teaching: 30
 exercises: 20
 questions:
-- "What is Supervised Learning?"
+- "What is supervised learning?"
 - "How can I model data and make predictions using regression?"
 objectives:
 - "Apply linear regression with Scikit-Learn to create a model."
@@ -12,16 +12,16 @@ objectives:
 - "Understand how more complex models can be built with non-linear equations."
 - "Apply polynomial modelling to non-linear data using Scikit-Learn."
 keypoints:
-- "Scikit Learn is a Python library with lots of useful machine learning functions."
-- "Scikit Learn includes a linear regression function."
-- "Scikit Learn includes a polynomial modelling function which is useful for modelling non-linear data."
+- "Scikit-Learn is a Python library with lots of useful machine learning functions."
+- "Scikit-Learn includes a linear regression function."
+- "Scikit-Learn includes a polynomial modelling function which is useful for modelling non-linear data."
 ---
 
-# Supervised Learning
+# Supervised learning
 
-Classical machine learning is often divided into two categories – Supervised and Unsupervised Learning. 
+Classical machine learning is often divided into two categories – supervised and unsupervised learning. 
 
-For the case of supervised learning we act as a "supervisor" or "teacher" for our ML-algorithms by providing the algorithm with "labelled data" that contains example answers of what we wish the algorithm to achieve. 
+For the case of supervised learning we act as a "supervisor" or "teacher" for our ML algorithms by providing the algorithm with "labelled data" that contains example answers of what we wish the algorithm to achieve. 
 
 For instance, if we wish to train our algorithm to distinguish between images of cats and dogs, we would provide our algorithm with images that have already been labelled as "cat" or "dog" so that it can learn from these examples. If we wished to train our algorithm to predict house prices over time we would provide our algorithm with example data of datetime values that are "labelled" with house prices.
 
@@ -31,15 +31,15 @@ In this episode we will explore how we can use regression to build a "model" tha
 
 ## About Scikit-Learn
 
-[Scikit-Learn](http://github.com/scikit-learn/scikit-learn) is a python package designed to give access to well-known machine learning algorithms within Python code, through a clean API. It has been built by hundreds of contributors from around the world, and is used across industry and academia.
+[Scikit-Learn](http://github.com/scikit-learn/scikit-learn) is a python package designed to give access to well-known machine learning algorithms within Python code, through a clean application programming interface (API). It has been built by hundreds of contributors from around the world, and is used across industry and academia.
 
 Scikit-Learn is built upon Python's [NumPy (Numerical Python)](http://numpy.org) and [SciPy (Scientific Python)](http://scipy.org) libraries, which enable efficient in-core numerical and scientific computation within Python. As such, Scikit-Learn is not specifically designed for extremely large datasets, though there is [some work](https://github.com/ogrisel/parallel_ml_tutorial) in this area. For this introduction to ML we are going to stick to processing small to medium datasets with Scikit-Learn, without the need for a graphical processing unit (GPU).
 
 # Regression
 
-Regression is a statistical technique that relates a dependent variable (a label in ML terms) to one or more independent variables. A regression model attempts to describe this relation by fitting the data as closely as possible according to a mathematical criteria. This model can then be used to predict new labelled values by inputting the independent variables into it - if we create a house price model we can then input any datetime value we wish to predict a new house price value for that inputted datetime.
+Regression is a statistical technique that relates a dependent variable (a label in ML terms) to one or more independent variables. A regression model attempts to describe this relation by fitting the data as closely as possible according to mathematical criteria. This model can then be used to predict new labelled values by inputting the independent variables into it. For example, if we create a house price model we can then feed in any datetime value we wish, and get a new house price value prediction.
 
-Regression can be as simple as drawing a "line of best fit" through data points, known as Linear regression, or more complex models such as polynomial regression, and is used routinely around the world in both industry and research. You may have already used regression in the past without knowing that it is also considered a machine learning technique!
+Regression can be as simple as drawing a "line of best fit" through data points, known as linear regression, or more complex models such as polynomial regression, and is used routinely around the world in both industry and research. You may have already used regression in the past without knowing that it is also considered a machine learning technique!
 
 ![Example of linear and polynomial regressions](../fig/regression_example.png)
 
@@ -65,7 +65,7 @@ plt.show()
 ![Inspection of our dataset](../fig/regression_inspect.png)
 
 
-Now lets import scikit-Learn and use it to create a linear regression model. The Scikit-Learn `regression` function that we will use is designed for datasets where multiple parameters are used and so it expects to be given multi-dimensional array data. To get it to accept our single dimension data, we need to convert the simple lists to numpy arrays with numpy's `reshape` function.
+Now lets import Scikit-Learn and use it to create a linear regression model. The Scikit-Learn `regression` function that we will use is designed for datasets where multiple parameters are used and so it expects to be given multi-dimensional array data. To get it to accept our single dimension data, we need to convert the simple lists to numpy arrays with numpy's `reshape` function.
 
 ~~~
 import sklearn.linear_model as skl_lin
@@ -106,7 +106,7 @@ plt.show()
 ![Linear regression of our dataset](../fig/regression_linear.png)
 
 
-This looks like a reasonably good fit to the data points, but rather than rely on our own judgement lets calculate the fit error instead. Scikit-Learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The `mean_squared_error` function is part of the Scikit-Learn metrics module, so we'll have to add that to our imports as well as the `math` module:
+This looks like a reasonably good fit to the data points, but rather than rely on our own judgement lets calculate the fit error instead. Scikit-Learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The `mean_squared_error` function is part of the Scikit-Learn `metrics` module, so we'll have to add that to our imports as well as the `math` module:
 
 import math
 import sklearn.metrics as skl_metrics
@@ -175,7 +175,7 @@ Comparing the plots and errors it seems like a polynomial regression of N=2 fits
 {: .challenge}
 
 
-> ## Exercise: How do are models perform against new data?
+> ## Exercise: How do models perform against new data?
 > We now have some more exam score data that we can use to evaluate our existing models:
 > ~~~
 > x_new = [2.5, 4.5, 6.7, 8, 10, 11] # hours spent revising
@@ -189,7 +189,7 @@ Comparing the plots and errors it seems like a polynomial regression of N=2 fits
 > {: .solution}
 {: .challenge}
 
-When looking at our original dataset it seems the higher the degree of polynomial the better the fit as the curve hits all the points. But as soon as we input our new dataset we see that our models fail to predict the new results, and higher degree polynomials noticible perform worse than the original linear regression. This phenomena is known as overfitting - our original models have become too specific to our original data and now lack the generality we expect from a model. You could say that our models have learnt the answers but failed to understand the assignment!
+When looking at our original dataset it seems the higher the degree of polynomial, the better the fit, as the curve hits all the points. But as soon as we input our new dataset we see that our models fail to predict the new results, and higher degree polynomials perform noticably worse than the original linear regression. This phenomenon is known as overfitting - our original models have become too specific to our original data and now lack the generality we expect from a model. You could say that our models have learnt the answers but failed to understand the assignment!
 
 Remember: *Garbage in, Garbage out* and *correlation does not equal causation*. Just because almost every winner in the olympic games drank water, it doesn't mean that drinking heaps of water will make you an olympic winner.
 
