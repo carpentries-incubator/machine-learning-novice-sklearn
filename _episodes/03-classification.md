@@ -72,15 +72,17 @@ We'll use x_train and y_train to develop our model, and only look at x_test and 
 In order to better understand how a model might classify this data, we can first take a look at the data visually, to see what patterns we might identify.
 
 ~~~
+import matplotlib.pyplot as plt
+
 fig01 = sns.scatterplot(x_train, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
 plt.show()
 ~~~
 {: .language-python}
 
-As there are four measurements for each penguin, we need a second plot to visualise all four dimensions:
+As there are four measurements for each penguin, we need quite a few plots to visualise all four dimensions against each other. Here is a handy Seaborn function to do so:
 
 ~~~
-fig23 = sns.scatterplot(x_train, x=feature_names[2], y=feature_names[3], hue=dataset['species'])
+sns.pairplot(dataset, hue="species")
 plt.show()
 ~~~
 {: .language-python}
@@ -106,15 +108,13 @@ clf.predict(x_test)
 We can conveniently check how our model did with the .score() function, which will make predictions and report what proportion of them were accurate:
 
 ~~~
-clf.score(x_test, y_test)
+clf_score = clf.score(x_test, y_test)
 ~~~
 {: .language-python}
 
 We can also look at the decision tree that was generated:
 
 ~~~
-import matplotlib.pyplot as plt
-
 fig = plt.figure(figsize=(12, 10))
 plot_tree(clf, class_names=class_names, feature_names=feature_names, filled=True, ax=fig.gca())
 plt.show()
@@ -157,6 +157,7 @@ Normalising maps each parameter to a new range, so that it has a mean of 0, and 
 
 ~~~
 from sklearn import preprocessing
+import pandas as pd
 
 scalar = preprocessing.StandardScaler()
 scalar.fit(x_train)
@@ -175,7 +176,9 @@ from sklearn import svm
 SVM = svm.SVC(kernel='poly', degree=3, C=1.5)
 SVM.fit(x_train_scaled, y_train)
 
-SVM.score(x_test_scaled, y_test)
+svm_score = SVM.score(x_test_scaled, y_test)
+print("Decision tree score is ", clf_score)
+print("SVM score is ", svm_score)
 ~~~
 {: .language-python}
 
@@ -214,6 +217,7 @@ acc_df = pd.DataFrame(accuracy, columns=['depth', 'accuracy'])
 sns.lineplot(acc_df, x='depth', y='accuracy')
 plt.xlabel('Tree depth')
 plt.ylabel('Accuracy')
+plt.show()
 ~~~
 {: .language-python}
 

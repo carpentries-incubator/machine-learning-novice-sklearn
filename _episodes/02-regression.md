@@ -78,11 +78,7 @@ lin_regress = skl_lin.LinearRegression().fit(x_data, y_data)
 ~~~
 {: .language-python}
 
-The mathematical equation for a linear fit is:
-
-$$y=mx+c$$
-
-where `y` is our output exam result values, `x` is our input revision hour values, `m` represents the gradient of the linear fit, and `c` represents the intercept with the y-axis.
+The mathematical equation for a linear fit is `y = mx + c` where `y` is our output exam result values, `x` is our input revision hour values, `m` represents the gradient of the linear fit, and `c` represents the intercept with the y-axis.
 
 As well as using our newly created `lin_regress` model to predict new values, we can also inspect the fit coefficients using `.coef_` and `.intercept_`. The Scikit-Learn code is designed to calculate multiple coefficients and intercepts at once so these return values will be arrays. Since we've just got one parameter we can just grab the first item from each of these arrays as follows:
 
@@ -92,8 +88,8 @@ c = lin_regress.intercept_[0]
 
 print(m, c)
 ~~~
-
 {: .language-python}
+
 Once we have created the model using the `regression` function we can use Scikit-Learn's `predict` function to convert input values into predictions. 
 
 ~~~
@@ -116,6 +112,9 @@ import math
 import sklearn.metrics as skl_metrics
 
 ~~~
+import math
+import sklearn.metrics as skl_metrics
+
 error = math.sqrt(skl_metrics.mean_squared_error(y_data, linear_data))
 print("error=", error)
 ~~~
@@ -124,11 +123,9 @@ print("error=", error)
 
 ## Polynomial regression using Scikit-Learn
 
-Now that we have learnt how to do a linear regression it's time look into polynomial regressions. Polynomial functions are non-linear functions that are commonly-used to model data. Mathematically they have `N` degrees of freedom and they take the following form:
+Now that we have learnt how to do a linear regression it's time look into polynomial regressions. Polynomial functions are non-linear functions that are commonly-used to model data. Mathematically they have `N` degrees of freedom and they take the following form `y = a + bx + cx^2 + dx^3 ... + mx^N`
 
-$$y = a + bx + cx^2 + dx^3 ... + mx^N$$
-
-If we have a polynomial of degree N=1 we once again return to a linear equation `y = a + bx` or as it is more commonly written `y = mx+c`. Let's create a polynomial regression using N=2. In Scikit-Learn this is done in two steps. First we pre-process our input data `x_data` into a polynomial representation using the `PolynomialFeatures` function:
+If we have a polynomial of degree N=1 we once again return to a linear equation `y = a + bx` or as it is more commonly written `y = mx + c`. Let's create a polynomial regression using N=2. In Scikit-Learn this is done in two steps. First we pre-process our input data `x_data` into a polynomial representation using the `PolynomialFeatures` function:
 
 ~~~
 import sklearn.preprocessing as skl_pre
@@ -144,6 +141,8 @@ poly_regress = skl_lin.LinearRegression().fit(x_poly, y_data)
 
 poly_m = poly_regress.coef_
 poly_c = poly_regress.intercept_[0]
+
+print(poly_m, poly_c)
 ~~~
 {: .language-python}
 
@@ -180,7 +179,7 @@ Comparing the plots and errors it seems like a polynomial regression of N=2 fits
 > We now have some more exam score data that we can use to evaluate our existing models:
 > ~~~
 > x_new = [2.5, 4.5, 6.7, 8, 10, 11] # hours spent revising
-> y_new = [5,6, 8, 10, 11, 12]  # exam results
+> y_new = [5, 6, 8, 10, 11, 12]  # exam results
 > ~~~
 > {: .language-python}
 >
