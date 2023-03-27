@@ -3,304 +3,194 @@ title: "Regression"
 teaching: 30
 exercises: 20
 questions:
-- "How can I use scikit-learn to process data?"
+- "What is supervised learning?"
+- "How can I model data and make predictions using regression?"
 objectives:
-- "Recall that scikit-learn has built in linear regression functions."
+- "Apply linear regression with Scikit-Learn to create a model."
 - "Measure the error between a regression model and real data."
-- "Apply scikit-learn's linear regression to create a model."
-- "Analyse and assess the accuracy of a linear model using scikit-learn's metrics library."
-- "Understand that more complex models can be built with non-linear equations."
-- "Apply scikit-learn's polynomial modelling to non-linear data."
+- "Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
+- "Understand how more complex models can be built with non-linear equations."
+- "Apply polynomial modelling to non-linear data using Scikit-Learn."
 keypoints:
-- "Scikit Learn is a Python library with lots of useful machine learning functions."
-- "Scikit Learn includes a linear regression function."
-- "It also includes a polynomial modelling function which is useful for modelling non-linear data."
+- "Scikit-Learn is a Python library with lots of useful machine learning functions."
+- "Scikit-Learn includes a linear regression function."
+- "Scikit-Learn includes a polynomial modelling function which is useful for modelling non-linear data."
 ---
 
- ## About Scikit-Learn
+# Supervised learning
 
-[Scikit-Learn](http://github.com/scikit-learn/scikit-learn) is a Python package designed to give access to **well-known** machine learning algorithms within Python code, through a **clean, well-thought-out API**. It has been built by hundreds of contributors from around the world, and is used across industry and academia.
+Classical machine learning is often divided into two categories – supervised and unsupervised learning. 
 
-Scikit-Learn is built upon Python's [NumPy (Numerical Python)](http://numpy.org) and [SciPy (Scientific Python)](http://scipy.org) libraries, which enable efficient in-core numerical and scientific computation within Python. As such, scikit-learn is not specifically designed for extremely large datasets, though there is [some work](https://github.com/ogrisel/parallel_ml_tutorial) in this area. For this introduction to ML we are going to stick to processing of small to medium datasets with Scikit-learn, without the need for a Graphical Processing Unit (GPU).
+For the case of supervised learning we act as a "supervisor" or "teacher" for our ML algorithms by providing the algorithm with "labelled data" that contains example answers of what we wish the algorithm to achieve. 
 
+For instance, if we wish to train our algorithm to distinguish between images of cats and dogs, we would provide our algorithm with images that have already been labelled as "cat" or "dog" so that it can learn from these examples. If we wished to train our algorithm to predict house prices over time we would provide our algorithm with example data of datetime values that are "labelled" with house prices.
 
-# Supervised Learning intro
+Supervised learning is split up into two further categories: classification and regression. For classification the labelled data is discrete, such as the "cat" or "dog" example, whereas for regression the labelled data is continuous, such as the house price example.
 
-blah
+In this episode we will explore how we can use regression to build a "model" that can be used to make predictions.
 
-## Linear Regression with scikit-learn
+## About Scikit-Learn
 
-Lets adapt our linear regression program to use scikit-learn instead of our own regression function. We can go and remove the least_squares and measure_error functions from our code. We'll save this under a different filename to the original linear regression code so that we can compare the answers of the two, they should be identical.
+[Scikit-Learn](http://github.com/scikit-learn/scikit-learn) is a python package designed to give access to well-known machine learning algorithms within Python code, through a clean application programming interface (API). It has been built by hundreds of contributors from around the world, and is used across industry and academia.
 
-First lets add the import for sklearn, we're also going to need the numpy library so we'll import that too:
+Scikit-Learn is built upon Python's [NumPy (Numerical Python)](http://numpy.org) and [SciPy (Scientific Python)](http://scipy.org) libraries, which enable efficient in-core numerical and scientific computation within Python. As such, Scikit-Learn is not specifically designed for extremely large datasets, though there is [some work](https://github.com/ogrisel/parallel_ml_tutorial) in this area. For this introduction to ML we are going to stick to processing small to medium datasets with Scikit-Learn, without the need for a graphical processing unit (GPU).
+
+# Regression
+
+Regression is a statistical technique that relates a dependent variable (a label in ML terms) to one or more independent variables. A regression model attempts to describe this relation by fitting the data as closely as possible according to mathematical criteria. This model can then be used to predict new labelled values by inputting the independent variables into it. For example, if we create a house price model we can then feed in any datetime value we wish, and get a new house price value prediction.
+
+Regression can be as simple as drawing a "line of best fit" through data points, known as linear regression, or more complex models such as polynomial regression, and is used routinely around the world in both industry and research. You may have already used regression in the past without knowing that it is also considered a machine learning technique!
+
+![Example of linear and polynomial regressions](../fig/regression_example.png)
+
+## Linear regression using Scikit-Learn
+
+We've had a lot of theory so time to start some actual coding! Let's create regression models for a very small dataset that will predict exam scores from hours spent revising. Exam scores is our labelled dependent variable, and hours spent revising is our independent input variable.
+
+Let's define our dataset and visualise it:
 
 ~~~
-import numpy as np
+import matplotlib.pyplot as plt 
+
+x_data = [2, 3, 5, 7, 7.2, 9] # hours spent revising
+y_data = [4, 5, 7, 10, 13, 15] # exam results
+
+plt.scatter(x_data, y_data)
+plt.xlabel('hours spent revising')
+plt.ylabel('exam score')
+plt.show()
+~~~
+{: .language-python}
+
+![Inspection of our dataset](../fig/regression_inspect.png)
+
+
+Now lets import Scikit-Learn and use it to create a linear regression model. The Scikit-Learn `regression` function that we will use is designed for datasets where multiple parameters are used and so it expects to be given multi-dimensional array data. To get it to accept our single dimension data, we need to convert the simple lists to numpy arrays with numpy's `reshape` function.
+
+~~~
 import sklearn.linear_model as skl_lin
+import numpy as np
+
+x_data = np.array(x_data).reshape(-1, 1)
+y_data = np.array(y_data).reshape(-1, 1)
+
+lin_regress = skl_lin.LinearRegression().fit(x_data, y_data)
 ~~~
 {: .language-python}
 
+The mathematical equation for a linear fit is `y = mx + c` where `y` is our output exam result values, `x` is our input revision hour values, `m` represents the gradient of the linear fit, and `c` represents the intercept with the y-axis.
 
-Now lets replace the calculation with our own least_squares function with the one from scikit-learn. The scikit-learn regression function is much more capable than the simple one we wrote earlier and is designed for datasets where multiple parameters are used, its expecting to be given multi-demnsional arrays data. To get it to accept single dimension data such as we have we need to convert the array to a numpy one and use numpy's reshape function. The resulting data is also designed to show us multiple coefficients and intercepts, so these values will be arrays, since we've just got one parameter we can just grab the first item from each of these arrays. Instead of manually calculating the results we can now use scikit-learn's predict function. Finally lets calculate the error. scikit-learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The mean_squared_error function is part of the scikit-learn metrics module, so we'll have to add that to our imports at the top of the file:
+As well as using our newly created `lin_regress` model to predict new values, we can also inspect the fit coefficients using `.coef_` and `.intercept_`. The Scikit-Learn code is designed to calculate multiple coefficients and intercepts at once so these return values will be arrays. Since we've just got one parameter we can just grab the first item from each of these arrays as follows:
 
 ~~~
-import sklearn.metrics as skl_metrics
+m = lin_regress.coef_[0][0]
+c = lin_regress.intercept_[0]
+
+print(m, c)
 ~~~
 {: .language-python}
 
-
-Lets go ahead and change the process_data function for life expectancy to use scikit-learn's LinearRegression function instead of our own version.
+Once we have created the model using the `regression` function we can use Scikit-Learn's `predict` function to convert input values into predictions. 
 
 ~~~
-import pandas as pd
+linear_data = lin_regress.predict(x_data)
+
+plt.scatter(x_data, y_data)
+plt.plot(x_data, linear_data)
+plt.xlabel('hours spent revising')
+plt.ylabel('exam score')
+plt.show()
+~~~
+{: .language-python}
+
+![Linear regression of our dataset](../fig/regression_linear.png)
+
+
+This looks like a reasonably good fit to the data points, but rather than rely on our own judgement lets calculate the fit error instead. Scikit-Learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The `mean_squared_error` function is part of the Scikit-Learn `metrics` module, so we'll have to add that to our imports as well as the `math` module:
+
 import math
-def process_life_expectancy_data(filename, country, min_date, max_date):
-    df = pd.read_csv(filename, index_col="Life expectancy")
+import sklearn.metrics as skl_metrics
 
-    # get the life expectancy for the specified country/dates
-    # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df.loc[country, str(min_date):str(max_date)]
-    x_data = list(range(min_date, max_date + 1))
+~~~
+import math
+import sklearn.metrics as skl_metrics
 
-    x_data_arr = np.array(x_data).reshape(-1, 1)
-    life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
-
-    regression = skl_lin.LinearRegression().fit(x_data_arr, life_exp_arr)
-
-    m = regression.coef_[0][0]
-    c = regression.intercept_[0]
-
-    # old manual version
-    #linear_data = calculate_linear(x_data, m, c)
-
-    # new scikit learn version
-    linear_data = regression.predict(x_data_arr)
-
-    # old manual version
-    #error = measure_error(life_expectancy, linear_data)
-
-    # new scikit learn version
-    error = math.sqrt(skl_metrics.mean_squared_error(life_exp_arr, linear_data))
-    print("error=", error)
-
-    # uncomment to make the graph
-    #make_graph(life_exp, gdp, linear_data)
-
-process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1950, 2016)
+error = math.sqrt(skl_metrics.mean_squared_error(y_data, linear_data))
+print("error=", error)
 ~~~
 {: .language-python}
 
 
-Now if we go ahead and run the new program we should get the same answers and same graph as before.
+## Polynomial regression using Scikit-Learn
 
+Now that we have learnt how to do a linear regression it's time look into polynomial regressions. Polynomial functions are non-linear functions that are commonly-used to model data. Mathematically they have `N` degrees of freedom and they take the following form `y = a + bx + cx^2 + dx^3 ... + mx^N`
 
-> ## Comparing the Scikit learn and our own linear regression implementations.
-> Adjust both the original program (using our own linear regression implementation) and the sklearn version to calculate the life expectancy for Germany between 1950 and 2000. What are the values (m and c) of linear equation
-> linking date and life expectancy? Are they the same in both?
-> > ## Solution
-> > ~~~
-> > process_life_expectancy_data("../data/gapminder-life-expectancy.csv", "Germany", 1950, 2000)
-> > ~~~
-> > {: .language-python}
-> >
-> > m= 0.212219909502 c= -346.784909502
-> > They should be identical
-> {: .solution}
-{: .challenge}
-
-
-> ## Predicting Life Expectancy
-> Use the linear equation you've just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers?
-> If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
-> > ## Solution
-> > ~~~
-> > for x in range(2001,2017):
-> >     print(x,0.212219909502 * x - 346.784909502)
-> > ~~~
-> > {: .language-python}
-> >
-> > Predicted answers:
-> > ~~~
-> > 2001 77.86712941150199
-> > 2002 78.07934932100403
-> > 2003 78.29156923050601
-> > 2004 78.503789140008
-> > 2005 78.71600904951003
-> > 2006 78.92822895901202
-> > 2007 79.140448868514
-> > 2008 79.35266877801604
-> > 2009 79.56488868751802
-> > 2010 79.77710859702
-> > 2011 79.98932850652199
-> > 2012 80.20154841602402
-> > 2013 80.41376832552601
-> > 2014 80.62598823502799
-> > 2015 80.83820814453003
-> > 2016 81.05042805403201
-> > ~~~
-> > Compare with the real values:
-> > ~~~
-> > df = pd.read_csv('../data/gapminder-life-expectancy.csv',index_col="Life expectancy")
-> > for x in range(2001,2017):
-> >     y = 0.215621719457 * x - 351.935837103
-> >     real = df.loc['Germany', str(x)]
-> >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
-> > ~~~
-> > {: .language-python}
-> >
-> > ~~~
-> > 2001 Predicted 77.86712941150199 Real 78.4 Difference -0.532870588498
-> > 2002 Predicted 78.07934932100403 Real 78.6 Difference -0.520650678996
-> > 2003 Predicted 78.29156923050601 Real 78.8 Difference -0.508430769494
-> > 2004 Predicted 78.503789140008 Real 79.2 Difference -0.696210859992
-> > 2005 Predicted 78.71600904951003 Real 79.4 Difference -0.68399095049
-> > 2006 Predicted 78.92822895901202 Real 79.7 Difference -0.771771040988
-> > 2007 Predicted 79.140448868514 Real 79.9 Difference -0.759551131486
-> > 2008 Predicted 79.35266877801604 Real 80.0 Difference -0.647331221984
-> > 2009 Predicted 79.56488868751802 Real 80.1 Difference -0.535111312482
-> > 2010 Predicted 79.77710859702 Real 80.3 Difference -0.52289140298
-> > 2011 Predicted 79.98932850652199 Real 80.5 Difference -0.510671493478
-> > 2012 Predicted 80.20154841602402 Real 80.6 Difference -0.398451583976
-> > 2013 Predicted 80.41376832552601 Real 80.7 Difference -0.286231674474
-> > 2014 Predicted 80.62598823502799 Real 80.7 Difference -0.074011764972
-> > 2015 Predicted 80.83820814453003 Real 80.8 Difference 0.03820814453
-> > 2016 Predicted 81.05042805403201 Real 80.9 Difference 0.150428054032
-> > ~~~
-> {: .solution}
-{: .challenge}
-
-
-## Other types of regression
-
-Linear regression obviously has its limits for working with data that isn't linear. Scikit-learn has a number of other regression techniques
-which can be used on non-linear data. Some of these (such as isotonic regression) will only interpolate data in the range of the training
-data and can't extrapolate beyond it. One non-linear technique that works with many types of data is polynomial regression. This creates a polynomial
-equation of the form y = a + bx + cx^2 + dx^3 etc. The more terms we add to the polynomial the more accurately we can model a system.
-
-Scikit-learn includes a polynomial modelling tool as part of its pre-processing library which we'll need to add to our list of imports.
+If we have a polynomial of degree N=1 we once again return to a linear equation `y = a + bx` or as it is more commonly written `y = mx + c`. Let's create a polynomial regression using N=2. In Scikit-Learn this is done in two steps. First we pre-process our input data `x_data` into a polynomial representation using the `PolynomialFeatures` function:
 
 ~~~
 import sklearn.preprocessing as skl_pre
+poly_features = skl_pre.PolynomialFeatures(degree=2)
+x_poly = poly_features.fit_transform(x_data)
 ~~~
 {: .language-python}
 
-
-Now lets modify the `process_life_expectancy_data` function to calculate the polynomial. This takes two parts, the first is to pre-process the data into polynomial form. We first call the PolynomialFeatures function with the parameter degree. The degree parameter controls how many components the polynomial will have, a polynomial of the form y = a + bx + cx^2 + dx^3 has 4 degrees. Typically a value between 5 and 10 is sufficient. We must then process the numpy array that we used for the X axis in the linear regression to convert it into a set of polynomial features.
-
-This only gets us halfway to being able to create a model that we can use for predictions. To form the complete model we actually have to perform a linear regression on the polynomial model, but we'll use the polynomial features as the X axis instead of the numpy array. The Y axis will still be the life expectancy numpy array that we used before. The resulting model can now be used to make some predictions like we did before using the predict function.
-
-If we want to draw the line of best fit we can pass the polynomial features in as a parameter to predict() and this will generate the y values for the full range of our data. This can be plotted by passing it to make_graph in place of the linear data.
-
-
-Finally we can make some predictions of future data. Lets create a list containing the date range we'd like to predict, as with other lists/arrays we've used we'll have to reshape it to make scikit-learn work with it.
-Now lets use this list of dates to predict life expectancy using both our linear and polynomial models.
+Then we can create our polynomial regressions using the `LinearRegression().fit()` function again, but this time using the polynomial representation of our `x_data` instead. As before we can also inspect the regression coefficients and the intercept gradient, noting that the polynomial expression has multiple coefficients.
 
 ~~~
-def process_life_expectancy_data_poly(filename, country, min_date, max_date):
-    df = pd.read_csv(filename, index_col="Life expectancy")
+poly_regress = skl_lin.LinearRegression().fit(x_poly, y_data)
 
-    # get the life expectancy for the specified country/dates
-    # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df.loc[country, str(min_date):str(max_date)]
-    x_data = list(range(min_date, max_date + 1))
+poly_m = poly_regress.coef_
+poly_c = poly_regress.intercept_[0]
 
-    x_data_arr = np.array(x_data).reshape(-1, 1)
-    life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
-
-    polynomial_features = skl_pre.PolynomialFeatures(degree=5)
-    x_poly = polynomial_features.fit_transform(x_data_arr)
-
-    polynomial_model = skl_lin.LinearRegression().fit(x_poly, life_exp_arr)
-
-    polynomial_data = polynomial_model.predict(x_poly)
-
-    #make_graph(x_data, life_expectancy, polynomial_data)
-
-    # make some predictions
-    predictions_x = list(range(2011,2025))
-    predictions_x_arr = np.array(predictions_x).reshape(-1, 1)
-
-    predictions_polynomial = polynomial_model.predict(polynomial_features.fit_transform(predictions_x_arr))
-    plt.plot(x_data, life_expectancy, label="Original Data")
-    plt.plot(predictions_x, predictions_polynomial, label="Polynomial Prediction")
-    plt.grid()
-    plt.legend()
-    plt.show()
+print(poly_m, poly_c)
 ~~~
 {: .language-python}
 
-
-To measure the error lets calculate the RMS error on both the linear and polynomial data.
+We can once again use our model to convert input values into predictions. Lets plot our original data, linear model, and polynomial model together as well as compare the errors of the linear and polynomial fits.
 
 ~~~
-def process_life_expectancy_data_poly(filename, country, min_date, max_date):
-    df = pd.read_csv(filename, index_col="Life expectancy")
+poly_data = poly_regress.predict(x_poly)
 
-    # get the life expectancy for the specified country/dates
-    # we have to convert the dates to strings as pandas treats them that way
-    life_expectancy = df.loc[country, str(min_date):str(max_date)]
-    x_data = list(range(min_date, max_date + 1))
+poly_error = math.sqrt(skl_metrics.mean_squared_error(y_data, poly_data))
+print("linear error=", error)
+print("poly error=", poly_error)
 
-    x_data_arr = np.array(x_data).reshape(-1, 1)
-    life_exp_arr = np.array(life_expectancy).reshape(-1, 1)
-
-    polynomial_features = skl_pre.PolynomialFeatures(degree=5)
-    x_poly = polynomial_features.fit_transform(x_data_arr)
-
-    polynomial_model = skl_lin.LinearRegression().fit(x_poly, life_exp_arr)
-
-    polynomial_data = polynomial_model.predict(x_poly)
-
-    polynomial_error = math.sqrt(
-                   skl_metrics.mean_squared_error(life_exp_arr, polynomial_data))
-    print("polynomial error is", polynomial_error)
-
-process_life_expectancy_data_poly("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1950, 2016)
-
-process_life_expectancy_data("../data/gapminder-life-expectancy.csv",
-                             "United Kingdom", 1950, 2016)
+plt.scatter(x_data, y_data)
+plt.plot(x_data, linear_data)
+plt.plot(x_data, poly_data)
+plt.xlabel('hours spent revising')
+plt.ylabel('exam score')
+plt.show()
 ~~~
 {: .language-python}
 
-
-### Training Data
-
-Many (but not all) machine learning systems "learn" by taking a series of input data and output data and using it to form a model. The maths behind the machine learning doesn't care what the data is as long as it can represented numerically or categorised. Some examples might include:
-
-* predicting commute times given traffic conditions
-* predicting house prices given stock market prices
-* classifying if an email is spam or not
-* classifying what if an image contains a person or not
+![Comparison of the regressions of our dataset](../fig/regression_both.png)
 
 
-Typically we will need to train our models with hundreds, thousands or even millions of examples before they work well enough to do any useful predictions or classifications with them. 
+Comparing the plots and errors it seems like a polynomial regression of N=2 fits the data better than a linear regression.
 
-Some systems will do training as a one shot process which produces a model. Others might try to continuosly refine their training through the real use of the system and human feedback to it. For example every time you mark an email as spam or not spam you are probably contributing to further training of your spam filter's model. 
-
-### Types of output
-
-Predictors will usually involve a continuos scale of outputs, such as the price of something. Classifiers will tell you which class (or classes) are present in the data. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
-
+> ## Exercise: Try repeating your polynomial regression with different N values
+> 1. What happens when you try using a polynomial of N=1?
+> 2. What happens if you try using N=3 or more? Do the errors get better or worse?
+{: .challenge}
 
 
-
-> ## Exercise: Comparing linear and polynomial models
-> Train a linear and polynomial model on life expectancy data from China between 1960 and 2000. Then predict life expectancy from 2001 to 2016 using both methods. Compare their root mean squared errors, which is more accurate? Why do you think this model is the more accurate one?
+> ## Exercise: How do models perform against new data?
+> We now have some more exam score data that we can use to evaluate our existing models:
+> ~~~
+> x_new = [2.5, 4.5, 6.7, 8, 10, 11] # hours spent revising
+> y_new = [5, 6, 8, 10, 11, 12]  # exam results
+> ~~~
+> {: .language-python}
+>
+> Try plotting this new data alongside our old data and existing regression models. Which model performs better at predicting these new values? What comments can you say about our original dataset? How could we improve our modelling attempts?
 > > ## Solution
-> > modify the call to the process_life_expectancy_data
-> > ~~~
-> > process_life_expectancy_data_poly("../data/gapminder-life-expectancy.csv", "China", 1960, 2000)
-> > ~~~
-> > {: .language-python}
-> >
-> > linear prediction error is  5.385162846665607
-> > polynomial prediction error is 28.169167771983528
-> > The linear model is more accurate, polynomial models often become wildly inaccurate beyond the range they were trained on. Look at the predicted life expectancies, the polynomial model predicts a life expectancy of 131 by 2016!
-> > ![China 1960-2000](../fig/polynomial_china_training.png)
-> > ![China 2001-2016 predictions](../fig/polynomial_china_overprediction.png)
+> > ![Existing plot with new dataset](../fig/regression_new_data.png)
 > {: .solution}
 {: .challenge}
+
+When looking at our original dataset it seems the higher the degree of polynomial, the better the fit, as the curve hits all the points. But as soon as we input our new dataset we see that our models fail to predict the new results, and higher degree polynomials perform noticably worse than the original linear regression. This phenomenon is known as overfitting - our original models have become too specific to our original data and now lack the generality we expect from a model. You could say that our models have learnt the answers but failed to understand the assignment!
+
+Remember: *Garbage in, Garbage out* and *correlation does not equal causation*. Just because almost every winner in the olympic games drank water, it doesn't mean that drinking heaps of water will make you an olympic winner.
 
 {% include links.md %}
