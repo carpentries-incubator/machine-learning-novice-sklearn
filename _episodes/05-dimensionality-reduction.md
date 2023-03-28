@@ -16,11 +16,11 @@ keypoints:
 
 # Dimensionality reduction
 
-As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 70,000 images of handwritten numbers from 0-9, labelled with the number they contain. An illustration of the dataset is presented below. 
-
-TODO EXPLAIN THE 8x8 64 dimensions
+As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Scikit-Learn subset of the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 70,000 images of handwritten numbers from 0-9, labelled with the number they contain, whereas our Scikit-Learn example is a smaller sample of 1797 of these images. An illustration of MNIST dataset is presented below as an example. 
 
 ![MNIST example illustrating all the classes in the dataset](../fig/MnistExamples.png)
+
+In addition to taking a subset of the MNIST images, the Scikit-Learn images are compressed down to 8x8 pixels in size, rather than the MNIST 32x32, resulting in 64 pixel values per image. Each pixel of the Scikit-Learn images takes a value between 0-16. The dataset takes the form of a 1797x64 sized array. Each row corresponds to an image for which we have a label of 0-9, and each column corresponds to a flattened array of the 64 pixels, each of which can be considered a feature (or "dimension") of our data. 
 
 The code to retrieve the entire dataset with Scikit-Learn is given below:
 
@@ -55,7 +55,14 @@ We can help reduce the computational cost of clustering by transforming our high
 We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE). Both of these techniques are supported by Scikit-Learn.
 
 ### Principal Component Analysis (PCA)
-PCA is an important technique for visualizing high-dimensional data. PCA is a deterministic linear technique which projects n-dimensional data into k-dimensions while preserving the global structure of the input data. Dimension reduction in PCA involves transforming highly-correlated data by rotating the original set of vectors into their principal components. The variance between the transformation can be inferred by computing their eigen values. 
+
+PCA uses feature extraction, i.e., it combines our input variables in a specific way so we can drop the least important or least significant variables while still retaining the fundamental attributes of our old variables. 
+
+PCA takes the variance(or spread) of the data into account to reduce the dimensions.  Dimensions or variables having high variance have high information. Therefore, variables having very low variance can be removed or skipped. 
+
+When the variance of both the dimensions is comparable, i.e., there is no significant difference in the variance of the dimensions we are trying to compare, PCA projects the data from the two dimensions into a single vector which is the direction of the maximum variance. Let's understand this with an example.
+
+More complicated explanation: PCA is an important technique for visualizing high-dimensional data. PCA is a deterministic linear technique which projects n-dimensional data into k-dimensions, where `n < k`, while preserving the global structure of the input data. Dimension reduction in PCA involves transforming highly-correlated data by rotating the original set of vectors into their principal components. The variance between the transformation can be inferred by computing their eigen values.
 
 The process of reducing dimensionality in PCA is as follows,
 1. calculate the mean of each column
@@ -72,7 +79,12 @@ Scikit-Learn lets us apply PCA in a relatively simple way. Lets code and apply P
 pca = decomposition.PCA(n_components=2)
 pca.fit(X)
 X_pca = pca.transform(X)
+~~~
+{: .language-python}
 
+This returns us an array of 1797x2 where the 2 remaining columns(our new "features" or "dimensions") contain vector representations of the First principle components (column 0) and Second Principle components (column 1) for each of the images. We can plot these two new features against each other:
+
+~~~
 fig = plt.figure(1, figsize=(4, 4))
 plt.clf()
 tx = X_pca[:, 0]
