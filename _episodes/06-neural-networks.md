@@ -284,7 +284,7 @@ test_digit = data_test.iloc[0].to_numpy().reshape(1,784)
 test_digit_prediciton = mlp.predict(test_digit)[0]
 print("Predicted value",test_digit_prediciton)
 ~~~
-{: .langugage-python}
+{: .language-python}
 
 
 We can now verify if the prediction is correct by looking at the corresponding item in the `labels_test` array.
