@@ -47,8 +47,12 @@ Clustering analysis does not usually require any training and is therefore known
 
 The k-means clustering algorithm is a simple clustering algorithm that tries to identify the centre of each cluster.
 It does this by searching for a point which minimises the distance between the centre and all the points in the cluster.
-The algorithm needs to be told how many clusters to look for, but a common technique is to try different numbers of clusters and combine
-it with other tests to decide on the best combination.
+The algorithm needs to be told how many k clusters to look for, but a common technique is to try different numbers of clusters and combine
+it with other tests to decide on the best combination. 
+
+> ## Hyper-parameters again
+> 'K' is also an exmaple of a *hyper-parameter* for the k-means clustering technique. Another example of a hyper-parameter is the N-degrees of freedom for polynomial regression. Keep an eye out for others throughout the lesson!
+{: .callout}
 
 ### K-means with Scikit-Learn
 
@@ -69,9 +73,15 @@ import sklearn.datasets as skl_datasets
 Now lets create some random blobs using the `make_blobs` function. The `n_samples` argument sets how many points we want to use in all of our blobs while `cluster_std` sets the standard deviation of the points. The smaller this value the closer together they will be. `centers` sets how many clusters we'd like. `random_state` is the initial state of the random number generator. By specifying this value we'll get the same results every time we run the program. If we don't specify a random state then we'll get different points every time we run. This function returns two things: an array of data points and a list of which cluster each point belongs to.
 
 ~~~
+import matplotlib.pyplot as plt
+
 data, cluster_id = skl_datasets.make_blobs(n_samples=400, cluster_std=0.75, centers=4, random_state=1)
+plt.scatter(data[:,0], data[:,1], s=5, linewidth=0)
+plt.show()
 ~~~
 {: .language-python}
+
+![Plot of the random clusters](../fig/random_clusters.png)
 
 Now that we have some data we can try to identify the clusters using k-means. First, we need to initialise the KMeans module and tell it how many clusters to look for. Next, we supply it with some data via the `fit` function, in much the same way we did with the regression functions earlier on. Finally, we run the predict function to find the clusters.
 
@@ -85,7 +95,6 @@ clusters = Kmean.predict(data)
 The data can now be plotted to show all the points we randomly generated. To make it clearer which cluster points have been classified we can set the colours (the c parameter) to use the `clusters` list that was returned by the `predict` function. The Kmeans algorithm also lets us know where it identified the centre of each cluster. These are stored as a list called 'cluster_centers_' inside the `Kmean` object. Let's plot the points from the clusters, colouring them by the output from the K-means algorithm, and also plot the centres of each cluster as a red X.
 
 ~~~
-import matplotlib.pyplot as plt
 plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0, c=clusters)
 for cluster_x, cluster_y in Kmean.cluster_centers_:
     plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
@@ -93,6 +102,7 @@ plt.show()
 ~~~
 {: .language-python}
 
+![Plot of the fitted random clusters](../fig/random_clusters_centre.png)
 
 ~~~
 import sklearn.cluster as skl_cluster
@@ -197,6 +207,8 @@ Lets try out using Scikit-Learn's spectral clustering. To make the concentric ci
 import sklearn.datasets as skl_data
 
 circles, circles_clusters = skl_data.make_circles(n_samples=400, noise=.01, random_state=0)
+plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0)
+plt.show()
 ~~~
 {: .language-python}
 
@@ -210,6 +222,8 @@ The SpectralClustering class combines the fit and predict functions into a singl
 
 ~~~
 labels = model.fit_predict(circles)
+plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0, c=labels, cmap='flag')
+plt.show()
 ~~~
 {: .language-python}
 
