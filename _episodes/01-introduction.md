@@ -65,7 +65,7 @@ The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original
 > 4. Do you have any examples of the system failing?
 {: .challenge}
 
-# Useful types of lachine learning
+# Useful types of machine learning
 
 This lesson will introduce you to some of the key concepts and sub-domains of ML such as supervised learning, unsupervised learning, and neural networks.
 
