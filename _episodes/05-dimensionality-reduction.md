@@ -25,12 +25,7 @@ In addition to taking a subset of the MNIST images, the Scikit-Learn images are 
 The code to retrieve the entire dataset with Scikit-Learn is given below:
 
 ~~~
-import numpy as np
-import matplotlib.pyplot as plt
-
-from sklearn import decomposition
 from sklearn import datasets
-from sklearn import manifold
 
 digits = datasets.load_digits()
 
@@ -38,7 +33,10 @@ digits = datasets.load_digits()
 print(digits.data)
 print(digits.target)
 
-X = digits.data
+x = digits.data
+y = digits.target
+
+print(x.shape, y.shape)
 y = digits.target
 ~~~
 {: .language-python}
@@ -75,28 +73,32 @@ Minimizing the eigen values closer to zero implies that the dataset has been suc
 Scikit-Learn lets us apply PCA in a relatively simple way. Lets code and apply PCA to the MNIST dataset. 
 
 ~~~
+from sklearn import decomposition
+
 # PCA
 pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X_pca = pca.transform(X)
+pca.fit(x)
+x_pca = pca.transform(x)
+
+print(x_pca.shape)
 ~~~
 {: .language-python}
 
 This returns us an array of 1797x2 where the 2 remaining columns(our new "features" or "dimensions") contain vector representations of the First principle components (column 0) and Second Principle components (column 1) for each of the images. We can plot these two new features against each other:
 
 ~~~
-fig = plt.figure(1, figsize=(4, 4))
-plt.clf()
-tx = X_pca[:, 0]
-tx = (tx-np.min(tx)) / (np.max(tx) - np.min(tx))
+import numpy as np
+import matplotlib.pyplot as plt
 
-ty = X_pca[:, 1]
-ty = (ty-np.min(ty)) / (np.max(ty) - np.min(ty))
+fig = plt.figure(1, figsize=(4, 4))
+
+tx = x_pca[:, 0]
+ty = x_pca[:, 1]
 
 plt.scatter(tx, ty, c=y, cmap=plt.cm.nipy_spectral, 
         edgecolor='k',label=y)
 plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
-plt.savefig("pca.svg")
+plt.show()
 ~~~
 {: .language-python}
 
@@ -110,15 +112,17 @@ t-SNE is a non-deterministic non-linear technique which involves several optiona
 Scikit-Learn allows us to apply t-SNE in a relatively simple way. Lets code and apply t-SNE to the MNIST dataset.
 
 ~~~
+from sklearn import manifold
+
 # t-SNE embedding
 tsne = manifold.TSNE(n_components=2, init='pca', random_state = 0)
-X_tsne = tsne.fit_transform(X)
+x_tsne = tsne.fit_transform(x)
 fig = plt.figure(1, figsize=(4, 4))
 plt.clf()
-plt.scatter(X_tsne[:, 0], X_tsne[:, 1], c=y, cmap=plt.cm.nipy_spectral,
+plt.scatter(x_tsne[:, 0], x_tsne[:, 1], c=y, cmap=plt.cm.nipy_spectral,
         edgecolor='k',label=y)
 plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
-plt.savefig("tsne.svg")
+plt.show()
 ~~~
 {: .language-python}
 
@@ -140,14 +144,14 @@ The major drawback of applying t-SNE to datasets is the large computational requ
 > > from mpl_toolkits.mplot3d import Axes3D
 > > # PCA
 > > pca = decomposition.PCA(n_components=3)
-> > pca.fit(X)
-> > X_pca = pca.transform(X)
+> > pca.fit(x)
+> > x_pca = pca.transform(x)
+
 > > fig = plt.figure(1, figsize=(4, 4))
-> > plt.clf()
 > > ax = fig.add_subplot(projection='3d')
-> > ax.scatter(X_pca[:, 0], X_pca[:, 1], X_pca[:, 2], c=y,
+> > ax.scatter(x_pca[:, 0], x_pca[:, 1], x_pca[:, 2], c=y,
 > >           cmap=plt.cm.nipy_spectral, s=9, lw=0)
-> > plt.savefig("pca_3d.svg")
+> > plt.show()
 > > ~~~
 > > {: .language-python}
 > >
@@ -157,13 +161,12 @@ The major drawback of applying t-SNE to datasets is the large computational requ
 > > # t-SNE embedding
 > > tsne = manifold.TSNE(n_components=3, init='pca',
 > >         random_state = 0)
-> > X_tsne = tsne.fit_transform(X)
+> > x_tsne = tsne.fit_transform(x)
 > > fig = plt.figure(1, figsize=(4, 4))
-> > plt.clf()
 > > ax = fig.add_subplot(projection='3d')
-> > ax.scatter(X_tsne[:, 0], X_tsne[:, 1], X_tsne[:, 2], c=y,
+> > ax.scatter(x_tsne[:, 0], x_tsne[:, 1], x_tsne[:, 2], c=y,
 > >           cmap=plt.cm.nipy_spectral, s=9, lw=0)
-> > plt.savefig("tsne_3d.svg")
+> > plt.show()
 > > ~~~
 > > {: .language-python}
 > >
