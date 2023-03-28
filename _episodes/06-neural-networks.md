@@ -223,10 +223,10 @@ This tells us we have 70,000 rows in the dataset.
 Let us take 90% of the data for training and 10% for testing, so we will use the first 63,000 samples in the dataset as the training data and the last 7,000 as the test data. We can split these using a slice operator.
 
 ~~~
-data_train = data[0:63000]
-labels_train = labels[0:63000]
-data_test = data[63001:]
-labels_test = labels[63001:]
+data_train = data[0:63000].values
+labels_train = labels[0:63000].values
+data_test = data[63001:].values
+labels_test = labels[63001:].values
 ~~~
 {: .language-python}
 
@@ -260,11 +260,11 @@ data = data / 255.0
 
 mlp = skl_nn.MLPClassifier(hidden_layer_sizes=(50,), max_iter=50, verbose=1, random_state=1)
 
-data_train = data[0:63000]
-labels_train = labels[0:63000]
+data_train = data[0:63000].values
+labels_train = labels[0:63000].values
 
-data_test = data[63001:]
-labels_test = labels[63001:]
+data_test = data[63001:].values
+labels_test = labels[63001:].values
 
 mlp.fit(data_train, labels_train)
 print("Training set score", mlp.score(data_train, labels_train))
@@ -280,9 +280,9 @@ Now that we have trained a multi-layer perceptron, we can give it some input dat
 Before we can pass it to the predictor, we need to extract one of the digits from the test set. We can use `iloc` on the dataframe to get hold of the first element in the test set. In order to present it to the predictor, we have to turn it into a numpy array which has the dimensions of 1x784 instead of 28x28. We can then call the `predict` function with this array as our parameter. This will return an array of predictions (as it could have been given multiple inputs), the first element of this will be the predicted digit. You may get a warning stating "X does not have valid feature names", this is because we didn't encode feature names into our X (digit images) data.
 
 ~~~
-test_digit = data_test.iloc[0].to_numpy().reshape(1,784)
-test_digit_prediciton = mlp.predict(test_digit)[0]
-print("Predicted value",test_digit_prediciton)
+test_digit = data_test[0].reshape(1,784)
+test_digit_prediction = mlp.predict(test_digit)[0]
+print("Predicted value",test_digit_prediction)
 ~~~
 {: .language-python}
 
@@ -290,7 +290,7 @@ print("Predicted value",test_digit_prediciton)
 We can now verify if the prediction is correct by looking at the corresponding item in the `labels_test` array.
 
 ~~~
-print("Actual value",labels_test.iloc[0])
+print("Actual value",labels_test[0])
 ~~~
 {: .language-python}
 
@@ -338,12 +338,12 @@ We have now trained a neural network and tested prediction on a few images. This
 ~~~
 correct=0
 
-for row in data_test.iterrows():
+for idx, row in enumerate(data_test):
     # image contains a tuple of the row number and image data
-    image = row[1].to_numpy().reshape(1,784)
+    image = row.reshape(1,784)
 
     prediction = mlp.predict(image)[0]
-    actual = labels_test[row[0]]
+    actual = labels_test[idx]
 
     if prediction == actual:
         correct = correct + 1
@@ -360,10 +360,10 @@ We now know what percentage of images were correctly classified, but we don't kn
 from sklearn.metrics import confusion_matrix
 predictions = []
 
-for image in data_test.iterrows():
+for image in data_test:
     # image contains a tuple of the row number and image data
-    image = image[1].to_numpy().reshape(1,784)
-    predictions.append(mlp.predict(image)[0])
+    image = image.reshape(1,784)
+    predictions.append(mlp.predict(image))
 
 confusion_matrix(labels_test,predictions)
 ~~~
@@ -376,7 +376,7 @@ confusion_matrix(labels_test,predictions)
 > > ## Solution
 > > ~~~
 > > from sklearn.metrics import ConfusionMatrixDisplay
-> > ConfusionMatrixDisplay.from_predictions(labels_test,predictions)
+> > ConfusionMatrixDisplay.from_predictions(labels_test,np.array(predictions))
 > > ~~~
 > > {: .language-python}
 > {: .solution}
