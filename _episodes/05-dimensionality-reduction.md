@@ -146,7 +146,6 @@ The major drawback of applying t-SNE to datasets is the large computational requ
 > > pca = decomposition.PCA(n_components=3)
 > > pca.fit(x)
 > > x_pca = pca.transform(x)
-
 > > fig = plt.figure(1, figsize=(4, 4))
 > > ax = fig.add_subplot(projection='3d')
 > > ax.scatter(x_pca[:, 0], x_pca[:, 1], x_pca[:, 2], c=y,
