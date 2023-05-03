@@ -1,7 +1,7 @@
 ---
 title: "Regression"
-teaching: 30
-exercises: 20
+teaching: 45
+exercises: 15
 questions:
 - "What is supervised learning?"
 - "How can I model data and make predictions using regression?"

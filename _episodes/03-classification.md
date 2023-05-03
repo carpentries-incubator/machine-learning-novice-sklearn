@@ -1,6 +1,6 @@
 ---
 title: "Classification"
-teaching: 15
+teaching: 40
 exercises: 20
 questions:
 - "How can I classify data into known categories?"

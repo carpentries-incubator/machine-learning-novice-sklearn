@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-teaching: 20
+teaching: 30
 exercises: 10
 questions:
 - "What is machine learning?"
@@ -56,14 +56,6 @@ The image below shows the relationships between artificial intelligence, machine
 ![An infographic showing some of the relationships between AI, ML, and DL](../fig/01_AI_ML_DL_differences.png)
 The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original source
 
-> ## Where have you encountered machine learning already?
-> Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
->
-> 1. Where have I seen machine learning in use?
-> 2. What kind of input data does that machine learning system use to make predictions/classifications?
-> 3. Is there any evidence that your interaction with the system contributes to further training?
-> 4. Do you have any examples of the system failing?
-{: .challenge}
 
 # Useful types of machine learning
 
@@ -95,5 +87,14 @@ Sometimes ML algorithms become over-trained and subsequently don't perform well 
 ### Inability to explain answers
 
 Machine learning techniques will return an answer based on the input data and model parameters even if that answer is wrong. Most systems are unable to explain the logic used to arrive at that answer. This can make detecting and diagnosing problems difficult. 
+
+> ## Where have you encountered machine learning already?
+> Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
+>
+> 1. Where have I seen machine learning in use?
+> 2. What kind of input data does that machine learning system use to make predictions/classifications?
+> 3. Is there any evidence that your interaction with the system contributes to further training?
+> 4. Do you have any examples of the system failing?
+{: .challenge}
 
 {% include links.md %}
