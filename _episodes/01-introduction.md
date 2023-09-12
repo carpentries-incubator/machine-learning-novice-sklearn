@@ -50,7 +50,6 @@ Machine learning has quickly become an important technology and is now frequentl
 
 > #### Where else have you encountered machine learning already?
 > Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
->
 > 1. Where else have I seen machine learning in use?
 > 2. What kind of input data does that machine learning system use to make predictions/classifications?
 > 3. Is there any evidence that your interaction with the system contributes to further training?
