@@ -38,16 +38,13 @@ Regression can be as simple as drawing a "line of best fit" through data points,
 
 ![Example of linear and polynomial regressions](../fig/regression_example.png)
 
-## Linear regression using Scikit-Learn
+### Linear regression using Scikit-Learn
 
-We've had a lot of theory so time to start some actual coding! Let's create regression models for a very small dataset that will predict exam scores from hours spent revising. Exam scores is our labelled dependent variable, and hours spent revising is our independent input variable.
-
-Let's define our dataset and visualise it:
+We've had a lot of theory so time to start some actual coding! Let's create regression models for a small bundle of datasets known as [Anscombe's Quartet](https://en.wikipedia.org/wiki/Anscombe%27s_quartet). These datasets are available through the Python plotting library [Seaborn](https://seaborn.pydata.org/). Let's define our bundle of datasets, extract out the first dataset, and inspect it's contents:
 
 ~~~
 import seaborn as sns
 
-# Load in a bulk dataset from seaborn
 # Anscomes Quartet consists of 4 sets of data
 data = sns.load_dataset("anscombe")
 print(data.head())
@@ -60,6 +57,8 @@ data_1 = data_1.sort_values("x")
 print(data_1.head())
 ~~~
 {: .language-python}
+
+We see that the dataset bundle has the 3 columns `dataset`, `x`, and `y`. We have already used the `dataset` column to extract out Dataset I ready for our regression task. Let's visually inspect the data:
 
 ~~~
 import matplotlib.pyplot as plt
@@ -74,25 +73,19 @@ plt.show()
 ![Inspection of our dataset](../fig/regression_inspect.png)
 
 
-Now lets import Scikit-Learn and use it to create a linear regression model. The Scikit-Learn `regression` function that we will use is designed for datasets where multiple parameters are used and so it expects to be given multi-dimensional array data. To get it to accept our single dimension data, we need to convert the simple lists to numpy arrays with numpy's `reshape` function.
+In this regression example we will create a Linear Regression model that will try to predict `y` values based upon `x` values.
 
-~~~
-import sklearn.linear_model as skl_lin
-import numpy as np
+In machine learning terminology: we will use our `x` feature (variable) and `y` labels("answers") to train our Linear Regression model to predict `y` values when provided with `x` values.
 
-x_data = np.array(x_data).reshape(-1, 1)
-y_data = np.array(y_data).reshape(-1, 1)
+The mathematical equation for a linear fit is `y = mx + c` where `y` is our label data, `x` is our input feature(s), `m` represents the gradient of the linear fit, and `c` represents the intercept with the y-axis.
 
-lin_regress = skl_lin.LinearRegression().fit(x_data, y_data)
-~~~
-{: .language-python}
+A typical ML workflow is as following:
+* Define the model (also known as an estimator)
+* Tweak your data into the required format for your model
+* Train your model on the input data
+* Predict some values using the trained model
 
-The mathematical equation for a linear fit is `y = mx + c` where `y` is our output exam result values, `x` is our input revision hour values, `m` represents the gradient of the linear fit, and `c` represents the intercept with the y-axis.
-
-As well as using our newly created `lin_regress` model to predict new values, we can also inspect the fit coefficients using `.coef_` and `.intercept_`. The Scikit-Learn code is designed to calculate multiple coefficients and intercepts at once so these return values will be arrays. Since we've just got one parameter we can just grab the first item from each of these arrays as follows:
-
-
-Once we have created the model using the `regression` function we can use Scikit-Learn's `predict` function to convert input values into predictions. 
+We will be training a few Linear Regression models in this episode, so let's define a handy function to create our model, tweak our input data, train our model, inspect the trained model parameters `m` and `c`, make some predictions, and finally visualise our data.
 
 ~~~
 import math
@@ -105,6 +98,7 @@ def fit_a_linear_model(x, y):
     model = LinearRegression(fit_intercept=True)
 
     # tweak our data to work with our estimator/model
+    # sklearn requires a 2D array, so lets reshape our 1D arrays.
     x_data = np.array(x).reshape(-1, 1)
     y_data = np.array(y).reshape(-1, 1)
 
@@ -117,51 +111,74 @@ def fit_a_linear_model(x, y):
     print("linear coefs=",m, c)
 
     # predict some values using our trained estimator/model
-    # (in this case - our input data)
+    # (in this case we predict our input data!)
     linear_data = lin_regress.predict(x_data)
 
     # visualise!
+    # Don't call .show() here so that we can add extra stuff to the figure later
     plt.plot(x_data, linear_data)
     plt.scatter(x_data, y_data)
-
     plt.xlabel("x")
     plt.ylabel("y")
 
+    # calculated a RMS error as a quality of fit metric
     error = math.sqrt(mean_squared_error(y_data, linear_data))
     print("linear error=",error)
 
+    # return our trained model so that we can use it later
     return lin_regress
 ~~~
 {: .language-python}
 
-![Linear regression of our dataset](../fig/regress_linear.png)
-
-
-This looks like a reasonably good fit to the data points, but rather than rely on our own judgement lets calculate the fit error instead. Scikit-Learn doesn't provide a root mean squared error function, but it does provide a mean squared error function. We can calculate the root mean squared error simply by taking the square root of the output of this function. The `mean_squared_error` function is part of the Scikit-Learn `metrics` module, so we'll have to add that to our imports as well as the `math` module:
-
-Repeat for dataset2
-
+Now we have defined our generic function to fit a linear regression we can call the function to train it on some data, and show the plot that was generated:
 ~~~
-# repeat for dataset 2
-data_2 = data[data["dataset"]=="II"]
-data_2 = data_2.sort_values("x")
-
-fit_a_linear_model(data_2["x"],data_2["y"])
+# just call the function here rather than assign.
+# We don't need to reuse the trained model yet
+fit_a_linear_model(data_1["x"],data_1["y"])
 
 plt.show()
 ~~~
 {: .language-python}
 
-![Linear regression of our dataset](../fig/regress_linear_2nd.png)
+
+![Linear regression of dataset I](../fig/regress_linear.png)
+
+This looks like a reasonable linear fit to our first dataset. Thanks to our function we can quickly perform more linear regressions on other datasets.
+
+
+> ### Exercise: Repeat the linear regression excercise for Datasets II, III, and IV. What can you say about the similarities and/or differences between the linear regressions on the 4 datasets?
+> > ### Solution
+> ~~~
+> > # Repeat the following for dataset 2, 3, and 4
+> > data_2 = data[data["dataset"]=="II"]
+> > data_2 = data_2.sort_values("x")
+> > 
+> > fit_a_linear_model(data_2["x"],data_2["y"])
+> > 
+> > plt.show()
+> > ~~~
+> > {: .language-python}
+
+> > ![Linear regression of dataset II](../fig/regress_linear_2nd.png)
+> > ![Linear regression of dataset III](../fig/regress_linear_3rd.png)
+> > ![Linear regression of dataset IV](../fig/regress_linear_4th.png)
+> > The 4 datasets all produce very similar linear regression fit parameters (`m` and `c`) and RMSEs despite visual differences in the 4 datasets. 
+> > 
+> > This is intentional as the Anscombe Quartet is designed to produce near identical basic statistical values such as means and standard deviations. 
+> > 
+> > While the trained model parameters and errors are near identical, our visual inspection tells us that a linear fit might not be the best way of modelling some of these datasets.
+> 
+> {: .solution}
+{: .challenge}
 
 
 ## Polynomial regression using Scikit-Learn
 
 Now that we have learnt how to do a linear regression it's time look into polynomial regressions. Polynomial functions are non-linear functions that are commonly-used to model data. Mathematically they have `N` degrees of freedom and they take the following form `y = a + bx + cx^2 + dx^3 ... + mx^N`
 
-If we have a polynomial of degree N=1 we once again return to a linear equation `y = a + bx` or as it is more commonly written `y = mx + c`. Let's create a polynomial regression using N=2. In Scikit-Learn this is done in two steps. First we pre-process our input data `x_data` into a polynomial representation using the `PolynomialFeatures` function:
+If we have a polynomial of degree N=1 we once again return to a linear equation `y = a + bx` or as it is more commonly written `y = mx + c`. Let's create a polynomial regression using N=2. 
 
-Then we can create our polynomial regressions using the `LinearRegression().fit()` function again, but this time using the polynomial representation of our `x_data` instead. As before we can also inspect the regression coefficients and the intercept gradient, noting that the polynomial expression has multiple coefficients.
+In Scikit-Learn this is done in two steps. First we pre-process our input data `x_data` into a polynomial representation using the `PolynomialFeatures` function. Then we can create our polynomial regressions using the `LinearRegression().fit()` function, but this time using the polynomial representation of our `x_data`.
 
 ~~~
 from sklearn.preprocessing import PolynomialFeatures
@@ -193,13 +210,13 @@ def fit_a_poly_model(x,y):
     plt.plot(x_data, poly_data)
 
     poly_error = math.sqrt(mean_squared_error(y_data,poly_data))
-    print("poly error=",poly_error)
+    print("poly error=", poly_error)
 
     return poly_regress
 ~~~
 {: .language-python}
 
-We can once again use our model to convert input values into predictions. Lets plot our original data, linear model, and polynomial model together as well as compare the errors of the linear and polynomial fits.
+Lets plot our original data, linear model, and polynomial model together as well as compare the errors of the linear and polynomial fits.
 
 ~~~
 fit_a_linear_model(data_2["x"],data_2["y"])
@@ -211,31 +228,18 @@ plt.show()
 
 ![Comparison of the regressions of our dataset](../fig/regress_both.png)
 
+Comparing the plots and errors it seems like a polynomial regression of N=2 is a far superior fit to Dataset II than a linear fit. In fact, it looks like our polynomial fit almost perfectly fits Dataset II... which is because Dataset II is created from a N=2 polynomial equation!
 
-Comparing the plots and errors it seems like a polynomial regression of N=2 fits the data better than a linear regression.
-
-> ## Exercise: Try repeating your polynomial regression with different N values
-> 1. What happens when you try using a polynomial of N=1?
-> 2. What happens if you try using N=3 or more? Do the errors get better or worse?
+> ### Exercise: Perform and compare linear and polynomial fits for Datasets I, III, and IV. 
+> 1. Which performs better for each dataset?
+> 2. Modify your polynomial regression function to take `N` as an input parameter to your regression model. How does changing the degree of polynomial fit affect each dataset?
 {: .challenge}
 
+## Let's explore a more realistic scenario
 
-> ## Exercise: How do models perform against new data?
-> We now have some more exam score data that we can use to evaluate our existing models:
-> ~~~
-> x_new = [2.5, 4.5, 6.7, 8, 10, 11] # hours spent revising
-> y_new = [5, 6, 8, 10, 11, 12]  # exam results
-> ~~~
-> {: .language-python}
->
-> Try plotting this new data alongside our old data and existing regression models. Which model performs better at predicting these new values? What comments can you say about our original dataset? How could we improve our modelling attempts?
-> > ## Solution
-> > ![Existing plot with new dataset](../fig/regression_new_data.png)
-> {: .solution}
-{: .challenge}
+Now that we have some convenient Python functions to perform quick regressions on data it's time to explore a more realistic regression modelling scenario.
 
-When looking at our original dataset it seems the higher the degree of polynomial, the better the fit, as the curve hits all the points. But as soon as we input our new dataset we see that our models fail to predict the new results, and higher degree polynomials perform noticably worse than the original linear regression. This phenomenon is known as overfitting - our original models have become too specific to our original data and now lack the generality we expect from a model. You could say that our models have learnt the answers but failed to understand the assignment!
-
+Let's start by loading in and examining a new dataset from Seaborn: a penguin dataset containing a few hundred samples and a number of features and labels.
 
 ~~~
 dataset = sns.load_dataset("penguins")
@@ -243,21 +247,22 @@ dataset.head()
 ~~~
 {: .language-python}
 
+We can see that we have seven columns in total: 4 continuous (numerical) columns named `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, and `body_mass_g`; and 3 discrete (categorical) columns named `species`, `island`, and `sex`. We can also see from a quick inspection of the first 5 samples that we have some missing data in the form of `NaN` values. Let's go ahead and remove any rows that contain `NaN` values:
+
 ~~~
 dataset.dropna(inplace=True)
 dataset.head()
 ~~~
 {: .language-python}
 
+Now that we have cleaned our data we try and predict a penguins bill depth using their body mass. In this scenario we will train a linear regression model using `body_mass_g` as our feature data and `bill_depth_mm` as our label data. We will train our model on a subset of the data by slicing the first 146 samples of our cleaned data. As before, we'll then use our regression function to train and plot our model.
+
 ~~~
 dataset_1 = dataset[:146]
 
 x_data = dataset_1["body_mass_g"]
 y_data = dataset_1["bill_depth_mm"]
-~~~
-{: .language-python}
 
-~~~
 import matplotlib.pyplot as plt
 
 trained_model = fit_a_linear_model(x_data, y_data)
@@ -267,6 +272,10 @@ plt.ylabel("depth mm")
 plt.show()
 ~~~
 ![Comparison of the regressions of our dataset](../fig/regress_penguin_lin.png)
+
+Congratulations! We've taken our linear regression function and quickly created and trained a new linear regression model on a brand new dataset. Note that this time we have returned our model from the regression function and assigned it to the variable `trained_model`. We can now use this model to predict `bill_depth_mm` values for any given `body_mass_g` values that we pass it.
+
+Let's provide the model with all of the penguin samples and visually inspect how the linear regression model performs.
 ~~~
 x_data_all = dataset["body_mass_g"]
 y_data_all = dataset["bill_depth_mm"]
@@ -288,6 +297,11 @@ plt.show()
 ~~~
 ![Comparison of the regressions of our dataset](../fig/regress_penguin_lin_tot.png)
 {: .language-python}
+
+Oh dear. It looks like our linear regression fits okay for our subset of the penguin data, and a few additional samples, but there appears to be a cluster of points that are poorly predicted by our model.
+
+This is a classic Machine Learning scenario known as over-fitting. We have trained our model on a specific set of data that isn't representitive of all the data we wish to predict and our model has become too specific to solve our general problem.
+
 Remember: *Garbage in, Garbage out* and *correlation does not equal causation*. Just because almost every winner in the olympic games drank water, it doesn't mean that drinking heaps of water will make you an olympic winner.
 
 {% include links.md %}
