@@ -32,7 +32,7 @@ In this episode we will explore how we can use regression to build a "model" tha
 
 # Regression
 
-Regression is a statistical technique that relates a dependent variable (a label in ML terms) to one or more independent variables. A regression model attempts to describe this relation by fitting the data as closely as possible according to mathematical criteria. This model can then be used to predict new labelled values by inputting the independent variables into it. For example, if we create a house price model we can then feed in any datetime value we wish, and get a new house price value prediction.
+Regression is a statistical technique that relates a dependent variable (a label in ML terms) to one or more independent variables (features in ML terms). A regression model attempts to describe this relation by fitting the data as closely as possible according to mathematical criteria. This model can then be used to predict new labelled values by inputting the independent variables into it. For example, if we create a house price model we can then feed in any datetime value we wish, and get a new house price value prediction.
 
 Regression can be as simple as drawing a "line of best fit" through data points, known as linear regression, or more complex models such as polynomial regression, and is used routinely around the world in both industry and research. You may have already used regression in the past without knowing that it is also considered a machine learning technique!
 
@@ -116,10 +116,12 @@ def fit_a_linear_model(x, y):
 
     # visualise!
     # Don't call .show() here so that we can add extra stuff to the figure later
-    plt.plot(x_data, linear_data)
-    plt.scatter(x_data, y_data)
+    plt.scatter(x_data, y_data, label="input")
+    plt.plot(x_data, linear_data, "-", label="fit")
+    plt.plot(x_data, linear_data, "rx", label="predictions")
     plt.xlabel("x")
     plt.ylabel("y")
+    plt.legend()
 
     # calculated a RMS error as a quality of fit metric
     error = math.sqrt(mean_squared_error(y_data, linear_data))
@@ -207,7 +209,8 @@ def fit_a_poly_model(x,y):
     poly_data = poly_regress.predict(x_poly)
 
     # visualise!
-    plt.plot(x_data, poly_data)
+    plt.plot(x_data, poly_data, label="poly fit")
+    plt.legend()
 
     poly_error = math.sqrt(mean_squared_error(y_data,poly_data))
     print("poly error=", poly_error)
@@ -287,12 +290,15 @@ y_predictions = trained_model.predict(x_data_all)
 error = math.sqrt(mean_squared_error(y_data_all, y_predictions))
 print("penguin error=",error)
 
-plt.scatter(x_data_all, y_data_all)
-plt.scatter(x_data, y_data)
+plt.scatter(x_data_all, y_data_all, label="all data")
+plt.scatter(x_data, y_data, label="training data")
 
-plt.plot(x_data_all, y_predictions)
+plt.plot(x_data_all, y_predictions, label="fit")
+plt.plot(x_data_all, y_predictions, "rx", label="predictions")
+
 plt.xlabel("mass g")
 plt.ylabel("depth mm")
+plt.legend()
 plt.show()
 ~~~
 ![Comparison of the regressions of our dataset](../fig/regress_penguin_lin_tot.png)
