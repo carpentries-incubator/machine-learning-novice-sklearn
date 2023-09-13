@@ -149,9 +149,9 @@ plt.show()
 This looks like a reasonable linear fit to our first dataset. Thanks to our function we can quickly perform more linear regressions on other datasets.
 
 
-> ### Exercise: Repeat the linear regression excercise for Datasets II, III, and IV. 
+> ## Exercise: Repeat the linear regression excercise for Datasets II, III, and IV. 
 > Adjust your code to repeat the linear regression for the other datasets. What can you say about the similarities and/or differences between the linear regressions on the 4 datasets?
-> > ### Solution
+> > ## Solution
 > > ~~~
 > > # Repeat the following for dataset 2, 3, and 4
 > > data_2 = data[data["dataset"]=="II"]
