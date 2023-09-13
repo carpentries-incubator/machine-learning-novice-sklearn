@@ -1,5 +1,5 @@
 ---
-title: "Regression"
+title: "Supervised methods: Regression"
 teaching: 45
 exercises: 15
 questions:
@@ -9,7 +9,7 @@ questions:
 objectives:
 - "Apply linear regression with Scikit-Learn to create a model."
 - "Measure the error between a regression model and input data."
-- "TODO: Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
+- "TODO Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
 - "Understand how more complex models can be built with non-linear equations."
 - "Apply polynomial modelling to non-linear data using Scikit-Learn."
 keypoints:
@@ -259,7 +259,7 @@ dataset.head()
 ~~~
 {: .language-python}
 
-Now that we have cleaned our data we try and predict a penguins bill depth using their body mass. In this scenario we will train a linear regression model using `body_mass_g` as our feature data and `bill_depth_mm` as our label data. We will train our model on a subset of the data by slicing the first 146 samples of our cleaned data. As before, we'll then use our regression function to train and plot our model.
+Now that we have cleaned our data we can try and predict a penguins bill depth using their body mass. In this scenario we will train a linear regression model using `body_mass_g` as our feature data and `bill_depth_mm` as our label data. We will train our model on a subset of the data by slicing the first 146 samples of our cleaned data. We will then use our regression function to train and plot our model.
 
 ~~~
 dataset_1 = dataset[:146]
@@ -311,8 +311,12 @@ plt.show()
 
 Oh dear. It looks like our linear regression fits okay for our subset of the penguin data, and a few additional samples, but there appears to be a cluster of points that are poorly predicted by our model.
 
-This is a classic Machine Learning scenario known as over-fitting. We have trained our model on a specific set of data that isn't representitive of all the data we wish to predict and our model has become too specific to solve our general problem.
+> ## This is a classic Machine Learning scenario known as over-fitting.
+> We have trained our model on a specific set of data, and our model has learnt to reproduce those specific answers at the expense of creating a more generally-applicable model. 
+> 
+> Over fitting is the ML equivalent of learning an exam papers mark scheme off by heart, rather than understanding and answering the questions.
+{: .callout}
 
-Remember: *Garbage in, Garbage out* and *correlation does not equal causation*. Just because almost every winner in the olympic games drank water, it doesn't mean that drinking heaps of water will make you an olympic winner.
+Perhaps our model is too simple? Perhaps our data is more complex than we thought? Perhaps our question/goal needs adjusting? Let's explore the penguin dataset in more depth in the next section!
 
 {% include links.md %}
