@@ -148,29 +148,40 @@ plt.show()
 
 This looks like a reasonable linear fit to our first dataset. Thanks to our function we can quickly perform more linear regressions on other datasets.
 
+Let's quickly perform a new linear fit on the 2nd Anscombe dataset:
 
-> ## Exercise: Repeat the linear regression excercise for Datasets II, III, and IV. 
+~~~
+data_2 = data[data["dataset"]=="II"]
+fit_a_linear_model(data_2["x"],data_2["y"])
+
+plt.show()
+~~~
+{: .language-python}
+
+![Linear regression of dataset II](../fig/regress_linear_2nd.png)
+
+It looks like our linear fit on Dataset II produces a nearly identical fit to the linear fit on Dataset I. Although our errors look to be almost identical our visual inspection tells us that Dataset II is probably not a linear correllation and we should try to make a different model.
+
+> ## Exercise: Repeat the linear regression excercise for Datasets III and IV. 
 > Adjust your code to repeat the linear regression for the other datasets. What can you say about the similarities and/or differences between the linear regressions on the 4 datasets?
 > > ## Solution
 > > ~~~
-> > # Repeat the following for dataset 2, 3, and 4
-> > data_2 = data[data["dataset"]=="II"]
-> > data_2 = data_2.sort_values("x")
+> > # Repeat the following and adjust for dataset IV
+> > data_3 = data[data["dataset"]=="III"]
 > > 
-> > fit_a_linear_model(data_2["x"],data_2["y"])
+> > fit_a_linear_model(data_3["x"],data_3["y"])
 > > 
 > > plt.show()
 > > ~~~
 > > {: .language-python}
 > > 
-> > ![Linear regression of dataset II](../fig/regress_linear_2nd.png)
 > > ![Linear regression of dataset III](../fig/regress_linear_3rd.png)
 > > ![Linear regression of dataset IV](../fig/regress_linear_4th.png)
 > > The 4 datasets all produce very similar linear regression fit parameters (`m` and `c`) and RMSEs despite visual differences in the 4 datasets. 
 > > 
 > > This is intentional as the Anscombe Quartet is designed to produce near identical basic statistical values such as means and standard deviations. 
 > > 
-> > While the trained model parameters and errors are near identical, our visual inspection tells us that a linear fit might not be the best way of modelling some of these datasets.
+> > While the trained model parameters and errors are near identical, our visual inspection tells us that a linear fit might not be the best way of modelling all of these datasets.
 > {: .solution}
 {: .challenge}
 
@@ -220,9 +231,13 @@ def fit_a_poly_model(x,y):
 ~~~
 {: .language-python}
 
-Lets plot our original data, linear model, and polynomial model together as well as compare the errors of the linear and polynomial fits.
+Lets plot our input dataset II, linear model, and polynomial model together, as well as compare the errors of the linear and polynomial fits.
 
 ~~~
+# Sort our data in order of our x (feature) values
+data_2 = data[data["dataset"]=="II"]
+data_2 = data_2.sort_values("x")
+
 fit_a_linear_model(data_2["x"],data_2["y"])
 fit_a_poly_model(data_2["x"],data_2["y"])
 
@@ -237,6 +252,47 @@ Comparing the plots and errors it seems like a polynomial regression of N=2 is a
 > ## Exercise: Perform and compare linear and polynomial fits for Datasets I, III, and IV. 
 > 1. Which performs better for each dataset?
 > 2. Modify your polynomial regression function to take `N` as an input parameter to your regression model. How does changing the degree of polynomial fit affect each dataset?
+> > ## Solution
+> > Question 1.
+> > ~~~
+> > for ds in ["I","II","III","IV"]:
+> >     # Sort our data in order of our x (feature) values
+> >     data_ds = data[data["dataset"]==ds]
+> >     data_ds = data_ds.sort_values("x")
+> > 
+> >     fit_a_linear_model(data_ds["x"],data_ds["y"])
+> >     fit_a_poly_model(data_ds["x"],data_ds["y"])
+> > 
+> >     plt.show()
+> > ~~~
+> > {: .language-python}
+> > The `N=2` polynomial fit is far better for Dataset II. According to the RMSE the polynomial is a slightly better fit for Datasets I and III, however it could be argued that a linear fit is good enough. Dataset III looks like a linear relation that has a single outlier, rather than a truly non-linear relation. The polynomial and linear fits perform just as well (or poorly) on Dataset IV. For Dataset IV it looks like `y` may be a better estimator of `x`, than `x` is at estimating `y`.
+> > 
+> > Question 2.
+> > ~~~
+> > def fit_a_poly_model(x,y,N):
+> >     # Define our estimator/model(s)
+> >     poly_features = PolynomialFeatures(degree=N)
+> >     ...
+> > ~~~
+> > {: .language-python}
+> > and
+> > ~~~
+> > for ds in ["I","II","III","IV"]:
+> >     # Sort our data in order of our x (feature) values
+> >     data_ds = data[data["dataset"]==ds]
+> >     data_ds = data_ds.sort_values("x")
+> > 
+> >     fit_a_linear_model(data_ds["x"],data_ds["y"])
+> >     for N in range(2,11):
+> >       print("Polynomial degree =",N)
+> >       fit_a_poly_model(data_ds["x"],data_ds["y"],N)
+> > 
+> >     plt.show()
+> > ~~~
+> > {: .language-python}
+> > With a large enough polynomial you can fit through every point with a unique `x` value. Datasets II and IV remain unchanged beyond `N=2` as the polynomial has converged (dataset II) or cannot model the data (Dataset IV). Datasets I and III slowly decrease their RMSE and N is increased, but it is likely that these more complex models are overfitting the data (overfitting is discussed later in the lesson).
+> {: .solution}
 {: .challenge}
 
 ## Let's explore a more realistic scenario
