@@ -4,17 +4,18 @@ teaching: 45
 exercises: 15
 questions:
 - "What is supervised learning?"
-- "How can I model data and make predictions using regression?"
+- "What is regression?
+- "How can I model data and make predictions using regression methods?"
 objectives:
 - "Apply linear regression with Scikit-Learn to create a model."
-- "Measure the error between a regression model and real data."
-- "Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
+- "Measure the error between a regression model and input data."
+- "TODO: Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
 - "Understand how more complex models can be built with non-linear equations."
 - "Apply polynomial modelling to non-linear data using Scikit-Learn."
 keypoints:
 - "Scikit-Learn is a Python library with lots of useful machine learning functions."
 - "Scikit-Learn includes a linear regression function."
-- "Scikit-Learn includes a polynomial modelling function which is useful for modelling non-linear data."
+- "Scikit-Learn can perform polynomial regressions to model non-linear data."
 ---
 
 # Supervised learning
@@ -148,9 +149,10 @@ plt.show()
 This looks like a reasonable linear fit to our first dataset. Thanks to our function we can quickly perform more linear regressions on other datasets.
 
 
-> ### Exercise: Repeat the linear regression excercise for Datasets II, III, and IV. What can you say about the similarities and/or differences between the linear regressions on the 4 datasets?
+> ### Exercise: Repeat the linear regression excercise for Datasets II, III, and IV. 
+> Adjust your code to repeat the linear regression for the other datasets. What can you say about the similarities and/or differences between the linear regressions on the 4 datasets?
 > > ### Solution
-> ~~~
+> > ~~~
 > > # Repeat the following for dataset 2, 3, and 4
 > > data_2 = data[data["dataset"]=="II"]
 > > data_2 = data_2.sort_values("x")
@@ -160,7 +162,7 @@ This looks like a reasonable linear fit to our first dataset. Thanks to our func
 > > plt.show()
 > > ~~~
 > > {: .language-python}
-
+> > 
 > > ![Linear regression of dataset II](../fig/regress_linear_2nd.png)
 > > ![Linear regression of dataset III](../fig/regress_linear_3rd.png)
 > > ![Linear regression of dataset IV](../fig/regress_linear_4th.png)
@@ -169,7 +171,6 @@ This looks like a reasonable linear fit to our first dataset. Thanks to our func
 > > This is intentional as the Anscombe Quartet is designed to produce near identical basic statistical values such as means and standard deviations. 
 > > 
 > > While the trained model parameters and errors are near identical, our visual inspection tells us that a linear fit might not be the best way of modelling some of these datasets.
-> 
 > {: .solution}
 {: .challenge}
 
@@ -233,7 +234,7 @@ plt.show()
 
 Comparing the plots and errors it seems like a polynomial regression of N=2 is a far superior fit to Dataset II than a linear fit. In fact, it looks like our polynomial fit almost perfectly fits Dataset II... which is because Dataset II is created from a N=2 polynomial equation!
 
-> ### Exercise: Perform and compare linear and polynomial fits for Datasets I, III, and IV. 
+> ## Exercise: Perform and compare linear and polynomial fits for Datasets I, III, and IV. 
 > 1. Which performs better for each dataset?
 > 2. Modify your polynomial regression function to take `N` as an input parameter to your regression model. How does changing the degree of polynomial fit affect each dataset?
 {: .challenge}
@@ -274,11 +275,14 @@ plt.xlabel("mass g")
 plt.ylabel("depth mm")
 plt.show()
 ~~~
+{: .language-python}
+
 ![Comparison of the regressions of our dataset](../fig/regress_penguin_lin.png)
 
 Congratulations! We've taken our linear regression function and quickly created and trained a new linear regression model on a brand new dataset. Note that this time we have returned our model from the regression function and assigned it to the variable `trained_model`. We can now use this model to predict `bill_depth_mm` values for any given `body_mass_g` values that we pass it.
 
 Let's provide the model with all of the penguin samples and visually inspect how the linear regression model performs.
+
 ~~~
 x_data_all = dataset["body_mass_g"]
 y_data_all = dataset["bill_depth_mm"]
@@ -301,8 +305,9 @@ plt.ylabel("depth mm")
 plt.legend()
 plt.show()
 ~~~
-![Comparison of the regressions of our dataset](../fig/regress_penguin_lin_tot.png)
 {: .language-python}
+
+![Comparison of the regressions of our dataset](../fig/regress_penguin_lin_tot.png)
 
 Oh dear. It looks like our linear regression fits okay for our subset of the penguin data, and a few additional samples, but there appears to be a cluster of points that are poorly predicted by our model.
 
