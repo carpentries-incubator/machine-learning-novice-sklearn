@@ -1,5 +1,5 @@
 ---
-title: "Supervised methods: Regression"
+title: "Supervised methods - Regression"
 teaching: 45
 exercises: 15
 questions:
@@ -9,7 +9,7 @@ questions:
 objectives:
 - "Apply linear regression with Scikit-Learn to create a model."
 - "Measure the error between a regression model and input data."
-- "TODO Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
+- "Analyse and assess the accuracy of a linear model using Scikit-Learn's metrics library."
 - "Understand how more complex models can be built with non-linear equations."
 - "Apply polynomial modelling to non-linear data using Scikit-Learn."
 keypoints:
