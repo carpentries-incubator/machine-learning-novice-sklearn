@@ -1,5 +1,5 @@
 ---
-title: "Supervised methods and Regression"
+title: "Supervised methods - Regression"
 teaching: 45
 exercises: 15
 questions:

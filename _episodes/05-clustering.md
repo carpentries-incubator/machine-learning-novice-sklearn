@@ -1,5 +1,5 @@
 ---
-title: "Clustering with Scikit-Learn"
+title: "Unsupervised methods - Clustering"
 teaching: 15
 exercises: 20
 questions:

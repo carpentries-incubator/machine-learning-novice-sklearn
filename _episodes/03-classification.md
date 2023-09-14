@@ -1,5 +1,5 @@
 ---
-title: "Classification"
+title: "Supervised methods - Classification"
 teaching: 40
 exercises: 20
 questions:

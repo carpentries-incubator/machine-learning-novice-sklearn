@@ -1,5 +1,5 @@
 ---
-title: "Dimensionality reduction"
+title: "Unsupervised methods - Dimensionality reduction"
 teaching: 10
 exercises: 10
 questions:
