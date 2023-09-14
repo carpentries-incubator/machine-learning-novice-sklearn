@@ -4,7 +4,7 @@ teaching: 45
 exercises: 15
 questions:
 - "What is supervised learning?"
-- "What is regression?
+- "What is regression?"
 - "How can I model data and make predictions using regression methods?"
 objectives:
 - "Apply linear regression with Scikit-Learn to create a model."
