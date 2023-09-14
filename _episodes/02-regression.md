@@ -266,7 +266,10 @@ Comparing the plots and errors it seems like a polynomial regression of N=2 is a
 > >     plt.show()
 > > ~~~
 > > {: .language-python}
-> > The `N=2` polynomial fit is far better for Dataset II. According to the RMSE the polynomial is a slightly better fit for Datasets I and III, however it could be argued that a linear fit is good enough. Dataset III looks like a linear relation that has a single outlier, rather than a truly non-linear relation. The polynomial and linear fits perform just as well (or poorly) on Dataset IV. For Dataset IV it looks like `y` may be a better estimator of `x`, than `x` is at estimating `y`.
+> >
+> > The `N=2` polynomial fit is far better for Dataset II. According to the RMSE the polynomial is a slightly better fit for Datasets I and III, however it could be argued that a linear fit is good enough. 
+> > Dataset III looks like a linear relation that has a single outlier, rather than a truly non-linear relation. The polynomial and linear fits perform just as well (or poorly) on Dataset IV. 
+> > For Dataset IV it looks like `y` may be a better estimator of `x`, than `x` is at estimating `y`.
 > > 
 > > Question 2.
 > > ~~~
@@ -276,6 +279,7 @@ Comparing the plots and errors it seems like a polynomial regression of N=2 is a
 > >     ...
 > > ~~~
 > > {: .language-python}
+> >
 > > and
 > > ~~~
 > > for ds in ["I","II","III","IV"]:
@@ -291,7 +295,10 @@ Comparing the plots and errors it seems like a polynomial regression of N=2 is a
 > >     plt.show()
 > > ~~~
 > > {: .language-python}
-> > With a large enough polynomial you can fit through every point with a unique `x` value. Datasets II and IV remain unchanged beyond `N=2` as the polynomial has converged (dataset II) or cannot model the data (Dataset IV). Datasets I and III slowly decrease their RMSE and N is increased, but it is likely that these more complex models are overfitting the data (overfitting is discussed later in the lesson).
+> >
+> > With a large enough polynomial you can fit through every point with a unique `x` value. 
+> > Datasets II and IV remain unchanged beyond `N=2` as the polynomial has converged (dataset II) or cannot model the data (Dataset IV). 
+> > Datasets I and III slowly decrease their RMSE and N is increased, but it is likely that these more complex models are overfitting the data (overfitting is discussed later in the lesson).
 > {: .solution}
 {: .challenge}
 
