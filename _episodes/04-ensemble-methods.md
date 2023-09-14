@@ -15,29 +15,44 @@ keypoints:
 
 # Ensemble methods
 
-What's better than one decision tree, perhaps two, or three? How about enough trees to make up a forest? If we think back to classification with decision trees we stumbled into the problem of overfitting our training data. Ensemble methods are based on the mantra that the whole is greater than the sum of the parts. If we combine predictions from a series of over/under fitting estimators by averaging the the results from all of them, we can produce a better final prediction. 
+What's better than one decision tree, perhaps two, or three? How about enough trees to make up a forest? If we think back to classification with decision trees we stumbled into the problem of overfitting our training data. Ensemble methods are based on the mantra that the whole is greater than the sum of the parts. If we combine predictions from a series of over/under fitting estimators then we can often produce a better final prediction than using a single reliable model. Decision trees and regressions are often very sensitive to outliers and so are well suited to be a part of an ensemble.
 
 Ensemble methods are used for a variety of applciations including, but not limited to, search systems and object detection. We can use any model/estimator available in sci-kit learn to create an ensemble. There are three main methods to create ensembles approaches: 
 
-* Stacking - Train a series of different models/estimators and pass them to a final one that makes the prediction. 
+### Stacking
 
+This is where we train a series of different models/estimators on the same input data in parallel. We then take the output of each model and pass them into a final decision algorithm/model that makes the final prediction. 
+
+The emphasis with stacking is to choose different models that
+can be used to build up a reliable concensus. Regression is typically a good choice for the final decision-making model.
 ![Stacking](../fig/stacking.jpeg)
 
 [Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/)
 
-* Bagging - Use the same model/estimator fitted on different sub samples of training data, averaging the results for a final prediction. Sub samples can be random. The most common example is Random Forests, which we'll take a look at later on.  
+### Bagging (a.k.a [Bootstrap AGGregatING](https://en.wikipedia.org/wiki/Bootstrap_aggregating) )
+
+This is where we use the same model/estimator and fit it on different subsets of the training data. We can then average the results from each model to produce a final prediction. The subsets are random and may even repeat themselves. 
+
+The most common example is known as the Random Forest algorithm, which we'll take a look at later on. Random Forests are typically used as a faster, computationally cheaper alternative to Neural Networks, which is ideal for real-time applications like camera face detection prompts.
 
 ![Stacking](../fig/bagging.jpeg)
 
 [Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/)
 
-* Boosting - Model/estimator is trained one-by-one in order. Each new model pays most attention to data that were incorrectly predicted by the last one. We use sub samples of the data, same as in bagging, but these samples are not randomly generated. 
+### Boosting
 
-![Stacking](../fig/bagging.jpeg)
+This is where we train a single type of Model/estimator on an initial dataset, and then subsequently train the same type of models on poorly predicted samples i.e. each new model pays most attention to data that were incorrectly predicted by the last one.
+
+Just like for bagging, boosting is trained mostly on subsets, however in this case these subsets are not randomly generated. Boosting can produce some very high accuracies by learning from it's mistakes, but due to the iterative nature of these improvements it doesn't parallelize well unlike the other ensemble methods. Despite this it can still be a faster, and computationally cheaper alternative to Neural Networks.
+
+![Stacking](../fig/boosting.jpeg)
 
 [Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/)
 
-In this session we'll take another look at the penguins data and applying one of the most common bagging approaches, random forests, to this classification problem. First we'll load in the dataset and define a train and test split. 
+
+## Using Random Forests for classification 
+
+In this session we'll take another look at the penguins data and applying one of the most common bagging approaches, random forests, to try and solve our species classification problem. First we'll load in the dataset and define a train and test split. 
 
 ~~~
 # import libraries
@@ -68,7 +83,7 @@ print(f'test size: {X_test.shape}')
 ~~~
 {: .language-python}
 
-For comparison, we'll create a decision tree estimator, find out the score and visualise the classification space. 
+For comparison, we'll create a single decision tree estimator, find out the score and visualise the classification space. 
 
 ~~~
 from sklearn.tree import DecisionTreeClassifier
@@ -91,7 +106,6 @@ from sklearn.inspection import DecisionBoundaryDisplay
 f1 = feature_names[0]
 f2 = feature_names[3]
 
-
 clf = DecisionTreeClassifier()
 clf.fit(X_train[[f1, f2]], y_train)
 
@@ -104,9 +118,9 @@ plt.show()
 
 ![decision tree clf space](../fig/EM_dt_clf_space.png)
 
-## Using Random Forests for classification 
+We'll now take a look how we can use ensemble methods to perform a classification task such as identifying penguin species! We're going to use a Random forest classifier available in scikit-learn which is a widely used example of a bagging approach.
 
-We'll now take a look how we can use ensemble methods to perform a classification task such as identifying penguin species! We're going to use a Random forest classifier available in scikit-learn which is a widely used example of a bagging approach. Random forests are built on decision trees and can provide another way to address over-fitting. Rather than classifying based on one single decision tree (which could overfit the data), an average of results of many trees can be derived for more robust/accurate estimates compared against single trees used in the ensemble.
+Random forests are built on decision trees and can provide another way to address over-fitting. Rather than classifying based on one single decision tree (which could overfit the data), an average of results of many trees can be derived for more robust/accurate estimates compared against single trees used in the ensemble.
 
 ![Random Forests](../fig/randomforest.png) 
 
@@ -124,7 +138,7 @@ clf.fit(X_train, y_train)
 
 clf.score(X_test, y_test)
 ~~~
-{: . language-python}
+{: .language-python}
 
 You might notice that we have a different value (hopefully increased) compared with the decision tree classifier used above on the same training data. Lets plot the first 5 trees in the forest to get an idea of how this model differs from a single decision tree. 
 
@@ -145,9 +159,9 @@ for index in range(0, 5):
     
 plt.show()
 ~~~
-{: . language-python}
+{: .language-python}
 
-![random forest trees](rf_5_trees.png)
+![random forest trees](../fig/rf_5_trees.png)
 
 We can see the first 5 (of 100) trees that were fitted as part of the forest. 
 
@@ -163,7 +177,7 @@ d = DecisionBoundaryDisplay.from_estimator(clf, X_train[[f1, f2]])
 sns.scatterplot(X_train, x=f1, y=f2, hue=y_train, palette="husl")
 plt.show()
 ~~~
-{: . language-python}
+{: .language-python}
 
 ![random forest clf space](../fig/EM_rf_clf_space.png)
 
@@ -171,21 +185,25 @@ There is still some overfitting indicated by the regions that contain only singl
 
 ## Stacking up some regression problems 
 
-We've have a look at a bagging approach but we'll now take a look at a stacking approach and apply it to a regression problem and introduce a new dataset to play around with. 
+We've had a look at a bagging approach but we'll now take a look at a stacking approach and apply it to a regression problem. We'll also introduce a new dataset to play around with. 
 
 ### The diabetes dataset 
-The diabetes dataset, contains 10 baseline variables for 442 diabetes patients where the target attribute is quantitative measure of disease progression one year after baseline. For more information please see [Efron et al., (2004)](https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf). The useful thing about this data it is available as part of the sci-kit learn library. We'll start by loading the dataset to explore the attributes.   
+The diabetes dataset, contains 10 baseline variables for 442 diabetes patients where the target attribute is quantitative measure of disease progression one year after baseline. For more information see [Efron et al., (2004)](https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf). The useful thing about this data it is available as part of the sci-kit learn library. We'll start by loading the dataset to explore the attributes.
 
 ~~~
 from sklearn.datasets import load_diabetes
 
 print(load_diabetes())
 ~~~
-{: . language-python}
+{: .language-python}
 
-Printing the dataset to the console, we can have a look at the attributes that make up the features of the dataset. How does this differ from a classification problem?
+By printing the dataset we can have a look at the attributes that make up the features of the dataset. 
 
-Lets start by splitting the dataset into test and train portions
+> ## Exercise: A different question
+> How does this differ from a classification problem?
+{: .challenge}
+
+Lets start by splitting the dataset into training and testing subsets:
 
 ~~~
 X, y = load_diabetes(return_X_y=True)
@@ -195,9 +213,17 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 print(f'train size: {X_train.shape}')
 print(f'test size: {X_test.shape}')
 ~~~
-{: . language-python}
+{: .language-python}
 
-Now we'll train a single estimator, a random forest regressor estimator
+Now we'll train a single estimator: a random forest regressor estimator.
+
+> ## But wait, aren't random forests/decision tree for classification problems?
+> Yes they are, but quite often in machine learning various models can be used to solve both regression and classification problems. 
+> 
+> Decision trees in particular can be used to "predict" specific numerical values instead of categories, essentially by binning a group of values into a single value. 
+> 
+> This works well for periodic/repeating numerical data. These trees are extremely sensitive to the data they are trained on, which makes them a very good model to use as a Random Forest. 
+{: .callout}
 
 ~~~
 # define classifier  
@@ -211,7 +237,7 @@ pred = clf.predict(X_test)
 
 clf.score(X_test, y_test) 
 ~~~
-{: . language-python}
+{: .language-python}
 
 Lets plot the first 20 predictions to see what that looks like. 
 
@@ -226,11 +252,19 @@ plt.xlabel("training samples")
 plt.legend(loc="best")
 plt.title("Regressor predictions")
 ~~~
-{: . language-python}
+{: .language-python}
  
 ![random forest reg pred](../fig/EM_rf_reg_prediction.png)
 
-Lets take this step further and stack a series of regression estimators. In the same way the RandomForest classifier derives a results from a series of trees we will combine the results from a series of different estimators in our stack. This is done using whats called an ensemble meta-estimator called VotingRegressor. We'll apply a Voting regressor to a random forest, gradient boosting and linear regressor. VotingRegressor can fit several base estimators, on the whole dataset, then will take the average of the individual predictions to form a final prediction.
+Lets take this step further and stack a series of regression estimators. In the same way the RandomForest classifier derives a results from a series of trees we will combine the results from a series of different estimators in our stack. This is done using whats called an ensemble meta-estimator called VotingRegressor. 
+
+We'll apply a Voting regressor to a random forest, gradient boosting and linear regressor.
+
+> ## But wait again, isn't a random forest (and a gradient boosting model) an ensemble method instead of a regression model?
+> Yes they are, but they can be thought of as one big complex model. The awesome thing about ensemble methods, and the generalisation of Scikit-Learn models, is that you can put an ensemble in an enseble!
+{: .callout}
+
+A VotingRegressor can train several base estimators on the whole dataset, and it can take the average of the individual predictions to form a final prediction.
 
 ~~~
 from sklearn.ensemble import (
@@ -253,9 +287,9 @@ linear_reg.fit(X_train, y_train)
 voting_reg = VotingRegressor([("gb", rf_reg), ("rf", gb_reg), ("lr", linear_reg)])
 voting_reg.fit(X_train, y_train)
 ~~~
-{: . language-python}
+{: .language-python}
 
-We fit the voting regressor the same way we would fit a single estimator. When the voting regressor is instantiated we pass it a parameter containing a list of tuples that contain the estimators we wish to stack, in this case the random forest, gradient boosting and linear regressors. To get a sense of what this is doing lets predict the first 20 samples in the test portion of the data and plot the results. 
+We fit the voting regressor in the same way we would fit a single model. When the voting regressor is instantiated we pass it a parameter containing a list of tuples that contain the estimators we wish to stack: in this case the random forest, gradient boosting and linear regressors. To get a sense of what this is doing lets predict the first 20 samples in the test portion of the data and plot the results. 
 
 ~~~
 # make predictions
@@ -265,11 +299,7 @@ rf_pred = rf_reg.predict(X_test_20)
 gb_pred = gb_reg.predict(X_test_20)
 linear_pred = linear_reg.predict(X_test_20)
 voting_pred = voting_reg.predict(X_test_20)
-~~~
-{: . language-python}
 
-
-~~~
 plt.figure()
 plt.plot(rf_pred, "gd", label="GradientBoostingRegressor")
 plt.plot(gb_pred, "b^", label="RandomForestRegressor")
@@ -284,11 +314,12 @@ plt.title("Regressor predictions and their average")
 
 plt.show()
 ~~~
-{: . language-python}
+{: .language-python}
 
 ![Regressor predictions and average from stack](../fig/EM_stacked_plot.png)
 
-How does the average compare against a single estimator in the stack? 
+
+FInally, lets see how the average compares against each single estimator in the stack? 
 
 ~~~
 print(f'random forest: {rf_reg.score(X_test, y_test)}')
@@ -299,51 +330,52 @@ print(f'linear regression: {linear_reg.score(X_test, y_test)}')
 
 print(f'voting regressor: {voting_reg.score(X_test, y_test)}')
 ~~~
+{: .language-python}
 
 The stacked result generated by the voting regressor produces a greater score than all three models/estimators singularly. The whole is greater than the some of the parts!
 
 
-## Exercise
-
-Sci-kit learn also has method for stacking ensemble classifiers ```sklearn.ensemble.VotingClassifier``` do you think you could apply a stack to the penguins dataset using a random forest, SVM and decision tree classifier, or a selection of any other classifier estimators available in sci-kit learn? 
-
-~~~
-penguins = sns.load_dataset('penguins')
-
-feature_names = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
-penguins.dropna(subset=feature_names, inplace=True)
-
-species_names = penguins['species'].unique()
-
-# Define data and targets
-X = penguins[feature_names]
-
-y = penguins.species
-
-# Split data in training and test set
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)
-
-print(f'train size: {X_train.shape}')
-print(f'test size: {X_test.shape}')
-~~~
-{: . language.python} 
-
-The code above loads the penguins data and splits it into test and training portions. Have a play around with stacking some classifiers using the ```sklearn.ensemble.VotingClassifier``` with the comments below as a guide. 
-
-~~~
-# import classifiers 
-
-# instantiate classifiers 
-
-# fit classifiers
-
-# instantiate voting classifier and fit data
-
-# make predictions
-
-# compare scores
-~~~
-{: . language.python}
-
+> ## Exercise: A different question
+> Sci-kit learn also has method for stacking ensemble classifiers ```sklearn.ensemble.VotingClassifier``` do you think you could apply a stack to the penguins dataset using a random forest, SVM and decision tree classifier, or a selection of any other classifier estimators available in sci-kit learn? 
+> 
+> ~~~
+> penguins = sns.load_dataset('penguins')
+> 
+> feature_names = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
+> penguins.dropna(subset=feature_names, inplace=True)
+> 
+> species_names = penguins['species'].unique()
+> 
+> # Define data and targets
+> X = penguins[feature_names]
+> 
+> y = penguins.species
+> 
+> # Split data in training and test set
+> from sklearn.model_selection import train_test_split
+> 
+> X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=5)
+> 
+> print(f'train size: {X_train.shape}')
+> print(f'test size: {X_test.shape}')
+> ~~~
+> {: .language.python} 
+> 
+> The code above loads the penguins data and splits it into test and training portions. Have a play around with stacking some classifiers using the ```sklearn.ensemble.VotingClassifier``` using the code comments below as a guide. 
+> 
+> ~~~
+> # import classifiers 
+> 
+> # instantiate classifiers 
+> 
+> # fit classifiers
+> 
+> # instantiate voting classifier and fit data
+> 
+> # make predictions
+> 
+> # compare scores
+> ~~~
+> {: .language.python}
+> 
+{: .challenge}
