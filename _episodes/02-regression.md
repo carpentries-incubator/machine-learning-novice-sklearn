@@ -374,9 +374,8 @@ plt.show()
 
 Oh dear. It looks like our linear regression fits okay for our subset of the penguin data, and a few additional samples, but there appears to be a cluster of points that are poorly predicted by our model.
 
-> ## This is a classic Machine Learning scenario known as over-fitting.
-> We have trained our model on a specific set of data, and our model has learnt to reproduce those specific answers at the expense of creating a more generally-applicable model. 
-> 
+> ## This is a classic Machine Learning scenario known as over-fitting
+> We have trained our model on a specific set of data, and our model has learnt to reproduce those specific answers at the expense of creating a more generally-applicable model.
 > Over fitting is the ML equivalent of learning an exam papers mark scheme off by heart, rather than understanding and answering the questions.
 {: .callout}
 
