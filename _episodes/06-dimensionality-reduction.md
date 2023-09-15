@@ -16,40 +16,77 @@ keypoints:
 
 # Dimensionality reduction
 
-As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we will work with higher-dimension data such as images of handwritten text or numbers. The dataset we will be using is the Scikit-Learn subset of the Modified National Institute of Standards and Technology (MNIST) dataset. The MNIST dataset contains 70,000 images of handwritten numbers from 0-9, labelled with the number they contain, whereas our Scikit-Learn example is a smaller sample of 1797 of these images. An illustration of MNIST dataset is presented below as an example. 
+As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we see how higher-dimensional data, such as images of handwritten text or numbers, can be processed with dimensionality reduction techniques to make the datasets more accessible for other modelling techniques. The dataset we will be using is the Scikit-Learn subset of the Modified National Institute of Standards and Technology (MNIST) dataset.
 
 ![MNIST example illustrating all the classes in the dataset](../fig/MnistExamples.png)
 
-In addition to taking a subset of the MNIST images, the Scikit-Learn images are compressed down to 8x8 pixels in size, rather than the MNIST 32x32, resulting in 64 pixel values per image. Each pixel of the Scikit-Learn images takes a value between 0-16. The dataset takes the form of a 1797x64 sized array. Each row corresponds to an image for which we have a label of 0-9, and each column corresponds to a flattened array of the 64 pixels, each of which can be considered a feature (or "dimension") of our data. 
 
-The code to retrieve the entire dataset with Scikit-Learn is given below:
+The MNIST dataset contains 70,000 images of handwritten numbers, and are labelled from 0-9 with the number that each image contains. Each image is a greyscale and 28x28 pixels in size for a total of 784 pixels per image. Each pixel can take a value between 0-255 (8bits). When dealing with a series of images in machine learning we consider each pixel to be a feature that varies according to each of the sample images. Our previous penguin dataset only had no more than 7 features to train with, however even a small 28x28 MNIST image has as much as 784 features (pixels) to work with.
+
+![MNIST example of a single image](../fig/mnist_30000-letter.png)
+
+To make this episode a bit less computationally intensive, the Scikit-Learn example that we will work with is a smaller sample of 1797 images. Each image is 8x8 in size for a total of 64 pixels per image, resulting in 64 features for us to work with. The pixels can take a value between 0-15 (4bits). Let's retrieve and inspect the Scikit-Learn dataset with the following code:
 
 ~~~
 from sklearn import datasets
 
-digits = datasets.load_digits()
+# load in dataset as a Pandas Dataframe, return X and Y
+features, labels = datasets.load_digits(return_X_y=True, as_frame=True)
 
-# Examine the dataset
-print(digits.data)
-print(digits.target)
-
-x = digits.data
-y = digits.target
-
-print(x.shape, y.shape)
-y = digits.target
+print(features.shape, labels.shape)
+print(labels)
+features.head()
 ~~~
 {: .language-python}
 
+## Our goal: using dimensionality-reduction to help with clustering and classification
 
-Linear clustering approaches such as k-means would require all the images to be binned into a pre-determined number of clusters, which might not adequately capture the variability in the images. 
+As humans we are pretty good at object and pattern recognition. We can look at the images above, inspect the intensity and position of each pixel relative to all other pixels in the image, and pretty quickly make an accurate guess at what the image shows. As humans we spends much of our younger lives learning these spatial relations, and so it stands to reason that we can teach computers to recognise these patterns and relations too.
 
-Non-linear clustering, such as spectral clustering, might fare better, but requires the images to be projected into a higher dimension space. Separating the existing complex data in higher-order spaces would require complex non-linear separators to divide this data and really increase the computational cost of doing this.
+As we did for previous datasets, let's have a quick glance at relationships between our features/pixels. We'll inspect the following pixels:
 
-We can help reduce the computational cost of clustering by transforming our higher-dimension input dataset into lower-order projections. Conceptually this is done by determining which combination of variables explain the most variance in the data, and then working with those variables. 
+~~~
+import matplotlib.pyplot as plt
+import numpy as np
 
+print(features.iloc[0])
+image_1D = features.iloc[0]
+image_2D = np.array(image_1D).reshape(-1,8)
 
-## Dimensionality reduction with Scikit-Learn
+plt.imshow(image_2D,cmap="gray_r")
+# these points are the pixels we will investigate
+plt.plot([0,1,2,3],[4,4,4,4],"rx")
+plt.show()
+~~~
+{: .language-python}
+
+~~~
+import seaborn as sns
+
+# make a temporary copy of data for plotting here only
+seaborn_data = features
+
+# add labels to the dataset for pairplot color coding
+seaborn_data["labels"] = labels
+
+# make a short list of N features for plotting N*N figures
+feature_subset = []
+
+# in this case let's extract 4 pixels (out of 64) and plot their relations
+for i in range(4):
+    feature_subset.append("pixel_"+str(i)+"_4")
+
+sns.pairplot(seaborn_data, vars=feature_subset, hue="labels")
+~~~
+{: .language-python}
+
+![SKLearn image with highlighted pixels](../fig/mnist_pairplot_pixels.png)
+
+![SKLearn image with highlighted pixels](../fig/mnist_pairplot.png)
+
+As we can see the dataset relations are far more complex than our previous examples. The histograms show that some numbers appear in those pixel positions more than others (note that 2,5 and 8 do not appear in our 4 pixels at all!), but the structure is quite messy to try and decipher. It seems like there is some underlying structure that has patches of colour and also gaps. We can't obviously see any structures in our 2D representations, and we know our clustering algorithms will take a long time to try and crunch 64 dimensions. so let's see if we can represent our 64D data in fewer dimensions.
+
+# Dimensionality reduction with Scikit-Learn
 We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE). Both of these techniques are supported by Scikit-Learn.
 
 ### Principal Component Analysis (PCA)
