@@ -103,6 +103,8 @@ If we think back to the classification session, the decision tree trained using 
 
 ~~~
 from sklearn.inspection import DecisionBoundaryDisplay
+import matplotlib.pyplot as plt
+
 f1 = feature_names[0]
 f2 = feature_names[3]
 
@@ -244,7 +246,7 @@ Lets plot the first 20 predictions to see what that looks like.
 ~~~
 plt.figure()
 
-plt.plot(pred[:20], "gd", label="RandomForestRegressor") # plot first 20 predictions to make figure clearer.
+plt.plot(pred[:20],  "o", color="navy", label="RandomForestRegressor") # plot first 20 predictions to make figure clearer.
 
 plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 plt.ylabel("predicted")
@@ -301,10 +303,10 @@ linear_pred = linear_reg.predict(X_test_20)
 voting_pred = voting_reg.predict(X_test_20)
 
 plt.figure()
-plt.plot(rf_pred, "gd", label="GradientBoostingRegressor")
-plt.plot(gb_pred, "b^", label="RandomForestRegressor")
-plt.plot(linear_pred, "ys", label="LinearRegression")
-plt.plot(voting_pred, "r*", ms=10, label="VotingRegressor")
+plt.plot(rf_pred,  "o", color="navy", label="GradientBoostingRegressor")
+plt.plot(gb_pred,  "o", color="blue", label="RandomForestRegressor")
+plt.plot(linear_pred,  "o", color="skyblue", label="LinearRegression")
+plt.plot(voting_pred,  "x", color="red", ms=10, label="VotingRegressor")
 
 plt.tick_params(axis="x", which="both", bottom=False, top=False, labelbottom=False)
 plt.ylabel("predicted")
