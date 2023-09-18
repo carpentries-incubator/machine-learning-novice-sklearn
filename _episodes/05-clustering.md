@@ -1,7 +1,7 @@
 ---
 title: "Unsupervised methods - Clustering"
-teaching: 15
-exercises: 20
+teaching: 30
+exercises: 30
 questions:
 - "What is unsupervised learning?"
 - "How can we use clustering to find data points with similar attributes?"

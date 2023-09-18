@@ -48,7 +48,7 @@ Machine learning has quickly become an important technology and is now frequentl
 * Image, object, and pattern recognition is used to identify humans and vehicles, capture text, generate subtitles, and much more
 * Self-driving cars and robots use object detection and performance feedback to improve their interaction with the world
 
-> ### Where else have you encountered machine learning already?
+> ## Where else have you encountered machine learning already?
 > Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
 > 1. Where else have I seen machine learning in use?
 > 2. What kind of input data does that machine learning system use to make predictions/classifications?

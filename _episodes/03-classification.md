@@ -1,7 +1,7 @@
 ---
 title: "Supervised methods - Classification"
-teaching: 40
-exercises: 20
+teaching: 60
+exercises: 0
 questions:
 - "How can I classify data into known categories?"
 objectives:

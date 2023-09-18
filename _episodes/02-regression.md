@@ -1,7 +1,7 @@
 ---
 title: "Supervised methods - Regression"
-teaching: 45
-exercises: 15
+teaching: 90
+exercises: 30
 questions:
 - "What is supervised learning?"
 - "What is regression?"

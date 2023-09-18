@@ -1,7 +1,7 @@
 ---
 title: "Unsupervised methods - Dimensionality reduction"
-teaching: 10
-exercises: 10
+teaching: 30
+exercises: 30
 questions:
 - How do we apply machine learning techniques to data with higher dimensions?
 objectives:
@@ -173,7 +173,7 @@ It's worth noting that PCA does not handle outlier data well primarily due to gl
 
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
 
-t-SNE is a powerful example of manifold learning - a non-deterministic non-linear approach to dimensionality reduction. Manifold learning tasks are based on the idea that the dimension of many datasets is artificially high. This is likely the case for our MNIST dataset, as many of the corner pixels are unlikely to contain digit data and thus unlikely to contribute meaningful information to our dataset.
+t-SNE is a powerful example of manifold learning - a non-deterministic non-linear approach to dimensionality reduction. Manifold learning tasks are based on the idea that the dimension of many datasets is artificially high. This is likely the case for our MNIST dataset, as the corner pixels of our images are unlikely to contain digit data, and thus those dimensions are almost negligable compared with others.
 
 The versatility of the algorithm in transforming the underlying structural information into lower-order projections makes t-SNE applicable to a wide range of research domains.  
 
@@ -187,6 +187,7 @@ Scikit-Learn allows us to apply t-SNE in a relatively simple way. Lets code and 
 from sklearn import manifold
 
 # t-SNE embedding
+# initialising with "pca" explicitly preserves global structure
 tsne = manifold.TSNE(n_components=2, init='pca', random_state = 0)
 x_tsne = tsne.fit_transform(features)
 
@@ -225,9 +226,7 @@ plt.show()
 ~~~
 {: .language-python}
 
-![Reduction using PCA](../fig/tsne_clustered.png)
-
-![Reduction using PCA](../fig/tsne_labelled.png)
+![Reduction using PCA](../fig/tsne_clustered.png)![Reduction using PCA](../fig/tsne_labelled.png)
 
 
 It looks like t-SNE has successfully separated out our digits into accurate clusters using as little as a 2D representation and a simple k-means clustering algorithm. It has worked so well that you can clearly see several clusters which can be modelled, whereas for our PCA representation we needed to rely heavily on the knowledge that we had 10 types of digits to cluster.

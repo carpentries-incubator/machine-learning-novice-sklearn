@@ -17,11 +17,6 @@ There are many other machine learning algorithms that might be suitable for help
 
 The Scikit-Learn [webpage](https://scikit-learn.org/stable/index.html) has a good overview of all the features available in the library.
 
-## Ensemble learning
-
-Ensemble Learning is a technique which combines multiple machine learning algorithms together to improve results. A popular ensemble technique
-is called 'Random Forest'. This technique creates a "forest" of decision trees and then tries to prune it down to the most effective ones. It is a flexible algorithm that can work both as a regression and a classification system. See the article ["Random forest simple explanation"](https://medium.com/@williamkoehrsen/random-forest-simple-explanation-377895a60d2d) for more information.
-
 ## Genetic algorithms
 
 Genetic algorithms are techniques which try to mimic biological evolution. They will learn to solve a problem through a gradual process 

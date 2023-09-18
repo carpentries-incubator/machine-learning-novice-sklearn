@@ -1,7 +1,7 @@
 ---
 title: "Ensemble methods"
-teaching: 45
-exercises: 15
+teaching: 90
+exercises: 30
 questions:
 - "What are ensemble methods?"
 - "What are random forests?"
