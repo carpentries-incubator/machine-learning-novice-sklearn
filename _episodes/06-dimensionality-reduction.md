@@ -39,11 +39,11 @@ features.head()
 ~~~
 {: .language-python}
 
-## Our goal: using dimensionality-reduction to help with clustering and classification
+## Our goal: using dimensionality-reduction to help with machine learning
 
-As humans we are pretty good at object and pattern recognition. We can look at the images above, inspect the intensity and position of each pixel relative to all other pixels in the image, and pretty quickly make an accurate guess at what the image shows. As humans we spends much of our younger lives learning these spatial relations, and so it stands to reason that we can teach computers to recognise these patterns and relations too.
+As humans we are pretty good at object and pattern recognition. We can look at the images above, inspect the intensity and position pixels relative to other pixels, and pretty quickly make an accurate guess at what the image shows. As humans we spends much of our younger lives learning these spatial relations, and so it stands to reason that computers can also extract these relations. Let's see if it is possible to use unsupervised clustering techniques to pull out relations in our MNIST dataset of number images.
 
-As we did for previous datasets, let's have a quick glance at relationships between our features/pixels. We'll inspect the following pixels:
+As we did for previous datasets, let's have a quick glance at relationships between our features/pixels. We'll inspect the relationships between a few pixel features to look for any correlations:
 
 ~~~
 import matplotlib.pyplot as plt
@@ -55,10 +55,13 @@ image_2D = np.array(image_1D).reshape(-1,8)
 
 plt.imshow(image_2D,cmap="gray_r")
 # these points are the pixels we will investigate
+# pixels 0,1,2,3 of row 4 of the image
 plt.plot([0,1,2,3],[4,4,4,4],"rx")
 plt.show()
 ~~~
 {: .language-python}
+
+![SKLearn image with highlighted pixels](../fig/mnist_pairplot_pixels.png)
 
 ~~~
 import seaborn as sns
@@ -66,106 +69,174 @@ import seaborn as sns
 # make a temporary copy of data for plotting here only
 seaborn_data = features
 
-# add labels to the dataset for pairplot color coding
+# add labels for pairplot color coding
 seaborn_data["labels"] = labels
 
 # make a short list of N features for plotting N*N figures
+# 4**2 = 16 plots, whereas 64**2 is over 4000!
 feature_subset = []
-
-# in this case let's extract 4 pixels (out of 64) and plot their relations
 for i in range(4):
     feature_subset.append("pixel_"+str(i)+"_4")
 
-sns.pairplot(seaborn_data, vars=feature_subset, hue="labels")
+sns.pairplot(seaborn_data, vars=feature_subset, hue="labels", 
+             palette=sns.mpl_palette("Spectral", n_colors=10))
 ~~~
 {: .language-python}
 
-![SKLearn image with highlighted pixels](../fig/mnist_pairplot_pixels.png)
-
 ![SKLearn image with highlighted pixels](../fig/mnist_pairplot.png)
 
-As we can see the dataset relations are far more complex than our previous examples. The histograms show that some numbers appear in those pixel positions more than others (note that 2,5 and 8 do not appear in our 4 pixels at all!), but the structure is quite messy to try and decipher. It seems like there is some underlying structure that has patches of colour and also gaps. We can't obviously see any structures in our 2D representations, and we know our clustering algorithms will take a long time to try and crunch 64 dimensions. so let's see if we can represent our 64D data in fewer dimensions.
+As we can see the dataset relations are far more complex than our previous examples. The histograms show that some numbers appear in those pixel positions more than others, but the `feature_vs_feature` plots are quite messy to try and decipher. There are gaps and patches of colour suggesting that there is some kind of structure there, but it's far harder to inspect than the penguin data. We can't easily see definitive clusters in our 2D representations, and we know our clustering algorithms will take a long time to try and crunch 64 dimensions at once, so let's see if we can represent our 64D data in fewer dimensions.
 
 # Dimensionality reduction with Scikit-Learn
 We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE). Both of these techniques are supported by Scikit-Learn.
 
 ### Principal Component Analysis (PCA)
 
-PCA uses feature extraction, i.e., it combines our input variables in a specific way so we can drop the least important or least significant variables while still retaining the fundamental attributes of our old variables. 
+PCA works by rotating our original set of vectors/axes/features into their principal components i.e. the rotations, around the dataset mean value, that produces the largest variance for our data. There are as many components as there are dimensions, and each principal component is orthoganal to the others.
 
-PCA takes the variance(or spread) of the data into account to reduce the dimensions.  Dimensions or variables having high variance have high information. Therefore, variables having very low variance can be removed or skipped. 
+The example below shows how the principal components are determined for a 2D dataset. The largest principal component is along the diagonal of the dataset, meaning the remaining principal is orthoganal to this one. Essentially, this is just a rotation of our axis until variance is maximised for that axis rotation. If we have more than 2 dimensions, then we order the principal components in descending variance order. 
 
-When the variance of both the dimensions is comparable, i.e., there is no significant difference in the variance of the dimensions we are trying to compare, PCA projects the data from the two dimensions into a single vector which is the direction of the maximum variance. Let's understand this with an example.
+![SKLearn image with highlighted pixels](../fig/pca_2d.gif)
 
-More complicated explanation: PCA is an important technique for visualizing high-dimensional data. PCA is a deterministic linear technique which projects n-dimensional data into k-dimensions, where `n < k`, while preserving the global structure of the input data. Dimension reduction in PCA involves transforming highly-correlated data by rotating the original set of vectors into their principal components. The variance between the transformation can be inferred by computing their eigen values.
+For more in depth explanations of PCA please see the following links:
+* [https://builtin.com/data-science/step-step-explanation-principal-component-analysis](https://builtin.com/data-science/step-step-explanation-principal-component-analysis)
+* [https://scikit-learn.org/stable/modules/decomposition.html#pca](https://scikit-learn.org/stable/modules/decomposition.html#pca)
 
-The process of reducing dimensionality in PCA is as follows,
-1. calculate the mean of each column
-2. center the value in each column by subtracting the mean column value
-3. calculate covariance matrix of centered matrix
-4. calculate eigendecomposition of the covariance (eigenvectors represent the magnitude of directions or components of the subspace reduction)
-
-Minimizing the eigen values closer to zero implies that the dataset has been successfully decomposed into it's respective principal components. 
-
-Scikit-Learn lets us apply PCA in a relatively simple way. Lets code and apply PCA to the MNIST dataset. 
+PCA allows us to replace our 64 features with a smaller number of dimensional representations that retain the majority of our variance/relational data. Using Scikit-Learn lets apply PCA in a relatively simple way. Let's apply PCA to the MNIST dataset and retain the two most-major components: 
 
 ~~~
 from sklearn import decomposition
 
-# PCA
+# PCA with 2 components
 pca = decomposition.PCA(n_components=2)
-pca.fit(x)
-x_pca = pca.transform(x)
+pca.fit(features)
+x_pca = pca.transform(features)
 
 print(x_pca.shape)
 ~~~
 {: .language-python}
 
-This returns us an array of 1797x2 where the 2 remaining columns(our new "features" or "dimensions") contain vector representations of the First principle components (column 0) and Second Principle components (column 1) for each of the images. We can plot these two new features against each other:
+This returns us an array of 1797x2 where the 2 remaining columns(our new "features" or "dimensions") contain vector representations of the first principle components (column 0) and second principle components (column 1) for each of the images. We can plot these two new features against each other:
 
 ~~~
 import numpy as np
 import matplotlib.pyplot as plt
 
-fig = plt.figure(1, figsize=(4, 4))
-
 tx = x_pca[:, 0]
 ty = x_pca[:, 1]
 
-plt.scatter(tx, ty, c=y, cmap=plt.cm.nipy_spectral, 
-        edgecolor='k',label=y)
+# without labels
+fig = plt.figure(1, figsize=(4, 4))
+plt.scatter(tx, ty, edgecolor='k',label=labels)
+plt.show()
+~~~
+{: .language-python}
+
+![Reduction using PCA](../fig/pca_unlabelled.png)
+
+We now have a 2D representation of our 64D dataset that we can work with instead. Let's try some quick K-means clustering on our 2D representation of the data. Because we already have some knowledge about our data we can set `k=10` for the 10 digits present in the dataset.
+
+~~~
+import sklearn.cluster as skl_cluster
+
+Kmean = skl_cluster.KMeans(n_clusters=10)
+
+Kmean.fit(x_pca)
+clusters = Kmean.predict(x_pca,labels)
+
+fig = plt.figure(1, figsize=(4, 4))
+plt.scatter(tx, ty, s=5, linewidth=0, c=clusters)
+for cluster_x, cluster_y in Kmean.cluster_centers_:
+    plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
+plt.show()
+~~~
+{: .language-python}
+
+![Reduction using PCA](../fig/pca_clustered.png)
+
+And now we can compare how these clusters look against our actual image labels by colour coding our first scatter plot:
+
+~~~
+fig = plt.figure(1, figsize=(5, 4))
+plt.scatter(tx, ty, c=labels, cmap="nipy_spectral", 
+        edgecolor='k',label=labels)
 plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
 plt.show()
 ~~~
 {: .language-python}
 
-![Reduction using PCA](../fig/pca.svg)
+![Reduction using PCA](../fig/pca_labelled.png)
 
-As illustrated in the figure above, PCA does not handle outlier data well, primarily due to global preservation of structural information. Pre-determining the principal components also has some of the same drawbacks as k-means clustering approaches. 
+PCA has done a valiant effort to reduce the dimensionality of our problem from 64D to 2D while still retaining some of our key structural information. We can see that the digits `0`,`1`,`4`, and `6` cluster up reasonably well even using a simple k-means test. However it does look like there is still quite a bit of overlap between the remaining digits, especially for the digits `5` and `8`. The clustering is from perfect in the largest "blob", but not a bad effort from PCA given the substantial dimensionality reduction.
+
+It's worth noting that PCA does not handle outlier data well primarily due to global preservation of structural information, and so we will now look at a more complex form of learning that we can apply to this problem.
 
 ### t-distributed Stochastic Neighbor Embedding (t-SNE)
-t-SNE is a non-deterministic non-linear technique which involves several optional hyper-parameters such as perplexity, learning rate, and number of steps. While the t-SNE algorithm is complex to explain, it works on the principle of preserving local similarities by minimizing the pairwise gaussian distance between two or more points in high-dimensional space. The versatility of the algorithm in transforming the underlying structural information into lower-order projections makes t-SNE applicable to a wide range of research domains.
 
-Scikit-Learn allows us to apply t-SNE in a relatively simple way. Lets code and apply t-SNE to the MNIST dataset.
+t-SNE is a powerful example of manifold learning - a non-deterministic non-linear approach to dimensionality reduction. Manifold learning tasks are based on the idea that the dimension of many datasets is artificially high. This is likely the case for our MNIST dataset, as many of the corner pixels are unlikely to contain digit data and thus unlikely to contribute meaningful information to our dataset.
+
+The versatility of the algorithm in transforming the underlying structural information into lower-order projections makes t-SNE applicable to a wide range of research domains.  
+
+For more in depth explanations of t-SNE and manifold learning please see the following links which also contain som very nice visual examples of manifold learning in action:
+* [https://thedatafrog.com/en/articles/visualizing-datasets/](https://thedatafrog.com/en/articles/visualizing-datasets/)
+* [https://scikit-learn.org/stable/modules/manifold.html](https://scikit-learn.org/stable/modules/manifold.html)
+
+Scikit-Learn allows us to apply t-SNE in a relatively simple way. Lets code and apply t-SNE to the MNIST dataset in the same manner that we did for the PCA example, and reduce the data down from 64D to 2D again:
 
 ~~~
 from sklearn import manifold
 
 # t-SNE embedding
 tsne = manifold.TSNE(n_components=2, init='pca', random_state = 0)
-x_tsne = tsne.fit_transform(x)
+x_tsne = tsne.fit_transform(features)
+
+
 fig = plt.figure(1, figsize=(4, 4))
-plt.clf()
-plt.scatter(x_tsne[:, 0], x_tsne[:, 1], c=y, cmap=plt.cm.nipy_spectral,
-        edgecolor='k',label=y)
+plt.scatter(x_tsne[:, 0], x_tsne[:, 1], edgecolor='k')
+plt.show()
+~~~
+{: .language-python}
+
+![Reduction using PCA](../fig/tsne_unlabelled.png)
+
+
+It looks like t-SNE has done a much better job of splitting our data up into clusters using only a 2D representation of the data. Once again, let's run a simple k-means clustering on this new 2D representation, and compare with the actual color-labelled data:
+
+~~~
+import sklearn.cluster as skl_cluster
+
+Kmean = skl_cluster.KMeans(n_clusters=10)
+
+Kmean.fit(x_tsne)
+clusters = Kmean.predict(x_tsne,labels)
+
+fig = plt.figure(1, figsize=(4, 4))
+plt.scatter(x_tsne[:,0], x_tsne[:,1], s=5, linewidth=0, c=clusters)
+for cluster_x, cluster_y in Kmean.cluster_centers_:
+    plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
+plt.show()
+
+# with labels
+fig = plt.figure(1, figsize=(5, 4))
+plt.scatter(x_tsne[:, 0], x_tsne[:, 1], c=labels, cmap="nipy_spectral", 
+        edgecolor='k',label=labels)
 plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
 plt.show()
 ~~~
 {: .language-python}
 
-![Reduction using t-SNE](../fig/tsne.svg)
+![Reduction using PCA](../fig/tsne_clustered.png)
 
-The major drawback of applying t-SNE to datasets is the large computational requirement. Furthermore, hyper-parameter tuning of t-SNE usually requires some trial and error to perfect. In the above figure, the algorithm still has trouble separating all the classes perfectly. To account for even higher-order input data, neural networks were developed to more accurately extract feature information.
+![Reduction using PCA](../fig/tsne_labelled.png)
+
+
+It looks like t-SNE has successfully separated out our digits into accurate clusters using as little as a 2D representation and a simple k-means clustering algorithm. It has worked so well that you can clearly see several clusters which can be modelled, whereas for our PCA representation we needed to rely heavily on the knowledge that we had 10 types of digits to cluster.
+
+Additionally, if we had run k-means on all 64 dimensions this would likely still be computing away, whereas we have already broken down our dataset into accurate clusters, with only a handful of outliers and potential misidentifications (remember, a good ML model isn't a perfect model!)
+
+The major drawback of applying t-SNE to datasets is the large computational requirement. Furthermore, hyper-parameter tuning of t-SNE usually requires some trial and error to perfect. 
+
+Our example here is still a relatively simple example of 8x8 images and not very typical of the modern problems that can now be solved in the field of ML and DL. To account for even higher-order input data, neural networks were developed to more accurately extract feature information.
 
 
 > ## Exercise: Working in three dimensions
