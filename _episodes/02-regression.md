@@ -167,9 +167,45 @@ make_regression_graph(x_data, y_data, y_preds, ['X', 'Y'])
 {: .language-python}
 
 ### Testing the accuracy of a linear regression model
-We now have a linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model’s y value with the original. We can turn this into a single overall error number by calculating the root mean square error (RMSE), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMSE gives us an overall error number which we can then use to measure our model’s accuracy with. 
+We now have a linear model for some training data. It would be useful to assess how accurate that model is. 
+
+One popular measure of a model's error is the Root Mean Squared Error (RMSE). RMSE is expressed in the same units as the data being measured. This makes it easy to interpret because you can directly relate it to the scale of the problem. For example, if you're predicting house prices in dollars, the RMSE will also be in dollars, allowing you to understand the average prediction error in a real-world context.
+
+To calculate the RMSE, we:
+1. Calculate the sum of squared differences (SSE) between observed values of y and predicted values of y: `SSE = (y-y_pred)**2`
+2. Convert the SSE into the mean-squared error by dividing by the total number of obervations, n, in our data: `MSE = SSE/n`
+3. Take the square root of the MSE: `RMSE = math.sqrt(MSE)`
+   
+The RMSE gives us an overall error number which we can then use to measure our model’s accuracy with. 
 
 Open `regression_helper_functions.py` and view the code for the `measure_error()` function. Find the FIXME tag in the function, and fill in the missing code to calculate RMSE.
+
+~~~
+import math
+def measure_error(y: List[float], y_pred: List[float]) -> float:
+    """
+    Calculate the Root Mean Square Error (RMSE) of a model's predictions.
+
+    Args:
+        y (List[float]): A list of actual (observed) y values.
+        y_pred (List[float]): A list of predicted y values from a model.
+
+    Returns:
+        float: The RMSE (root mean square error) of the model's predictions.
+    """
+    assert len(y)==len(y_pred)
+    err_total = 0
+    for i in range(0,len(y)):
+        # add up the squared error for each observation
+        # FIXME: Uncomment the below line and fill in the blank to add up the squared error for each observation
+#         err_total = err_total + ________
+        # SOLUTION
+        err_total = err_total + (y[i] - y_pred[i])**2
+
+    err = math.sqrt(err_total / len(y))
+    return err
+~~~
+{: .language-python}
 
 ~~~
 import math
@@ -201,8 +237,8 @@ print(measure_error(y_data,y_preds))
 
 This will output an error of 0.7986268703523449, which means that on average the difference between our model and the real values is 0.7986268703523449. The less linear the data is the bigger this number will be. If the model perfectly matches the data then the value will be zero.
 
-> ## Model Parameters VS Hyperparameters
-> Model parameters/coefficients/weights are parameters that are learned during the model-fitting stage. How many parameters does our linear model have? In addition, what hyperparameters does this model have, if any?
+> ## Model Parameters (a.k.a. coefs or weights) VS Hyperparameters
+> Model parameters/coefficients/weights are parameters that are learned during the model-fitting stage. That is, they are estimated from the data. How many parameters does our linear model have? In addition, what hyperparameters does this model have, if any?
 > 
 > > ## Solution
 > > In a univariate linear model (with only one variable predicting y), the two parameters learned from the data include the model's slope and its intercept. One hyperparameter of a linear model is the number of variables being used to predict y. In our previous example, we used only one variable, x, to predict y. However, it is possible to use additional predictor variables in a linear model (e.g., multivariate linear regression).
