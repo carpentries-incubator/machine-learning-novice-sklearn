@@ -35,10 +35,59 @@ y_data = [4,5,7,10,15]
 ~~~
 {: .language-python}
 
-Let's take a look at the math required to fit a line of best fit to this data. Open `regression_helper_functions.py` and view the code for the `least_squares()` function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes the sum of squared errors (SSE), we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal values of these parameters. The terms used in the for loop are derived from these partial derivatives.
+We can use the `least_squares()` helper function to calculate a line of best fit through this data. 
 
-To see how ordinary least squares optimization is derived, visit: [https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf)
+Let's take a look at the math required to fit a line of best fit to this data. Open `regression_helper_functions.py` and view the code for the `least_squares()` function. 
+~~~
+def least_squares(data: List[List[float]]) -> Tuple[float, float]:
+    """
+    Calculate the line of best fit for a data matrix of [x_values, y_values] using 
+    ordinary least squares optimization.
 
+    Args:
+        data (List[List[float]]): A list containing two equal-length lists, where the 
+        first list represents x-values and the second list represents y-values.
+
+    Returns:
+        Tuple[float, float]: A tuple containing the slope (m) and the y-intercept (c) of 
+        the line of best fit.
+    """
+    x_sum = 0
+    y_sum = 0
+    x_sq_sum = 0
+    xy_sum = 0
+
+    # Ensure the list of data has two equal-length lists
+    assert len(data) == 2
+    assert len(data[0]) == len(data[1])
+
+    n = len(data[0])
+    # Least squares regression calculation
+    for i in range(0, n):
+        if isinstance(data[0][i], str):
+            x = int(data[0][i])  # Convert date string to int
+        else:
+            x = data[0][i]  # For GDP vs. life-expect data
+        y = data[1][i]
+        x_sum = x_sum + x
+        y_sum = y_sum + y
+        x_sq_sum = x_sq_sum + (x ** 2)
+        xy_sum = xy_sum + (x * y)
+
+    m = ((n * xy_sum) - (x_sum * y_sum))
+    m = m / ((n * x_sq_sum) - (x_sum ** 2))
+    c = (y_sum - m * x_sum) / n
+
+    print("Results of linear regression:")
+    print("m =", format(m, '.5f'), "c =", format(c, '.5f'))
+
+    return m, c
+~~~
+{: .language-python}
+
+The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes the sum of squared errors (SSE), we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal values of these model coefficients (a.k.a parameters a.k.a. weights). 
+
+To see how ordinary least squares optimization is fully derived, visit: [https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf)
 ~~~
 from regression_helper_functions import least_squares
 m, b = least_squares([x_data,y_data])
@@ -52,11 +101,20 @@ m = 1.51829 c = 0.30488
 {: .output}
 
 We can use our new model to generate a line that predicts y-values at all x-coordinates fed into the model. Open `regression_helper_functions.py` and view the code for the `get_model_predictions()` function. Find the FIXME tag in the function, and fill in the missing code to output linear model predicitons.
-
 ~~~
-def get_model_predictions(x_data, m, c):
-    """Using the input slope (m) and y-intercept (c), calculate linear model predictions (y-values) for a given list of x-coordinates."""
-    
+def get_model_predictions(x_data: List[float], m: float, c: float) -> List[float]:
+    """
+    Calculate linear model predictions (y-values) for a given list of x-coordinates using 
+    the provided slope and y-intercept.
+
+    Args:
+        x_data (List[float]): A list of x-coordinates for which predictions are calculated.
+        m (float): The slope of the linear model.
+        c (float): The y-intercept of the linear model.
+
+    Returns:
+        List[float]: A list of predicted y-values corresponding to the input x-coordinates.
+    """
     linear_preds = []
     for x in x_data:
         # FIXME: Uncomment below line and complete the line of code to get a model prediction from each x value
@@ -82,6 +140,28 @@ We can now plot our model predictions along with the actual data using the `make
 
 ~~~
 from regression_helper_functions import make_regression_graph
+help(make_regression_graph)
+~~~
+{: .language-python}
+
+~~~
+Help on function make_regression_graph in module regression_helper_functions:
+
+make_regression_graph(x_data: List[float], y_data: List[float], y_pred: List[float], axis_labels: Tuple[str, str]) -> None
+    Plot data points and a model's predictions (line) on a graph.
+    
+    Args:
+        x_data (List[float]): A list of x-coordinates for data points.
+        y_data (List[float]): A list of corresponding y-coordinates for data points.
+        y_pred (List[float]): A list of predicted y-values from a model (line).
+        axis_labels (Tuple[str, str]): A tuple containing the labels for the x and y axes.
+    
+    Returns:
+        None: The function displays the plot but does not return a value.
+~~~
+{: .output}
+
+~~~
 make_regression_graph(x_data, y_data, y_preds, ['X', 'Y'])
 ~~~
 {: .language-python}
