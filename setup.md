@@ -3,7 +3,7 @@ title: Setup
 ---
 # Software Packages Required
 
-You will need to have an installation of Python 3 with the matplotlib, pandas, numpy and optionally opencv packages. 
+You will need to have an installation of Python 3 with the matplotlib, pandas, numpy and opencv packages. If you can't successfully install opencv, you may use Goolge Colab on day 2 of the workshop.
 
 The [Anaconda Distribution](https://www.anaconda.com/products/individual#Downloads) includes all of these except opencv by default.
 
