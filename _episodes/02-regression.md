@@ -119,7 +119,7 @@ def get_model_predictions(x_data: List[float], m: float, c: float) -> List[float
     for x in x_data:
         y_pred = None # FIXME: get a model prediction from each x value
 
-        # ANSWER
+        # SOLUTION
         y_pred = m * x + c
         
         #add the result to the linear_data list
@@ -197,9 +197,7 @@ def measure_error(y: List[float], y_pred: List[float]) -> float:
     assert len(y)==len(y_pred)
     err_total = 0
     for i in range(0,len(y)):
-        # add up the squared error for each observation
-        # FIXME: Uncomment the below line and fill in the blank to add up the squared error for each observation
-#         err_total = err_total + ________
+        err_total = None # FIXME: add up the squared error for each observation
         # SOLUTION
         err_total = err_total + (y[i] - y_pred[i])**2
 
