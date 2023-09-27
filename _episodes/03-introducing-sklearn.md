@@ -40,7 +40,8 @@ The scikit-learn regression function is much more capable than the simple one we
 
 ~~~
 def process_life_expectancy_data_sklearn(filename, country, train_data_range, test_data_range=None):
-    """Model and plot life expectancy over time for a specific country. Model is fit to data spanning train_data_range, and tested on data spanning test_data_range"""
+    """Model and plot life expectancy over time for a specific country. Model is fit to data 
+    spanning train_data_range, and tested on data spanning test_data_range"""
 
     # Extract date range used for fitting the model
     min_date_train = train_data_range[0]
@@ -49,38 +50,47 @@ def process_life_expectancy_data_sklearn(filename, country, train_data_range, te
     # Read life expectancy data
     df = pd.read_csv(filename, index_col="Life expectancy")
 
-    # get the data used to estimate line of best fit (life expectancy for specific country across some date range)
+    # get the data used to estimate line of best fit (life expectancy for specific 
+    # country across some date range)
+    
     # we have to convert the dates to strings as pandas treats them that way
-    y_data_train = df.loc[country, str(min_date_train):str(max_date_train)]
+    y_train = df.loc[country, str(min_date_train):str(max_date_train)]
     
     # create a list with the numerical range of min_date to max_date
     # we could use the index of life_expectancy but it will be a string
     # we need numerical data
-    x_data_train = list(range(min_date_train, max_date_train + 1))
+    x_train = list(range(min_date_train, max_date_train + 1))
     
     # NEW: Sklearn functions typically accept numpy arrays as input. This code will convert our list data into numpy arrays (N rows, 1 column)
-    x_data_train = np.array(x_data_train).reshape(-1, 1)
-    y_data_train = np.array(y_data_train).reshape(-1, 1)
+    x_train = np.array(x_train).reshape(-1, 1)
+    y_train = np.array(y_train).reshape(-1, 1)
 
-    # FIXME: calculate line of best fit using sklearn. OLD VERSION: m, c = least_squares([x_data_train, y_data_train])
-    #ANSWER
-    regression = skl_lin.LinearRegression().fit(x_data_train, y_data_train)
-    m = regression.coef_[0][0] # coefs stored as in matrix as (n_targets, n_features), where n_targets is the number of variables in Y, and n_features is the number of variables in X
-    c = regression.intercept_[0] 
+    # OLD VERSION: m, c = least_squares([x_train, y_train])
+    regression = None # FIXME: calculate line of best fit and extract m and c using sklearn. 
+    regression = skl_lin.LinearRegression().fit(x_train, y_train)
+    
+    # extract slope (m) and intercept (c)
+    m = regression.coef_[0][0] # store coefs as (n_targets, n_features), where n_targets is the number of variables in Y, and n_features is the number of variables in X
+    c = regression.intercept_[0]
     
     # print model parameters
     print("Results of linear regression:")
     print("m =", format(m,'.5f'), "c =", format(c,'.5f'))
 
-    # FIXME: get model predictions for test data. OLD VERSION: y_preds_train = get_model_predictions(x_data_train, m, c)
-    #ANSWER
-    y_preds_train = regression.predict(x_data_train)
+    # OLD VERSION: y_train_pred = get_model_predictions(x_train, m, c)
+    y_train_pred = None # FIXME: get model predictions for test data. 
+    y_train_pred = regression.predict(x_train)
     
-    # FIXME: calculate model train set error. OLD VERSION: train_error = measure_error(y_data_train, y_preds_train)    
-    train_error = math.sqrt(skl_metrics.mean_squared_error(y_data_train, y_preds_train))
+    # OLD VERSION: train_error = measure_error(y_train, y_train_pred) 
+    train_error = None # FIXME: calculate model train set error. 
+    train_error = math.sqrt(skl_metrics.mean_squared_error(y_train, y_train_pred))
 
     print("Train RMSE =", format(train_error,'.5f'))
-    make_regression_graph(x_data_train, y_data_train, y_preds_train, ['Year', 'Life Expectancy'])
+    if test_data_range is None:
+        make_regression_graph(x_train.tolist(), 
+                              y_train.tolist(), 
+                              y_train_pred.tolist(), 
+                              ['Year', 'Life Expectancy'])
     
     # Test RMSE
     if test_data_range is not None:
@@ -89,19 +99,24 @@ def process_life_expectancy_data_sklearn(filename, country, train_data_range, te
             max_date_test=min_date_test
         else:
             max_date_test = test_data_range[1]
-        x_data_test = list(range(min_date_test, max_date_test + 1))
-        y_data_test = df.loc[country, str(min_date_test):str(max_date_test)]
+        x_test = list(range(min_date_test, max_date_test + 1))
+        y_test = df.loc[country, str(min_date_test):str(max_date_test)]
         
-        x_data_test = np.array(x_data_test).reshape(-1, 1)
-        y_data_test = np.array(y_data_test).reshape(-1, 1)
+        # convert data to numpy array
+        x_test = np.array(x_test).reshape(-1, 1)
+        y_test = np.array(y_test).reshape(-1, 1)
         
-        y_preds_test = regression.predict(x_data_test)
-        test_error = math.sqrt(skl_metrics.mean_squared_error(y_data_test, y_preds_test))
+        # get predictions
+        y_test_pred = regression.predict(x_test)
+        
+        # measure error
+        test_error = math.sqrt(skl_metrics.mean_squared_error(y_test, y_test_pred))
         print("Test RMSE =", format(test_error,'.5f'))
-        make_regression_graph(np.concatenate((x_data_train, x_data_test), axis=0), 
-                              np.concatenate((y_data_train, y_data_test), axis=0), 
-                              np.concatenate((y_preds_train, y_preds_test), axis=0), 
-                              ['Year', 'Life Expectancy'])
+        
+        # plot train and test data along with line of best fit 
+        make_regression_graph(x_train.tolist(), y_train.tolist(), y_train_pred.tolist(),
+                              ['Year', 'Life Expectancy'], 
+                              x_test.tolist(), y_test.tolist(), y_test_pred.tolist())
 
     return m, c
 ~~~
