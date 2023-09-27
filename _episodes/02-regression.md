@@ -385,9 +385,19 @@ Let's start by reading in the data. We'll collect GDP and life expectancy from t
 
 ~~~
 from regression_helper_functions import read_data
+help(read_data)
+~~~
+{: .language-python}
+
+~~~
 data = read_data("data/worldbank-gdp.csv",
              "data/gapminder-life-expectancy.csv", "1980")
-data
+~~~
+{: .language-python}
+
+~~~
+print(data.shape)
+data.head()
 ~~~
 {: .language-python}
 
