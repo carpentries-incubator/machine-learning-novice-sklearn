@@ -248,8 +248,26 @@ print(df.index) # There are 243 countries in this dataset.
 
 Let's try to model life expectancy as a function of time for individual countries. To do this, review the 'process_life_expectancy_data()' function found in regression_helper_functions.py. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life expectancy in the UK between the years 1950 and 1980. How much does the model predict life expectancy to increase or decrease per year?
 ~~~
-def process_life_expectancy_data(filename, country, train_data_range, test_data_range=None):
-    """Model and plot life expectancy over time for a specific country. Model is fit to data spanning train_data_range, and tested on data spanning test_data_range"""
+def process_life_expectancy_data(
+    filename: str,
+    country: str,
+    train_data_range: Tuple[int, int],
+    test_data_range: Optional[Tuple[int, int]] = None) -> Tuple[float, float]:
+    """
+    Model and plot life expectancy over time for a specific country.
+    
+    Args:
+        filename (str): The filename of the CSV data file.
+        country (str): The name of the country for which life expectancy is modeled.
+        train_data_range (Tuple[int, int]): A tuple representing the date range (start, end) used 
+                                            for fitting the model.
+        test_data_range (Optional[Tuple[int, int]]): A tuple representing the date range 
+                                                     (start, end) for testing the model.
+        
+    Returns:
+        Tuple[float, float]: A tuple containing the slope (m) and the y-intercept (c) of the 
+        line of best fit.
+    """
 
     # Extract date range used for fitting the model
     min_date_train = train_data_range[0]
@@ -260,28 +278,30 @@ def process_life_expectancy_data(filename, country, train_data_range, test_data_
 
     # get the data used to estimate line of best fit (life expectancy for specific country across some date range)
     # we have to convert the dates to strings as pandas treats them that way
-    y_data_train = df.loc[country, str(min_date_train):str(max_date_train)]
+    y_train = df.loc[country, str(min_date_train):str(max_date_train)]
 
     # create a list with the numerical range of min_date to max_date
     # we could use the index of life_expectancy but it will be a string
     # we need numerical data
-    x_data_train = list(range(min_date_train, max_date_train + 1))
+    x_train = list(range(min_date_train, max_date_train + 1))
 
     # calculate line of best fit
     # FIXME: Uncomment the below line of code and fill in the blank
-#     m, c = _______([x_data_train, y_data_train])
-    m, c = least_squares([x_data_train, y_data_train])
+#     m, c = _______([x_train, y_train])
+    m, c = least_squares([x_train, y_train])
 
-    # Get model predictions for test data. 
+    # Get model predictions for train data. 
     # FIXME: Uncomment the below line of code and fill in the blank 
-#     y_preds_train = _______(x_data_train, m, c)
-    y_preds_train = get_model_predictions(x_data_train, m, c)
-    
+#     y_train_pred = _______(x_train, m, c)
+    y_train_pred = get_model_predictions(x_train, m, c)
+
     # FIXME: Uncomment the below line of code and fill in the blank
-#     train_error = _______(y_data_train, y_preds_train)
-    train_error = measure_error(y_data_train, y_preds_train)    
+#     train_error = _______(y_train, y_train_pred)
+    train_error = measure_error(y_train, y_train_pred)
+
     print("Train RMSE =", format(train_error,'.5f'))
-    make_regression_graph(x_data_train, y_data_train, y_preds_train, ['Year', 'Life Expectancy'])
+    if test_data_range is None:
+        make_regression_graph(x_train, y_train, y_train_pred, ['Year', 'Life Expectancy'])
     
     # Test RMSE
     if test_data_range is not None:
@@ -290,14 +310,25 @@ def process_life_expectancy_data(filename, country, train_data_range, test_data_
             max_date_test=min_date_test
         else:
             max_date_test = test_data_range[1]
-        x_data_test = list(range(min_date_test, max_date_test + 1))
-        y_data_test = df.loc[country, str(min_date_test):str(max_date_test)]
-        y_preds_test = get_model_predictions(x_data_test, m, c)
-        test_error = measure_error(y_data_test, y_preds_test)    
+            
+        # extract test data (x and y)
+        x_test = list(range(min_date_test, max_date_test + 1))
+        y_test = df.loc[country, str(min_date_test):str(max_date_test)]
+        
+        # get test predictions
+        y_test_pred = get_model_predictions(x_test, m, c)
+        
+        # measure test error
+        test_error = measure_error(y_test, y_test_pred)    
         print("Test RMSE =", format(test_error,'.5f'))
-        make_regression_graph(x_data_train+x_data_test, pd.concat([y_data_train,y_data_test]), y_preds_train+y_preds_test, ['Year', 'Life Expectancy'])
+        
+        # plot train and test data along with line of best fit 
+        make_regression_graph(x_train, y_train, y_train_pred,
+                              ['Year', 'Life Expectancy'], 
+                              x_test, y_test, y_test_pred)
 
     return m, c
+
 ~~~
 {: .language-python}
 
