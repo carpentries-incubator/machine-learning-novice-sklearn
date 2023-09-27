@@ -207,23 +207,6 @@ def measure_error(y: List[float], y_pred: List[float]) -> float:
 ~~~
 {: .language-python}
 
-~~~
-import math
-def measure_error(data1, data2):
-    """Calculating RMSE (root mean square error) of model."""
-    
-    assert len(data1) == len(data2)
-    err_total = 0
-    for i in range(0, len(data1)):
-        # FIXME: Uncomment the below line and fill in the blank to add up the squared error for each observation
-#         err_total = err_total + ________
-        err_total = err_total + (data1[i] - data2[i]) ** 2
-
-    err = math.sqrt(err_total / len(data1))
-    return err
-~~~
-{: .language-python}
-
 Using this function, let's calculate the error of our model in term's of its RMSE. Since we are calculating RMSE on the same data that was used to fit or "train" the model, we call this error the model's training error.
 ~~~
 from regression_helper_functions import measure_error
@@ -335,6 +318,10 @@ Train RMSE = 0.32578
 ~~~
 {: .output}
 
+Quick Quiz
+1. Based on the above result, how much do we expect life expectancy to change each year?
+2. What does an RMSE value of 0.33 indicate?
+
 Let's see how the model performs in terms of its ability to predict future years. Run the `process_life_expectancy_data()` function again using the period 1950-1980 to train the model, and the period 2010-2016 to test the model's performance on unseen data.
 
 ~~~
@@ -343,7 +330,7 @@ m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
 ~~~
 {: .language-python}
 
-When we train our model using data between 1950 and 1980, we aren't able to accurately predict life expectancy in later decades. To explore this issue further, try out the excercise in the following section
+When we train our model using data between 1950 and 1980, we aren't able to accurately predict life expectancy in later decades. To explore this issue further, try out the excercise below.
 
 > ## Models Fit Their Training Data — For Better Or Worse
 > What happens to the test RMSE as you extend the training data set to include additional dates? Try out a couple of ranges  (e.g., 1950:1990, 1950:2000, 1950:2005); Explain your observations.
@@ -364,57 +351,7 @@ When we train our model using data between 1950 and 1980, we aren't able to accu
 > {: .solution}
 {: .challenge}
 
-> ## Predicting Life Expectancy
-> 1) Model Germany's predicted life expectancy between the years 1950 and 2000. What is the value of and c?
-> 
-> 2) Use the linear model you’ve just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers? If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
-> > ## Solution
-> > ~~~
-> > m,c = process_life_expectancy_data("data/gapminder-life-expectancy.csv", "Germany", [1950, 2000])
-> > 
-> > for x in range(2001,2017):
-> >     print(x,0.212219909502 * x - 346.784909502)
-> > ~~~
-> > {: .language-python}
-> > 
-> > ~~~
-> > df = pd.read_csv('data/gapminder-life-expectancy.csv',index_col="Life expectancy")
-> > for x in range(2001,2017):
-> >     y = m*x + c
-> >     real = df.loc['Germany', str(x)]
-> >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
-> >     
-> > ~~~
-> > {: .language-python}
-> >
-> > Predicted answers
-> > ~~~
-> > 2001 Predicted 77.86712941175517 Real 78.4 Difference -0.5328705882448332
-> > 2002 Predicted 78.07934932125704 Real 78.6 Difference -0.5206506787429532
-> > 2003 Predicted 78.29156923075897 Real 78.8 Difference -0.5084307692410306
-> > 2004 Predicted 78.50378914026084 Real 79.2 Difference -0.6962108597391676
-> > 2005 Predicted 78.71600904976276 Real 79.4 Difference -0.683990950237245
-> > 2006 Predicted 78.92822895926463 Real 79.7 Difference -0.7717710407353735
-> > 2007 Predicted 79.1404488687665 Real 79.9 Difference -0.7595511312335077
-> > 2008 Predicted 79.35266877826842 Real 80.0 Difference -0.6473312217315765
-> > 2009 Predicted 79.56488868777029 Real 80.1 Difference -0.5351113122297022
-> > 2010 Predicted 79.77710859727222 Real 80.3 Difference -0.5228914027277796
-> > 2011 Predicted 79.98932850677409 Real 80.5 Difference -0.5106714932259138
-> > 2012 Predicted 80.20154841627601 Real 80.6 Difference -0.3984515837239826
-> > 2013 Predicted 80.41376832577788 Real 80.7 Difference -0.2862316742221225
-> > 2014 Predicted 80.6259882352798 Real 80.7 Difference -0.07401176472019699
-> > 2015 Predicted 80.83820814478167 Real 80.8 Difference 0.03820814478167733
-> > 2016 Predicted 81.0504280542836 Real 80.9 Difference 0.1504280542835943
-> > ~~~
-> > {: .output}
-> >
-> > Answers are between 0.15 years over and 0.77 years under the reality.
-> > If this was being used in a pension scheme it might lead to a slight under prediction of life expectancy and cost the pension scheme a little more than expected.
-> {: .solution}
-{: .challenge}
-
 # Logarithmic Regression
-
 We've now seen how we can use linear regression to make a simple model and use that to predict values, but what do we do when the relationship between the data isn't linear?
 
 As an example lets take the relationship between income (GDP per Capita) and life expectancy. The gapminder website will [graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) this for us.
