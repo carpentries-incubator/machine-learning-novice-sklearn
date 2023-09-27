@@ -35,10 +35,59 @@ y_data = [4,5,7,10,15]
 ~~~
 {: .language-python}
 
-Let's take a look at the math required to fit a line of best fit to this data. Open `regression_helper_functions.py` and view the code for the `least_squares()` function. The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes the sum of squared errors (SSE), we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal values of these parameters. The terms used in the for loop are derived from these partial derivatives.
+We can use the `least_squares()` helper function to calculate a line of best fit through this data. 
 
-To see how ordinary least squares optimization is derived, visit: [https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf)
+Let's take a look at the math required to fit a line of best fit to this data. Open `regression_helper_functions.py` and view the code for the `least_squares()` function. 
+~~~
+def least_squares(data: List[List[float]]) -> Tuple[float, float]:
+    """
+    Calculate the line of best fit for a data matrix of [x_values, y_values] using 
+    ordinary least squares optimization.
 
+    Args:
+        data (List[List[float]]): A list containing two equal-length lists, where the 
+        first list represents x-values and the second list represents y-values.
+
+    Returns:
+        Tuple[float, float]: A tuple containing the slope (m) and the y-intercept (c) of 
+        the line of best fit.
+    """
+    x_sum = 0
+    y_sum = 0
+    x_sq_sum = 0
+    xy_sum = 0
+
+    # Ensure the list of data has two equal-length lists
+    assert len(data) == 2
+    assert len(data[0]) == len(data[1])
+
+    n = len(data[0])
+    # Least squares regression calculation
+    for i in range(0, n):
+        if isinstance(data[0][i], str):
+            x = int(data[0][i])  # Convert date string to int
+        else:
+            x = data[0][i]  # For GDP vs. life-expect data
+        y = data[1][i]
+        x_sum = x_sum + x
+        y_sum = y_sum + y
+        x_sq_sum = x_sq_sum + (x ** 2)
+        xy_sum = xy_sum + (x * y)
+
+    m = ((n * xy_sum) - (x_sum * y_sum))
+    m = m / ((n * x_sq_sum) - (x_sum ** 2))
+    c = (y_sum - m * x_sum) / n
+
+    print("Results of linear regression:")
+    print("m =", format(m, '.5f'), "c =", format(c, '.5f'))
+
+    return m, c
+~~~
+{: .language-python}
+
+The equations you see in this function are derived using some calculus. Specifically, to find a slope and y-intercept that minimizes the sum of squared errors (SSE), we have to take the partial derivative of SSE w.r.t. both of the model's parameters — slope and y-intercept. We can set those partial derivatives to zero (where the rate of SSE change goes to zero) to find the optimal values of these model coefficients (a.k.a parameters a.k.a. weights). 
+
+To see how ordinary least squares optimization is fully derived, visit: [https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf](https://are.berkeley.edu/courses/EEP118/current/derive_ols.pdf)
 ~~~
 from regression_helper_functions import least_squares
 m, b = least_squares([x_data,y_data])
@@ -52,20 +101,30 @@ m = 1.51829 c = 0.30488
 {: .output}
 
 We can use our new model to generate a line that predicts y-values at all x-coordinates fed into the model. Open `regression_helper_functions.py` and view the code for the `get_model_predictions()` function. Find the FIXME tag in the function, and fill in the missing code to output linear model predicitons.
-
 ~~~
-def get_model_predictions(x_data, m, c):
-    """Using the input slope (m) and y-intercept (c), calculate linear model predictions (y-values) for a given list of x-coordinates."""
-    
+def get_model_predictions(x_data: List[float], m: float, c: float) -> List[float]:
+    """
+    Calculate linear model predictions (y-values) for a given list of x-coordinates using 
+    the provided slope and y-intercept.
+
+    Args:
+        x_data (List[float]): A list of x-coordinates for which predictions are calculated.
+        m (float): The slope of the linear model.
+        c (float): The y-intercept of the linear model.
+
+    Returns:
+        List[float]: A list of predicted y-values corresponding to the input x-coordinates.
+    """
     linear_preds = []
     for x in x_data:
-        # FIXME: Uncomment below line and complete the line of code to get a model prediction from each x value
-#         y = _______
-        # ANSWER
-        y = m * x + c
+        y_pred = None # FIXME: get a model prediction from each x value
+
+        # SOLUTION
+        y_pred = m * x + c
         
         #add the result to the linear_data list
-        linear_preds.append(y)
+        linear_preds.append(y_pred)
+
     return(linear_preds)
 ~~~
 {: .language-python}
@@ -82,28 +141,67 @@ We can now plot our model predictions along with the actual data using the `make
 
 ~~~
 from regression_helper_functions import make_regression_graph
+help(make_regression_graph)
+~~~
+{: .language-python}
+
+~~~
+Help on function make_regression_graph in module regression_helper_functions:
+
+make_regression_graph(x_data: List[float], y_data: List[float], y_pred: List[float], axis_labels: Tuple[str, str]) -> None
+    Plot data points and a model's predictions (line) on a graph.
+    
+    Args:
+        x_data (List[float]): A list of x-coordinates for data points.
+        y_data (List[float]): A list of corresponding y-coordinates for data points.
+        y_pred (List[float]): A list of predicted y-values from a model (line).
+        axis_labels (Tuple[str, str]): A tuple containing the labels for the x and y axes.
+    
+    Returns:
+        None: The function displays the plot but does not return a value.
+~~~
+{: .output}
+
+~~~
 make_regression_graph(x_data, y_data, y_preds, ['X', 'Y'])
 ~~~
 {: .language-python}
 
 ### Testing the accuracy of a linear regression model
-We now have a linear model for some data. It would be useful to test how accurate that model is. We can do this by computing the y value for every x value used in our original data and comparing the model’s y value with the original. We can turn this into a single overall error number by calculating the root mean square error (RMSE), this squares each comparison, takes the sum of all of them, divides this by the number of items and finally takes the square root of that value. By squaring and square rooting the values we prevent negative errors from cancelling out positive ones. The RMSE gives us an overall error number which we can then use to measure our model’s accuracy with. 
+We now have a linear model for some training data. It would be useful to assess how accurate that model is. 
+
+One popular measure of a model's error is the Root Mean Squared Error (RMSE). RMSE is expressed in the same units as the data being measured. This makes it easy to interpret because you can directly relate it to the scale of the problem. For example, if you're predicting house prices in dollars, the RMSE will also be in dollars, allowing you to understand the average prediction error in a real-world context.
+
+To calculate the RMSE, we:
+1. Calculate the sum of squared differences (SSE) between observed values of y and predicted values of y: `SSE = (y-y_pred)**2`
+2. Convert the SSE into the mean-squared error by dividing by the total number of obervations, n, in our data: `MSE = SSE/n`
+3. Take the square root of the MSE: `RMSE = math.sqrt(MSE)`
+   
+The RMSE gives us an overall error number which we can then use to measure our model’s accuracy with. 
 
 Open `regression_helper_functions.py` and view the code for the `measure_error()` function. Find the FIXME tag in the function, and fill in the missing code to calculate RMSE.
 
 ~~~
 import math
-def measure_error(data1, data2):
-    """Calculating RMSE (root mean square error) of model."""
-    
-    assert len(data1) == len(data2)
-    err_total = 0
-    for i in range(0, len(data1)):
-        # FIXME: Uncomment the below line and fill in the blank to add up the squared error for each observation
-#         err_total = err_total + ________
-        err_total = err_total + (data1[i] - data2[i]) ** 2
+def measure_error(y: List[float], y_pred: List[float]) -> float:
+    """
+    Calculate the Root Mean Square Error (RMSE) of a model's predictions.
 
-    err = math.sqrt(err_total / len(data1))
+    Args:
+        y (List[float]): A list of actual (observed) y values.
+        y_pred (List[float]): A list of predicted y values from a model.
+
+    Returns:
+        float: The RMSE (root mean square error) of the model's predictions.
+    """
+    assert len(y)==len(y_pred)
+    err_total = 0
+    for i in range(0,len(y)):
+        err_total = None # FIXME: add up the squared error for each observation
+        # SOLUTION
+        err_total = err_total + (y[i] - y_pred[i])**2
+
+    err = math.sqrt(err_total / len(y))
     return err
 ~~~
 {: .language-python}
@@ -121,8 +219,8 @@ print(measure_error(y_data,y_preds))
 
 This will output an error of 0.7986268703523449, which means that on average the difference between our model and the real values is 0.7986268703523449. The less linear the data is the bigger this number will be. If the model perfectly matches the data then the value will be zero.
 
-> ## Model Parameters VS Hyperparameters
-> Model parameters/coefficients/weights are parameters that are learned during the model-fitting stage. How many parameters does our linear model have? In addition, what hyperparameters does this model have, if any?
+> ## Model Parameters (a.k.a. coefs or weights) VS Hyperparameters
+> Model parameters/coefficients/weights are parameters that are learned during the model-fitting stage. That is, they are estimated from the data. How many parameters does our linear model have? In addition, what hyperparameters does this model have, if any?
 > 
 > > ## Solution
 > > In a univariate linear model (with only one variable predicting y), the two parameters learned from the data include the model's slope and its intercept. One hyperparameter of a linear model is the number of variables being used to predict y. In our previous example, we used only one variable, x, to predict y. However, it is possible to use additional predictor variables in a linear model (e.g., multivariate linear regression).
@@ -150,8 +248,26 @@ print(df.index) # There are 243 countries in this dataset.
 
 Let's try to model life expectancy as a function of time for individual countries. To do this, review the 'process_life_expectancy_data()' function found in regression_helper_functions.py. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life expectancy in the UK between the years 1950 and 1980. How much does the model predict life expectancy to increase or decrease per year?
 ~~~
-def process_life_expectancy_data(filename, country, train_data_range, test_data_range=None):
-    """Model and plot life expectancy over time for a specific country. Model is fit to data spanning train_data_range, and tested on data spanning test_data_range"""
+def process_life_expectancy_data(
+    filename: str,
+    country: str,
+    train_data_range: Tuple[int, int],
+    test_data_range: Optional[Tuple[int, int]] = None) -> Tuple[float, float]:
+    """
+    Model and plot life expectancy over time for a specific country.
+    
+    Args:
+        filename (str): The filename of the CSV data file.
+        country (str): The name of the country for which life expectancy is modeled.
+        train_data_range (Tuple[int, int]): A tuple representing the date range (start, end) used 
+                                            for fitting the model.
+        test_data_range (Optional[Tuple[int, int]]): A tuple representing the date range 
+                                                     (start, end) for testing the model.
+        
+    Returns:
+        Tuple[float, float]: A tuple containing the slope (m) and the y-intercept (c) of the 
+        line of best fit.
+    """
 
     # Extract date range used for fitting the model
     min_date_train = train_data_range[0]
@@ -162,28 +278,30 @@ def process_life_expectancy_data(filename, country, train_data_range, test_data_
 
     # get the data used to estimate line of best fit (life expectancy for specific country across some date range)
     # we have to convert the dates to strings as pandas treats them that way
-    y_data_train = df.loc[country, str(min_date_train):str(max_date_train)]
+    y_train = df.loc[country, str(min_date_train):str(max_date_train)]
 
     # create a list with the numerical range of min_date to max_date
     # we could use the index of life_expectancy but it will be a string
     # we need numerical data
-    x_data_train = list(range(min_date_train, max_date_train + 1))
+    x_train = list(range(min_date_train, max_date_train + 1))
 
     # calculate line of best fit
     # FIXME: Uncomment the below line of code and fill in the blank
-#     m, c = _______([x_data_train, y_data_train])
-    m, c = least_squares([x_data_train, y_data_train])
+#     m, c = _______([x_train, y_train])
+    m, c = least_squares([x_train, y_train])
 
-    # Get model predictions for test data. 
+    # Get model predictions for train data. 
     # FIXME: Uncomment the below line of code and fill in the blank 
-#     y_preds_train = _______(x_data_train, m, c)
-    y_preds_train = get_model_predictions(x_data_train, m, c)
-    
+#     y_train_pred = _______(x_train, m, c)
+    y_train_pred = get_model_predictions(x_train, m, c)
+
     # FIXME: Uncomment the below line of code and fill in the blank
-#     train_error = _______(y_data_train, y_preds_train)
-    train_error = measure_error(y_data_train, y_preds_train)    
+#     train_error = _______(y_train, y_train_pred)
+    train_error = measure_error(y_train, y_train_pred)
+
     print("Train RMSE =", format(train_error,'.5f'))
-    make_regression_graph(x_data_train, y_data_train, y_preds_train, ['Year', 'Life Expectancy'])
+    if test_data_range is None:
+        make_regression_graph(x_train, y_train, y_train_pred, ['Year', 'Life Expectancy'])
     
     # Test RMSE
     if test_data_range is not None:
@@ -192,14 +310,25 @@ def process_life_expectancy_data(filename, country, train_data_range, test_data_
             max_date_test=min_date_test
         else:
             max_date_test = test_data_range[1]
-        x_data_test = list(range(min_date_test, max_date_test + 1))
-        y_data_test = df.loc[country, str(min_date_test):str(max_date_test)]
-        y_preds_test = get_model_predictions(x_data_test, m, c)
-        test_error = measure_error(y_data_test, y_preds_test)    
+            
+        # extract test data (x and y)
+        x_test = list(range(min_date_test, max_date_test + 1))
+        y_test = df.loc[country, str(min_date_test):str(max_date_test)]
+        
+        # get test predictions
+        y_test_pred = get_model_predictions(x_test, m, c)
+        
+        # measure test error
+        test_error = measure_error(y_test, y_test_pred)    
         print("Test RMSE =", format(test_error,'.5f'))
-        make_regression_graph(x_data_train+x_data_test, pd.concat([y_data_train,y_data_test]), y_preds_train+y_preds_test, ['Year', 'Life Expectancy'])
+        
+        # plot train and test data along with line of best fit 
+        make_regression_graph(x_train, y_train, y_train_pred,
+                              ['Year', 'Life Expectancy'], 
+                              x_test, y_test, y_test_pred)
 
     return m, c
+
 ~~~
 {: .language-python}
 
@@ -219,6 +348,10 @@ Train RMSE = 0.32578
 ~~~
 {: .output}
 
+Quick Quiz
+1. Based on the above result, how much do we expect life expectancy to change each year?
+2. What does an RMSE value of 0.33 indicate?
+
 Let's see how the model performs in terms of its ability to predict future years. Run the `process_life_expectancy_data()` function again using the period 1950-1980 to train the model, and the period 2010-2016 to test the model's performance on unseen data.
 
 ~~~
@@ -227,7 +360,7 @@ m, c = process_life_expectancy_data("data/gapminder-life-expectancy.csv",
 ~~~
 {: .language-python}
 
-When we train our model using data between 1950 and 1980, we aren't able to accurately predict life expectancy in later decades. To explore this issue further, try out the excercise in the following section
+When we train our model using data between 1950 and 1980, we aren't able to accurately predict life expectancy in later decades. To explore this issue further, try out the excercise below.
 
 > ## Models Fit Their Training Data — For Better Or Worse
 > What happens to the test RMSE as you extend the training data set to include additional dates? Try out a couple of ranges  (e.g., 1950:1990, 1950:2000, 1950:2005); Explain your observations.
@@ -248,57 +381,7 @@ When we train our model using data between 1950 and 1980, we aren't able to accu
 > {: .solution}
 {: .challenge}
 
-> ## Predicting Life Expectancy
-> 1) Model Germany's predicted life expectancy between the years 1950 and 2000. What is the value of and c?
-> 
-> 2) Use the linear model you’ve just created to predict life expectancy in Germany for every year between 2001 and 2016. How accurate are your answers? If you worked for a pension scheme would you trust your answers to predict the future costs for paying pensioners?
-> > ## Solution
-> > ~~~
-> > m,c = process_life_expectancy_data("data/gapminder-life-expectancy.csv", "Germany", [1950, 2000])
-> > 
-> > for x in range(2001,2017):
-> >     print(x,0.212219909502 * x - 346.784909502)
-> > ~~~
-> > {: .language-python}
-> > 
-> > ~~~
-> > df = pd.read_csv('data/gapminder-life-expectancy.csv',index_col="Life expectancy")
-> > for x in range(2001,2017):
-> >     y = m*x + c
-> >     real = df.loc['Germany', str(x)]
-> >     print(x, "Predicted", y, "Real", real, "Difference", y-real)
-> >     
-> > ~~~
-> > {: .language-python}
-> >
-> > Predicted answers
-> > ~~~
-> > 2001 Predicted 77.86712941175517 Real 78.4 Difference -0.5328705882448332
-> > 2002 Predicted 78.07934932125704 Real 78.6 Difference -0.5206506787429532
-> > 2003 Predicted 78.29156923075897 Real 78.8 Difference -0.5084307692410306
-> > 2004 Predicted 78.50378914026084 Real 79.2 Difference -0.6962108597391676
-> > 2005 Predicted 78.71600904976276 Real 79.4 Difference -0.683990950237245
-> > 2006 Predicted 78.92822895926463 Real 79.7 Difference -0.7717710407353735
-> > 2007 Predicted 79.1404488687665 Real 79.9 Difference -0.7595511312335077
-> > 2008 Predicted 79.35266877826842 Real 80.0 Difference -0.6473312217315765
-> > 2009 Predicted 79.56488868777029 Real 80.1 Difference -0.5351113122297022
-> > 2010 Predicted 79.77710859727222 Real 80.3 Difference -0.5228914027277796
-> > 2011 Predicted 79.98932850677409 Real 80.5 Difference -0.5106714932259138
-> > 2012 Predicted 80.20154841627601 Real 80.6 Difference -0.3984515837239826
-> > 2013 Predicted 80.41376832577788 Real 80.7 Difference -0.2862316742221225
-> > 2014 Predicted 80.6259882352798 Real 80.7 Difference -0.07401176472019699
-> > 2015 Predicted 80.83820814478167 Real 80.8 Difference 0.03820814478167733
-> > 2016 Predicted 81.0504280542836 Real 80.9 Difference 0.1504280542835943
-> > ~~~
-> > {: .output}
-> >
-> > Answers are between 0.15 years over and 0.77 years under the reality.
-> > If this was being used in a pension scheme it might lead to a slight under prediction of life expectancy and cost the pension scheme a little more than expected.
-> {: .solution}
-{: .challenge}
-
 # Logarithmic Regression
-
 We've now seen how we can use linear regression to make a simple model and use that to predict values, but what do we do when the relationship between the data isn't linear?
 
 As an example lets take the relationship between income (GDP per Capita) and life expectancy. The gapminder website will [graph](https://www.gapminder.org/tools/#$state$time$value=2017&showForecast:true&delay:206.4516129032258;&entities$filter$;&dim=geo;&marker$axis_x$which=life_expectancy_years&domainMin:null&domainMax:null&zoomedMin:45&zoomedMax:84.17&scaleType=linear&spaceRef:null;&axis_y$which=gdppercapita_us_inflation_adjusted&domainMin:null&domainMax:null&zoomedMin:115.79&zoomedMax:144246.37&spaceRef:null;&size$domainMin:null&domainMax:null&extent@:0.022083333333333333&:0.4083333333333333;;&color$which=world_6region;;;&chart-type=bubbles) this for us.
@@ -332,41 +415,93 @@ Let's start by reading in the data. We'll collect GDP and life expectancy from t
 
 ~~~
 from regression_helper_functions import read_data
+help(read_data)
+~~~
+{: .language-python}
+
+~~~
 data = read_data("data/worldbank-gdp.csv",
              "data/gapminder-life-expectancy.csv", "1980")
-data
+~~~
+{: .language-python}
+
+~~~
+print(data.shape)
+data.head()
+~~~
+{: .language-python}
+
+Let's check out how GDP changes with life expectancy with a simple scatterplot.
+
+~~~
+import matplotlib.pyplot as plt
+plt.scatter(data['Life Expectancy'], data['GDP'])
+plt.xlabel('Life Expectancy')
+plt.ylabel('GDP');
+~~~
+{: .language-python}
+
+Clearly, this is not a linearly relationship. Let's see what how log(GDP) changes with life expectancy.
+
+We can use `apply()` to run a function on all elements of a pandas series (alternatively np.log() can be used directly on a pandas series)
+~~~
+import math
+data['GDP'].apply(math.log) 
+~~~
+{: .language-python}
+
+~~~
+plt.scatter(data['Life Expectancy'], data['GDP'].apply(math.log))
+plt.xlabel('Life Expectancy')
+plt.ylabel('log(GDP)');
 ~~~
 {: .language-python}
 
 ### Model GDP vs Life Expectancy
 Review the `process_lifeExpt_gdp_data()` function found in `regression_helper_functions.py`. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life-expectancy versus GDP for the year 1980.
 ~~~
-def process_lifeExpt_gdp_data(gdp_file, life_expectancy_file, year):
-    """Model and plot life expectancy vs GDP in a specific year."""
+def process_life_expt_gdp_data(gdp_file: str, life_expectancy_file: str, year: str) -> None:
+    """
+    Model and plot the relationship between life expectancy and log(GDP) for a specific year.
+
+    Args:
+        gdp_file (str): The file path to the GDP data file.
+        life_expectancy_file (str): The file path to the life expectancy data file.
+        year (str): The specific year for which data is analyzed.
+
+    Returns:
+        None: The function generates and displays plots but does not return a value.
+    """
     data = read_data(gdp_file, life_expectancy_file, year)
 
     gdp = data["GDP"].tolist()
-    gdp_log = data["GDP"].apply(math.log).tolist()
+    # FIXME: uncomment the below line and fill in the blank
+#    log_gdp = data["GDP"].apply(____).tolist()
+    # SOLUTION
+    log_gdp = data["GDP"].apply(math.log).tolist()
+
     life_exp = data["Life Expectancy"].tolist()
 
-    m, c = least_squares([life_exp, gdp_log])
+    m, c = least_squares([life_exp, log_gdp])
 
     # model predictions on transformed data
+    log_gdp_preds = []
+    # predictions converted back to original scale
     gdp_preds = []
-    # list for plotting model predictions on top of untransformed GDP. For this, we will need to transform the model's predicitons.
-    gdp_preds_transformed = []
     for x in life_exp:
-        y_pred = m * x + c
-        gdp_preds.append(y_pred)
+        log_gdp_pred = m * x + c
+        log_gdp_preds.append(log_gdp_pred)
         # FIXME: Uncomment the below line of code and fill in the blank
-#         y_pred = math._______
-        y_pred = math.exp(y_pred)
-        gdp_preds_transformed.append(y_pred)
+#         gdp_pred = _____(log_gdp_pred)
+        # SOLUTION
+        gdp_pred = math.exp(log_gdp_pred)
+        gdp_preds.append(gdp_pred)
 
     # plot both the transformed and untransformed data
-    make_regression_graph(life_exp, gdp_log, gdp_preds, ['Life Expectancy', 'log(GDP)'])
-    make_regression_graph(life_exp, gdp, gdp_preds_transformed, ['Life Expectancy', 'GDP'])
+    make_regression_graph(life_exp, log_gdp, log_gdp_preds, ['Life Expectancy', 'log(GDP)'])
+    make_regression_graph(life_exp, gdp, gdp_preds, ['Life Expectancy', 'GDP'])
 
+    # typically it's best to measure error in terms of the original data scale
     train_error = measure_error(gdp_preds, gdp)
     print("Train RMSE =", format(train_error,'.5f'))
 ~~~
@@ -381,12 +516,24 @@ process_lifeExpt_gdp_data("data/worldbank-gdp.csv",
 ~~~
 {: .language-python}
 
-On average, our model over or underestimates GDP by 14233.73. GDP is predicted to grow by .128 for each year added to life.
+On average, our model over or underestimates GDP by 8741.12499. GDP is predicted to grow by .127 for each year added to life.
 
 > ## Removing outliers from the data
 > The correlation of GDP and life expectancy has a few big outliers that are probably increasing the error rate on this model. These are typically countries with very high GDP and sometimes not very high life expectancy. These tend to be either small countries with artificially high GDPs such as Monaco and Luxemborg or oil rich countries such as Qatar or Brunei. Kuwait, Qatar and Brunei have already been removed from this data set, but are available in the file worldbank-gdp-outliers.csv. Try experimenting with adding and removing some of these high income countries to see what effect it has on your model's error rate.
 > Do you think its a good idea to remove these outliers from your model?
 > How might you do this automatically?
+> 
 {: .challenge}
 
 {% include links.md %}
+
+### More on removing outliers
+Whether or not it's a good idea to remove outliers from your model depends on the specific goals and context of your analysis. Here are some considerations:
+1. Impact on Model Accuracy: Outliers can significantly affect the accuracy of a statistical model. They can pull the regression line towards them, leading to a less accurate representation of the majority of the data. Removing outliers may improve the model's predictive accuracy.
+2. Data Integrity: It's important to consider whether the outliers are a result of data entry errors or represent legitimate data points. If they are due to errors, removing them can be a good idea to maintain data integrity.
+3. Contextual Relevance: Consider the context of your analysis. Are the outliers relevant to the problem you're trying to solve? For example, if you're studying income inequality or the impact of extreme wealth on life expectancy, you may want to keep those outliers.
+4. Model Interpretability: Removing outliers can simplify the model and make it more interpretable. However, if the outliers have meaningful explanations, removing them might lead to a less accurate model.
+
+To automatically identify and remove outliers, you can use statistical methods like the Z-score or the IQR (Interquartile Range) method:
+1. Z-Score: Calculate the Z-score for each data point and remove data points with Z-scores above a certain threshold (e.g., 3 or 4 standard deviations from the mean).
+2. IQR Method: Calculate the IQR for the data and then remove data points that fall below Q1 - 1.5 * IQR or above Q3 + 1.5 * IQR, where Q1 and Q3 are the first and third quartiles, respectively.
