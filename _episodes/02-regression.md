@@ -117,13 +117,14 @@ def get_model_predictions(x_data: List[float], m: float, c: float) -> List[float
     """
     linear_preds = []
     for x in x_data:
-        # FIXME: Uncomment below line and complete the line of code to get a model prediction from each x value
-#         y = _______
+        y_pred = None # FIXME: get a model prediction from each x value
+
         # ANSWER
-        y = m * x + c
+        y_pred = m * x + c
         
         #add the result to the linear_data list
-        linear_preds.append(y)
+        linear_preds.append(y_pred)
+
     return(linear_preds)
 ~~~
 {: .language-python}
