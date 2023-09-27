@@ -480,3 +480,14 @@ On average, our model over or underestimates GDP by 8741.12499. GDP is predicted
 {: .challenge}
 
 {% include links.md %}
+
+### More on removing outliers
+Whether or not it's a good idea to remove outliers from your model depends on the specific goals and context of your analysis. Here are some considerations:
+1. Impact on Model Accuracy: Outliers can significantly affect the accuracy of a statistical model. They can pull the regression line towards them, leading to a less accurate representation of the majority of the data. Removing outliers may improve the model's predictive accuracy.
+2. Data Integrity: It's important to consider whether the outliers are a result of data entry errors or represent legitimate data points. If they are due to errors, removing them can be a good idea to maintain data integrity.
+3. Contextual Relevance: Consider the context of your analysis. Are the outliers relevant to the problem you're trying to solve? For example, if you're studying income inequality or the impact of extreme wealth on life expectancy, you may want to keep those outliers.
+4. Model Interpretability: Removing outliers can simplify the model and make it more interpretable. However, if the outliers have meaningful explanations, removing them might lead to a less accurate model.
+
+To automatically identify and remove outliers, you can use statistical methods like the Z-score or the IQR (Interquartile Range) method:
+1. Z-Score: Calculate the Z-score for each data point and remove data points with Z-scores above a certain threshold (e.g., 3 or 4 standard deviations from the mean).
+2. IQR Method: Calculate the IQR for the data and then remove data points that fall below Q1 - 1.5 * IQR or above Q3 + 1.5 * IQR, where Q1 and Q3 are the first and third quartiles, respectively.
