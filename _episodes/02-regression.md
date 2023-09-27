@@ -460,32 +460,48 @@ plt.ylabel('log(GDP)');
 ### Model GDP vs Life Expectancy
 Review the `process_lifeExpt_gdp_data()` function found in `regression_helper_functions.py`. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life-expectancy versus GDP for the year 1980.
 ~~~
-def process_lifeExpt_gdp_data(gdp_file, life_expectancy_file, year):
-    """Model and plot life expectancy vs GDP in a specific year."""
+def process_life_expt_gdp_data(gdp_file: str, life_expectancy_file: str, year: str) -> None:
+    """
+    Model and plot the relationship between life expectancy and log(GDP) for a specific year.
+
+    Args:
+        gdp_file (str): The file path to the GDP data file.
+        life_expectancy_file (str): The file path to the life expectancy data file.
+        year (str): The specific year for which data is analyzed.
+
+    Returns:
+        None: The function generates and displays plots but does not return a value.
+    """
     data = read_data(gdp_file, life_expectancy_file, year)
 
     gdp = data["GDP"].tolist()
-    gdp_log = data["GDP"].apply(math.log).tolist()
+    # FIXME: uncomment the below line and fill in the blank
+#    log_gdp = data["GDP"].apply(____).tolist()
+    # SOLUTION
+    log_gdp = data["GDP"].apply(math.log).tolist()
+
     life_exp = data["Life Expectancy"].tolist()
 
-    m, c = least_squares([life_exp, gdp_log])
+    m, c = least_squares([life_exp, log_gdp])
 
     # model predictions on transformed data
+    log_gdp_preds = []
+    # predictions converted back to original scale
     gdp_preds = []
-    # list for plotting model predictions on top of untransformed GDP. For this, we will need to transform the model's predicitons.
-    gdp_preds_transformed = []
     for x in life_exp:
-        y_pred = m * x + c
-        gdp_preds.append(y_pred)
+        log_gdp_pred = m * x + c
+        log_gdp_preds.append(log_gdp_pred)
         # FIXME: Uncomment the below line of code and fill in the blank
-#         y_pred = math._______
-        y_pred = math.exp(y_pred)
-        gdp_preds_transformed.append(y_pred)
+#         gdp_pred = _____(log_gdp_pred)
+        # SOLUTION
+        gdp_pred = math.exp(log_gdp_pred)
+        gdp_preds.append(gdp_pred)
 
-    # Plot both the transformed and untransformed data 
-    make_regression_graph(life_exp, gdp_log, gdp_preds, ['Life Expectancy', 'log(GDP)'])
-    make_regression_graph(life_exp, gdp, gdp_preds_transformed, ['Life Expectancy', 'GDP'])
+    # plot both the transformed and untransformed data
+    make_regression_graph(life_exp, log_gdp, log_gdp_preds, ['Life Expectancy', 'log(GDP)'])
+    make_regression_graph(life_exp, gdp, gdp_preds, ['Life Expectancy', 'GDP'])
 
+    # typically it's best to measure error in terms of the original data scale
     train_error = measure_error(gdp_preds, gdp)
     print("Train RMSE =", format(train_error,'.5f'))
 ~~~
