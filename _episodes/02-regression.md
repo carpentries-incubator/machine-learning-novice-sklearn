@@ -401,6 +401,32 @@ data.head()
 ~~~
 {: .language-python}
 
+Let's check out how GDP changes with life expectancy with a simple scatterplot.
+
+~~~
+import matplotlib.pyplot as plt
+plt.scatter(data['Life Expectancy'], data['GDP'])
+plt.xlabel('Life Expectancy')
+plt.ylabel('GDP');
+~~~
+{: .language-python}
+
+Clearly, this is not a linearly relationship. Let's see what how log(GDP) changes with life expectancy.
+
+We can use `apply()` to run a function on all elements of a pandas series (alternatively np.log() can be used directly on a pandas series)
+~~~
+import math
+data['GDP'].apply(math.log) 
+~~~
+{: .language-python}
+
+~~~
+plt.scatter(data['Life Expectancy'], data['GDP'].apply(math.log))
+plt.xlabel('Life Expectancy')
+plt.ylabel('log(GDP)');
+~~~
+{: .language-python}
+
 ### Model GDP vs Life Expectancy
 Review the `process_lifeExpt_gdp_data()` function found in `regression_helper_functions.py`. Review the FIXME tags found in the function and try to fix them. Afterwards, use this function to model life-expectancy versus GDP for the year 1980.
 ~~~
@@ -426,7 +452,7 @@ def process_lifeExpt_gdp_data(gdp_file, life_expectancy_file, year):
         y_pred = math.exp(y_pred)
         gdp_preds_transformed.append(y_pred)
 
-    # plot both the transformed and untransformed data
+    # Plot both the transformed and untransformed data 
     make_regression_graph(life_exp, gdp_log, gdp_preds, ['Life Expectancy', 'log(GDP)'])
     make_regression_graph(life_exp, gdp, gdp_preds_transformed, ['Life Expectancy', 'GDP'])
 
@@ -444,12 +470,13 @@ process_lifeExpt_gdp_data("data/worldbank-gdp.csv",
 ~~~
 {: .language-python}
 
-On average, our model over or underestimates GDP by 14233.73. GDP is predicted to grow by .128 for each year added to life.
+On average, our model over or underestimates GDP by 8741.12499. GDP is predicted to grow by .127 for each year added to life.
 
 > ## Removing outliers from the data
 > The correlation of GDP and life expectancy has a few big outliers that are probably increasing the error rate on this model. These are typically countries with very high GDP and sometimes not very high life expectancy. These tend to be either small countries with artificially high GDPs such as Monaco and Luxemborg or oil rich countries such as Qatar or Brunei. Kuwait, Qatar and Brunei have already been removed from this data set, but are available in the file worldbank-gdp-outliers.csv. Try experimenting with adding and removing some of these high income countries to see what effect it has on your model's error rate.
 > Do you think its a good idea to remove these outliers from your model?
 > How might you do this automatically?
+> 
 {: .challenge}
 
 {% include links.md %}
