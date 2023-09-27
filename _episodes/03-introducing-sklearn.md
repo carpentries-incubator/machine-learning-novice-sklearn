@@ -147,11 +147,113 @@ equation of the form y = a + bx + cx^2 + dx^3 etc. The more terms we add to the 
 Scikit-learn includes a polynomial modelling tool as part of its pre-processing library which we'll need to add to our list of imports.
 
 1. Add the following line of code to the top of regression_helper_functions(): `import sklearn.preprocessing as skl_pre`
-2. Review the process_life_expectancy_data_poly() function
+2. Review the process_life_expectancy_data_poly() function and fix the FIXME tags
 3. Fit a linear model to a 5-degree polynomial transformation of x (dates). For a 5-degree polynomial applied to one feature (dates), we will get six new features or predictors: [1, x, x^2, x^3, x^4, x^5]
 
 ~~~
 import sklearn.preprocessing as skl_pre
+~~~
+{: .language-python}
+
+Fix the FIXME tags.
+~~~
+def process_life_expectancy_data_poly(degree: int, 
+                                      filename: str, 
+                                      country: str, 
+                                      train_data_range: Tuple[int, int], 
+                                      test_data_range: Optional[Tuple[int, int]] = None) -> None:
+    """
+    Model and plot life expectancy over time for a specific country using polynomial regression.
+
+    Args:
+        degree (int): The degree of the polynomial regression.
+        filename (str): The CSV file containing the data.
+        country (str): The name of the country for which the model is built.
+        train_data_range (Tuple[int, int]): A tuple specifying the range of training data years (min_date, max_date).
+        test_data_range (Optional[Tuple[int, int]]): A tuple specifying the range of test data years (min_date, max_date).
+
+    Returns:
+        None: The function displays plots but does not return a value.
+    """
+
+    # Extract date range used for fitting the model
+    min_date_train = train_data_range[0]
+    max_date_train = train_data_range[1]
+    
+    # Read life expectancy data
+    df = pd.read_csv(filename, index_col="Life expectancy")
+
+    # get the data used to estimate line of best fit (life expectancy for specific country across some date range)
+    # we have to convert the dates to strings as pandas treats them that way
+    y_train = df.loc[country, str(min_date_train):str(max_date_train)]
+    
+    # create a list with the numerical range of min_date to max_date
+    # we could use the index of life_expectancy but it will be a string
+    # we need numerical data
+    x_train = list(range(min_date_train, max_date_train + 1))
+    
+    # This code will convert our list data into numpy arrays (N rows, 1 column)
+    x_train = np.array(x_train).reshape(-1, 1)
+    y_train = np.array(y_train).reshape(-1, 1)
+    
+    # Generate a new feature matrix consisting of all polynomial combinations of the features with degree less than or equal to the specified degree. For example, if an input sample is two dimensional and of the form [a, b], the degree-2 polynomial features are [1, a, b, a^2, ab, b^2]. 
+    # for a 5-degree polynomial applied to one feature (dates), we will get six new features: [1, x, x^2, x^3, x^4, x^5]
+    polynomial_features = None # FIXME: initialize polynomial features, [1, x, x^2, x^3, ...]
+    polynomial_features = skl_pre.PolynomialFeatures(degree=degree)
+    
+    x_poly_train = None # FIXME:  apply polynomial transformation to training data
+    x_poly_train = polynomial_features.fit_transform(x_train)        
+
+    print('x_train.shape', x_train.shape)
+    print('x_poly_train.shape', x_poly_train.shape)
+
+    # Calculate line of best fit using sklearn.
+    regression = None # fit regression model
+    regression = skl_lin.LinearRegression().fit(x_poly_train, y_train)  
+
+    # Get model predictions for test data
+    y_train_pred = regression.predict(x_poly_train)
+    
+    # Calculate model train set error   
+    train_error = math.sqrt(skl_metrics.mean_squared_error(y_train, y_train_pred))
+
+    print("Train RMSE =", format(train_error,'.5f'))
+    if test_data_range is None:
+        make_regression_graph(x_train.tolist(), 
+                              y_train.tolist(), 
+                              y_train_pred.tolist(), 
+                              ['Year', 'Life Expectancy'])
+    
+    # Test RMSE
+    if test_data_range is not None:
+        min_date_test = test_data_range[0]
+        if len(test_data_range)==1:
+            max_date_test=min_date_test
+        else:
+            max_date_test = test_data_range[1]
+            
+        # index data
+        x_test = list(range(min_date_test, max_date_test + 1))
+        y_test = df.loc[country, str(min_date_test):str(max_date_test)]
+        
+        # convert to numpy array 
+        x_test = np.array(x_test).reshape(-1, 1)
+        y_test = np.array(y_test).reshape(-1, 1)
+        
+        # transform x data
+        x_poly_test = polynomial_features.fit_transform(x_test)
+        
+        # get predictions on transformed data
+        y_test_pred = regression.predict(x_poly_test)
+        
+        # measure error
+        test_error = math.sqrt(skl_metrics.mean_squared_error(y_test, y_test_pred))
+        print("Test RMSE =", format(test_error,'.5f'))
+        
+        # plot train and test data along with line of best fit 
+        make_regression_graph(x_train.tolist(), y_train.tolist(), y_train_pred.tolist(),
+                              ['Year', 'Life Expectancy'], 
+                              x_test.tolist(), y_test.tolist(), y_test_pred.tolist())
 ~~~
 {: .language-python}
 
