@@ -38,48 +38,64 @@ it with other tests to decide on the best combination.
 
 ### K-means with Scikit Learn
 
-To perform a k-means clustering with Scikit learn we first need to import the sklearn.cluster module.
-
-~~~
-import sklearn.cluster as skl_cluster
-~~~
-{: .language-python}
-
 For this example, we're going to use scikit learn's built in random data blob generator instead of using an external dataset. For this we'll also need the `sklearn.datasets.samples_generator` module.
+
+We can then create some random blobs using the make_blobs function. The `n_samples` argument sets how many points we want to use in all of our blobs. `cluster_std` sets the standard deviation of the points, the smaller this value the closer together they will be. `centers` sets how many clusters we'd like. `random_state` is the initial state of the random number generator, by specifying this we'll get the same results every time we run the program. If we don't specify a random state then we'll get different points every time we run. This function returns two things, an array of data points and a list of which cluster each point belongs to.
 
 ~~~
 import sklearn.datasets as skl_datasets
+data, cluster_ids = skl_datasets.make_blobs(n_samples=800, cluster_std=0.5, centers=4, random_state=1)
+
 ~~~
 {: .language-python}
 
-Now let's create some random blobs using the make_blobs function. The `n_samples` argument sets how many points we want to use in all of our blobs. `cluster_std` sets the standard deviation of the points, the smaller this value the closer together they will be. `centers` sets how many clusters we'd like. `random_state` is the initial state of the random number generator, by specifying this we'll get the same results every time we run the program. If we don't specify a random state then we'll get different points every time we run. This function returns two things, an array of data points and a list of which cluster each point belongs to.
-
+Check the data's shape and contents
 ~~~
-data, cluster_id = skl_datasets.make_blobs(n_samples=400, cluster_std=0.75, centers=4, random_state=1)
-~~~
-{: .language-python}
-
-Now that we have some data we can go ahead and try to identify the clusters using K-means. First, we need to initialise the KMeans module and tell it how many clusters to look for. Next, we supply it some data via the fit function, in much the same we did with the regression functions earlier on. Finally, we run the predict function to find the clusters.
-
-~~~
-Kmean = skl_cluster.KMeans(n_clusters=4)
-Kmean.fit(data)
-clusters = Kmean.predict(data)
+import numpy as np
+print(np.shape(data)) # x and y positions for 800 datapoints generated from 4 cluster centers
+print(cluster_ids) # each datapoint belongs to 1 of 4 clusters. Each cluster has 100 datapoints
 ~~~
 {: .language-python}
 
-The data can now be plotted to show all the points we randomly generated. To make it clearer which cluster points have been classified to we can set the colours (the c parameter) to use the `clusters` list that was returned
-by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster as. These are stored as a list called `cluster_centers_` inside the `Kmean` object. Let's go ahead and plot the points from the clusters, colouring them by the output from the K-means algorithm, and also plot the centres of each cluster as a red X.
-
+Plot the data
 ~~~
 import matplotlib.pyplot as plt
-plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0, c=clusters)
-for cluster_x, cluster_y in Kmean.cluster_centers_:
-    plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
+plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0)
 plt.show()
 ~~~
 {: .language-python}
 
+Now that we have some data we can go ahead and try to identify the clusters using K-means. 
+1. To perform a k-means clustering with Scikit learn we first need to import the sklearn.cluster module. 
+2. Then, we need to initialise the KMeans module and tell it how many clusters to look for. 
+3. Next, we supply it some data via the fit function, in much the same we did with the regression functions earlier on. 
+4. Finally, we run the predict function to find the clusters.
+
+~~~
+import sklearn.cluster as skl_cluster
+Kmean = skl_cluster.KMeans(n_clusters=4, random_state=0)
+Kmean.fit(data)
+model_preds = Kmean.predict(data)
+print(model_preds)
+~~~
+{: .language-python}
+
+The data can now be plotted according to cluster assignment. To make it clearer which cluster points have been classified to we can set the colours (the c parameter) to use the `clusters` list that was returned
+by the predict function. The Kmeans algorithm also lets us know where it identified the centre of each cluster as. These are stored as a list called `cluster_centers_` inside the `Kmean` object. Let's go ahead and plot the points from the clusters, colouring them by the output from the K-means algorithm, and also plot the centres of each cluster as a red X.
+
+~~~
+plt.scatter(data[:, 0], data[:, 1], s=5, linewidth=0, c=model_preds)
+for cluster_x, cluster_y in Kmean.cluster_centers_:
+    plt.scatter(cluster_x, cluster_y, s=100, c='r', marker='x')
+~~~
+{: .language-python}
+
+### Advantages of Kmeans
+- Simple algorithm, fast to compute. A good choice as the first thing to try when attempting to cluster data.
+- Suitable for large datasets due to its low memory and computing requirements.
+
+### Key limitation of K-Means by itself
+- Requires number of clusters to be known in advance. In practice, we often don't know the true number of clusters. How can we assess the quality of different clustering results?
 
 ~~~
 import sklearn.cluster as skl_cluster
@@ -105,7 +121,7 @@ plt.show()
 > multi-dimensional spaces.
 {: .callout}
 
-### Limitations of K-Means
+#### Limitations of K-Means
 
 * Requires number of clusters to be known in advance
 * Struggles when clusters have irregular shapes
@@ -115,11 +131,34 @@ plt.show()
 ![An example of kmeans failing on non-linear cluster boundaries](../fig/kmeans_concentric_circle.png)
 
 
-### Advantages of K-Means
+#### Advantages of K-Means
 
 * Simple algorithm, fast to compute. A good choice as the first thing to try when attempting to cluster data.
 * Suitable for large datasets due to its low memory and computing requirements.
 
+### Cluster Quality Metrics
+1. Run below code and explain review the plots generated
+2. Review meas_plot_silhouette_scores() script noting sections to calculate silhouette score
+
+~~~
+from clustering_helper_functions import meas_plot_silhouette_scores
+meas_plot_silhouette_scores(data, cluster_ids)
+~~~
+{: .language-python}
+
+> ## Exercise: Generate new blobs and review cluster quality
+> Using the make_blobs function, generate a new dataset containing four clusters and a cluster_std equal to 1. Can we still determine the correct number of clusters using the silhouette score? What happens if you increase the std even further (e.g., 3.5)?
+> > ## Solution
+> > ~~~
+> > data, cluster_ids = skl_datasets.make_blobs(n_samples=800, cluster_std=1, centers=4, random_state=1)
+> > meas_plot_silhouette_scores(data, cluster_ids)
+> > ~~~
+> > {: .language-python}
+> > 
+> > Wither a higher standard deviation, the silhouette score tells us to select N=2 as the number of clusters. When clustering real-world datasets, this is a common problem. Oftentimes, researchers have to come up with clever evaluation metrics that are customized for their research application (e.g., using background knowledge to determine the likely number of clusters, deciding if each cluster should be of a certain size, etc.). Alternatively, new features can be measured in hopes that those features will produce separable clusters. Sometimes, we have to accept the harsh reality that clustering may not be a viable option for our data or research questions.
+> > 
+> {: .solution}
+{: .challenge}
 
 > ## Exercise: K-Means with overlapping clusters
 > Adjust the program above to increase the standard deviation of the blobs (the cluster_std parameter to make_blobs) and increase the number of samples (n_samples) to 4000.
@@ -160,7 +199,7 @@ plt.show()
 
 ## Spectral Clustering
 
-Spectral clustering is a technique that attempts to overcome the linear boundary problem of k-means clustering.
+The key limitation of K-means is that it requires clusters be linearly separable. Not all data will take this form. Spectral clustering is a technique that attempts to overcome the linear boundary problem of k-means clustering.
 It works by treating clustering as a graph partitioning problem, its looking for nodes in a graph with a small distance between them. See [this](http://www.cvl.isy.liu.se:82/education/graduate/spectral-clustering/SC_course_part1.pdf) introduction to Spectral Clustering if you are interested in more details about how spectral clustering works.
 
 Here is an example of using spectral clustering on two concentric circles
@@ -180,9 +219,13 @@ additional dimension. This has the downside of being more computationally expens
 Lets try out using Scikit Learn's spectral clustering. To make the concentric circles in the above example we need to use the make_circles function in the sklearn.datasets module. This works in a very similar way to the make_blobs function we used earlier on.
 
 ~~~
-import sklearn.datasets as skl_data
+# create two clusters; a larger circle surrounding a smaller circle in 2d.
+circles, circles_clusters = skl_datasets.make_circles(n_samples=400, noise=.01, random_state=0)
 
-circles, circles_clusters = skl_data.make_circles(n_samples=400, noise=.01, random_state=0)
+# plot the data, colouring it by cluster
+plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0.1, c=circles_clusters,cmap='flag')
+plt.title('True Clusters')
+plt.show()
 ~~~
 {: .language-python}
 
@@ -196,17 +239,15 @@ The SpectralClustering class combines the fit and predict functions into a singl
 
 ~~~
 labels = model.fit_predict(circles)
+plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0, c=labels, cmap='flag')
+plt.title('Spectral Clustering')
+plt.show()
 ~~~
 {: .language-python}
 
-Here is the whole program combined with the kmeans clustering for comparison. Note that this produces two figures, to view both of them use the "Inline" graphics terminal inside the Python console instead of the "Automatic" method which will open a window and only show you one of the graphs.
+Let's see how KMeans compares on this dataset.
 
 ~~~
-import sklearn.cluster as skl_cluster
-import sklearn.datasets as skl_data
-
-circles, circles_clusters = skl_data.make_circles(n_samples=400, noise=.01, random_state=0)
-
 # cluster with kmeans
 Kmean = skl_cluster.KMeans(n_clusters=2)
 Kmean.fit(circles)
@@ -214,16 +255,21 @@ clusters = Kmean.predict(circles)
 
 # plot the data, colouring it by cluster
 plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0.1, c=clusters,cmap='flag')
-plt.show()
-
-# cluster with spectral clustering
-model = skl_cluster.SpectralClustering(n_clusters=2, affinity='nearest_neighbors', assign_labels='kmeans')
-labels = model.fit_predict(circles)
-plt.scatter(circles[:, 0], circles[:, 1], s=15, linewidth=0, c=labels, cmap='flag')
+plt.title('KMeans')
 plt.show()
 ~~~
 {: .language-python}
 
+#### Runtime comparison of KMeans vs spectral clustering
+~~~
+from clustering_helper_functions import compare_KMeans_SpectralClustering
+num_clusters = 4
+data, cluster_ids = skl_datasets.make_blobs(n_samples=15000, cluster_std=1.5, centers=num_clusters, random_state=1)
+compare_KMeans_SpectralClustering(data, cluster_ids, num_clusters)
+~~~
+{: .language-python}
+
+Observe: spectral clustering becomes much slower for larger datasets. Its time complexity is O(n^3), where n is the number of input data points.
 
 > ## Comparing k-means and spectral clustering performance
 > Modify the program we wrote in the previous exercise to use spectral clustering instead of k-means, save it as a new file.
