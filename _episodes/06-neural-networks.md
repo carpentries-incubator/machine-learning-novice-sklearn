@@ -171,319 +171,170 @@ data, labels = skl_data.fetch_openml('mnist_784', version=1, return_X_y=True)
 ~~~
 {: .language-python}
 
-This creates two arrays of data, one called `data` which contains the image data and the other `labels` that contains the labels for those images which will tell us which digit is in the image. A common convention is to call the data `X` and the labels `y`.
+This creates two arrays of data, one called `data` which contains the image data and the other `labels` that contains the labels for those images which will tell us which digit is in the image. A common convention is to call the data `X` and the labels `y`
+
+~~~
+print(data.shape)
+data.head()
+~~~
+{: .language-python}
 
 As neural networks typically want to work with data that ranges between 0 and 1.0 we need to normalise our data to this range. Python has a shortcut which lets us divide the entire data array by 255 and store the result, we can simply do:
-
 ~~~
 data = data / 255.0
 ~~~
 {: .language-python}
 
-instead of writing a loop ourselves to divide every pixel by 255. Although the final result is the same and will take about the same (possibly a little less, it might do some clever optimisations) amount of computation.
+Let us take 90% of the data for training and 10% for testing, so we will use the first 63,000 samples in the dataset as the training data and the last 7,000 as the test data. We can split these using a slice operator.
+
+~~~
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=.10, random_state=42, stratify=labels)
+print(X_train.shape)
+print(X_test.shape)
+~~~
+{: .language-python}
 
 Now we need to initialise a neural network, scikit learn has an entire library `sklearn.neural_network` for this and the `MLPClassifier` class handles multi-layer perceptrons. This network takes a few parameters including the size of the hidden layer, the maximum number of training iterations we're going to allow, the exact algorithm to use, if we'd like verbose output about what the training is doing and the initial state of the random number generator.
 
 In this example we specify a multi-layer perceptron with 50 hidden nodes, we allow a maximum of 50 iterations to train it, we turn on verbose output to see what's happening and initialise the random state to 1 so that we always get the same behaviour.
 
-~~~
-import sklearn.neural_network as skl_nn
-mlp = skl_nn.MLPClassifier(hidden_layer_sizes=(50,), max_iter=50, verbose=1, random_state=1)
-~~~
-{: .language-python}
-
-We now have a neural network but we have not done any training of it yet. Before training, let us split our dataset into two parts, a training set which we will use to train the classifier and a test set which we will use to see how well the training is working. By using different data for the two, we can help show, we have not only trained a network which works just with the data it was trained on, this is known as over-fitting and can end up creating models which do not "generalise" or work with data other than their training data.
-
-Typically, 10 to 20% of the data will be used as training data. Let us see how big our dataset is to decide how many samples we want to train with. The `describe` attribute in Pandas will tell us how many rows our data has:
-
-~~~
-print(data.describe)
-~~~
-{: .language-python}
-
-This tells us we have 70,000 rows in the dataset.
-
-~~~
-<bound method NDFrame.describe of        pixel1  pixel2  pixel3  pixel4  pixel5  pixel6  pixel7  pixel8  pixel9  pixel10  ...  pixel775  pixel776  pixel777  pixel778  pixel779  pixel780  pixel781  pixel782  pixel783  pixel784
-0         0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-1         0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-2         0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-3         0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-4         0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-...       ...     ...     ...     ...     ...     ...     ...     ...     ...      ...  ...       ...       ...       ...       ...       ...       ...       ...       ...       ...       ...
-69995     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-69996     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-69997     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-69998     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-69999     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0      0.0  ...       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
-
-[70000 rows x 784 columns]>
-~~~
-{: .output}
-
-Let us take 90% of the data for training and 10% for testing, so we will use the first 63,000 samples in the dataset as the training data and the last 7,000 as the test data. We can split these using a slice operator.
-
-~~~
-data_train = data[0:63000]
-labels_train = labels[0:63000]
-data_test = data[63001:]
-labels_test = labels[63001:]
-~~~
-{: .language-python}
-
 Now let us go ahead and train the network. This line will take about one minute to run. We do this by calling the `fit` function inside the `mlp` class instance. This needs two arguments the data itself and the labels showing what class each item should be classified to.
 
-
 ~~~
-mlp.fit(data_train,labels_train)
-~~~
-{: .language-python}
-
-Finally, let us score the accuracy of our network against both the original training data and the test data. If the training had converged to the point where each iteration of training was not improving the accuracy, then the accuracy of the training data should be 1.0 (100%).
-
-~~~
-print("Training set score", mlp.score(data_train, labels_train))
-print("Testing set score", mlp.score(data_test, labels_test))
-~~~
-{: .language-python}
-
-Here is the complete program:
-
-
-~~~
-import matplotlib.pyplot as plt
-import sklearn.datasets as skl_data
 import sklearn.neural_network as skl_nn
-
-data, labels = skl_data.fetch_openml('mnist_784', version=1, return_X_y=True)
-data = data / 255.0
-
-
-mlp = skl_nn.MLPClassifier(hidden_layer_sizes=(50,), max_iter=50, verbose=1, random_state=1)
-
-data_train = data[0:63000]
-labels_train = labels[0:63000]
-
-data_test = data[63001:]
-labels_test = labels[63001:]
-
-mlp.fit(data_train, labels_train)
-print("Training set score", mlp.score(data_train, labels_train))
-print("Testing set score", mlp.score(data_test, labels_test))
+mlp = skl_nn.MLPClassifier(hidden_layer_sizes=(50), max_iter=50, verbose=1, random_state=1)
+mlp.fit(X_train,y_train)
 ~~~
 {: .language-python}
 
+Finally, let us score the accuracy of our network against both the original training data and the test data. If the training had converged to the point where each iteration of training was not improving the accuracy, then the accuracy of the training data should be 1.0 (100%). In scikit-learn, the score method for classifiers like MLPClassifier returns the accuracy of the classifier on the given test data and labels. Specifically, it computes the accuracy, which is the ratio of correctly classified samples to the total number of samples in the test dataset.
+
+~~~
+print("Training set score", mlp.score(X_train, y_train))
+print("Testing set score", mlp.score(X_test, y_test))
+~~~
+{: .language-python}
 
 ### Prediction using a multi-layer perceptron
 
 Now that we have trained a multi-layer perceptron, we can give it some input data and ask it to perform a prediction. In this case, our input data is a 28x28 pixel image, which can also be represented as a 784-element list of data. The output will be a number between 0 and 9 telling us which digit the network thinks we have supplied. The `predict` function in the `MLPClassifier` class can be used to make a prediction. Let us try using the first digit from our test set as an example.
 
-Before we can pass it to the predictor, we have to extract one of the digits from the test set. We can use `iloc` on the dataframe to get hold of the first element in the test set. In order to present it to the predictor, we have to turn it into a numpy array which has the dimensions of 1x784 instead of 28x28. We can then call the `predict` function with this array as our parameter. This will return an array of predictions (as it could have been given multiple inputs), the first element of this will be the predicted digit. You may get a warning stating "X does not have valid feature names", this is because we didn't encode feature names into our X (digit images) data.
+Before we can pass it to the predictor, we have to extract one of the digits from the test set. We can use `iloc` on the dataframe to get hold of the first element in the test set. In order to present it to the predictor, we have to turn it into a numpy array which has the dimensions of 1x784 instead of 28x28. We can then call the `predict` function with this array as our parameter. This will return an array of predictions (as it could have been given multiple inputs), the first element of this will be the predicted digit. You may get a warning stating "X does not have valid feature names", this is because we didn't encode feature names into our X (digit images) data. We can now verify if the prediction is correct by looking at the corresponding item in the `y_test` array.
 
 ~~~
-test_digit = data_test.iloc[0].to_numpy().reshape(1,784)
+index = 0
+test_digit = X_test.iloc[index].to_numpy().reshape(1,784)
 test_digit_prediciton = mlp.predict(test_digit)[0]
 print("Predicted value",test_digit_prediciton)
+print("Actual value",y_test.iloc[index])
 ~~~
 {: .langugage-python}
 
-
-We can now verify if the prediction is correct by looking at the corresponding item in the `labels_test` array.
-
-~~~
-print("Actual value",labels_test.iloc[0])
-~~~
-{: .language-python}
-
 This should be the same value which is being predicted.
-
-
-> ## Changing the learning parameters
-> There are several parameters which control the training of the data. One of these is called the learning rate, increasing this can reduce how many learning iterations we need. But make it too large and we will end up overshooting.
-> Try tweaking this parameter by adding the parameter `learning_rate_init`, the default value of this is 0.001. Try increasing it to around 0.1.
-{: .challenge}
-
-> ## Using your own handwriting
-> Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be grayscale and 28 x 28 pixels.
->
-> Try and draw a digit (0-9) in the image and save it into your code directory.
->
-> The code below loads the image (called digit.png, change to whatever your file is called) using the OpenCV library. Some Anaconda installations need this installed either through the package manager or by running the command: `conda install -c conda-forge opencv ` from the anaconda terminal.
->
-> OpenCV assumes that images are 3 channel red, green, blue and we have to convert to one channel grayscale with `cvtColor`.
->
-> We also need to normalise the image by dividing each pixel by 255.
->
-> To verify the image, we can plot it by using OpenCV's `imshow` function (we could also use Matplotlib's `matshow` function).
->
-> To check what digit it is, we can pass it into `mlp.predict`, but we have to convert it from a 28x28 array to a one dimensional 784-byte long array with the `reshape` function.
->
-> Did it correctly classify your hand(mouse) writing? Try a few images.
-> If you have time try drawing images on a touch screen or taking a photo of something you have really written by hand. Remember that you will have to resize it to be 28x28 pixels.
-> ~~~
-> import cv2
-> import matplotlib.pyplot as plt
-> digit = cv2.imread("digit.png")
-> digit_gray = cv2.cvtColor(digit, cv2.COLOR_BGR2GRAY)
-> digit_norm = digit_gray/255.0
-> cv2.imshow("Normalised Digit",digit_norm)
-> print("Your digit is",mlp.predict(digit_norm.reshape(1,784)))
-> ~~~
-> {: .language-python}
-{: .challenge}
 
 ## Measuring Neural Network performance
 
 We have now trained a neural network and tested prediction on a few images. This might have given us a feel for how well our network is performing, but it would be much more useful to have a more objective measure. Since recognising digits is a classification problem, we can measure how many predictions were correct in a set of test data. As we already have a test set of data with 7,000 images let us use that and see how many predictions the neural network has got right. We will loop through every image in the test set, run it through our predictor and compare the result with the label for that image. We will also keep a tally of how many images we got right and see what percentage were correct.
 
-~~~
-correct=0
-
-for row in data_test.iterrows():
-    # image contains a tuple of the row number and image data
-    image = row[1].to_numpy().reshape(1,784)
-
-    prediction = mlp.predict(image)[0]
-    actual = labels_test[row[0]]
-
-    if prediction == actual:
-        correct = correct + 1
-
-print((correct/len(data_test))*100)
-~~~
-{: .language-python}
-
 ### Confusion Matrix
-
-We now know what percentage of images were correctly classified, but we don't know anything about the distribution of that across our different classes (the digits 0 to 9 in this case). A more powerful technique is known as a confusion matrix. Here we draw a grid with each class along both the x and y axis. The x axis is the actual number of items in each class and the y axis is the predicted number. In a perfect classifier there will be a diagonal line of values across the grid moving from the top left to bottom right corresponding to the number in each class and all other cells will be zero. If any cell outside of the diagonal is non-zero then it indicates a miss-classification. Scikit Learn has a function called `confusion_matrix` in the `sklearn.metrics` class which can display a confusion matrix for us. It will need two inputs, an array showing how many items were in each class for both the real data and the classifications. We already have the real data in the labels_test array, but we need to build it for the classifications by classifying each image (in the same order as the real data) and storing the result in another array.
+From earlier, know what percentage of images were correctly classified, but we don't know anything about the distribution of that across our different classes (the digits 0 to 9 in this case). A more powerful technique is known as a confusion matrix. Here we draw a grid with each class along both the x and y axis. The x axis is the actual number of items in each class and the y axis is the predicted number. In a perfect classifier there will be a diagonal line of values across the grid moving from the top left to bottom right corresponding to the number in each class and all other cells will be zero. If any cell outside of the diagonal is non-zero then it indicates a miss-classification. Scikit Learn has a function called `confusion_matrix` in the `sklearn.metrics` class which can display a confusion matrix for us. It will need two inputs, an array showing how many items were in each class for both the real data and the classifications. We already have the real data in the labels_test array, but we need to build it for the classifications by classifying each image (in the same order as the real data) and storing the result in another array.
 
 ~~~
 from sklearn.metrics import confusion_matrix
-predictions = []
+import seaborn as sns
 
-for image in data_test.iterrows():
+preds = []
+
+for image in X_test.iterrows():
     # image contains a tuple of the row number and image data
     image = image[1].to_numpy().reshape(1,784)
-    predictions.append(mlp.predict(image)[0])
+    preds.append(mlp.predict(image)[0])
 
-confusion_matrix(labels_test,predictions)
+cm = confusion_matrix(y_test,preds)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=False)
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.title('Confusion Matrix')
+plt.show()
 ~~~
 {: .language-python}
 
-> ## A better way to plot a confusion matrix
-> The `ConfusionMatrixDisplay` class in the `sklearn.metrics` package can create a graphical representation of a confusion matrix with colour coding to highlight how many items are in each cell. This colour coding can be useful when working with very large numbers of classes.
-> Try and use the `from_predictions()` method in the `ConfusionMatrixDisplay` class to display a graphical confusion matrix.
->
-> > ## Solution
-> > ~~~
-> > from sklearn.metrics import ConfusionMatrixDisplay
-> > ConfusionMatrixDisplay.from_predictions(labels_test,predictions)
-> > ~~~
-> > {: .language-python}
-> {: .solution}
-{: .challenge}
-
-
-## Cross Validation
-
-Previously we split the data into training and test sets. But what happens if the test set includes important features we want to train on that happen to be missing in the training set? We are having to throw away part of our data to use in the testing set.
-
-Cross validation runs the training/testing multiple times but splits the data in a different way each time. This way all of the data gets used both for training and testing. We can use multiple iterations of training with different data in each set to eventually include the entire dataset.
-
-example list
-
-[1,2,3,4,5,6,7,8]
-
-train = 1,2,3,4,5,6
-test = 7,8
-
-train = 1,2,3,4,7,8
-test = 5,6
-
-train = 1,2,5,6,7,8
-test = 3,4
-
-train = 3,4,5,6,7,8
-test = 1,2
-
-(generate an image of this)
-
-### Cross Validation code example
-
-The `sklearn.model_selection` module provides support for doing k fold cross validation in scikit-learn. It can automatically partition our data for cross validation.
-
-Let us import this and call it `skl_msel`
+### Changing the learning rate hyperparameter
+There are several hyperparameters which control the training of the data. One of these is called the learning rate, increasing this can reduce how many learning iterations we need. But make it too large and we will end up overshooting. Try tweaking this parameter by adding the parameter `learning_rate_init`, the default value of this is 0.001. Try increasing it to around 0.1.
 
 ~~~
-import sklearn.model_selection as skl_msel
-~~~
-{: .language-python}
+mlp2 = skl_nn.MLPClassifier(hidden_layer_sizes=(50), max_iter=50, verbose=1, random_state=1, learning_rate_init=0.1)
 
-Now we can choose how many ways we would like to split our data, three or four are common choices.
+mlp2.fit(X_train,y_train)
 
-~~~
-kfold = skl_msel.KFold(4)
+print("Training set score", mlp2.score(X_train, y_train))
+print("Testing set score", mlp2.score(X_test, y_test))
 ~~~
 {: .language-python}
 
 
-Now we can loop through our data and test on each combination. The `kfold.split` function returns two variables and we will have our for loop work through both of them. The train variable will contain a list of which items (by index number) we are currently using to train and the test one will contain the list of which items we are going to test on.
+
+### Using cross-validation to determing optimal hyperparameter value. 
+Here, we use a train/test/validation split in order to assess how different values of the learning rate hyperparameter impact model performance.
+
+The K-fold cross-validation procedure works as follows. We first split our data into training and test sets as usual. Then, or each possible value of the hyperparameter being tested...
+1. We take our training data and split it into K equal-sized subsets (called folds).
+2. We use K-1 of the folds for training the model, and the remaining fold for assessing the model's performance after training. This remaining fold is known as the validation set.
+3. We repeat step 2 for each possible validation set (K total) and their associated training sets (the folds that were not left out)
+
+After completing these steps, we can look at how the validation error varies with different values of the hyperparameter. We select the hyperparameter value / model that has the lowest validation error.
+
+Finally, we train a model using all of the training data and hyperparameter value that was selected. Afterwards, we get a final assessment of the model's generalizeability by measuring its error on the test set. It is critical that the test set is not involved in the model selection process — otherwise you risk being overly optimistic about your model's ability to generalize.
+
 
 ~~~
-for (train, test) in kfold.split(data):
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.neural_network import MLPClassifier
+import numpy as np
+
+# Load your dataset and labels here (e.g., data and labels are loaded into X and y)
+
+# Split the data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(data, labels, test_size=.10, random_state=42, stratify=labels)
+
+# Define a range of learning rate values to explore
+learning_rates = [0.001, 0.01, 0.1]
+
+# Initialize a dictionary to store cross-validation results
+cv_results = {}
+
+# Perform 4-fold cross-validation for each learning rate
+for learning_rate in learning_rates:
+    mlp = MLPClassifier(hidden_layer_sizes=(100, 100), max_iter=3, learning_rate_init=learning_rate, random_state=42)
+    scores = cross_val_score(mlp, X_train, y_train, cv=2, scoring='accuracy')
+    cv_results[learning_rate] = scores.mean()
+
+# Find the optimal learning rate based on cross-validation results
+optimal_learning_rate = max(cv_results, key=cv_results.get)
+optimal_score = cv_results[optimal_learning_rate]
+
+print("Optimal Learning Rate:", optimal_learning_rate)
+print("Optimal Cross-Validation Score:", optimal_score)
+
+# Train the final model using the optimal learning rate on the combined train + validation set
+final_X_train = np.vstack((X_train, X_validation))
+final_y_train = np.hstack((y_train, y_validation))
+
+final_model = MLPClassifier(hidden_layer_sizes=(100, 100), max_iter=1000, learning_rate_init=optimal_learning_rate, random_state=42)
+final_model.fit(final_X_train, final_y_train)
+
+# Assess the model on the held-out test set
+test_score = final_model.score(X_test, y_test)
+print("Test Set Score (Generalization Performance):", test_score)
+
 ~~~
 {: .language-python}
 
-Now inside the loop, we can select the data by doing `data_train = data.iloc[train]` and `labels_train = labels.iloc[train]`. In some versions of Python/Pandas/Scikit Learn, you might be able to do `data_train = data[train]` and `labels_train = labels[train]`. This is a useful Python shorthand which will use the list of indices from `train` to select which items from `data` and `labels` we use. We can repeat this process with the test set.
-
-~~~
-    data_train = data.iloc[train]
-    labels_train = labels.iloc[train]
-
-    data_test = data.iloc[test]
-    labels_test = labels.iloc[test]
-~~~
-{: .language-python}
-
-
-Finally, we need to train the classifier with the selected training data and then score it against the test data. The scores for each set of test data should be similar.
-
-~~~
-    mlp.fit(data_train,labels_train)
-    print("Testing set score", mlp.score(data_test, labels_test))
-~~~
-{: .language-python}
-
-
- Once we have established that the cross validation was ok, we can go ahead and train using the entire dataset by doing `mlp.fit(data,labels)`.
-
- Here is the entire example program:
-
-~~~
-import matplotlib.pyplot as plt
-import sklearn.datasets as skl_data
-import sklearn.neural_network as skl_nn
-import sklearn.model_selection as skl_msel
-
-data, labels = skl_data.fetch_openml('mnist_784', version=1, return_X_y=True)
-data = data / 255.0
-
-mlp = skl_nn.MLPClassifier(hidden_layer_sizes=(50,), max_iter=50, random_state=1)
-
-kfold = skl_msel.KFold(4)
-
-for (train, test) in kfold.split(data):
-    data_train = data.iloc[train]
-    labels_train = labels.iloc[train]
-
-    data_test = data.iloc[test]
-    labels_test = labels.iloc[test]
-    mlp.fit(data_train,labels_train)
-    print("Training set score", mlp.score(data_train, labels_train))
-    print("Testing set score", mlp.score(data_test, labels_test))
-mlp.fit(data,labels)
-~~~
-{: .language-python}
+### Optimizing multiple hyperparameters
+If you want to optimize multiple hyperparameters at once, look into sklearn's GridSearchCV function. This will allow you to perform cross-validation across many hyperparameters at once. However, be careful not to go overboard in selecting too many possible hyperparameter combinations (esp. with complex models that take a while to train). It is typically better to investigate just a small subset of possible hyperparameter values so that you can find a good model (maybe not necessarily the BEST, but good enough) before the sun explodes.
 
 ## Deep Learning
 
