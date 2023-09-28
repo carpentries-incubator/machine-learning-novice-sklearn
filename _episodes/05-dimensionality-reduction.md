@@ -253,6 +253,7 @@ When making this decision, it's important to take into consideration how much of
 * Keeping as many as are needed to reach some reasonably high variance threshold (e.g., 50-99%). This method ensures you don't remove any important signal from the data.
 * Look for the inflection point in the cumulative variance plot where the slope drops off significantly (sometimes called the "elbow" or "scree" method)
 * Use data-driven methods to assess overfitting effects with different numbers of components. In a high-dimensional context, tossing out a little information can yield much better model performance.
+
 ~~~
 var_thresh = 50
 n_components = np.argmax(explained_variance_ratio_cumsum >= var_thresh) + 1
