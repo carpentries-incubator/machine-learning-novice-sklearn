@@ -165,7 +165,8 @@ print(X_train.shape)
 {: .language-python}
 
 ### Train a classifier
-Train a classifier. Here, we will use something called a multilayer perceptron (MLP) which is a type of artificial neural network. We'll dive more into the details behind this model in the next episode. For now, just know that this model has thousands of coefficients/weights that must be estimated from the data. The total number of coefs is calculated below:
+Train a classifier. Here, we will use something called a multilayer perceptron (MLP) which is a type of artificial neural network. We'll dive more into the details behind this model in the next episode. For now, just know that this model has thousands of coefficients/weights that must be estimated from the data. The total number of coefs is calculated below.
+
 ~~~
 n_features = X_train.shape[1]
 hidden_layer1_neurons = 64
@@ -175,6 +176,7 @@ total_coefficients = n_features * (hidden_layer1_neurons + 1) * (hidden_layer2_n
 total_coefficients
 ~~~
 {: .language-python}
+
 ~~~
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
