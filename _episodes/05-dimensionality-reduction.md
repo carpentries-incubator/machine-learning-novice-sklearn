@@ -62,7 +62,7 @@ print(type(y))
 ~~~
 {: .output}
 
-The range of pixel values in this dataset is indeed between 0 and 16, representing different shades of gray
+The range of pixel values in this dataset is between 0 and 16, representing different shades of gray
 ~~~
 print(X.min())
 X.max()
