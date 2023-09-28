@@ -27,7 +27,7 @@ Dimensionality reduction techniques are useful in the context of machine learnin
 
 The potential downsides of using dimensionality reduction techniques include:
 1. **Oversimplifications**: When we reduce dimensionality of our data, we are removing some information from the data. The goal is to remove only noise or uninteresting patterns of variation. If we remove too much, we may remove signal from the data and miss important/interesting relationships.
-2. **Complexity and Parameter Tuning**: Some dimensionality reduction techniques, such as t-SNE or autoencoders, can be complex to implement and require careful parameter tuning. Selecting the right parameters can be challenging and may not always lead to optimal results.
+2. **Complexity and parameter tuning**: Some dimensionality reduction techniques, such as t-SNE or autoencoders, can be complex to implement and require careful parameter tuning. Selecting the right parameters can be challenging and may not always lead to optimal results.
 3. **Interpretability**: Reduced-dimensional representations may be less interpretable than the original features. Understanding the meaning or significance of the new components or dimensions can be challenging, especially when dealing with complex models like neural networks.
 
 ## Dimensionality Reduction with Scikit-learn
