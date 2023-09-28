@@ -230,7 +230,8 @@ test_digit_prediciton = mlp.predict(test_digit)[0]
 print("Predicted value",test_digit_prediciton)
 print("Actual value",y_test.iloc[index])
 ~~~
-{: .langugage-python}
+{: .language-python}
+
 
 This should be the same value which is being predicted.
 
