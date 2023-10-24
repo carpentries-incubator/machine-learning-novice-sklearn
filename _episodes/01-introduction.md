@@ -3,112 +3,122 @@ title: "Introduction"
 teaching: 30
 exercises: 10
 questions:
-- What is machine learning?
+- "What is machine learning?"
+- "What are some useful machine learning techniques?"
 objectives:
-- "Gain an overview of what machine learning is."
+- "Gain an overview of what machine learning is and the techniques available."
 - "Understand how machine learning and artificial intelligence differ."
-- "Understand some common examples of machine learning being used in our daily lives"
+- "Be aware of some caveats when using Machine Learning."
+
 keypoints:
-- "Machine learning is a set of tools and techniques to find patterns in data."
-- "Some machine learning techniques are useful for predicting something given some input data."
-- "Some machine learning techniques are useful for classifying input data and working out which class it belongs to."
-- "Artificial Intelligence is a broader term that refers to making computers show human like intelligence."
-- "Some people say Artificial Intelligence to mean machine learning"
-- "All machine learning systems have some kinds of limitations"
+- "Machine learning is a set of tools and techniques that use data to make predictions."
+- "Artificial intelligence is a broader term that refers to making computers show human-like intelligence."
+- "Deep learning is a subset of machine learning."
+- "All machine learning systems have limitations to be aware of."
 ---
 
 # What is machine learning?
 
-Machine learning is a set of of tools and techniques which let us find patterns in data. This lesson will introduce you to a few of these techniques, but there are many more which we simply don't have time to cover here. 
+Machine learning is a set of techniques that enable computers to use data to improve their performance in a given task. This is similar in concept to how humans learn to make predictions based upon previous experience and knowledge. Machine learning encompasses a wide range of activities, but broadly speaking it can be used to: find trends in a dataset, classify data into groups or categories, make predictions based upon data, and even "learn" how to interact with an environment when provided with goals to achieve.
 
-The techniques breakdown into two broad categories, predictors and classifiers. Predictors are used to predict a value (or set of value) given a set of inputs, for example trying to predict the cost of something given the economic conditions and the cost of raw materials or predicting a country's GDP given its life expectancy. Classifiers try to classify data into different categories, for example deciding what characters are visible in a picture of some writing or if a message is spam or not. 
+### Artificial intelligence vs machine learning
 
+The term machine learning (ML) is often mentioned alongside artificial intelligence (AI) and deep learning (DL). Deep learning is a subset of machine learning, and machine learning is a subset of artificial intelligence.
 
-## Training Data
+AI is a broad term used to describe a system possessing a "general intelligence" that can be applied to solve a diverse range of problems, often mimicking the behaviour of intelligent biological systems. Modern attempts are getting close to fooling humans, but while there have been great advances in AI and ML research, human-like intelligence is only possible in a few specialist areas. Despite this technical definition, AI is often used to describe ML and DL systems in general.
 
-Many (but not all) machine learning systems "learn" by taking a series of input data and output data and using it to form a model. The maths behind the machine learning doesn't care what the data is as long as it can represented numerically or categorised. Some examples might include:
+ML refers to techniques where a computer can "learn" patterns in data, usually by being shown many training examples. While ML algorithms can learn to solve specific problems, or multiple similar problems, they are not considered to possess a general intelligence. ML algorithms often need hundreds or thousands of examples to learn a task and are confined to activities such as simple classifications. A human-like system could learn much quicker than this, and potentially learn from a single example by using it's knowledge of many other problems.
 
-* predicting a person's weight based on their height
-* predicting commute times given traffic conditions
-* predicting house prices given stock market prices
-* classifying if an email is spam or not
-* classifying what if an image contains a person or not
+DL is a particular field of machine learning where algorithms called neural networks are used to create highly complex systems. Large collections of neural networks are able to learn from vast quantities of data. Deep learning can be used to solve a wide range of problems, but it can also require huge amounts of input data and computational resources to train. 
 
+The image below shows the relationships between artificial intelligence, machine learning and deep learning.
 
-Typically we will need to train our models with hundreds, thousands or even millions of examples before they work well enough to do any useful predictions or classifications with them. 
-
-Some systems will do training as a one shot process which produces a model. Others might try to continuosly refine their training through the real use of the system and human feedback to it. For example every time you mark an email as spam or not spam you are probably contributing to further training of your spam filter's model. 
-
-### Types of output
-
-Predictors will usually involve a continuos scale of outputs, such as the price of something. Classifiers will tell you which class (or classes) are present in the data. For example a system to recognise hand writing from an input image will need to classify the output into one of a set of potential characters. 
+![An infographic showing some of the relationships between AI, ML, and DL](../fig/introduction/AI_ML_DL_differences.png)
+The image above is by Tukijaaliwa, CC BY-SA 4.0, via Wikimedia Commons, original source
 
 
-## Machine learning vs Artificial Intelligence
+### Machine learning in our daily lives
 
-Artificial Intelligence often means a system with general intelligence, able to solve any problem. AI is a very broad term. ML systems are usually trained to work on a particular problem. But they can appear to "learn" but isn't a general intelligence that can solve anything a human could. They often need hundreds or thousands of examples to learn and are confined to relatively simple classifications. A human like system could learn from a single example. 
+Machine learning has quickly become an important technology and is now frequently used to perform services we encounter in our daily lives. Here are just a few examples:
 
-Another definition of Artificial Intelligence dates back to the 1950s and Alan Turing's "Immitation Game". This said that we could consider a system intelligent when it could fool a human into thinking they were talking to another human when they were actually talking to a computer. Modern attempts at this are getting close to fooling humans, but we are still a very long way from a machine which has full human like intelligence.
+* Banks look for trends in transaction data to detect outliers that may be fraudulent
+* Email inboxes use text to decide whether an email is spam or not, and adjust their rules based upon how we flag emails
+* Travel apps use live and historic data to estimate traffic, travel times, and journey routes
+* Retail companies and streaming services use data to recommend new content we might like based upon our demographic and historical preferences
+* Image, object, and pattern recognition is used to identify humans and vehicles, capture text, generate subtitles, and much more
+* Self-driving cars and robots use object detection and performance feedback to improve their interaction with the world
 
-### Over Hyping of Artificial Intelligence and Machine Learning
-
-There is a lot of hype around machine learning and artificial intelligence right now, while many real advances have been made a lot of people are overstating what can be achieved. Recent advances in computer hardware and machine learning algorithms have made it a lot more useful, but its been around over 50 years. 
-
-The [Gartner Hype Cycle](https://www.gartner.com/en/research/methodologies/gartner-hype-cycle) looks at which technologies are being over-hyped. In the August 2018 analysis AI Platform as a service, Deep Learning chips, Deep learning neural networks, Conversational AI and Self Driving Cars are all shown near the "Peak of inflated expectations". 
-
-![The Gartner Hype Cycle curve](https://upload.wikimedia.org/wikipedia/commons/9/94/Gartner_Hype_Cycle.svg)
-[Image from Jeremy Kemp via Wikimedia](https://en.wikipedia.org/wiki/File:Gartner_Hype_Cycle.svg)
-
-# Applications of machine learning
-
-## Machine learning in our daily lives
-
- * [Image recognition](https://www.youtube.com/watch?v=eve8DkkVdhI)
- * [Object classification](https://www.youtube.com/watch?v=VOC3huqHrss)
- * [Character recognition](https://www.youtube.com/watch?v=ocB8uDYXtt0)
- * [Insurance payout predictions](https://www.youtube.com/watch?v=Q3vknDOy6Bs)
- * [Crime prediction](https://www.youtube.com/watch?v=7Ly7yAzLDjA)
-
-
-## Example of machine learning in research
- * [Classifying remote sensing images to find water.](https://pure.aber.ac.uk/portal/files/29140808/remotesensing_11_00593.pdf)
- * [Looking for breast cancer in medical images](https://pure.aber.ac.uk/portal/files/28421096/08003418.pdf)
- * [Predicting what cows are doing from GPS data](https://pure.aber.ac.uk/portal/files/6707587/JDS_DairyModel_Revised_2.docx)
-
-
-
-# Limitations of Machine Learning
-
-## Garbage In = Garbage Out
-
-There is a classic expression in Computer Science, "Garbage In = Garbage Out". This means that if the input data we use is garbage then the ouput will be too. If for instance we try to get a machine learning system to find a link between two unlinked variables then it might still come up with a model that attempts this, but the output will be meaningless. 
-
-## Bias or lacking training data
-
-Input data may also be lacking enough diversity to cover all examples. Due to how the data was obtained there might be biases in it that are then reflected in the ML system. For example if we collect data on crime reporting it could be biased towards wealthier areas where crimes are more likely to be reported. Historical data might not cover enough history.
-
-## Extrapolation
-
-We can only make reliable predictions about data which is in the same range as our training data. If we try to extrapolate beyond what was covered in the training data we'll probably get wrong answers. 
-
-## Over fitting
-
-Sometimes ML algorithms become over trained to their training data and struggle to work when presented with real data. In some cases it best not to train too many times. 
-
-## Inability to explain answers
-
-Many machine learning techniques will give us an answer given some input data even if that answer is wrong. Most are unable to explain any kind of logic in arriving at that answer. This can make diagnosing and even detecting problems with them difficult. 
-
-> ## Where have you encountered machine learning already?
->
-> Discuss with the person next to you:
->
-> 1. Where have I seen machine learning in use?
+> ## Where else have you encountered machine learning already?
+> Now that we have explored machine learning in a bit more detail, discuss with the person next to you:
+> 1. Where else have I seen machine learning in use?
 > 2. What kind of input data does that machine learning system use to make predictions/classifications?
 > 3. Is there any evidence that your interaction with the system contributes to further training?
 > 4. Do you have any examples of the system failing?
->
-> Write your answers into the etherpad.
 {: .challenge}
+
+
+### Limitations of machine learning
+
+Like any other systems machine learning has limitations, caveats, and "gotchas" to be aware of that may impact the accuracy and performance of a machine learning system.
+
+#### Garbage in = garbage out
+
+There is a classic expression in computer science: "garbage in = garbage out". This means that if the input data we use is garbage then the ouput will be too. If, for example, we try to use a machine learning system to find a link between two unlinked variables then it may well manage to produce a model attempting this, but the output will be meaningless. 
+
+#### Biases due to training data
+
+The performance of a ML system depends on the breadth and quality of input data used to train it. If the input data contains biases or blind spots then these will be reflected in the ML system. For example, if we collect data on public transport use from only high socioeconomic areas, the resulting input data may be biased due to a range of factors that may increase the likelihood of people from those areas using private transport vs public options.
+
+#### Extrapolation
+
+We can only make reliable predictions about data which is in the same range as our training data. If we try to extrapolate beyond the boundaries of the training data we cannot be confident in our results. As we shall see some algorithms are better suited (or less suited) to extrapolation than others.
+
+#### Over fitting
+
+Sometimes ML algorithms become over-trained and subsequently don't perform well when presented with real data. It's important to consider how many rounds of training a ML system has recieved and whether or not it may have become over-trained. 
+
+#### Inability to explain answers
+
+Machine learning techniques will return an answer based on the input data and model parameters even if that answer is wrong. Most systems are unable to explain the logic used to arrive at that answer. This can make detecting and diagnosing problems difficult. 
+
+
+# Getting started with Scikit-Learn
+
+### About Scikit-Learn
+
+[Scikit-Learn](http://github.com/scikit-learn/scikit-learn) is a python package designed to give access to well-known machine learning algorithms within Python code, through a clean application programming interface (API). It has been built by hundreds of contributors from around the world, and is used across industry and academia.
+
+Scikit-Learn is built upon Python's [NumPy (Numerical Python)](http://numpy.org) and [SciPy (Scientific Python)](http://scipy.org) libraries, which enable efficient in-core numerical and scientific computation within Python. As such, Scikit-Learn is not specifically designed for extremely large datasets, though there is [some work](https://github.com/ogrisel/parallel_ml_tutorial) in this area. For this introduction to ML we are going to stick to processing small to medium datasets with Scikit-Learn, without the need for a graphical processing unit (GPU).
+
+Like any other Python package, we can import Scikit-Learn and check the package version using the following Python commands:
+
+~~~
+import sklearn
+print('scikit-learn:', sklearn.__version__)
+~~~
+{: .language-python}
+
+### Representation of Data in Scikit-learn
+
+Machine learning is about creating models from data: for that reason, we'll start by discussing how data can be represented in order to be understood by the computer.
+
+Most machine learning algorithms implemented in scikit-learn expect data to be stored in a two-dimensional array or matrix. The arrays can be either numpy arrays, or in some cases scipy.sparse matrices. The size of the array is expected to be [n_samples, n_features]
+
+* n_samples: The number of samples. A sample can be a document, a picture, a sound, a video, an astronomical object, a row in database or CSV file, or whatever you can describe with a fixed set of quantitative traits.
+* n_features: The number of features (variables) that can be used to describe each item in a quantitative manner. Features are generally real-valued, but may be boolean or discrete-valued in some cases.
+
+![Types of Machine Learning](../fig/introduction/sklearn_input.png)
+Figure from the [Python Data Science Handbook](https://github.com/jakevdp/PythonDataScienceHandbook)
+
+If we want our ML models to make predictions or classifications, we also provide "labels" as our expected "answers/results". The model will then be trained on the input features to try and match our provided labels.
+
+# What will we cover today?
+
+This lesson will introduce you to some of the key concepts and sub-domains of ML such as supervised learning, unsupervised learning, and neural networks.
+
+The figure below provides a nice overview of some of the sub-domains of ML and the techniques used within each sub-domain. We recommend checking out the Scikit-Learn [webpage](https://scikit-learn.org/stable/index.html) for additional examples of the topics we will cover in this lesson. We will cover topics highlighted in blue: classical learning techniques such as regression, classification, clustering, and dimension reduction, as well as ensemble methods and a brief introduction to neural networks using perceptrons.
+
+![Types of Machine Learning](../fig/introduction/ML_summary.png)
+[Image from Vasily Zubarev via their blog](https://vas3k.com/blog/machine_learning/) with modifications in blue to denote lesson content.
 
 {% include links.md %}
