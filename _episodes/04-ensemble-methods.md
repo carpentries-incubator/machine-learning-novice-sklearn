@@ -97,46 +97,6 @@ print("test size", X_test.shape)
 ~~~
 {: .language-python}
 
-For comparison with our Random Forest example we'll also create a single decision tree estimator, like we did previously, then find out the score and visualise the classification space using this decision tree. 
-
-~~~
-from sklearn.tree import DecisionTreeClassifier
-
-# define our model
-tree = DecisionTreeClassifier()
-
-# train our model
-tree.fit(X_train, y_train)
-
-# test our model
-tree.predict(X_test)
-print(tree.score(X_test, y_test))
-~~~
-{: .language-python}
-
-If we think back to the classification session, the decision tree trained using two parameters overfitted the data. By visualising the classification space for body mass and bill length we can easily see regions that are overfitting to single points. 
-
-~~~
-from sklearn.inspection import DecisionBoundaryDisplay
-import matplotlib.pyplot as plt
-
-# define two features to visualise
-f1 = feature_names[0]
-f2 = feature_names[3]
-
-# redifine 
-tree_2d = DecisionTreeClassifier()
-tree_2d.fit(X_train[[f1, f2]], y_train)
-
-d = DecisionBoundaryDisplay.from_estimator(tree_2d, X_train[[f1, f2]])
-
-sns.scatterplot(X_train, x=f1, y=f2, hue=y_train, palette="husl")
-plt.show()
-~~~
-{: .language-python}
-
-![decision tree clf space](../fig/EM_dt_clf_space.png)
-
 We'll now take a look how we can use ensemble methods to perform a classification task such as identifying penguin species! We're going to use a Random forest classifier available in scikit-learn which is a widely used example of a bagging approach.
 
 Random forests are built on decision trees and can provide another way to address over-fitting. Rather than classifying based on one single decision tree (which could overfit the data), an average of results of many trees can be derived for more robust/accurate estimates compared against single trees used in the ensemble.
@@ -227,7 +187,7 @@ For more details on this SKLearn dataset see [this link for details.](https://sc
 For the the purposes of learning how to create and use ensemble methods we are about to commit a cardinal sin of machine learning and blindly use this dataset without inspecting it any further.
 
 > ## Exercise: Investigate and visualise the dataset
-> For this episode we simply want to learn how to build and use an Ensemble rather than actually solve a regression problem. To build u your skills as an ML practitioner, investigate and visualise this dataset. What can you say about the dataset itself, and what can you summarise about about any potential relationships or prediction problems?
+> For this episode we simply want to learn how to build and use an Ensemble rather than actually solve a regression problem. To build up your skills as an ML practitioner, investigate and visualise this dataset. What can you say about the dataset itself, and what can you summarise about about any potential relationships or prediction problems?
 {: .challenge}
 
 Lets start by splitting the dataset into training and testing subsets:
@@ -276,14 +236,16 @@ from sklearn.linear_model import LinearRegression
 rf_reg = RandomForestRegressor(random_state=5)
 gb_reg = GradientBoostingRegressor(random_state=5)
 linear_reg = LinearRegression()
+voting_reg = VotingRegressor([("gb", rf_reg), ("rf", gb_reg), ("lr", linear_reg)])
 
-# fit estimators
+# fit voting estimator
+voting_reg.fit(X_train, y_train)
+
+# lets also train the individual models for comparison
 rf_reg.fit(X_train, y_train)
 gb_reg.fit(X_train, y_train)
 linear_reg.fit(X_train, y_train)
 
-voting_reg = VotingRegressor([("gb", rf_reg), ("rf", gb_reg), ("lr", linear_reg)])
-voting_reg.fit(X_train, y_train)
 ~~~
 {: .language-python}
 
