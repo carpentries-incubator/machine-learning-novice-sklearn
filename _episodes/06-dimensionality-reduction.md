@@ -43,66 +43,68 @@ features.head()
 
 As humans we are pretty good at object and pattern recognition. We can look at the images above, inspect the intensity and position pixels relative to other pixels, and pretty quickly make an accurate guess at what the image shows. As humans we spends much of our younger lives learning these spatial relations, and so it stands to reason that computers can also extract these relations. Let's see if it is possible to use unsupervised clustering techniques to pull out relations in our MNIST dataset of number images.
 
-As we did for previous datasets, let's have a quick glance at relationships between our features/pixels. We'll inspect the relationships between a few pixel features to look for any correlations:
 
-~~~
-import matplotlib.pyplot as plt
-import numpy as np
-
-print(features.iloc[0])
-image_1D = features.iloc[0]
-image_2D = np.array(image_1D).reshape(-1,8)
-
-plt.imshow(image_2D,cmap="gray_r")
-# these points are the pixels we will investigate
-# pixels 0,1,2,3 of row 4 of the image
-plt.plot([0,1,2,3],[4,4,4,4],"rx")
-plt.show()
-~~~
-{: .language-python}
-
-![SKLearn image with highlighted pixels](../fig/mnist_pairplot_pixels.png)
-
-~~~
-import seaborn as sns
-
-# make a temporary copy of data for plotting here only
-seaborn_data = features
-
-# add labels for pairplot color coding
-seaborn_data["labels"] = labels
-
-# make a short list of N features for plotting N*N figures
-# 4**2 = 16 plots, whereas 64**2 is over 4000!
-feature_subset = []
-for i in range(4):
-    feature_subset.append("pixel_"+str(i)+"_4")
-
-sns.pairplot(seaborn_data, vars=feature_subset, hue="labels", 
-             palette=sns.mpl_palette("Spectral", n_colors=10))
-~~~
-{: .language-python}
-
-![SKLearn image with highlighted pixels](../fig/mnist_pairplot.png)
-
-As we can see the dataset relations are far more complex than our previous examples. The histograms show that some numbers appear in those pixel positions more than others, but the `feature_vs_feature` plots are quite messy to try and decipher. There are gaps and patches of colour suggesting that there is some kind of structure there, but it's far harder to inspect than the penguin data. We can't easily see definitive clusters in our 2D representations, and we know our clustering algorithms will take a long time to try and crunch 64 dimensions at once, so let's see if we can represent our 64D data in fewer dimensions.
+> ## Exercise: Try to visually inspect the dataset and features for correlations
+> As we did for previous datasets, lets visually inspect relationships between our features/pixels. Try and investigate the following pixels for relations (written "row_column"): 0_4, 1_4, 2_4, and 3_4.
+> 
+> > ## Solution
+> > ~~~
+> > import matplotlib.pyplot as plt
+> > import numpy as np
+> > 
+> > print(features.iloc[0])
+> > image_1D = features.iloc[0]
+> > image_2D = np.array(image_1D).reshape(-1,8)
+> > 
+> > plt.imshow(image_2D,cmap="gray_r")
+> > # these points are the pixels we will investigate
+> > # pixels 0,1,2,3 of row 4 of the image
+> > plt.plot([0,1,2,3],[4,4,4,4],"rx")
+> > plt.show()
+> > ~~~
+> > {: .language-python}
+> >
+> > ![SKLearn image with highlighted pixels](../fig/mnist_pairplot_pixels.png)
+> > 
+> > ~~~
+> > import seaborn as sns
+> > 
+> > # make a temporary copy of data for plotting here only
+> > seaborn_data = features
+> > 
+> > # add labels for pairplot color coding
+> > seaborn_data["labels"] = labels
+> > 
+> > # make a short list of N features for plotting N*N figures
+> > # 4**2 = 16 plots, whereas 64**2 is over 4000!
+> > feature_subset = []
+> > for i in range(4):
+> >     feature_subset.append("pixel_"+str(i)+"_4")
+> > 
+> > sns.pairplot(seaborn_data, vars=feature_subset, hue="labels", 
+> >              palette=sns.mpl_palette("Spectral", n_colors=10))
+> > ~~~
+> > {: .language-python}
+> > 
+> > ![SKLearn image with highlighted pixels](../fig/mnist_pairplot.png)
+> > 
+> > As we can see the dataset relations are far more complex than our previous examples. The histograms show that some numbers appear in those pixel positions more than others, but the `feature_vs_feature` plots are quite messy to try and decipher. There are gaps and patches of colour suggesting that there is some kind of structure there, but it's far harder to inspect than the penguin data. We can't easily see definitive clusters in our 2D representations, and we know our clustering algorithms will take a long time to try and crunch 64 dimensions at once, so let's see if we can represent our 64D data in fewer dimensions.
+> > 
+> {: .solution}
+{: .challenge}
 
 # Dimensionality reduction with Scikit-Learn
 We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE). Both of these techniques are supported by Scikit-Learn.
 
 ### Principal Component Analysis (PCA)
 
-PCA works by rotating our original set of vectors/axes/features into their principal components i.e. the rotations, around the dataset mean value, that produces the largest variance for our data. There are as many components as there are dimensions, and each principal component is orthoganal to the others.
-
-The example below shows how the principal components are determined for a 2D dataset. The largest principal component is along the diagonal of the dataset, meaning the remaining principal is orthoganal to this one. Essentially, this is just a rotation of our axis until variance is maximised for that axis rotation. If we have more than 2 dimensions, then we order the principal components in descending variance order. 
-
-![SKLearn image with highlighted pixels](../fig/pca_2d.gif)
+PCA allows us to replace our 64 features with a smaller number of dimensional representations that retain the majority of our variance/relational data. Using Scikit-Learn lets apply PCA in a relatively simple way.
 
 For more in depth explanations of PCA please see the following links:
 * [https://builtin.com/data-science/step-step-explanation-principal-component-analysis](https://builtin.com/data-science/step-step-explanation-principal-component-analysis)
 * [https://scikit-learn.org/stable/modules/decomposition.html#pca](https://scikit-learn.org/stable/modules/decomposition.html#pca)
 
-PCA allows us to replace our 64 features with a smaller number of dimensional representations that retain the majority of our variance/relational data. Using Scikit-Learn lets apply PCA in a relatively simple way. Let's apply PCA to the MNIST dataset and retain the two most-major components: 
+Let's apply PCA to the MNIST dataset and retain the two most-major components: 
 
 ~~~
 from sklearn import decomposition
