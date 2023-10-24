@@ -1,7 +1,7 @@
 ---
 title: "Neural Networks"
-teaching: 0
-exercises: 0
+teaching: 20
+exercises: 30
 questions:
 - "What are Neural Networks?"
 - "How can we classify images using a neural network?"
