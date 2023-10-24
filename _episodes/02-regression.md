@@ -124,7 +124,7 @@ Then we'll define a function to make predictions using our trained model, and ca
 import math
 from sklearn.metrics import mean_squared_error
 
-def predict_linear_model(lin_regress, x_data):
+def predict_linear_model(lin_regress, x_data, y_data):
     # predict some values using our trained estimator/model
     # (in this case we predict our input data!)
     linear_data = lin_regress.predict(x_data)
@@ -157,7 +157,7 @@ We will be training a few Linear Regression models in this episode, so let's def
 def fit_predict_plot_linear(x, y):
     x_data, y_data = pre_process_linear(x, y)
     lin_regress = fit_a_linear_model(x_data, y_data)
-    linear_data = predict_linear_model(lin_regress, x_data)
+    linear_data = predict_linear_model(lin_regress, x_data, y_data)
     plot_linear_model(x_data, y_data, linear_data)
 
     return lin_regress
@@ -255,12 +255,12 @@ def fit_poly_model(x_poly, y_data):
     return poly_regress
 
 
-def predict_poly_model(poly_regress, x_poly):
+def predict_poly_model(poly_regress, x_poly, y_data):
     # predict some values using our trained estimator/model
     # (in this case - our input data)
     poly_data = poly_regress.predict(x_poly)
 
-    poly_error = math.sqrt(mean_squared_error(y_data,poly_data))
+    poly_error = math.sqrt(mean_squared_error(y_data, poly_data))
     print("poly error=", poly_error)
 
     return poly_data
@@ -276,7 +276,7 @@ def fit_predict_plot_poly(x, y):
     # Combine all of the steps
     x_poly, x_data, y_data = pre_process_poly(x, y)
     poly_regress = fit_poly_model(x_poly, y_data)
-    poly_data = predict_poly_model(poly_regress, x_poly)
+    poly_data = predict_poly_model(poly_regress, x_poly, y_data)
     plot_poly_model(x_data, poly_data)
 
     return poly_regress
@@ -376,8 +376,6 @@ dataset_1 = dataset[:146]
 x_data = dataset_1["body_mass_g"]
 y_data = dataset_1["bill_depth_mm"]
 
-import matplotlib.pyplot as plt
-
 trained_model = fit_predict_plot_linear(x_data, y_data)
 
 plt.xlabel("mass g")
@@ -393,15 +391,9 @@ Congratulations! We've taken our linear regression function and quickly created 
 Let's provide the model with all of the penguin samples and visually inspect how the linear regression model performs.
 
 ~~~
-x_data_all = dataset["body_mass_g"]
-y_data_all = dataset["bill_depth_mm"]
+x_data_all, y_data_all = pre_process_linear(dataset["body_mass_g"], dataset["bill_depth_mm"])
 
-x_data_all = np.array(x_data_all).reshape(-1,1)
-
-y_predictions = trained_model.predict(x_data_all)
-
-error = math.sqrt(mean_squared_error(y_data_all, y_predictions))
-print("penguin error=",error)
+y_predictions = predict_linear_model(trained_model, x_data_all, y_data_all)
 
 plt.scatter(x_data_all, y_data_all, label="all data")
 plt.scatter(x_data, y_data, label="training data")
