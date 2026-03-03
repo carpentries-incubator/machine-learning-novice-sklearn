@@ -315,9 +315,48 @@ Adjust the `degree=2` input variable for the `PolynomialFeatures` function to ch
 
 ### Solution
 
-MAYBE A FIGURE OR TWO. POTENTIALLY SOME CODE TO LOOP OVER POLYNOMIALS.
+```python
+poly_features = PolynomialFeatures(degree=n)
+```
+We can change the `n` on this line from 3 to any other integer, and re-run to get an nth-degree polynomial fit.
 
+It's also possible to plot multiple different polynomial fits on the same plot.
+Here, we fit 1st to 5th-degree polynomials (and set the background colour to grey, so they're easier to see):
 
+```python
+plt.scatter(x_data, y_data, color="lightgrey")
+
+for degree in range(1, 6):
+    # create an n-degree polynomial representation of our training data
+    n_poly_features = PolynomialFeatures(degree=degree)
+    x_n_poly = n_poly_features.fit_transform(x_data_subset)
+
+    # Define our estimator/model(s) and train our model
+    n_poly_regress = LinearRegression()
+    n_poly_regress.fit(x_n_poly, y_data_subset)
+
+    # make predictions using all data, pre-process data too
+    x_n_poly_all = n_poly_features.fit_transform(x_data)
+    n_poly_data = n_poly_regress.predict(x_n_poly_all)
+
+    n_poly_error = math.sqrt(mean_squared_error(y_data, n_poly_data))
+
+    plt.plot(
+        x_data, n_poly_data, "-",
+        label=f"degree={degree}, error={n_poly_error:.2f}"
+    )
+
+plt.xlabel("mass g")
+plt.ylabel("depth mm")
+plt.legend()
+plt.show()
+```
+
+![](fig/penguin_regression_poly_n.png){alt='Comparison of the regressions of our dataset for 1st to 5th-degree polynomials'}
+
+The 1st-degree polynomial is just the linear fit, and we can see that increasing the degree actually improves the error, up to a point!
+We could declare the 3rd-degree polynomial to be the 'best' model for the data, but in this case it is clear that it's not actually a 'best' in a **meaningful** sense.
+Most types of models can be tweaked to reduce the errors on their fit - it's important to plot your fits so you can recognise when a model simply isn't a good match.
 
 :::::::::::::::::::::::::
 
@@ -339,10 +378,53 @@ spline_features =  SplineTransformer(n_knots=3, degree=2)
 ```
 
 The above line replaces the `PolynomialFeatures` function. It takes in an additional argument `knots` compared to `PolynomialFeatures`.
-ADD LINES OR FIGURES TO EXPLORE THIS.
-SOME COMMENT ON FITS AND MODEL COMPARISON.
+Like before, we can try plotting for a range of knots on a single figure to show the fit:
+
+```python
+from sklearn.preprocessing import SplineTransformer
 
 
+plt.scatter(x_data, y_data, color="lightgrey")
+
+for knots in range(2, 6):
+    # create an spline representation of our training data
+    spline_features =  SplineTransformer(n_knots=knots, degree=2)
+    x_spline = spline_features.fit_transform(x_data_subset)
+
+    # Define our estimator/model(s) and train our model
+    spline_regress = LinearRegression()
+    spline_regress.fit(x_spline, y_data_subset)
+
+    # make predictions using all data, pre-process data too
+    x_spline_all = spline_features.fit_transform(x_data)
+    spline_data = spline_regress.predict(x_spline_all)
+
+    spline_error = math.sqrt(mean_squared_error(y_data, spline_data))
+
+    plt.plot(
+        x_data, spline_data, "-",
+        label=f"degree={degree}, knots={knots}, error={spline_error:.2f}"
+    )
+
+plt.xlabel("mass g")
+plt.ylabel("depth mm")
+plt.legend()
+plt.show()
+
+```
+![](fig/penguin_regression_spline_degree_2.png){alt='Comparison of the regressions of our dataset for 2-5 knot 2nd-degree splines'}
+
+We get more or less the same fit, and pattern in the fit, for a 2nd-degree polynomial as we increase the number of knots.
+What is actually happening is clearer if we reduce the degree down to 1:
+
+![](fig/penguin_regression_spline_degree_1.png){alt='Comparison of the regressions of our dataset for 2-5 knot 1st-degree splines'}
+
+As a 1st-degree polynomial is just a straight line, we can see that a spline is actually just a set of independent polynomial fits.
+Each fit ends on a 'knot', so a fit with `n` knots is evenly split into `n-1` different polynomials.
+
+We have done a very basic spline fit.
+More advanced spline fitting techniques try to match the gradients of the spline segments, to prevent abrupt changes of direction.
+However, for our data even a more advanced spline fit would not be a very appropriate model.
 
 :::::::::::::::::::::::::
 
