@@ -58,8 +58,10 @@ To activate the environment, run the following OS-specific commands in Terminal 
 :::::::: group-tab
 ### Windows + Git Bash
 `source intro_ml/Scripts/activate`
+
 ### Windows + Anaconda Prompt
 `intro_ml/Scripts/activate`
+
 ### Mac/Linux
 `source intro_ml/bin/activate`
 ::::::::
