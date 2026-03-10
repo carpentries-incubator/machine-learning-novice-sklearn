@@ -47,16 +47,22 @@ python3 -m venv intro_ml # mac/linux
 python -m venv intro_ml # windows
 ```
 
-> If you're on Linux and this doesn't work, you may need to install venv first. Try running `sudo apt-get install python3-venv` first, then `python3 -m venv intro_ml`
-> {: .info}
+:::::::: callout
+If you're on Linux and this doesn't work, you may need to install venv first. Try running `sudo apt-get install python3-venv` first, then `python3 -m venv intro_ml`
+::::::::
 
 ## Activate environment
 
 To activate the environment, run the following OS-specific commands in Terminal (Mac/Linux) or Git Bash (Windows) or Anaconda Prompt (Windows):
 
-- Windows + Git Bash: `source intro_ml/Scripts/activate`
-- Windows + Anaconda Prompt: `intro_ml/Scripts/activate`
-- Mac/Linux: `source intro_ml/bin/activate`
+:::::::: group-tab
+### Windows + Git Bash
+`source intro_ml/Scripts/activate`
+### Windows + Anaconda Prompt
+`intro_ml/Scripts/activate`
+### Mac/Linux
+`source intro_ml/bin/activate`
+::::::::
 
 ## Installing your prerequisites
 
@@ -66,34 +72,36 @@ Install the prerequisites:
 pip install numpy pandas matplotlib opencv-python scikit-learn scikit-image seaborn
 ```
 
-> ## Windows Subsystem for Linux
-> If you're using WSL, you will also need to `pip install` the `PyQT5` package in your virtual environment.
-> {: .warning}
+:::::::: caution
+## Windows Subsystem for Linux
+If you're using WSL, you will also need to `pip install` the `PyQT5` package in your virtual environment.
+::::::::
 
-> ## Using Juypter Notebooks
-> Juptyter notebooks are a popular and convenient way of doing exploratory data science.
-> If you'd like to use a notebook for the course, also `pip install` the `jupyter` package in your virtual environment.
->
-> Then, you can run Jupyter lab using:
-> ```bash
-> jupyter lab
-> ```
->
-> You should see an output like:
-> ```output
->
-> To access the server, open this file in a browser:
->     file:///home/smangham/.local/share/jupyter/runtime/jpserver-17093-open.html
-> Or copy and paste one of these URLs:
->     http://localhost:8888/lab?token=53f26924ce34afe93f042e7748fcf46975ebbfb21d4dfbbc
->     http://127.0.0.1:8888/lab?token=53f26924ce34afe93f042e7748fcf46975ebbfb21d4dfbbc
-> ```
->
-> Follow the instructions, and you should see a launching page that looks something like this:
-> [Jupyter landing page](fig/jupyter-landing.png)
-> The "Notebook" option will allow you to create a Jupyter Notebook.
-> {: .info}
+:::::::: callout
+## Using Juypter Notebooks
+Juptyter notebooks are a popular and convenient way of doing exploratory data science.
+If you'd like to use a notebook for the course, 
+also `pip install` the `jupyter` package in your virtual environment.
 
+Then, you can run Jupyter lab using:
+
+```bash
+jupyter lab
+```
+
+You should see an output like:
+```output
+To access the server, open this file in a browser:
+    file:///home/smangham/.local/share/jupyter/runtime/jpserver-17093-open.html
+Or copy and paste one of these URLs:
+    http://localhost:8888/lab?token=53f26924ce34afe93f042e7748fcf46975ebbfb21d4dfbbc
+    http://127.0.0.1:8888/lab?token=53f26924ce34afe93f042e7748fcf46975ebbfb21d4dfbbc
+```
+
+Follow the instructions, and you should see a launching page that looks something like this:
+![Jupyter landing page](fig/jupyter-landing.png)
+The "Notebook" option will allow you to create a Jupyter Notebook.
+::::::::
 
 ## Deactivating/activating environment
 
@@ -103,7 +111,3 @@ To deactivate your virtual environment, simply run `deactivate` in your terminal
 ## Fallback option: cloud environment
 
 If a local installation does not work for you, it is also possible to run this lesson in [Google colab](https://colab.research.google.com/). If you open a jupyter notebook there, the required packages are already pre-installed.
-
-
-
-
