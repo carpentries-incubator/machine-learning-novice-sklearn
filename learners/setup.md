@@ -56,14 +56,19 @@ If you're on Linux and this doesn't work, you may need to install venv first. Tr
 To activate the environment, run the following OS-specific commands in Terminal (Mac/Linux) or Git Bash (Windows) or Anaconda Prompt (Windows):
 
 :::::::: group-tab
+
 ### Windows + Git Bash
+
 `source intro_ml/Scripts/activate`
 
 ### Windows + Anaconda Prompt
+
 `intro_ml/Scripts/activate`
 
 ### Mac/Linux
+
 `source intro_ml/bin/activate`
+
 ::::::::
 
 ## Installing your prerequisites
