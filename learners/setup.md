@@ -63,12 +63,42 @@ To activate the environment, run the following OS-specific commands in Terminal 
 Install the prerequisites:
 
 ```bash
-pip install numpy pandas matplotlib opencv-python scikit-learn
+pip install numpy pandas matplotlib opencv-python scikit-learn scikit-image seaborn
 ```
+
+> ## Windows Subsystem for Linux
+> If you're using WSL, you will also need to `pip install` the `PyQT5` package in your virtual environment.
+> {: .warning}
+
+> ## Using Juypter Notebooks
+> Juptyter notebooks are a popular and convenient way of doing exploratory data science.
+> If you'd like to use a notebook for the course, also `pip install` the `jupyter` package in your virtual environment.
+>
+> Then, you can run Jupyter lab using:
+> ```bash
+> jupyter lab
+> ```
+>
+> You should see an output like:
+> ```output
+>
+> To access the server, open this file in a browser:
+>     file:///home/smangham/.local/share/jupyter/runtime/jpserver-17093-open.html
+> Or copy and paste one of these URLs:
+>     http://localhost:8888/lab?token=53f26924ce34afe93f042e7748fcf46975ebbfb21d4dfbbc
+>     http://127.0.0.1:8888/lab?token=53f26924ce34afe93f042e7748fcf46975ebbfb21d4dfbbc
+> ```
+>
+> Follow the instructions, and you should see a launching page that looks something like this:
+> [Jupyter landing page](fig/jupyter-landing.png)
+> The "Notebook" option will allow you to create a Jupyter Notebook.
+> {: .info}
+
 
 ## Deactivating/activating environment
 
 To deactivate your virtual environment, simply run `deactivate` in your terminal or prompt. If you close the terminal, Git Bash, or Conda Prompt without deactivating, the environment will automatically close as the session ends. Later, you can reactivate the environment using the "Activate environment" instructions above to continue working. If you want to keep coding in the same terminal but no longer need this environment, it's best to explicitly deactivate it. This ensures that the software installed for this workshop doesn't interfere with your default Python setup or other projects.
+
 
 ## Fallback option: cloud environment
 
