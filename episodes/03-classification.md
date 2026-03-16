@@ -30,7 +30,12 @@ As a rule of thumb for ML/DL modelling, it is best to start with a simple model 
 
 For this lesson we will limit our dataset to only numerical values such as bill\_length, bill\_depth, flipper\_length, and body\_mass while we attempt to classify species.
 
-The above table contains multiple categorical objects such as species. If we attempt to include the other categorical fields, island and sex, we might hinder classification performance due to the complexity of the data.
+The above table contains multiple categorical objects such as species. 
+If we attempt to include the other categorical fields, island and sex, 
+we might hinder classification performance due to the complexity of the data. 
+In addition, some variables may 'effectively' classify in a way that is not meaningful.
+s the penguin species are fairly geographically separated, including location might result in the classifier mostly just using location to identify the species.
+This is not helpful if we're trying to identify penguins that are out of place.
 
 ### Preprocessing our data
 
@@ -102,7 +107,7 @@ In order to better understand how a model might classify this data, we can first
 ```python
 import matplotlib.pyplot as plt
 
-fig01 = sns.scatterplot(X_train, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
+sns.scatterplot(X_train, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
 plt.show()
 ```
 
@@ -164,7 +169,14 @@ plt.show()
 
 ![](fig/e3_dt_2.png){alt='Decision tree for classifying penguins'}
 
+
 The first first question (`depth=1`) splits the training data into "Adelie" and "Gentoo" categories using the criteria `flipper_length_mm <= 206.5`, and the next two questions (`depth=2`) split the "Adelie" and "Gentoo" categories into "Adelie \& Chinstrap" and "Gentoo \& Chinstrap" predictions.
+
+The colour of each leaf in the tree shows the most likely classification, 
+with the intensity of that colour corresponding to how likely it is. 
+We can see that the first check, for short flipper length, gives a very likely classification of Gentoo.
+Even though that branch of the tree can also classify into Chinstrap or Adele, 
+looking at the number of samples for each leaf shows that Gentoo is much more likely.
 
 <!-- We can see from this that there's some very tortuous logic being used to tease out every single observation in the training set. For example, the single purple Gentoo node at the bottom of the tree. If we truncated that branch to the second level (Chinstrap), we'd have a little inaccuracy, a total of 9 non-Chinstraps in with 48 Chinstraps, but a less convoluted model.
 
@@ -187,11 +199,25 @@ clf.fit(X_train[[f1, f2]], y_train)
 
 d = DecisionBoundaryDisplay.from_estimator(clf, X_train[[f1, f2]])
 
-sns.scatterplot(X_train, x=f1, y=f2, hue=y_train, palette="husl")
+sns.scatterplot(
+  data=penguins.loc[X_train.index].sort_values("species"), 
+  x=f1, y=f2, hue="species"
+  )
 plt.show()
 ```
 
 ![](fig/e3_dt_space_2.png){alt='Classification space for our decision tree'}
+
+:::::::::: callout
+### Consistency & Randomness
+
+The colours of the estimator are based on the category names, in alphabetical order.
+However, the colours of the *scatter plot* are based on the category names, in the order they are encountered.
+As the training data is selected randomly, it is likely that the samples will not be in alphabetical order by species!
+
+In order to match up the colouring between the estimator and scatter points,
+to make the plot easier to read, we use the original dataframe, and just select the rows we used to train on.
+::::::::::::::::::
 
 
 :::::::::::::::::::::::::::::::::::::::  challenge
@@ -255,7 +281,7 @@ plot_tree(clf, class_names=class_names, feature_names=feature_names, filled=True
 plt.show()
 ```
 
-![](fig/e3_dt_6.png){alt='Simplified decision tree'}
+![](fig/e3_dt_5.png){alt='Simplified decision tree'}
 
 It looks like our decision tree has split up the training data into the correct penguin categories and more accurately than the `max_depth=2` model did, however it used some very specific questions to split up the penguins into the correct categories. 
 
@@ -274,7 +300,7 @@ sns.scatterplot(X_train, x=f1, y=f2, hue=y_train, palette='husl')
 plt.show()
 ```
 
-![](fig/e3_dt_space_6.png){alt='Classification space of the simplified decision tree'}
+![](fig/e3_dt_space_5.png){alt='Classification space of the simplified decision tree'}
 
 Earlier we saw that the `max_depth=2` model split the data into 3 simple bounding boxes, whereas for `max_depth=5` we see the model has created some very specific classification boundaries to correctly classify every point in the training data.
 
