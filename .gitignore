@@ -45,3 +45,7 @@ renv/sandbox/
 __pycache__
 _site
 .Rproj.user
+
+# VSCode files
+*.code-workspace
+.vscode/

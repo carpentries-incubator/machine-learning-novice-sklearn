@@ -41,7 +41,7 @@ from sklearn import manifold, decomposition, datasets
 def plots_labels(data, labels):
     tx = data[:, 0]
     ty = data[:, 1]
-    
+
     fig = plt.figure(1, figsize=(4, 4))
     plt.scatter(tx, ty, edgecolor='k', c=labels)
     plt.show()
@@ -61,7 +61,7 @@ def plot_clusters_labels(data, labels):
 
     # with labels
     fig = plt.figure(1, figsize=(5, 4))
-    plt.scatter(tx, ty, c=labels, cmap="nipy_spectral", 
+    plt.scatter(tx, ty, c=labels, cmap="nipy_spectral",
             edgecolor='k', label=labels)
     plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
     plt.show()
@@ -122,7 +122,7 @@ feature_subset = []
 for i in range(4):
     feature_subset.append("pixel_"+str(i)+"_4")
 
-sns.pairplot(seaborn_data, vars=feature_subset, hue="labels", 
+sns.pairplot(seaborn_data, vars=feature_subset, hue="labels",
              palette=sns.mpl_palette("Spectral", n_colors=10))
 ```
 
