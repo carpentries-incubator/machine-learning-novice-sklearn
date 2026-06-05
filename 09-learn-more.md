@@ -35,14 +35,15 @@ This [video](https://www.youtube.com/watch?v=qv6UVOQ0F44) shows a genetic algori
 - [Machine Learning for Everyone](https://vas3k.com/blog/machine_learning/) - A useful overview of many different machine learning techniques,
   all introduced in an easy to follow way.
 
-- [Google machine learning crash course](https://developers.google.com/machine-learning/crash-course/) - A quick course from Google on how to use
-  some of their machine learning products.
+- [Scikit Learn's MOOC](https://inria.github.io/scikit-learn-mooc/) - A MOOC (Massive Open Online Course) from Scikit Learn covering Scikit Learn in much more detail than this course!
 
-- [Facebook Field Guide to Machine Learning](https://research.fb.com/the-facebook-field-guide-to-machine-learning-video-series/) - A good
-  introduction to machine learning concepts from Facebook.
+- [Carpentries Deep Learning Course](https://carpentries-lab.github.io/deep-learning-intro/) - Another Carpentries course on deep learning using the Keras library.
 
-- [Amazon Machine Learning guide](https://docs.aws.amazon.com/machine-learning/latest/dg/amazon-machine-learning-key-concepts.html) - An
-  introduction to the key concepts in machine learning from Amazon.
+- [Carpentries Responsible Machine Learning Course](https://carpentries-incubator.github.io/machine-learning-responsible-python/) - A Carpentries course focusing on the ethics of machine learning.
+
+- [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course/) - A quick course from Google on how to use some of their machine learning products.
+
+- [Amazon Machine Learning guide](https://docs.aws.amazon.com/machine-learning/latest/dg/amazon-machine-learning-key-concepts.html) - An introduction to the key concepts in machine learning from Amazon.
 
 - [Azure AI](https://azure.microsoft.com/en-gb/overview/ai-platform/) - Microsoft's Cloud based AI platform.
 
