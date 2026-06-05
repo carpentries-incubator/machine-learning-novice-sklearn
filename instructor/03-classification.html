@@ -230,7 +230,6 @@
         <ul><li><a href="#classification">Classification</a></li>
 <li><a href="#training-testing-split">Training-testing split</a></li>
 <li><a href="#classification-using-a-decision-tree">Classification using a decision tree</a></li>
-<li><a href="#tuning-the-max_depth-hyperparameter">Tuning the <code>max_depth</code> hyperparameter</a></li>
 <li><a href="#classification-using-support-vector-machines">Classification using support vector machines</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -350,7 +349,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Supervised methods - Classification</h1>
-        <p>Last updated on 2026-02-04 |
+        <p>Last updated on 2026-06-05 |
 
         <a href="https://github.com/carpentries-incubator/machine-learning-novice-sklearn/edit/main/episodes/03-classification.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -381,7 +380,7 @@
 <h3 class="card-title">Objectives</h3>
 <ul><li>Use two different supervised methods to classify data.</li>
 <li>Learn about the concept of hyper-parameters.</li>
-<li>Learn to validate and ?cross-validate? models</li>
+<li>Learn to validate and cross-validate models</li>
 </ul></div>
 </div>
 </div>
@@ -609,7 +608,7 @@ We can see that rather than clean lines between species, the decision tree produ
 <div class="section level3">
 <h3 id="visualising-the-classification-space">Visualising the classification space<a class="anchor" aria-label="anchor" href="#visualising-the-classification-space"></a></h3>
 <p>We can visualise the classification space (decision tree boundaries)
-to get a more intuitive feel for what it is doing.Note that our 2D plot
+to get a more intuitive feel for what it is doing. Note that our 2D plot
 can only show two parameters at a time, so we will quickly visualise by
 training a new model on only 2 features:</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -628,12 +627,29 @@ training a new model on only 2 features:</p>
 <span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a>sns.scatterplot(X_train, x<span class="op">=</span>f1, y<span class="op">=</span>f2, hue<span class="op">=</span>y_train, palette<span class="op">=</span><span class="st">"husl"</span>)</span>
 <span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>plt.show()</span></code></pre>
 </div>
-<figure><img src="../fig/e3_dt_space_2.png" alt="Classification space for our decision tree" class="figure mx-auto d-block"></figure></div>
-</section><section><h2 class="section-heading" id="tuning-the-max_depth-hyperparameter">Tuning the <code>max_depth</code> hyperparameter<a class="anchor" aria-label="anchor" href="#tuning-the-max_depth-hyperparameter"></a></h2>
-<hr class="half-width"><p>Our decision tree using a <code>max_depth=2</code> is fairly simple
+<figure><img src="../fig/e3_dt_space_2.png" alt="Classification space for our decision tree" class="figure mx-auto d-block"></figure><div id="exercise-tuning-the-max_depth-hyperparameter" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="exercise-tuning-the-max_depth-hyperparameter" class="callout-inner">
+<h3 class="callout-title">Exercise: Tuning the max_depth
+hyperparameter</h3>
+<div class="callout-content">
+<p>Our decision tree using a <code>max_depth=2</code> is fairly simple
 and there are still some incorrect predictions in our final
-classifications. Let’s try varying the <code>max_depth</code>
-hyperparameter to see if we can improve our model predictions.</p>
+classifications. Try varying the <code>max_depth</code> hyperparameter
+to see if you can improve our model predictions.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div class="accordion-body">
 <!-- We can reduce the over-fitting of our decision tree model by limiting its depth, forcing it to use less decisions to produce a classification, and resulting in a simpler decision space. -->
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -658,11 +674,38 @@ hyperparameter to see if we can improve our model predictions.</p>
 <span id="cb9-18"><a href="#cb9-18" tabindex="-1" aria-label="code-block-9-18"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="../fig/e3_dt_overfit.png" alt="Performance of decision trees of various depths" class="figure mx-auto d-block"></figure><p>Here we can see that a <code>max_depth=2</code> performs slightly
-better on the test data than those with <code>max_depth &gt; 2</code>.
-This can seem counter intuitive, as surely more questions should be able
-to better split up our categories and thus give better predictions?</p>
-<p>Let’s reuse our fitting and plotting codes from above to inspect a
-decision tree that has <code>max_depth=5</code>:</p>
+better on the test data than those with
+<code>max_depth &gt; 2</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="exercise-why-do-deeper-trees-reduce-performance" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<span class="callout-header">Challenge</span>
+<div id="exercise-why-do-deeper-trees-reduce-performance" class="callout-inner">
+<h3 class="callout-title">Exercise: Why do deeper trees reduce
+performance?</h3>
+<div class="callout-content">
+<p>It can seem counter intuitive that making a deeper tree reduces
+performance, as surely more questions should be able to better split up
+our categories and thus give better predictions?</p>
+<p>Reuse the fitting and plotting code from above to inspect a decision
+tree that has <code>max_depth=5</code>. What differences do you see in
+this plot compared to the <code>max_depth=2</code> plot? What does this
+tell you about the tree trained on <code>max_depth=5</code>?</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
+  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
+</button>
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -676,8 +719,8 @@ decision tree that has <code>max_depth=5</code>:</p>
 <figure><img src="../fig/e3_dt_6.png" alt="Simplified decision tree" class="figure mx-auto d-block"></figure><p>It looks like our decision tree has split up the training data into
 the correct penguin categories and more accurately than the
 <code>max_depth=2</code> model did, however it used some very specific
-questions to split up the penguins into the correct categories. Let’s
-try visualising the classification space for a more intuitive
+questions to split up the penguins into the correct categories.</p>
+<p>By visualising the classification space we can get a more intuitive
 understanding:</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -700,9 +743,19 @@ to correctly classify every point in the training data.</p>
 <p>This is a classic case of over-fitting - our model has produced
 extremely specific parameters that work for the training data but are
 not representitive of our test data. Sometimes simplicity is better!</p>
-<blockquote>
-<h3 id="exercise-bias-variance-tradeoff-optional">Exercise:
-Bias-Variance tradeoff (optional)</h3>
+</div>
+</div>
+</div>
+</div>
+<div id="exercise-bias-variance-tradeoff-optional" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="exercise-bias-variance-tradeoff-optional" class="callout-inner">
+<h3 class="callout-title">Exercise: Bias-Variance tradeoff
+(optional)</h3>
+<div class="callout-content">
 <p>Typically, as we initially transition from simple to more complex
 models (e.g., depth of 1 -&gt; 2), we’ll see an increase in model
 performance (test set accuracy). However, beyond a certain point of
@@ -719,10 +772,10 @@ continue to add depth to our tree?</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a>max_depths <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">30</span>)) </span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1" aria-label="code-block-12-2"></a>accuracy <span class="op">=</span> []</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a><span class="cf">for</span> d <span class="kw">in</span> max_depths:</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a>  clf <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span>d, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1" aria-label="code-block-12-5"></a>  clf.fit(X_train, y_train)</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1" aria-label="code-block-12-6"></a>  acc <span class="op">=</span> clf.score(X_test, y_test)</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1" aria-label="code-block-12-7"></a>  accuracy.append((d, acc))</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a>   clf <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span>d, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1" aria-label="code-block-12-5"></a>   clf.fit(X_train, y_train)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1" aria-label="code-block-12-6"></a>   acc <span class="op">=</span> clf.score(X_test, y_test)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1" aria-label="code-block-12-7"></a>   accuracy.append((d, acc))</span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1" aria-label="code-block-12-8"></a></span>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1" aria-label="code-block-12-9"></a>acc_df <span class="op">=</span> pd.DataFrame(accuracy, columns<span class="op">=</span>[<span class="st">'depth'</span>, <span class="st">'accuracy'</span>])</span>
 <span id="cb12-10"><a href="#cb12-10" tabindex="-1" aria-label="code-block-12-10"></a></span>
@@ -800,7 +853,10 @@ code. How does this impact the ideal setting for depth level?</p>
 <span id="cb13-54"><a href="#cb13-54" tabindex="-1" aria-label="code-block-13-54"></a>plt.ylabel(<span class="st">'Accuracy'</span>)</span>
 <span id="cb13-55"><a href="#cb13-55" tabindex="-1" aria-label="code-block-13-55"></a>plt.show()</span></code></pre>
 </div>
-</blockquote>
+</div>
+</div>
+</div>
+</div>
 </section><section><h2 class="section-heading" id="classification-using-support-vector-machines">Classification using support vector machines<a class="anchor" aria-label="anchor" href="#classification-using-support-vector-machines"></a></h2>
 <hr class="half-width"><p>Next, we’ll look at another commonly used classification algorithm,
 and see how it compares. Support Vector Machines (SVM) work in a way
@@ -832,7 +888,7 @@ feature spaces without explicitly mapping the data.</li>
 high-dimensional data as the number of potential splits grows
 exponentially, leading to overfitting or underperformance.</li>
 </ul><ol start="2" style="list-style-type: decimal"><li>
-<strong>Accuracy over Interpretbaility</strong>:</li>
+<strong>Accuracy over Interpretability</strong>:</li>
 </ol><ul><li>
 <strong>Why SVM</strong>: SVMs are often considered black-box
 models, focusing on accuracy rather than interpretability.</li>
@@ -971,7 +1027,22 @@ that is appropriate for your problem and data trends!</p>
 <span class="callout-header">Key Points</span>
 <div class="callout-inner">
 <div class="callout-content">
-<ul><li>Classification requires labelled data (is supervised)</li>
+<ul><li>Classifiers built with supervised techniques require labelled data
+to train on.</li>
+<li>We usually split our data into training and test sets with 80% of
+the data used for training and 20% used to test it.</li>
+<li>We must be careful that our training and test sets have similar
+characteristics.</li>
+<li>Decision trees are a simple method of classification that can work
+well on simpler data.</li>
+<li>Hyper parameters are parameters which affect the behaviour of
+training a model.</li>
+<li>Tree depth in a decision tree is an example of a hyper
+parameter.</li>
+<li>Support vector machines work well on more complex data with
+non-linear boundaries.</li>
+<li>Support vector machines use a “kernel trick” to transition data into
+a higher dimensional space.</li>
 </ul></div>
 </div>
 </div>
@@ -1038,8 +1109,8 @@ that is appropriate for your problem and data trends!</p>
   "url": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/instructor/03-classification.html",
   "identifier": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/instructor/03-classification.html",
   "dateCreated": "2019-04-04",
-  "dateModified": "2026-02-04",
-  "datePublished": "2026-06-02"
+  "dateModified": "2026-06-05",
+  "datePublished": "2026-06-05"
 }
 
   </script><script>

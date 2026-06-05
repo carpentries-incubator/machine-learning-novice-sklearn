@@ -351,7 +351,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Neural Networks</h1>
-        <p>Last updated on 2026-02-04 |
+        <p>Last updated on 2026-06-05 |
 
         <a href="https://github.com/carpentries-incubator/machine-learning-novice-sklearn/edit/main/episodes/07-neural-networks.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -577,15 +577,14 @@ established and well known, the backpropagation algorithm. This
 algorithm is called back propagation because it takes the error
 calculated between an output of the network and the true value and takes
 it back through the network to update the weights. If you want to read
-more about back propagation, please see <a href="https://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf" class="external-link">this
-chapter</a> from the book “Neural Networks - A Systematic
-Introduction”.</p>
+more about back propagation, please see <a href="https://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/documents/1996/NeuralNetworks/neuron.pdf" class="external-link">chapter
+7</a> from the book “Neural Networks - A Systematic Introduction”.</p>
 </div>
 <div class="section level3">
 <h3 id="multi-layer-perceptrons-in-scikit-learn">Multi-layer perceptrons in Scikit-Learn<a class="anchor" aria-label="anchor" href="#multi-layer-perceptrons-in-scikit-learn"></a></h3>
 <p>We are going to build a multi-layer perceptron for recognising
 handwriting from images. Scikit-Learn includes some example handwriting
-data from the <a href="https://yann.lecun.com/exdb/mnist/" class="external-link">MNIST data
+data from the <a href="http://yann.lecun.com/exdb/mnist/" class="external-link">MNIST data
 set</a>, which is a dataset containing 70,000 images of hand-written
 digits. Each image is 28x28 pixels in size (784 pixels in total) and is
 represented in grayscale with values between zero for fully black and
@@ -673,9 +672,8 @@ to decide how many samples we want to train with.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>data.shape</span></code></pre>
 </div>
 <p>This tells us we have 70,000 rows in the dataset. Let us take 90% of
-the data for training and 10% for testing, so we will use the first
-63,000 samples in the dataset as the training data and the last 7,000 as
-the test data.</p>
+the data for training and 10% for testing, so we will use 63,000 samples
+in the dataset as the training data and 7,000 as the test data.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -802,21 +800,19 @@ increasing it to around 0.1.</p>
 <div class="callout-content">
 <p>Create an image using Microsoft Paint, the GNU Image Manipulation
 Project (GIMP) or <a href="https://jspaint.app/" class="external-link">jspaint</a>. The image
-needs to be grayscale and 28 x 28 pixels.</p>
+needs to be grayscale, 28 x 28 pixels and the background should be black
+and the text white.</p>
 <p>Try to draw a digit (0-9) in the image and save it into your code
 directory.</p>
 <p>The code below loads the image (called digit.png, change to whatever
-your file is called) using the OpenCV library. Some Anaconda
-installations need this installed either through the package manager or
-by running the command: <code>conda install -c conda-forge opencv</code>
-from the anaconda terminal.</p>
-<p>OpenCV assumes that images are 3 channel red, green, blue and we have
-to convert to one channel grayscale with <code>cvtColor</code>.</p>
-<p>We also need to normalise the image by dividing each pixel by
-255.</p>
-<p>To verify the image, we can plot it by using OpenCV’s
-<code>imshow</code> function (we could also use Matplotlib’s
-<code>matshow</code> function).</p>
+your file is called) using the scikit-image library.</p>
+<p>Scikit-image assumes that images are 3 channel red, green, blue and
+we have to convert to one channel grayscale with the
+<code>color.rgb2gray</code> function.</p>
+<p>We also need to normalise the image by dividing each pixel by 255, so
+it’s values are between 0 and 1 not 0 and 255.</p>
+<p>To verify the image, we can plot it by using Matplotlib’s
+<code>imshow</code> function.</p>
 <p>To check what digit it is, we can pass it into
 <code>mlp.predict</code>, but we have to convert it from a 28x28 array
 to a one dimensional 784-byte long array with the <code>reshape</code>
@@ -828,13 +824,14 @@ have to resize it to be 28x28 pixels.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a><span class="im">import</span> cv2</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1" aria-label="code-block-15-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a>digit <span class="op">=</span> cv2.imread(<span class="st">"digit.png"</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a>digit_gray <span class="op">=</span> cv2.cvtColor(digit, cv2.COLOR_BGR2GRAY)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a>digit <span class="op">=</span> ski.io.imread(<span class="st">"digit.png"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a>digit_gray <span class="op">=</span> ski.color.rgb2gray(digit)</span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1" aria-label="code-block-15-5"></a>digit_norm <span class="op">=</span> digit_gray<span class="op">/</span><span class="fl">255.0</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a>cv2.imshow(<span class="st">"Normalised Digit"</span>,digit_norm)</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1" aria-label="code-block-15-7"></a><span class="bu">print</span>(<span class="st">"Your digit is"</span>,mlp.predict(digit_norm.reshape(<span class="dv">1</span>,<span class="dv">784</span>)))</span></code></pre>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a>plt.imshow(<span class="st">"Normalised Digit"</span>,digit_norm)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1" aria-label="code-block-15-7"></a>plt.show()</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1" aria-label="code-block-15-8"></a><span class="bu">print</span>(<span class="st">"Your digit is"</span>,mlp.predict(digit_norm.reshape(<span class="dv">1</span>,<span class="dv">784</span>)))</span></code></pre>
 </div>
 </div>
 </div>
@@ -862,7 +859,7 @@ correct.</p>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1" aria-label="code-block-16-5"></a>    image <span class="op">=</span> row.reshape(<span class="dv">1</span>,<span class="dv">784</span>)</span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1" aria-label="code-block-16-6"></a></span>
 <span id="cb16-7"><a href="#cb16-7" tabindex="-1" aria-label="code-block-16-7"></a>    prediction <span class="op">=</span> mlp.predict(image)[<span class="dv">0</span>]</span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1" aria-label="code-block-16-8"></a>    actual <span class="op">=</span> Y_test[idx]</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1" aria-label="code-block-16-8"></a>    actual <span class="op">=</span> y_test[idx]</span>
 <span id="cb16-9"><a href="#cb16-9" tabindex="-1" aria-label="code-block-16-9"></a></span>
 <span id="cb16-10"><a href="#cb16-10" tabindex="-1" aria-label="code-block-16-10"></a>    <span class="cf">if</span> prediction <span class="op">==</span> actual:</span>
 <span id="cb16-11"><a href="#cb16-11" tabindex="-1" aria-label="code-block-16-11"></a>        correct <span class="op">=</span> correct <span class="op">+</span> <span class="dv">1</span></span>
@@ -1024,26 +1021,35 @@ It is very common to use cloud computing or high performance computing
 systems with multiple GPUs attached.</p>
 <p>Scikit-Learn is not really setup for deep learning. We will have to
 rely on other libraries. Common choices include Google’s TensorFlow,
-Keras, (Py)Torch or Darknet. There is, however, an interface layer
-between sklearn and tensorflow called skflow. A short example of using
-this layer can be found at <a href="https://www.kdnuggets.com/2016/02/scikit-flow-easy-deep-learning-tensorflow-scikit-learn.html" class="external-link uri">https://www.kdnuggets.com/2016/02/scikit-flow-easy-deep-learning-tensorflow-scikit-learn.html</a>.</p>
+Keras or (Py)Torch. There is, however, an interface layer between
+sklearn and tensorflow called skflow. A short example of using this
+layer can be found at <a href="https://www.kdnuggets.com/2016/02/scikit-flow-easy-deep-learning-tensorflow-scikit-learn.html" class="external-link uri">https://www.kdnuggets.com/2016/02/scikit-flow-easy-deep-learning-tensorflow-scikit-learn.html</a>.</p>
 <div class="section level3">
 <h3 id="cloud-apis">Cloud APIs<a class="anchor" aria-label="anchor" href="#cloud-apis"></a></h3>
 <p>Google, Microsoft, Amazon, and many other companys now have cloud
 based Application Programming Interfaces (APIs) where you can upload an
 image and have them return you the result. Most of these services rely
 on a large pre-trained (and often proprietary) neural network.</p>
-<blockquote>
-<h2 id="exercise-try-cloud-image-classification">Exercise: Try cloud
-image classification</h2>
+<div id="exercise-try-cloud-image-classification" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<span class="callout-header">Discussion</span>
+<div id="exercise-try-cloud-image-classification" class="callout-inner">
+<h3 class="callout-title">Exercise: Try cloud image classification</h3>
+<div class="callout-content">
 <p>Take a photo with your phone camera or find an image online of a
-common daily scene. Upload it to <a href="Google's%20Cloud%20Vision%20API">https://cloud.google.com/vision/</a>
+common daily scene. Upload it to <a href="https://cloud.google.com/vision/" class="external-link">Google’s Cloud Vision API</a>
 (scroll down to the “demo” section about 1/3rd of the way down the
-page). How many objects has it correctly classified? How many did it
-incorrectly classify? Another example is this instance of the YOLOv12
-image recognition neural network hosted by <a href="HuggingFace">https://huggingface.co/spaces/sunsmarterjieleaf/yolov12</a>.
-Try the same image here, how do the results compare to Google?</p>
-</blockquote>
+page).</p>
+<p>How many objects has it correctly classified? How many did it
+incorrectly classify?</p>
+<p>Another example is this instance of the YOLOv12 image recognition
+neural network hosted by <a href="https://huggingface.co/spaces/sunsmarterjieleaf/yolov12" class="external-link">HuggingFace</a>.</p>
+<p>Try the same image here, how do the results compare to Google?</p>
+</div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -1064,8 +1070,6 @@ algorithm. Scikit-learn includes an implementation of this
 algorithm.</li>
 <li>Training a neural network requires some training data to show the
 network examples of what to learn.</li>
-<li>To validate our training we split the training data into a training
-set and a test set.</li>
 <li>To ensure the whole dataset can be used in training and testing we
 can train multiple times with different subsets of the data acting as
 training/testing data. This is called cross validation.</li>
@@ -1138,8 +1142,8 @@ networks on powerful computers.</li>
   "url": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/instructor/07-neural-networks.html",
   "identifier": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/instructor/07-neural-networks.html",
   "dateCreated": "2019-04-04",
-  "dateModified": "2026-02-04",
-  "datePublished": "2026-06-02"
+  "dateModified": "2026-06-05",
+  "datePublished": "2026-06-05"
 }
 
   </script><script>

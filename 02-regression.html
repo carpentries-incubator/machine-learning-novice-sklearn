@@ -347,7 +347,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Supervised methods - Regression</h1>
-        <p>Last updated on 2026-02-04 |
+        <p>Last updated on 2026-06-05 |
 
         <a href="https://github.com/carpentries-incubator/machine-learning-novice-sklearn/edit/main/episodes/02-regression.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -437,29 +437,20 @@ dataset contains 344 size measurements for three penguin species
 Archipelago, Antarctica.</p>
 <figure><img src="fig/palmer_penguins.png" alt="Artwork by @allison_horst" class="figure mx-auto d-block"></figure><p>The physical attributes measured are flipper length, beak length,
 beak width, body mass, and sex. <img src="fig/culmen_depth.png" alt="Artwork by @allison_horst" class="figure"></p>
-<p>In other words, the dataset contains 344 rows with 7 features i.e. 5
+<p>In other words, the dataset contains 344 rows with 7 features, i.e. 5
 physical attributes, species and the island where the observations were
 made.</p>
 <p>The penguin dataset is available through the Python plotting library
-<a href="https://seaborn.pydata.org/" class="external-link">Seaborn</a>.</p>
+<a href="https://seaborn.pydata.org/" class="external-link">Seaborn</a>. Let’s start by
+loading in and examining this dataset, which contains a few hundred
+samples and a number of features and labels.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>dataset <span class="op">=</span> sns.load_dataset(<span class="st">'penguins'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>dataset <span class="op">=</span> sns.load_dataset(<span class="st">"penguins"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>dataset.head()</span></code></pre>
-</div>
-<p>Let’s start by loading in and examining the penguin dataset, which
-containing a few hundred samples and a number of features and
-labels.</p>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>dataset <span class="op">=</span> sns.load_dataset(<span class="st">"penguins"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>dataset.head()</span></code></pre>
 </div>
 <p>We can see that we have seven columns in total: 4 continuous
 (numerical) columns named <code>bill_length_mm</code>,
@@ -470,11 +461,11 @@ also see from a quick inspection of the first 5 samples that we have
 some missing data in the form of <code>NaN</code> values. Missing data
 is a fairly common occurrence in real-life data, so let’s go ahead and
 remove any rows that contain <code>NaN</code> values:</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a>dataset.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a>dataset.head()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a>dataset.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a>dataset.head()</span></code></pre>
 </div>
 <p>In this scenario we will train a linear regression model using
 <code>body_mass_g</code> as our feature data and
@@ -485,26 +476,26 @@ data.</p>
 for reasons we will explain later in this lesson, so let us extract a
 subset of data to work on by slicing the first 146 samples of our
 cleaned data and extracting our feature and label data:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>dataset_1 <span class="op">=</span> dataset[:<span class="dv">146</span>]</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>x_data <span class="op">=</span> dataset_1[<span class="st">"body_mass_g"</span>]</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a>y_data <span class="op">=</span> dataset_1[<span class="st">"bill_depth_mm"</span>]</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1" aria-label="code-block-4-8"></a>plt.scatter(x_data, y_data)</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1" aria-label="code-block-4-9"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1" aria-label="code-block-4-10"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1" aria-label="code-block-4-11"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>dataset_1 <span class="op">=</span> dataset[:<span class="dv">146</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>x_data <span class="op">=</span> dataset_1[<span class="st">"body_mass_g"</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>y_data <span class="op">=</span> dataset_1[<span class="st">"bill_depth_mm"</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>plt.scatter(x_data, y_data)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="fig/penguin_regression.png" alt="Comparison of the regressions of our dataset" class="figure mx-auto d-block"></figure><p>In this regression example we will create a Linear Regression model
 that will try to predict <code>y</code> values based upon <code>x</code>
 values.</p>
 <p>In machine learning terminology: we will use our <code>x</code>
-feature (variable) and <code>y</code> labels(“answers”) to train our
+feature (variable) and <code>y</code> labels (“answers”) to train our
 Linear Regression model to predict <code>y</code> values when provided
 with <code>x</code> values.</p>
 <p>The mathematical equation for a linear fit is <code>y = mx + c</code>
@@ -519,61 +510,60 @@ and <code>c</code> represents the intercept with the y-axis.</p>
 <li>Check the accuracy of the prediction, and visualise the result</li>
 </ul><p>We have already decided to use a linear regression model, so we’ll
 now pre-process our data into a format that Scikit-Learn can use.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a><span class="co"># sklearn requires a 2D array, so lets reshape our 1D arrays from (N) to (N,).</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>x_data <span class="op">=</span> np.array(x_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>y_data <span class="op">=</span> np.array(y_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a><span class="co"># sklearn requires a 2D array, so lets reshape our 1D arrays from (N) to (N,).</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>x_data <span class="op">=</span> np.array(x_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>y_data <span class="op">=</span> np.array(y_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span></code></pre>
 </div>
 <p>Next we’ll define a model, and train it on the pre-processed data.
 We’ll also inspect the trained model parameters m and c:</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a><span class="co"># Define our estimator/model</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>model <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a><span class="co"># train our estimator/model using our data</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>lin_regress <span class="op">=</span> model.fit(x_data,y_data)</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a><span class="co"># inspect the trained estimator/model parameters</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1" aria-label="code-block-6-10"></a>m <span class="op">=</span> lin_regress.coef_</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1" aria-label="code-block-6-11"></a>c <span class="op">=</span> lin_regress.intercept_</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1" aria-label="code-block-6-12"></a><span class="bu">print</span>(<span class="st">"linear coefs="</span>,m, c)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a><span class="co"># Define our estimator/model</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>model <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1" aria-label="code-block-5-6"></a><span class="co"># train our estimator/model using our data</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1" aria-label="code-block-5-7"></a>lin_regress <span class="op">=</span> model.fit(x_data,y_data)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1" aria-label="code-block-5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1" aria-label="code-block-5-9"></a><span class="co"># inspect the trained estimator/model parameters</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1" aria-label="code-block-5-10"></a>m <span class="op">=</span> lin_regress.coef_</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1" aria-label="code-block-5-11"></a>c <span class="op">=</span> lin_regress.intercept_</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1" aria-label="code-block-5-12"></a><span class="bu">print</span>(<span class="st">"linear coefs="</span>,m, c)</span></code></pre>
 </div>
 <p>Now we can make predictions using our trained model, and calculate
 the Root Mean Squared Error (RMSE) of our predictions:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="im">import</span> math</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a><span class="co"># Predict some values using our trained estimator/model.</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a><span class="co"># In this case we predict our input data to evaluate accuracy!</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a>linear_data <span class="op">=</span> lin_regress.predict(x_data)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a><span class="co"># calculated a RMS error as a quality of fit metric</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1" aria-label="code-block-7-9"></a>error <span class="op">=</span> math.sqrt(mean_squared_error(y_data, linear_data))</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1" aria-label="code-block-7-10"></a><span class="bu">print</span>(<span class="st">"linear error="</span>,error)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> root_mean_squared_error</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a><span class="co"># Predict some values using our trained estimator/model.</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a><span class="co"># In this case we predict our input data to evaluate accuracy!</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>linear_data <span class="op">=</span> lin_regress.predict(x_data)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a><span class="co"># calculated a RMS error as a quality of fit metric</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>error <span class="op">=</span> root_mean_squared_error(y_data, linear_data)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a><span class="bu">print</span>(<span class="st">"linear error="</span>,error)</span></code></pre>
 </div>
 <p>Finally, we’ll plot our input data, our linear fit, and our
 predictions:</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"input"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>plt.plot(x_data, linear_data, <span class="st">"-"</span>, label<span class="op">=</span><span class="st">"fit"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>plt.plot(x_data, linear_data, <span class="st">"rx"</span>, label<span class="op">=</span><span class="st">"predictions"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>plt.xlabel(<span class="st">"body_mass_g"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a>plt.ylabel(<span class="st">"bill_depth_mm"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a>plt.legend()</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"input"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>plt.plot(x_data, linear_data, <span class="st">"-"</span>, label<span class="op">=</span><span class="st">"fit"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>plt.plot(x_data, linear_data, <span class="st">"rx"</span>, label<span class="op">=</span><span class="st">"predictions"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>plt.xlabel(<span class="st">"body_mass_g"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>plt.ylabel(<span class="st">"bill_depth_mm"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a>plt.legend()</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="fig/regress_penguin_lin.png" alt="Comparison of the regressions of our dataset" class="figure mx-auto d-block"></figure><p>Congratulations! We’ve now created our first machine-learning model
 of the lesson and we can now make predictions of
@@ -581,38 +571,38 @@ of the lesson and we can now make predictions of
 we pass into our model.</p>
 <p>Let’s provide the model with all of the penguin samples and see how
 our model performs on the full dataset:</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="co"># Extract the relevant features and labels from our complete dataset</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>x_data_all <span class="op">=</span> dataset[<span class="st">"body_mass_g"</span>]</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a>y_data_all <span class="op">=</span> dataset[<span class="st">"bill_depth_mm"</span>]</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a><span class="co"># sklearn requires a 2D array, so lets reshape our 1D arrays from (N) to (N,).</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a>x_data_all <span class="op">=</span> np.array(x_data_all).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a>y_data_all <span class="op">=</span> np.array(y_data_all).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a><span class="co"># Predict values using our trained estimator/model from earlier</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a>linear_data_all <span class="op">=</span> lin_regress.predict(x_data_all)</span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a><span class="co"># calculated a RMS error for all data</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a>error_all <span class="op">=</span> math.sqrt(mean_squared_error(y_data_all, linear_data_all))</span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a><span class="bu">print</span>(<span class="st">"linear error="</span>,error_all)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a><span class="co"># Extract the relevant features and labels from our complete dataset</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>x_data_all <span class="op">=</span> dataset[<span class="st">"body_mass_g"</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>y_data_all <span class="op">=</span> dataset[<span class="st">"bill_depth_mm"</span>]</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a><span class="co"># sklearn requires a 2D array, so lets reshape our 1D arrays from (N) to (N,).</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a>x_data_all <span class="op">=</span> np.array(x_data_all).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a>y_data_all <span class="op">=</span> np.array(y_data_all).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a><span class="co"># Predict values using our trained estimator/model from earlier</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a>linear_data_all <span class="op">=</span> lin_regress.predict(x_data_all)</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a><span class="co"># calculated a RMS error for all data</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a>error_all <span class="op">=</span> root_mean_squared_error(y_data_all, linear_data_all)</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1" aria-label="code-block-8-14"></a><span class="bu">print</span>(<span class="st">"linear error="</span>,error_all)</span></code></pre>
 </div>
 <p>Our RMSE for predictions on all penguin samples is far larger than
 before, so let’s visually inspect the situation:</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a>plt.scatter(x_data_all, y_data_all, label<span class="op">=</span><span class="st">"all data"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"training data"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>plt.plot(x_data_all, linear_data_all, label<span class="op">=</span><span class="st">"fit"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1" aria-label="code-block-10-6"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1" aria-label="code-block-10-7"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1" aria-label="code-block-10-8"></a>plt.legend()</span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1" aria-label="code-block-10-9"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a>plt.scatter(x_data_all, y_data_all, label<span class="op">=</span><span class="st">"all data"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"training data"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a>plt.plot(x_data_all, linear_data_all, label<span class="op">=</span><span class="st">"fit"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a>plt.legend()</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="fig/penguin_regression_all.png" alt="Comparison of the regressions of our dataset" class="figure mx-auto d-block"></figure><p>Oh dear. It looks like our linear regression fits okay for our subset
 of the penguin data, and a few additional samples, but there appears to
@@ -680,25 +670,25 @@ data <code>x_data</code> into a polynomial representation using the
 polynomial regressions using the <code>LinearRegression().fit()</code>
 function as before, but this time using the polynomial representation of
 our <code>x_data</code>.</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a><span class="co"># Requires sorted data for ordered polynomial lines</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1" aria-label="code-block-11-4"></a>dataset <span class="op">=</span> dataset.sort_values(<span class="st">"body_mass_g"</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1" aria-label="code-block-11-5"></a>x_data <span class="op">=</span> dataset[<span class="st">"body_mass_g"</span>]</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1" aria-label="code-block-11-6"></a>y_data <span class="op">=</span> dataset[<span class="st">"bill_depth_mm"</span>]</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1" aria-label="code-block-11-7"></a>x_data <span class="op">=</span> np.array(x_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1" aria-label="code-block-11-8"></a>y_data <span class="op">=</span> np.array(y_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1" aria-label="code-block-11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1" aria-label="code-block-11-10"></a><span class="co"># create our training subset from every 10th sample</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1" aria-label="code-block-11-11"></a>x_data_subset <span class="op">=</span> x_data[::<span class="dv">10</span>]</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1" aria-label="code-block-11-12"></a>y_data_subset <span class="op">=</span> y_data[::<span class="dv">10</span>]</span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1" aria-label="code-block-11-13"></a></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1" aria-label="code-block-11-14"></a><span class="co"># create a polynomial representation of our training data</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1" aria-label="code-block-11-15"></a>poly_features <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1" aria-label="code-block-11-16"></a>x_poly <span class="op">=</span> poly_features.fit_transform(x_data_subset)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a><span class="co"># Requires sorted data for ordered polynomial lines</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>dataset <span class="op">=</span> dataset.sort_values(<span class="st">"body_mass_g"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a>x_data <span class="op">=</span> dataset[<span class="st">"body_mass_g"</span>]</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1" aria-label="code-block-10-6"></a>y_data <span class="op">=</span> dataset[<span class="st">"bill_depth_mm"</span>]</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1" aria-label="code-block-10-7"></a>x_data <span class="op">=</span> np.array(x_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1" aria-label="code-block-10-8"></a>y_data <span class="op">=</span> np.array(y_data).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1" aria-label="code-block-10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1" aria-label="code-block-10-10"></a><span class="co"># create our training subset from every 10th sample</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1" aria-label="code-block-10-11"></a>x_data_subset <span class="op">=</span> x_data[::<span class="dv">10</span>]</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1" aria-label="code-block-10-12"></a>y_data_subset <span class="op">=</span> y_data[::<span class="dv">10</span>]</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1" aria-label="code-block-10-13"></a></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1" aria-label="code-block-10-14"></a><span class="co"># create a polynomial representation of our training data</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1" aria-label="code-block-10-15"></a>poly_features <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1" aria-label="code-block-10-16"></a>x_poly <span class="op">=</span> poly_features.fit_transform(x_data_subset)</span></code></pre>
 </div>
 <div id="we-convert-a-non-linear-problem-into-a-linear-one" class="callout">
 <div class="callout-square">
@@ -720,40 +710,40 @@ format.</p>
 </div>
 <p>We are now ready to create and train our model using our polynomial
 feature data.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a><span class="co"># Define our estimator/model(s) and train our model</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1" aria-label="code-block-12-2"></a>poly_regress <span class="op">=</span> LinearRegression()</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a>poly_regress.fit(x_poly,y_data_subset)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1" aria-label="code-block-11-1"></a><span class="co"># Define our estimator/model(s) and train our model</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1" aria-label="code-block-11-2"></a>poly_regress <span class="op">=</span> LinearRegression()</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1" aria-label="code-block-11-3"></a>poly_regress.fit(x_poly,y_data_subset)</span></code></pre>
 </div>
 <p>We can now make predictions using our full dataset. As we did for our
 training data, we need to quickly transform our full dataset into a
 polynomial expression. Then we can evaluate the RMSE of our
 predictions.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a><span class="co"># make predictions using all data, pre-process data too</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a>x_poly_all <span class="op">=</span> poly_features.fit_transform(x_data)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1" aria-label="code-block-13-3"></a>poly_data <span class="op">=</span> poly_regress.predict(x_poly_all)</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1" aria-label="code-block-13-4"></a></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1" aria-label="code-block-13-5"></a>poly_error <span class="op">=</span> math.sqrt(mean_squared_error(y_data, poly_data))</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1" aria-label="code-block-13-6"></a><span class="bu">print</span>(<span class="st">"poly error="</span>, poly_error)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a><span class="co"># make predictions using all data, pre-process data too</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1" aria-label="code-block-12-2"></a>x_poly_all <span class="op">=</span> poly_features.fit_transform(x_data)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a>poly_data <span class="op">=</span> poly_regress.predict(x_poly_all)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1" aria-label="code-block-12-5"></a>poly_error <span class="op">=</span> root_mean_squared_error(y_data, poly_data)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1" aria-label="code-block-12-6"></a><span class="bu">print</span>(<span class="st">"poly error="</span>, poly_error)</span></code></pre>
 </div>
 <p>Finally, let’s visualise our model fit on our training data and full
 dataset.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1" aria-label="code-block-14-1"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"all data"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1" aria-label="code-block-14-2"></a>plt.scatter(x_data_subset, y_data_subset, label<span class="op">=</span><span class="st">"subset data"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1" aria-label="code-block-14-3"></a></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1" aria-label="code-block-14-4"></a>plt.plot(x_data, poly_data, <span class="st">"r-"</span>, label<span class="op">=</span><span class="st">"poly fit"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1" aria-label="code-block-14-5"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1" aria-label="code-block-14-6"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1" aria-label="code-block-14-7"></a>plt.legend()</span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1" aria-label="code-block-14-8"></a>plt.show()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"all data"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a>plt.scatter(x_data_subset, y_data_subset, label<span class="op">=</span><span class="st">"subset data"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1" aria-label="code-block-13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1" aria-label="code-block-13-4"></a>plt.plot(x_data, poly_data, <span class="st">"r-"</span>, label<span class="op">=</span><span class="st">"poly fit"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1" aria-label="code-block-13-5"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1" aria-label="code-block-13-6"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1" aria-label="code-block-13-7"></a>plt.legend()</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1" aria-label="code-block-13-8"></a>plt.show()</span></code></pre>
 </div>
 <figure><img src="fig/penguin_regression_poly.png" alt="Comparison of the regressions of our dataset" class="figure mx-auto d-block"></figure><div id="exercise-vary-your-polynomial-degree-to-try-and-improve-fitting" class="callout challenge">
 <div class="callout-square">
@@ -764,7 +754,7 @@ dataset.</p>
 <h3 class="callout-title">Exercise: Vary your polynomial degree to try
 and improve fitting</h3>
 <div class="callout-content">
-<p>Adjust the <code>degree=2</code> input variable for the
+<p>Adjust the <code>degree=3</code> input variable for the
 <code>PolynomialFeatures</code> function to change the degree of
 polynomial fit. Can you improve the RMSE of your model?</p>
 </div>
@@ -777,9 +767,49 @@ polynomial fit. Can you improve the RMSE of your model?</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<p>MAYBE A FIGURE OR TWO. POTENTIALLY SOME CODE TO LOOP OVER
-POLYNOMIALS.</p>
+<p>Let’s plot all the fitted polynomials of degree one to nine,
+alongside the data as before. We can also calculate the root mean
+squared error of each polynomial fit and print the best.</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1" aria-label="code-block-14-1"></a><span class="co">#plot the data</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1" aria-label="code-block-14-2"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"all data"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1" aria-label="code-block-14-3"></a>plt.scatter(x_data_subset, y_data_subset, label<span class="op">=</span><span class="st">"subset data"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1" aria-label="code-block-14-4"></a></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1" aria-label="code-block-14-5"></a><span class="co">#name a variable 'best' to store the best RMSE we find.</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1" aria-label="code-block-14-6"></a>best <span class="op">=</span> np.inf</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1" aria-label="code-block-14-7"></a></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1" aria-label="code-block-14-8"></a><span class="co">#loop through and plotpolynomials of degree one to nine, </span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1" aria-label="code-block-14-9"></a><span class="co">#reusing the earlier code.</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1" aria-label="code-block-14-10"></a><span class="cf">for</span> degree <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">10</span>):</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1" aria-label="code-block-14-11"></a>    poly_features <span class="op">=</span> PolynomialFeatures(degree<span class="op">=</span>degree)</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1" aria-label="code-block-14-12"></a>    x_poly <span class="op">=</span> poly_features.fit_transform(x_data_subset)</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1" aria-label="code-block-14-13"></a>    <span class="co"># Define our estimator/model(s) and train our model</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1" aria-label="code-block-14-14"></a>    poly_regress <span class="op">=</span> LinearRegression()</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1" aria-label="code-block-14-15"></a>    poly_regress.fit(x_poly,y_data_subset)</span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1" aria-label="code-block-14-16"></a>    <span class="co"># make predictions using all data, pre-process data too</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1" aria-label="code-block-14-17"></a>    x_poly_all <span class="op">=</span> poly_features.fit_transform(x_data)</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1" aria-label="code-block-14-18"></a>    poly_data <span class="op">=</span> poly_regress.predict(x_poly_all)</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1" aria-label="code-block-14-19"></a>    </span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1" aria-label="code-block-14-20"></a>    poly_error <span class="op">=</span> root_mean_squared_error(y_data, poly_data)</span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1" aria-label="code-block-14-21"></a>    <span class="bu">print</span>(<span class="st">"degree="</span>,degree,<span class="st">"; poly error="</span>, poly_error)</span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1" aria-label="code-block-14-22"></a></span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1" aria-label="code-block-14-23"></a>    <span class="co">#find best degree polynomial</span></span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1" aria-label="code-block-14-24"></a>    <span class="cf">if</span> poly_error <span class="op">&lt;</span> best:</span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1" aria-label="code-block-14-25"></a>        best <span class="op">=</span> poly_error</span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1" aria-label="code-block-14-26"></a>        <span class="co">#create a variable called degree to store the best polynomial degree.</span></span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1" aria-label="code-block-14-27"></a>        best_degree <span class="op">=</span> degree</span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1" aria-label="code-block-14-28"></a>    plt.plot(x_data, poly_data, <span class="st">"-"</span>, label<span class="op">=</span><span class="st">"poly fit, degree="</span><span class="op">+</span><span class="bu">str</span>(degree))</span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1" aria-label="code-block-14-29"></a></span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1" aria-label="code-block-14-30"></a><span class="co">#print our best degree polynomial</span></span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1" aria-label="code-block-14-31"></a><span class="bu">print</span>(<span class="st">"Best degree was"</span>,best_degree,<span class="st">"with poly error="</span>,best)</span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1" aria-label="code-block-14-32"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1" aria-label="code-block-14-33"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1" aria-label="code-block-14-34"></a>plt.legend(ncol<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1" aria-label="code-block-14-35"></a>plt.show()</span></code></pre>
 </div>
+<figure><img src="fig/polynomial_comparison.png" alt="Comparison of several polynomial fits to the data." class="figure mx-auto d-block"></figure></div>
 </div>
 </div>
 </div>
@@ -793,7 +823,8 @@ POLYNOMIALS.</p>
 to create a spline model</h3>
 <div class="callout-content">
 <p>The SplineTransformer is another pre-processing function that behaves
-in a similar way to the PolynomialFeatures function. Adjust your
+in a similar way to the PolynomialFeatures function. Import the package
+<code>sklearn.preprocessing.SplinTransformer</code> and adjust your
 previous code to use the SplineTransformer. Can you improve the RMSE of
 your model by varying the <code>knots</code> and <code>degree</code>
 functions? Is the spline model better than the polynomial model?</p>
@@ -810,12 +841,51 @@ functions? Is the spline model better than the polynomial model?</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a>spline_features <span class="op">=</span>  SplineTransformer(n_knots<span class="op">=</span><span class="dv">3</span>, degree<span class="op">=</span><span class="dv">2</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> SplineTransformer</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1" aria-label="code-block-15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a><span class="co">#plot the data</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a>plt.scatter(x_data, y_data, label<span class="op">=</span><span class="st">"all data"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1" aria-label="code-block-15-5"></a>plt.scatter(x_data_subset, y_data_subset, label<span class="op">=</span><span class="st">"subset data"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1" aria-label="code-block-15-7"></a><span class="co">#name a variable 'best' to store the best RMSE we find.</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1" aria-label="code-block-15-8"></a>best <span class="op">=</span> np.inf</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1" aria-label="code-block-15-9"></a></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1" aria-label="code-block-15-10"></a><span class="co">#loop through and plotpolynomials of degree one to nine, </span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1" aria-label="code-block-15-11"></a><span class="co">#reusing the earlier code.</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1" aria-label="code-block-15-12"></a><span class="cf">for</span> knot <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">5</span>):</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1" aria-label="code-block-15-13"></a>    <span class="cf">for</span> degree <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">10</span>):</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1" aria-label="code-block-15-14"></a>        spline_features <span class="op">=</span>  SplineTransformer(n_knots<span class="op">=</span>knot, degree<span class="op">=</span>degree)</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1" aria-label="code-block-15-15"></a>        x_spline <span class="op">=</span> spline_features.fit_transform(x_data_subset)</span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1" aria-label="code-block-15-16"></a>        <span class="co"># Define our estimator/model(s) and train our model</span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1" aria-label="code-block-15-17"></a>        spline_regress <span class="op">=</span> LinearRegression()</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1" aria-label="code-block-15-18"></a>        spline_regress.fit(x_spline,y_data_subset)</span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1" aria-label="code-block-15-19"></a>        <span class="co"># make predictions using all data, pre-process data too</span></span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1" aria-label="code-block-15-20"></a>        x_spline_all <span class="op">=</span> spline_features.fit_transform(x_data)</span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1" aria-label="code-block-15-21"></a>        spline_data <span class="op">=</span> spline_regress.predict(x_spline_all)</span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1" aria-label="code-block-15-22"></a>        </span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1" aria-label="code-block-15-23"></a>        spline_error <span class="op">=</span> root_mean_squared_error(y_data, spline_data)</span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1" aria-label="code-block-15-24"></a>        <span class="bu">print</span>(<span class="st">"degree="</span>,degree,<span class="st">"; slpine error="</span>, spline_error)</span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1" aria-label="code-block-15-25"></a>    </span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1" aria-label="code-block-15-26"></a>        <span class="co">#find best degree polynomial</span></span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1" aria-label="code-block-15-27"></a>        <span class="cf">if</span> spline_error <span class="op">&lt;</span> best:</span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1" aria-label="code-block-15-28"></a>            best <span class="op">=</span> spline_error</span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1" aria-label="code-block-15-29"></a>            <span class="co">#create a variable called degree to store the best polynomial degree.</span></span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1" aria-label="code-block-15-30"></a>            best_degree <span class="op">=</span> degree</span>
+<span id="cb15-31"><a href="#cb15-31" tabindex="-1" aria-label="code-block-15-31"></a>            best_knot <span class="op">=</span> knot</span>
+<span id="cb15-32"><a href="#cb15-32" tabindex="-1" aria-label="code-block-15-32"></a>        plt.plot(x_data, spline_data, <span class="st">"-"</span>, label<span class="op">=</span><span class="st">"spline fit, degree="</span><span class="op">+</span><span class="bu">str</span>(degree)<span class="op">+</span><span class="st">" knot="</span><span class="op">+</span><span class="bu">str</span>(knot))</span>
+<span id="cb15-33"><a href="#cb15-33" tabindex="-1" aria-label="code-block-15-33"></a></span>
+<span id="cb15-34"><a href="#cb15-34" tabindex="-1" aria-label="code-block-15-34"></a><span class="co">#print our best degree polynomial</span></span>
+<span id="cb15-35"><a href="#cb15-35" tabindex="-1" aria-label="code-block-15-35"></a><span class="bu">print</span>(<span class="st">"Best degree/knot was"</span>,best_degree,best_knot,<span class="st">"with poly error="</span>,best)</span>
+<span id="cb15-36"><a href="#cb15-36" tabindex="-1" aria-label="code-block-15-36"></a>plt.xlabel(<span class="st">"mass g"</span>)</span>
+<span id="cb15-37"><a href="#cb15-37" tabindex="-1" aria-label="code-block-15-37"></a>plt.ylabel(<span class="st">"depth mm"</span>)</span>
+<span id="cb15-38"><a href="#cb15-38" tabindex="-1" aria-label="code-block-15-38"></a>plt.legend(ncol<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb15-39"><a href="#cb15-39" tabindex="-1" aria-label="code-block-15-39"></a>plt.show()</span></code></pre>
 </div>
 <p>The above line replaces the <code>PolynomialFeatures</code> function.
 It takes in an additional argument <code>knots</code> compared to
-<code>PolynomialFeatures</code>. ADD LINES OR FIGURES TO EXPLORE THIS.
-SOME COMMENT ON FITS AND MODEL COMPARISON.</p>
+<code>PolynomialFeatures</code>. It’s best performance is comparable to
+that of the <code>PolynomialFeatures</code> in this example (error of
+1.613 fo SplineTransformer and 1.604 for PolynomialFeatures).</p>
 </div>
 </div>
 </div>
@@ -896,8 +966,8 @@ data.</li>
   "url": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/02-regression.html",
   "identifier": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/02-regression.html",
   "dateCreated": "2019-04-04",
-  "dateModified": "2026-02-04",
-  "datePublished": "2026-06-02"
+  "dateModified": "2026-06-05",
+  "datePublished": "2026-06-05"
 }
 
   </script><script>
