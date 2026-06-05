@@ -141,11 +141,15 @@ A single perceptron cannot be used to solve a non-linearly separable function. F
 
 ### Training multi-layer perceptrons
 
-Multi-layer perceptrons need to be trained by showing them a set of training data and measuring the error between the network's predicted output and the true value. Training takes an iterative approach that improves the network a little each time a new training example is presented. There are a number of training algorithms available for a neural network today, but we are going to use one of the best established and well known, the backpropagation algorithm. This algorithm is called back propagation because it takes the error calculated between an output of the network and the true value and takes it back through the network to update the weights. If you want to read more about back propagation, please see [this chapter](https://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf) from the book "Neural Networks - A Systematic Introduction".
+Multi-layer perceptrons need to be trained by showing them a set of training data and measuring the error between the network's predicted output and the true value. 
+Training takes an iterative approach that improves the network a little each time a new training example is presented. There are a number of training algorithms available 
+for a neural network today, but we are going to use one of the best established and well known, the backpropagation algorithm. This algorithm is called back propagation 
+because it takes the error calculated between an output of the network and the true value and takes it back through the network to update the weights. If you want to read 
+more about back propagation, please see [chapter 7](https://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/documents/1996/NeuralNetworks/neuron.pdf) from the book "Neural Networks - A Systematic Introduction".
 
 ### Multi-layer perceptrons in Scikit-Learn
 
-We are going to build a multi-layer perceptron for recognising handwriting from images. Scikit-Learn includes some example handwriting data from the [MNIST data set](https://yann.lecun.com/exdb/mnist/), which is a dataset containing 70,000 images of hand-written digits. Each image is 28x28 pixels in size (784 pixels in total) and is represented in grayscale with values between zero for fully black and 255 for fully white. This means we will need 784 perceptrons in our input layer, each taking the input of one pixel and 10 perceptrons in our output layer to represent each digit we might classify. If trained correctly, only the perceptron in the output layer will "fire" to represent the contents of the image (but this is a massive oversimplification!).
+We are going to build a multi-layer perceptron for recognising handwriting from images. Scikit-Learn includes some example handwriting data from the [MNIST data set](http://yann.lecun.com/exdb/mnist/), which is a dataset containing 70,000 images of hand-written digits. Each image is 28x28 pixels in size (784 pixels in total) and is represented in grayscale with values between zero for fully black and 255 for fully white. This means we will need 784 perceptrons in our input layer, each taking the input of one pixel and 10 perceptrons in our output layer to represent each digit we might classify. If trained correctly, only the perceptron in the output layer will "fire" to represent the contents of the image (but this is a massive oversimplification!).
 
 We can import this dataset from `sklearn.datasets` then load it into memory by calling the `fetch_openml` function.
 
@@ -183,7 +187,7 @@ Typically, the majority of the data will be used as training data (70-90%), to h
 data.shape
 ```
 
-This tells us we have 70,000 rows in the dataset. Let us take 90% of the data for training and 10% for testing, so we will use the first 63,000 samples in the dataset as the training data and the last 7,000 as the test data.
+This tells us we have 70,000 rows in the dataset. Let us take 90% of the data for training and 10% for testing, so we will use 63,000 samples in the dataset as the training data and 7,000 as the test data.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -272,17 +276,17 @@ Try tweaking this parameter by adding the parameter `learning_rate_init` with a 
 
 ## Using your own handwriting
 
-Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be grayscale and 28 x 28 pixels.
+Create an image using Microsoft Paint, the GNU Image Manipulation Project (GIMP) or [jspaint](https://jspaint.app/). The image needs to be grayscale, 28 x 28 pixels and the background should be black and the text white.
 
 Try to draw a digit (0-9) in the image and save it into your code directory.
 
-The code below loads the image (called digit.png, change to whatever your file is called) using the OpenCV library. Some Anaconda installations need this installed either through the package manager or by running the command: `conda install -c conda-forge opencv ` from the anaconda terminal.
+The code below loads the image (called digit.png, change to whatever your file is called) using the scikit-image library.
 
-OpenCV assumes that images are 3 channel red, green, blue and we have to convert to one channel grayscale with `cvtColor`.
+Scikit-image assumes that images are 3 channel red, green, blue and we have to convert to one channel grayscale with the `color.rgb2gray` function.
 
-We also need to normalise the image by dividing each pixel by 255.
+We also need to normalise the image by dividing each pixel by 255, so it's values are between 0 and 1 not 0 and 255.
 
-To verify the image, we can plot it by using OpenCV's `imshow` function (we could also use Matplotlib's `matshow` function).
+To verify the image, we can plot it by using Matplotlib's `imshow` function.
 
 To check what digit it is, we can pass it into `mlp.predict`, but we have to convert it from a 28x28 array to a one dimensional 784-byte long array with the `reshape` function.
 
@@ -290,12 +294,13 @@ Did it correctly classify your hand(mouse) writing? Try a few images.
 If you have time try drawing images on a touch screen or taking a photo of something you have really written by hand. Remember that you will have to resize it to be 28x28 pixels.
 
 ```python
-import cv2
+import skimage as ski
 import matplotlib.pyplot as plt
-digit = cv2.imread("digit.png")
-digit_gray = cv2.cvtColor(digit, cv2.COLOR_BGR2GRAY)
+digit = ski.io.imread("digit.png")
+digit_gray = ski.color.rgb2gray(digit)
 digit_norm = digit_gray/255.0
-cv2.imshow("Normalised Digit",digit_norm)
+plt.imshow("Normalised Digit",digit_norm)
+plt.show()
 print("Your digit is",mlp.predict(digit_norm.reshape(1,784)))
 ```
 
@@ -313,7 +318,7 @@ for idx, row in enumerate(X_test):
     image = row.reshape(1,784)
 
     prediction = mlp.predict(image)[0]
-    actual = Y_test[idx]
+    actual = y_test[idx]
 
     if prediction == actual:
         correct = correct + 1
@@ -435,21 +440,31 @@ mlp.fit(data,labels)
 
 Deep learning usually refers to newer neural network architectures which use a special type of network known as a 'convolutional network'. Typically, these have many layers and thousands of neurons. They are very good at tasks such as image recognition but take a long time to train and run. They are often used with GPUs (Graphical Processing Units) which are good at executing multiple operations simultaneously. It is very common to use cloud computing or high performance computing systems with multiple GPUs attached.
 
-Scikit-Learn is not really setup for deep learning. We will have to rely on other libraries. Common choices include Google's TensorFlow, Keras, (Py)Torch or Darknet. There is, however, an interface layer between sklearn and tensorflow called skflow. A short example of using this layer can be found at <https://www.kdnuggets.com/2016/02/scikit-flow-easy-deep-learning-tensorflow-scikit-learn.html>.
+Scikit-Learn is not really setup for deep learning. We will have to rely on other libraries. Common choices include Google's TensorFlow, Keras or (Py)Torch. There is, however, an interface layer between sklearn and tensorflow called skflow. A short example of using this layer can be found at <https://www.kdnuggets.com/2016/02/scikit-flow-easy-deep-learning-tensorflow-scikit-learn.html>.
 
 ### Cloud APIs
 
 Google, Microsoft, Amazon, and many other companys now have cloud based Application Programming Interfaces (APIs) where you can upload an image and have them return you the result. Most of these services rely on a large pre-trained (and often proprietary) neural network.
 
-> ## Exercise: Try cloud image classification
-> 
-> Take a photo with your phone camera or find an image online of a common daily scene.
-> Upload it to [https://cloud.google.com/vision/](Google's Cloud Vision API)
-> (scroll down to the "demo" section about 1/3rd of the way down the page).
-> How many objects has it correctly classified? How many did it incorrectly classify?
-> Another example is this instance of the YOLOv12 image recognition neural network
-> hosted by [https://huggingface.co/spaces/sunsmarterjieleaf/yolov12](HuggingFace).
-> Try the same image here, how do the results compare to Google?
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Exercise: Try cloud image classification
+
+Take a photo with your phone camera or find an image online of a common daily scene.
+Upload it to [Google's Cloud Vision API](https://cloud.google.com/vision/)
+(scroll down to the "demo" section about 1/3rd of the way down the page).
+
+How many objects has it correctly classified? 
+How many did it incorrectly classify?
+
+Another example is this instance of the YOLOv12 image recognition neural network
+hosted by [HuggingFace](https://huggingface.co/spaces/sunsmarterjieleaf/yolov12).
+
+Try the same image here, how do the results compare to Google?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
 
 
 
@@ -461,7 +476,6 @@ Google, Microsoft, Amazon, and many other companys now have cloud based Applicat
 - Multiple perceptrons can be combined to form a neural network which can solve functions that aren't linearly separable.
 - We can train a whole neural network with the back propagation algorithm. Scikit-learn includes an implementation of this algorithm.
 - Training a neural network requires some training data to show the network examples of what to learn.
-- To validate our training we split the training data into a training set and a test set.
 - To ensure the whole dataset can be used in training and testing we can train multiple times with different subsets of the data acting as training/testing data. This is called cross validation.
 - Deep learning neural networks are a very powerful modern machine learning technique. Scikit-Learn does not support these but other libraries like Tensorflow do.
 - Several companies now offer cloud APIs where we can train neural networks on powerful computers.

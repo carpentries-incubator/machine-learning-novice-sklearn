@@ -74,8 +74,8 @@ Machine learning jargon can often be hard to remember, so here is a quick summar
 
 ### Which ensemble method is best?
 
-| **Ensemble method** | **What it does**                                                                                                       | **Best for**                                                                                           | **Avoid if**                                                                                                  | 
-|  | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| **Ensemble method** | **What it does** | **Best for**| **Avoid if**|
+| ------------------- | ---------------- | ----------- | ------------|
 | **Stacking** | Combines predictions from different models trained on the same dataset using a meta-model.             | Leveraging diverse models to improve overall performance.                                  | You need simple and fast models or lack diverse base learners.                                    | 
 | **Bagging** | Trains the same model on different subsets of the data (via bootstrapping) and averages their results. | Reducing variance (e.g., overfitting) and stabilizing predictions in noisy/small datasets. | The problem requires reducing bias or the base model is already stable (e.g., linear regression). | 
 | **Boosting** | Sequentially trains models, focusing on correcting errors made by previous models.                     | Capturing complex patterns in large datasets and achieving the highest possible accuracy.  | The dataset is small or noisy, or you lack computational resources.                               | 
