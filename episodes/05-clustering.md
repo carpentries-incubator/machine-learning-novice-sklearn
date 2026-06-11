@@ -316,8 +316,8 @@ However, the silhouette score for N=4 (true cluster number) is very close (silho
 The silhouette can act as a useful guide in selecting cluster number, but it doesn't always produce perfect results.
 Clustering with different feature sets or exploring different clustering algorithms may yield better results.
 
-[](fig/ep05 clustering_silhouettes_n2.png){alt="Silhouette scores for 2 clusters"}
-[](fig/ep05 clustering_silhouettes_n4.png){alt="Silhouette scores for 4 clusters"}
+![](fig/ep05_clustering_silhouettes_n2.png){alt="Silhouette scores for 2 clusters"}
+![](fig/ep05_clustering_silhouettes_n4.png){alt="Silhouette scores for 4 clusters"}
 
 :::::::::::::::::::::::::
 
