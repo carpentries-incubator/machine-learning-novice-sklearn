@@ -347,7 +347,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Unsupervised methods - Clustering</h1>
-        <p>Last updated on 2026-02-04 |
+        <p>Last updated on 2026-06-11 |
 
         <a href="https://github.com/carpentries-incubator/machine-learning-novice-sklearn/edit/main/episodes/05-clustering.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -452,8 +452,8 @@ import the sklearn.cluster module.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> sklearn.cluster <span class="im">as</span> skl_cluster</span></code></pre>
 </div>
 <p>For this example, we’re going to use Scikit-Learn’s built-in ‘random
-data blob generator’ instead of using an external dataset. Therefore
-we’ll need the <code>sklearn.datasets</code> module.</p>
+data blob generator’ instead of using an external dataset. Therefore, we
+will use the <code>sklearn.datasets</code> module.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -489,13 +489,13 @@ belongs to.</p>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a>    <span class="co"># Extract the x and y coordinates from the data</span></span>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    tx <span class="op">=</span> data[:, <span class="dv">0</span>]</span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>    ty <span class="op">=</span> data[:, <span class="dv">1</span>]</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>    </span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a></span>
 <span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>    <span class="co"># Create a figure with a specified size</span></span>
 <span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a>    fig <span class="op">=</span> plt.figure(<span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a>    </span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a></span>
 <span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a>    <span class="co"># Scatter plot the data points, coloring them by their labels</span></span>
 <span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    plt.scatter(tx, ty, edgecolor<span class="op">=</span><span class="st">'k'</span>, c<span class="op">=</span>labels)</span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a>    </span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a></span>
 <span id="cb3-24"><a href="#cb3-24" tabindex="-1" aria-label="code-block-3-24"></a>    <span class="co"># Display the plot</span></span>
 <span id="cb3-25"><a href="#cb3-25" tabindex="-1" aria-label="code-block-3-25"></a>    plt.show()</span>
 <span id="cb3-26"><a href="#cb3-26" tabindex="-1" aria-label="code-block-3-26"></a></span>
@@ -514,18 +514,18 @@ belongs to.</p>
 <span id="cb3-39"><a href="#cb3-39" tabindex="-1" aria-label="code-block-3-39"></a>    <span class="co"># Extract the x and y coordinates from the data</span></span>
 <span id="cb3-40"><a href="#cb3-40" tabindex="-1" aria-label="code-block-3-40"></a>    tx <span class="op">=</span> data[:, <span class="dv">0</span>]</span>
 <span id="cb3-41"><a href="#cb3-41" tabindex="-1" aria-label="code-block-3-41"></a>    ty <span class="op">=</span> data[:, <span class="dv">1</span>]</span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1" aria-label="code-block-3-42"></a>    </span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1" aria-label="code-block-3-42"></a></span>
 <span id="cb3-43"><a href="#cb3-43" tabindex="-1" aria-label="code-block-3-43"></a>    <span class="co"># Create a figure with a specified size</span></span>
 <span id="cb3-44"><a href="#cb3-44" tabindex="-1" aria-label="code-block-3-44"></a>    fig <span class="op">=</span> plt.figure(<span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1" aria-label="code-block-3-45"></a>    </span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1" aria-label="code-block-3-45"></a></span>
 <span id="cb3-46"><a href="#cb3-46" tabindex="-1" aria-label="code-block-3-46"></a>    <span class="co"># Scatter plot the data points, coloring them by their cluster assignment</span></span>
 <span id="cb3-47"><a href="#cb3-47" tabindex="-1" aria-label="code-block-3-47"></a>    <span class="co"># plt.scatter(tx, ty, s=5, linewidth=0, c=clusters)</span></span>
 <span id="cb3-48"><a href="#cb3-48" tabindex="-1" aria-label="code-block-3-48"></a>    plt.scatter(tx, ty, c<span class="op">=</span>clusters, cmap<span class="op">=</span><span class="st">"nipy_spectral"</span>, edgecolor<span class="op">=</span><span class="st">'k'</span>)</span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1" aria-label="code-block-3-49"></a>    </span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1" aria-label="code-block-3-49"></a></span>
 <span id="cb3-50"><a href="#cb3-50" tabindex="-1" aria-label="code-block-3-50"></a>    <span class="co"># Loop through cluster centers and mark them with a red 'x'</span></span>
 <span id="cb3-51"><a href="#cb3-51" tabindex="-1" aria-label="code-block-3-51"></a>    <span class="cf">for</span> cluster_x, cluster_y <span class="kw">in</span> Kmean.cluster_centers_:</span>
 <span id="cb3-52"><a href="#cb3-52" tabindex="-1" aria-label="code-block-3-52"></a>        plt.scatter(cluster_x, cluster_y, s<span class="op">=</span><span class="dv">100</span>, c<span class="op">=</span><span class="st">'r'</span>, marker<span class="op">=</span><span class="st">'x'</span>)</span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1" aria-label="code-block-3-53"></a>    </span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1" aria-label="code-block-3-53"></a></span>
 <span id="cb3-54"><a href="#cb3-54" tabindex="-1" aria-label="code-block-3-54"></a>    <span class="co"># Display the plot</span></span>
 <span id="cb3-55"><a href="#cb3-55" tabindex="-1" aria-label="code-block-3-55"></a>    plt.show()</span></code></pre>
 </div>
@@ -646,10 +646,9 @@ for?</h3>
 <p>Using k-means requires us to specify the number of clusters to
 expect. A common strategy to get around this is to vary the number of
 clusters we are looking for, and use the silhouette score to select the
-most appropriate number of clusters. Use the code below to loop through
-searching for between 2 and 10 clusters, generating silhouette plots for
-each. Which (if any) of the results look more sensible? What criteria
-might you use to select the best one?</p>
+most appropriate number of clusters.</p>
+<p>The code below generates violin plots for each cluster, that show the
+distribution of the silhouette scores of points within it:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -659,13 +658,13 @@ might you use to select the best one?</p>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a><span class="kw">def</span> plot_silhouette(data, clusters):</span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a>    <span class="co">"""</span></span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="co">    Calculates and plots silhouette scores for clustering results.</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a><span class="co">    </span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a></span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a><span class="co">    Parameters:</span></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a><span class="co">    - data: array-like of shape (n_samples, n_features)</span></span>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a><span class="co">        Feature matrix of the dataset.</span></span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a><span class="co">    - clusters: array-like of shape (n_samples,)</span></span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a><span class="co">        Cluster labels for each sample in the dataset.</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a><span class="co">        </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a><span class="co">    Returns:</span></span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1" aria-label="code-block-9-15"></a><span class="co">    - overall_silhouette: float</span></span>
 <span id="cb9-16"><a href="#cb9-16" tabindex="-1" aria-label="code-block-9-16"></a><span class="co">        The overall silhouette score for the clustering result.</span></span>
@@ -678,41 +677,55 @@ might you use to select the best one?</p>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1" aria-label="code-block-9-23"></a>    sample_silhouettes <span class="op">=</span> silhouette_samples(data, clusters)</span>
 <span id="cb9-24"><a href="#cb9-24" tabindex="-1" aria-label="code-block-9-24"></a></span>
 <span id="cb9-25"><a href="#cb9-25" tabindex="-1" aria-label="code-block-9-25"></a>    <span class="co"># Plot silhouette values for each cluster</span></span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1" aria-label="code-block-9-26"></a>    y_lower <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1" aria-label="code-block-9-26"></a>    minimum_score <span class="op">=</span> sample_silhouettes.<span class="bu">min</span>()</span>
 <span id="cb9-27"><a href="#cb9-27" tabindex="-1" aria-label="code-block-9-27"></a>    n_clusters <span class="op">=</span> <span class="bu">len</span>(np.unique(clusters))</span>
 <span id="cb9-28"><a href="#cb9-28" tabindex="-1" aria-label="code-block-9-28"></a></span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1" aria-label="code-block-9-29"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_clusters):  <span class="co"># Iterate over each cluster</span></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1" aria-label="code-block-9-30"></a>        cluster_silhouettes <span class="op">=</span> sample_silhouettes[clusters <span class="op">==</span> i]</span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1" aria-label="code-block-9-31"></a>        cluster_silhouettes.sort()</span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1" aria-label="code-block-9-32"></a>        cluster_size <span class="op">=</span> <span class="bu">len</span>(cluster_silhouettes)</span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1" aria-label="code-block-9-33"></a>        y_upper <span class="op">=</span> y_lower <span class="op">+</span> cluster_size</span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1" aria-label="code-block-9-34"></a></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1" aria-label="code-block-9-35"></a>        plt.fill_betweenx(</span>
-<span id="cb9-36"><a href="#cb9-36" tabindex="-1" aria-label="code-block-9-36"></a>            np.arange(y_lower, y_upper),</span>
-<span id="cb9-37"><a href="#cb9-37" tabindex="-1" aria-label="code-block-9-37"></a>            <span class="dv">0</span>,</span>
-<span id="cb9-38"><a href="#cb9-38" tabindex="-1" aria-label="code-block-9-38"></a>            cluster_silhouettes,</span>
-<span id="cb9-39"><a href="#cb9-39" tabindex="-1" aria-label="code-block-9-39"></a>            alpha<span class="op">=</span><span class="fl">0.7</span></span>
-<span id="cb9-40"><a href="#cb9-40" tabindex="-1" aria-label="code-block-9-40"></a>        )</span>
-<span id="cb9-41"><a href="#cb9-41" tabindex="-1" aria-label="code-block-9-41"></a>        plt.text(<span class="op">-</span><span class="fl">0.05</span>, y_lower <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> cluster_size, <span class="bu">str</span>(i))</span>
-<span id="cb9-42"><a href="#cb9-42" tabindex="-1" aria-label="code-block-9-42"></a>        y_lower <span class="op">=</span> y_upper <span class="op">+</span> <span class="dv">10</span></span>
-<span id="cb9-43"><a href="#cb9-43" tabindex="-1" aria-label="code-block-9-43"></a></span>
-<span id="cb9-44"><a href="#cb9-44" tabindex="-1" aria-label="code-block-9-44"></a>    plt.xlabel(<span class="st">"Silhouette Coefficient"</span>)</span>
-<span id="cb9-45"><a href="#cb9-45" tabindex="-1" aria-label="code-block-9-45"></a>    plt.ylabel(<span class="st">"Cluster"</span>)</span>
-<span id="cb9-46"><a href="#cb9-46" tabindex="-1" aria-label="code-block-9-46"></a>    plt.title(<span class="st">"Silhouette Analysis"</span>)</span>
-<span id="cb9-47"><a href="#cb9-47" tabindex="-1" aria-label="code-block-9-47"></a>    <span class="co"># Set x-axis limits</span></span>
-<span id="cb9-48"><a href="#cb9-48" tabindex="-1" aria-label="code-block-9-48"></a>    plt.xlim([<span class="op">-</span><span class="fl">.2</span>, <span class="dv">1</span>])</span>
-<span id="cb9-49"><a href="#cb9-49" tabindex="-1" aria-label="code-block-9-49"></a>    plt.show()</span>
-<span id="cb9-50"><a href="#cb9-50" tabindex="-1" aria-label="code-block-9-50"></a></span>
-<span id="cb9-51"><a href="#cb9-51" tabindex="-1" aria-label="code-block-9-51"></a>    <span class="cf">return</span> overall_silhouette</span></code></pre>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1" aria-label="code-block-9-29"></a>    fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">1</span>, ncols<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1" aria-label="code-block-9-30"></a></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1" aria-label="code-block-9-31"></a>    <span class="cf">for</span> cluster_id <span class="kw">in</span> <span class="bu">range</span>(n_clusters):  <span class="co"># Iterate over each cluster</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1" aria-label="code-block-9-32"></a>        <span class="co"># Plot the silhouettes associated with each cluster</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1" aria-label="code-block-9-33"></a>        axes[<span class="dv">0</span>].violinplot(</span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1" aria-label="code-block-9-34"></a>            [sample_silhouettes[clusters <span class="op">==</span> cluster_id]],</span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1" aria-label="code-block-9-35"></a>            positions<span class="op">=</span>[cluster_id],</span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1" aria-label="code-block-9-36"></a>            showextrema<span class="op">=</span><span class="va">False</span>, showmedians<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1" aria-label="code-block-9-37"></a>        )</span>
+<span id="cb9-38"><a href="#cb9-38" tabindex="-1" aria-label="code-block-9-38"></a>        axes[<span class="dv">1</span>].scatter(</span>
+<span id="cb9-39"><a href="#cb9-39" tabindex="-1" aria-label="code-block-9-39"></a>            data[:, <span class="dv">0</span>][clusters <span class="op">==</span> cluster_id],</span>
+<span id="cb9-40"><a href="#cb9-40" tabindex="-1" aria-label="code-block-9-40"></a>            data[:, <span class="dv">1</span>][clusters <span class="op">==</span> cluster_id]</span>
+<span id="cb9-41"><a href="#cb9-41" tabindex="-1" aria-label="code-block-9-41"></a>        )</span>
+<span id="cb9-42"><a href="#cb9-42" tabindex="-1" aria-label="code-block-9-42"></a></span>
+<span id="cb9-43"><a href="#cb9-43" tabindex="-1" aria-label="code-block-9-43"></a>    axes[<span class="dv">0</span>].hlines(</span>
+<span id="cb9-44"><a href="#cb9-44" tabindex="-1" aria-label="code-block-9-44"></a>        overall_silhouette, <span class="op">-</span><span class="fl">0.5</span>, n_clusters<span class="op">-</span><span class="fl">0.5</span>,</span>
+<span id="cb9-45"><a href="#cb9-45" tabindex="-1" aria-label="code-block-9-45"></a>        color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="ss">f"Overall: </span><span class="sc">{</span>overall_silhouette<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb9-46"><a href="#cb9-46" tabindex="-1" aria-label="code-block-9-46"></a>    )</span>
+<span id="cb9-47"><a href="#cb9-47" tabindex="-1" aria-label="code-block-9-47"></a>    axes[<span class="dv">0</span>].set_xticks([])  <span class="co"># Remove the ticks</span></span>
+<span id="cb9-48"><a href="#cb9-48" tabindex="-1" aria-label="code-block-9-48"></a>    axes[<span class="dv">0</span>].set_xlabel(<span class="st">"Silhouette Coefficient"</span>)</span>
+<span id="cb9-49"><a href="#cb9-49" tabindex="-1" aria-label="code-block-9-49"></a>    axes[<span class="dv">0</span>].set_ylabel(<span class="st">"Cluster"</span>)</span>
+<span id="cb9-50"><a href="#cb9-50" tabindex="-1" aria-label="code-block-9-50"></a>    axes[<span class="dv">0</span>].set_ylim(<span class="op">-</span><span class="fl">0.2</span>, <span class="dv">1</span>)  <span class="co"># Set the y range to be consistent across all plots</span></span>
+<span id="cb9-51"><a href="#cb9-51" tabindex="-1" aria-label="code-block-9-51"></a>    axes[<span class="dv">0</span>].set_title(<span class="st">"Silhouette Analysis"</span>)</span>
+<span id="cb9-52"><a href="#cb9-52" tabindex="-1" aria-label="code-block-9-52"></a>    axes[<span class="dv">1</span>].set_title(<span class="st">"Predicted Clusters"</span>)</span>
+<span id="cb9-53"><a href="#cb9-53" tabindex="-1" aria-label="code-block-9-53"></a>    plt.show()</span>
+<span id="cb9-54"><a href="#cb9-54" tabindex="-1" aria-label="code-block-9-54"></a></span>
+<span id="cb9-55"><a href="#cb9-55" tabindex="-1" aria-label="code-block-9-55"></a>    <span class="cf">return</span> overall_silhouette</span></code></pre>
 </div>
+<p>Use the code below to re-generate the clusters with a low standard
+deviation, then loop through searching for between 2 and 10 clusters,
+generating silhouette plots for each. Which (if any) of the results look
+more sensible? What criteria might you use to select the best one?</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="cf">for</span> cluster_count <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">11</span>):</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>    Kmean <span class="op">=</span> skl_cluster.KMeans(n_clusters<span class="op">=</span>cluster_count)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a>    Kmean.fit(data)</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>    clusters <span class="op">=</span> Kmean.predict(data)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a>    plot_silhouette(data, clusters)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a>N_true_clusters <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>data, cluster_id <span class="op">=</span> skl_datasets.make_blobs(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a>    n_samples<span class="op">=</span><span class="dv">400</span>, cluster_std<span class="op">=</span><span class="fl">0.75</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>    centers<span class="op">=</span>N_true_clusters, random_state<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1" aria-label="code-block-10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1" aria-label="code-block-10-7"></a><span class="cf">for</span> cluster_count <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">11</span>):</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1" aria-label="code-block-10-8"></a>    Kmean <span class="op">=</span> skl_cluster.KMeans(n_clusters<span class="op">=</span>cluster_count)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1" aria-label="code-block-10-9"></a>    Kmean.fit(data)</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1" aria-label="code-block-10-10"></a>    clusters <span class="op">=</span> Kmean.predict(data)</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1" aria-label="code-block-10-11"></a>    plot_silhouette(data, clusters)</span></code></pre>
 </div>
 </div>
 </div>
@@ -722,15 +735,18 @@ might you use to select the best one?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The silouette score, unfortunately, incorrectly identifies N=2 as the
 most approprirate clustering configuration in this case (silhouette =
-0.73). However, the silhouette score for N=4 (true cluster number) is
-very close (silhouette = 0.72). The silhouette can act as a useful guide
-in selecting cluster number, but it doesn’t always produce perfect
-results. Clustering with different feature sets or exploring different
-clustering algorithms may yield better results.</p>
+0.73). Looking at the figures, we can see how that is not an
+<em>unreasonable</em> conclusion. However, the silhouette score for N=4
+(true cluster number) is very close (silhouette = 0.72). The silhouette
+can act as a useful guide in selecting cluster number, but it doesn’t
+always produce perfect results. Clustering with different feature sets
+or exploring different clustering algorithms may yield better
+results.</p>
+<p><a href="../fig/ep05%20clustering_silhouettes_n2.png" alt="Silhouette scores for 2 clusters"></a> <a href="../fig/ep05%20clustering_silhouettes_n4.png" alt="Silhouette scores for 4 clusters"></a></p>
 </div>
 </div>
 </div>
@@ -762,8 +778,9 @@ requirements</li>
 clusters</h3>
 <div class="callout-content">
 <p>Adjust the program above to increase the standard deviation of the
-blobs (the cluster_std parameter to make_blobs) and increase the number
-of samples (n_samples) to 4000. You should start to see the clusters
+blobs (the <code>cluster_std</code> parameter to
+<code>make_blobs</code>) and increase the number of samples
+(<code>n_samples</code>) to 4000. You should start to see the clusters
 overlapping. Do the clusters that are identified make sense? Is there
 any strange behaviour?</p>
 </div>
@@ -774,10 +791,10 @@ any strange behaviour?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<p>Increasing n_samples to 4000 and cluster_std to 3.0 looks like this:
-<img src="../fig/kmeans_overlapping_clusters.png" alt="Kmeans attempting to classify overlapping clusters" class="figure"> The straight
+<p>Increasing <code>n_samples</code> to 4000 and
+<code>cluster_std</code> to 3.0 looks like this: <img src="../fig/kmeans_overlapping_clusters.png" alt="Kmeans attempting to classify overlapping clusters" class="figure"> The straight
 line boundaries between clusters look a bit strange.</p>
 </div>
 </div>
@@ -808,9 +825,9 @@ clustering.</p>
 <h4 id="spectral-clustering-with-scikit-learn">Spectral clustering with Scikit-Learn<a class="anchor" aria-label="anchor" href="#spectral-clustering-with-scikit-learn"></a></h4>
 <p>Lets try out using Scikit-Learn’s spectral clustering. To make the
 concentric circles in the above example we need to use the
-<code>make_circles</code> function in the sklearn.datasets module. This
-works in a very similar way to the make_blobs function we used earlier
-on.</p>
+<code>make_circles</code> function in the <code>sklearn.datasets</code>
+module. This works in a very similar way to the<code>make_blobs</code>
+function we used earlier on.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -828,39 +845,41 @@ class.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a>model <span class="op">=</span> skl_cluster.SpectralClustering(n_clusters<span class="op">=</span><span class="dv">2</span>, affinity<span class="op">=</span><span class="st">'nearest_neighbors'</span>, assign_labels<span class="op">=</span><span class="st">'kmeans'</span>)</span></code></pre>
 </div>
-<p>The SpectralClustering class combines the fit and predict functions
-into a single function called fit_predict.</p>
+<p>The <code>SpectralClustering</code> class combines the fit and
+predict functions into a single function called
+<code>fit_predict</code>.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a>labels <span class="op">=</span> model.fit_predict(circles)</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a>plots_labels(circles, labels)</span></code></pre>
 </div>
-<p>Here is the whole program combined with the kmeans clustering for
-comparison. Note that this produces two figures. To view both of them
-use the “Inline” graphics terminal inside the Python console instead of
-the “Automatic” method which will open a window and only show you one of
-the graphs.</p>
+<p>Here is the whole program, combined with the kmeans clustering for
+comparison. Note that this produces two figures.</p>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1" aria-label="code-block-14-1"></a><span class="im">import</span> sklearn.cluster <span class="im">as</span> skl_cluster</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1" aria-label="code-block-14-2"></a><span class="im">import</span> sklearn.datasets <span class="im">as</span> skl_data</span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1" aria-label="code-block-14-3"></a></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1" aria-label="code-block-14-4"></a>circles, circles_clusters <span class="op">=</span> skl_data.make_circles(n_samples<span class="op">=</span><span class="dv">400</span>, noise<span class="op">=</span><span class="fl">.01</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1" aria-label="code-block-14-5"></a></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1" aria-label="code-block-14-6"></a><span class="co"># cluster with kmeans</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1" aria-label="code-block-14-7"></a>Kmean <span class="op">=</span> skl_cluster.KMeans(n_clusters<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1" aria-label="code-block-14-8"></a>Kmean.fit(circles)</span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1" aria-label="code-block-14-9"></a>clusters <span class="op">=</span> Kmean.predict(circles)</span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1" aria-label="code-block-14-10"></a></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1" aria-label="code-block-14-11"></a><span class="co"># plot the data, colouring it by cluster</span></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1" aria-label="code-block-14-12"></a>plot_clusters(circles, clusters, Kmean)</span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1" aria-label="code-block-14-13"></a></span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1" aria-label="code-block-14-14"></a><span class="co"># cluster with spectral clustering</span></span>
-<span id="cb14-15"><a href="#cb14-15" tabindex="-1" aria-label="code-block-14-15"></a>model <span class="op">=</span> skl_cluster.SpectralClustering(n_clusters<span class="op">=</span><span class="dv">2</span>, affinity<span class="op">=</span><span class="st">'nearest_neighbors'</span>, assign_labels<span class="op">=</span><span class="st">'kmeans'</span>)</span>
-<span id="cb14-16"><a href="#cb14-16" tabindex="-1" aria-label="code-block-14-16"></a>labels <span class="op">=</span> model.fit_predict(circles)</span>
-<span id="cb14-17"><a href="#cb14-17" tabindex="-1" aria-label="code-block-14-17"></a>plots_labels(circles, labels)</span></code></pre>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1" aria-label="code-block-14-4"></a>circles, circles_clusters <span class="op">=</span> skl_data.make_circles(</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1" aria-label="code-block-14-5"></a>    n_samples<span class="op">=</span><span class="dv">400</span>, noise<span class="op">=</span><span class="fl">.01</span>, random_state<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1" aria-label="code-block-14-6"></a>)</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1" aria-label="code-block-14-7"></a></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1" aria-label="code-block-14-8"></a><span class="co"># cluster with kmeans</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1" aria-label="code-block-14-9"></a>Kmean <span class="op">=</span> skl_cluster.KMeans(n_clusters<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1" aria-label="code-block-14-10"></a>Kmean.fit(circles)</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1" aria-label="code-block-14-11"></a>clusters <span class="op">=</span> Kmean.predict(circles)</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1" aria-label="code-block-14-12"></a></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1" aria-label="code-block-14-13"></a><span class="co"># plot the data, colouring it by cluster</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1" aria-label="code-block-14-14"></a>plot_clusters(circles, clusters, Kmean)</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1" aria-label="code-block-14-15"></a></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1" aria-label="code-block-14-16"></a><span class="co"># cluster with spectral clustering</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1" aria-label="code-block-14-17"></a>model <span class="op">=</span> skl_cluster.SpectralClustering(</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1" aria-label="code-block-14-18"></a>    n_clusters<span class="op">=</span><span class="dv">2</span>, affinity<span class="op">=</span><span class="st">'nearest_neighbors'</span>, assign_labels<span class="op">=</span><span class="st">'kmeans'</span></span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1" aria-label="code-block-14-19"></a>)</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1" aria-label="code-block-14-20"></a>labels <span class="op">=</span> model.fit_predict(circles)</span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1" aria-label="code-block-14-21"></a>plots_labels(circles, labels)</span></code></pre>
 </div>
 <p><img src="../fig/kmeans_concentric_circle_2.png" alt="Kmeans attempting to cluster the concentric circles" class="figure"><img src="../fig/spectral_concentric_circle_2.png" alt="Spectral clustering on the concentric circles" class="figure"></p>
 <div id="comparing-k-means-and-spectral-clustering-performance" class="callout challenge">
@@ -873,7 +892,7 @@ the graphs.</p>
 performance</h3>
 <div class="callout-content">
 <p>Modify the program we wrote in the previous exercise to use spectral
-clustering instead of k-means and save it as a new file. Time how long
+clustering instead of k-means, and save it as a new file. Time how long
 both programs take to run. Add the line <code>import time</code> at the
 top of both files as the first line, and get the start time with
 <code>start_time = time.time()</code>. End the program by getting the
@@ -894,7 +913,7 @@ real)?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>KMeans version: runtime around 4 seconds (your computer might be
 faster/slower)</p>
@@ -903,7 +922,7 @@ faster/slower)</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1" aria-label="code-block-15-2"></a><span class="im">import</span> sklearn.cluster <span class="im">as</span> skl_cluster</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs </span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a><span class="im">import</span> time</span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1" aria-label="code-block-15-5"></a></span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a>start_time <span class="op">=</span> time.time()</span>
@@ -930,7 +949,7 @@ faster/slower)</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1" aria-label="code-block-16-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1" aria-label="code-block-16-2"></a><span class="im">import</span> sklearn.cluster <span class="im">as</span> skl_cluster</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1" aria-label="code-block-16-3"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs </span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1" aria-label="code-block-16-3"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1" aria-label="code-block-16-4"></a><span class="im">import</span> time</span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1" aria-label="code-block-16-5"></a></span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1" aria-label="code-block-16-6"></a>start_time <span class="op">=</span> time.time()</span>
@@ -942,7 +961,7 @@ faster/slower)</p>
 <span id="cb16-12"><a href="#cb16-12" tabindex="-1" aria-label="code-block-16-12"></a>                                       affinity<span class="op">=</span><span class="st">'nearest_neighbors'</span>,</span>
 <span id="cb16-13"><a href="#cb16-13" tabindex="-1" aria-label="code-block-16-13"></a>                                       assign_labels<span class="op">=</span><span class="st">'kmeans'</span>)</span>
 <span id="cb16-14"><a href="#cb16-14" tabindex="-1" aria-label="code-block-16-14"></a>    labels <span class="op">=</span> model.fit_predict(data)</span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1" aria-label="code-block-16-15"></a>    </span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1" aria-label="code-block-16-15"></a></span>
 <span id="cb16-16"><a href="#cb16-16" tabindex="-1" aria-label="code-block-16-16"></a>    plt.scatter(data[:, <span class="dv">0</span>], data[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">15</span>, linewidth<span class="op">=</span><span class="dv">0</span>, c<span class="op">=</span>labels)</span>
 <span id="cb16-17"><a href="#cb16-17" tabindex="-1" aria-label="code-block-16-17"></a>    plt.title(<span class="bu">str</span>(cluster_count)<span class="op">+</span><span class="st">" Clusters"</span>)</span>
 <span id="cb16-18"><a href="#cb16-18" tabindex="-1" aria-label="code-block-16-18"></a>plt.show()</span>
@@ -958,7 +977,7 @@ points kmeans took 5.6 seconds, while spectral took 24 seconds. A 4.28
 fold difference. Kmeans is 1.4 times slower for double the data, while
 spectral is 2.6 times slower. The realative difference is diverging. If
 we used 100 times more data we might expect a 100 fold divergence in
-execution times. Kmeans might take a few minutes while spectral will
+execution times. Kmeans might take a few minutes, while spectral will
 take hours.</p>
 </div>
 </div>
@@ -1045,8 +1064,8 @@ Kmeans.</li>
   "url": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/instructor/05-clustering.html",
   "identifier": "https://carpentries-incubator.github.io/machine-learning-novice-sklearn/instructor/05-clustering.html",
   "dateCreated": "2019-04-04",
-  "dateModified": "2026-02-04",
-  "datePublished": "2026-06-09"
+  "dateModified": "2026-06-11",
+  "datePublished": "2026-06-11"
 }
 
   </script><script>
