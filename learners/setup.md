@@ -12,7 +12,7 @@ You will need a terminal, Python 3.8+, and the ability to create Python virtual 
 
 ### Installing Python
 
-[Python][python] is a popular language for scientific computing, and a frequent choice
+[Python](https://www.python.org/) is a popular language for scientific computing and a frequent choice
 for machine learning as well.
 To install Python, follow the [Beginner's Guide](https://wiki.python.org/moin/BeginnersGuide/Download) or head straight to the [download page](https://www.python.org/downloads/).
 

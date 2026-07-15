@@ -1,5 +1,14 @@
 # Introduction to Machine Learning with Scikit Learn and Python
 
+## Run this lesson with MyBinder
+
+If you don't have access to a computer with the software needed for this lesson installed or are not able to install it yourself then you can run use MyBinder to access a Jupyter Lab instace with all the required software.
+Please note that this has very little compute power behind it and will be very slow for some of the examples and exercises in this lesson.
+
+[![Run this lesson on MyBinder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NOC-OI/machine-learning-novice-sklearn/main)
+
+## About the Carpentries
+
 [![Create a Slack Account with us](https://img.shields.io/badge/Create_Slack_Account-The_Carpentries-071159.svg)](https://swc-slack-invite.herokuapp.com/)
 
 This repository generates the corresponding lesson website from [The Carpentries](https://carpentries.org/) repertoire of lessons.
@@ -19,65 +28,23 @@ nicely explained in the chapter [Contributing to a Project](https://git-scm.com/
 by Scott Chacon.
 Look for the tag ![good\_first\_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the mantainers will welcome a pull request fixing this issue.
 
+## Outline
+
+* Introduction
+* Regression
+* Classification
+* Ensemble Methods
+* Clustering
+* Dimesionality Reduction
+* Neural Networks
+* Ethics
+
 ## Maintainer(s)
 
 Current maintainers of this lesson are:
 
 - [Colin Sauze](https://github.com/colinsauze)
 - [Vini Salazar](https://github.com/vinisalazar)
-
-## Outline
-
-As determined by the attendees of CarpentryConnect Manchester 2019, the proposed outline of this lesson is as follows:
-
-### Unsupervised Learning
-
-#### I. Clustering
-
-##### 1\. Kmeans
-
-#### II. Dimesionality Reduction
-
-##### 1\. PCA
-
-##### 2\. TSNE
-
-### Supervised Learning
-
-All models, objectives:
-
-- What it is;
-- when to use it and on what type of data;
-- how to evaluate the fit, over/underfitting;
-- computational complexity
-
-#### I. Regression
-
-##### 1\. Linear
-
-##### 2\. Polynomial
-
-- Overfitting/underfitting
-- Test sets (how and why)
-
-#### II. Classification
-
-##### 1\. Logistic regression
-
-- Over/underfitting can happen in regression too
-- Accuracy
-- Confusion Matrix
-- Precision
-- Recall
-
-##### 2\. Random Forest
-
-##### 3\. Neural Networks
-
-- Evaluation
-- Cross Validation
-
-### Ethics
 
 ## Authors
 

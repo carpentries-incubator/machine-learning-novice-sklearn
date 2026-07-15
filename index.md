@@ -5,10 +5,6 @@ site: sandpaper::sandpaper_site
 
 This workshop provides a beginner-friendly overview of machine learning (ML) and common ML methods— including regression, classification, clustering, dimensionality reduction, ensemble methods, and a quick neural-network demo—using Python + scikit-learn. The broad coverage is designed to jump-start your ML journey and point you toward next learning steps.
 
-<!-- this is an html comment -->
-
-{% comment %} This is a comment in Liquid {% endcomment %}
-
 ::::::::::::::::::::::::::::::::::::::::::  prereq
 
 ## Prerequisites
