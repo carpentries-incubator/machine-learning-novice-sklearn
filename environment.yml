@@ -1,0 +1,15 @@
+name: null
+
+channels:
+    - conda-forge
+    - defaults
+
+dependencies:
+    - jupyterlab
+    - python=3.13
+    - numpy=2.3.5
+    - matplotlib-base=3.10.8
+    - matplotlib-inline=0.2.1
+    - scikit-learn=1.8.0
+    - scikit-image=0.26.0
+    - pandas=2.3.3

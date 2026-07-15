@@ -8,7 +8,7 @@ exercises: 0
 
 - Use two different supervised methods to classify data.
 - Learn about the concept of hyper-parameters.
-- Learn to validate and ?cross-validate? models
+- Learn to validate and cross-validate models
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -174,7 +174,7 @@ We can see that rather than clean lines between species, the decision tree produ
 
 ### Visualising the classification space
 
-We can visualise the classification space (decision tree boundaries) to get a more intuitive feel for what it is doing.Note that our 2D plot can only show two parameters at a time, so we will quickly visualise by training a new model on only 2 features:
+We can visualise the classification space (decision tree boundaries) to get a more intuitive feel for what it is doing. Note that our 2D plot can only show two parameters at a time, so we will quickly visualise by training a new model on only 2 features:
 
 ```python
 from sklearn.inspection import DecisionBoundaryDisplay
@@ -193,9 +193,15 @@ plt.show()
 
 ![](fig/e3_dt_space_2.png){alt='Classification space for our decision tree'}
 
-## Tuning the `max_depth` hyperparameter
 
-Our decision tree using a `max_depth=2` is fairly simple and there are still some incorrect predictions in our final classifications. Let's try varying the `max_depth` hyperparameter to see if we can improve our model predictions.
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Exercise: Tuning the max_depth hyperparameter
+
+Our decision tree using a `max_depth=2` is fairly simple and there are still some incorrect predictions in our final classifications. 
+Try varying the `max_depth` hyperparameter to see if you can improve our model predictions.
+
+:::::::::::::::  solution
 
 <!-- We can reduce the over-fitting of our decision tree model by limiting its depth, forcing it to use less decisions to produce a classification, and resulting in a simpler decision space. -->
 
@@ -222,9 +228,23 @@ plt.show()
 
 ![](fig/e3_dt_overfit.png){alt='Performance of decision trees of various depths'}
 
-Here we can see that a `max_depth=2` performs slightly better on the test data than those with `max_depth > 2`. This can seem counter intuitive, as surely more questions should be able to better split up our categories and thus give better predictions?
+Here we can see that a `max_depth=2` performs slightly better on the test data than those with `max_depth > 2`.
 
-Let's reuse our fitting and plotting codes from above to inspect a decision tree that has `max_depth=5`:
+::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Exercise: Why do deeper trees reduce performance?
+
+It can seem counter intuitive that making a deeper tree reduces performance, as surely more questions should be able to better split up our categories and thus give better predictions?
+
+Reuse the fitting and plotting code from above to inspect a decision tree that has `max_depth=5`. 
+What differences do you see in this plot compared to the `max_depth=2` plot? What does this tell you about the tree trained on `max_depth=5`?
+
+:::::::::::::::  solution
 
 ```python
 clf = DecisionTreeClassifier(max_depth=5, random_state=0)
@@ -237,7 +257,9 @@ plt.show()
 
 ![](fig/e3_dt_6.png){alt='Simplified decision tree'}
 
-It looks like our decision tree has split up the training data into the correct penguin categories and more accurately than the `max_depth=2` model did, however it used some very specific questions to split up the penguins into the correct categories. Let's try visualising the classification space for a more intuitive understanding:
+It looks like our decision tree has split up the training data into the correct penguin categories and more accurately than the `max_depth=2` model did, however it used some very specific questions to split up the penguins into the correct categories. 
+
+By visualising the classification space we can get a more intuitive understanding:
 
 ```python
 f1 = feature_names[0]
@@ -258,91 +280,100 @@ Earlier we saw that the `max_depth=2` model split the data into 3 simple boundin
 
 This is a classic case of over-fitting - our model has produced extremely specific parameters that work for the training data but are not representitive of our test data. Sometimes simplicity is better!
 
-> ### Exercise: Bias-Variance tradeoff (optional)
-> 
-> Typically, as we initially transition from simple to more complex models (e.g., depth of 1 -> 2), we'll see an increase in model performance (test set accuracy). However, beyond a certain point of complexity, the model will be more prone to overfitting effects. This is known as the "U-shaped" Bias-Variance tradeoff, where "bias" represents prediction error from models being too simple, and "variance" represents prediciton errors from models' being too complex. This is because more complicated models begin to memorize the noise in the training data rather than capture underlying patterns in the data. What happens as we continue to add depth to our tree?
-> 
-> ```python
-> max_depths = list(range(1,30)) 
-> accuracy = []
-> for d in max_depths:
->   clf = DecisionTreeClassifier(max_depth=d, random_state=0)
->   clf.fit(X_train, y_train)
->   acc = clf.score(X_test, y_test)
->   accuracy.append((d, acc))
-> 
-> acc_df = pd.DataFrame(accuracy, columns=['depth', 'accuracy'])
-> 
-> sns.lineplot(acc_df, x='depth', y='accuracy')
-> plt.xlabel('Tree depth')
-> plt.ylabel('Accuracy')
-> plt.show()
-> ```
-> 
-> We observe that this data doesn't seem to susceptible to the classic, U-shaped, bias-variance curve. Why might this be? There are at least two factors contributing to these results:
-> 
-> 1. We only have 4 predictors. With so few predictors, there are only so many unique tree structures that can be tested/formed. This makes overfitting less likely.
-> 2. Our data is sourced from a python library, and has been cleaned/vetted. Real-world data typically has more noise.
-> 
-> Let's try adding a small amount of noise to the data using the below code. How does this impact the ideal setting for depth level?
-> 
-> ```python
-> # 1) LOAD DATA (if not loaded already)
-> import seaborn as sns
-> dataset = sns.load_dataset('penguins')
-> dataset.head()
-> 
-> # 2) Extract the data we need and drop NaNs (if not done already)
-> feature_names = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
-> dataset.dropna(subset=feature_names, inplace=True)
-> class_names = dataset['species'].unique()
-> X = dataset[feature_names]
-> y = dataset['species']
-> 
-> # 3) ADD RANDOM NOISE TO X
-> import numpy as np
-> stds = X.std(axis=0).to_numpy()
-> 
-> # Generate noise and scale it
-> # Set seed for reproducibility
-> np.random.seed(42)
-> noise = np.random.normal(0, 1, X.shape) # sample numbers from normal distribution
-> scaled_noise = noise * stds  # up to 1
-> X_noisy = X + scaled_noise
-> 
-> 
-> import matplotlib.pyplot as plt
-> fig01 = sns.scatterplot(X, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
-> plt.show()
-> fig02 = sns.scatterplot(X_noisy, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
-> plt.show()
-> 
-> # 4) TRAIN/TEST SPLIT
-> from sklearn.model_selection import train_test_split
-> # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0, stratify=y)
-> X_train, X_test, y_train, y_test = train_test_split(X_noisy, y, test_size=0.2, random_state=0, stratify=y)
-> 
-> # 5) HYPERPARAM TUNING
-> from sklearn.tree import DecisionTreeClassifier
-> import pandas as pd
-> import matplotlib.pyplot as plt
-> 
-> max_depths = list(range(1,200)) 
-> accuracy = []
-> for d in max_depths:
->     clf = DecisionTreeClassifier(max_depth=d)
->     clf.fit(X_train, y_train)
->     acc = clf.score(X_test, y_test)
-> 
->     accuracy.append((d, acc))
-> 
-> acc_df = pd.DataFrame(accuracy, columns=['depth', 'accuracy'])
-> 
-> sns.lineplot(acc_df, x='depth', y='accuracy')
-> plt.xlabel('Tree depth')
-> plt.ylabel('Accuracy')
-> plt.show()
-> ```
+::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+### Exercise: Bias-Variance tradeoff (optional)
+
+Typically, as we initially transition from simple to more complex models (e.g., depth of 1 -> 2), we'll see an increase in model performance (test set accuracy). However, beyond a certain point of complexity, the model will be more prone to overfitting effects. This is known as the "U-shaped" Bias-Variance tradeoff, where "bias" represents prediction error from models being too simple, and "variance" represents prediciton errors from models' being too complex. This is because more complicated models begin to memorize the noise in the training data rather than capture underlying patterns in the data. What happens as we continue to add depth to our tree?
+
+```python
+max_depths = list(range(1,30)) 
+accuracy = []
+for d in max_depths:
+   clf = DecisionTreeClassifier(max_depth=d, random_state=0)
+   clf.fit(X_train, y_train)
+   acc = clf.score(X_test, y_test)
+   accuracy.append((d, acc))
+
+acc_df = pd.DataFrame(accuracy, columns=['depth', 'accuracy'])
+
+sns.lineplot(acc_df, x='depth', y='accuracy')
+plt.xlabel('Tree depth')
+plt.ylabel('Accuracy')
+plt.show()
+```
+
+We observe that this data doesn't seem to susceptible to the classic, U-shaped, bias-variance curve. Why might this be? There are at least two factors contributing to these results:
+
+1. We only have 4 predictors. With so few predictors, there are only so many unique tree structures that can be tested/formed. This makes overfitting less likely.
+2. Our data is sourced from a python library, and has been cleaned/vetted. Real-world data typically has more noise.
+
+Let's try adding a small amount of noise to the data using the below code. How does this impact the ideal setting for depth level?
+
+```python
+# 1) LOAD DATA (if not loaded already)
+import seaborn as sns
+dataset = sns.load_dataset('penguins')
+dataset.head()
+
+# 2) Extract the data we need and drop NaNs (if not done already)
+feature_names = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
+dataset.dropna(subset=feature_names, inplace=True)
+class_names = dataset['species'].unique()
+X = dataset[feature_names]
+y = dataset['species']
+
+# 3) ADD RANDOM NOISE TO X
+import numpy as np
+stds = X.std(axis=0).to_numpy()
+
+# Generate noise and scale it
+# Set seed for reproducibility
+np.random.seed(42)
+noise = np.random.normal(0, 1, X.shape) # sample numbers from normal distribution
+scaled_noise = noise * stds  # up to 1
+X_noisy = X + scaled_noise
+
+
+import matplotlib.pyplot as plt
+fig01 = sns.scatterplot(X, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
+plt.show()
+fig02 = sns.scatterplot(X_noisy, x=feature_names[0], y=feature_names[1], hue=dataset['species'])
+plt.show()
+
+# 4) TRAIN/TEST SPLIT
+from sklearn.model_selection import train_test_split
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0, stratify=y)
+X_train, X_test, y_train, y_test = train_test_split(X_noisy, y, test_size=0.2, random_state=0, stratify=y)
+
+# 5) HYPERPARAM TUNING
+from sklearn.tree import DecisionTreeClassifier
+import pandas as pd
+import matplotlib.pyplot as plt
+
+max_depths = list(range(1,200)) 
+accuracy = []
+for d in max_depths:
+    clf = DecisionTreeClassifier(max_depth=d)
+    clf.fit(X_train, y_train)
+    acc = clf.score(X_test, y_test)
+
+    accuracy.append((d, acc))
+
+acc_df = pd.DataFrame(accuracy, columns=['depth', 'accuracy'])
+
+sns.lineplot(acc_df, x='depth', y='accuracy')
+plt.xlabel('Tree depth')
+plt.ylabel('Accuracy')
+plt.show()
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Classification using support vector machines
 
@@ -361,7 +392,7 @@ For a linear SVM, the trainable parameters are:
   - **Why SVM**: SVMs excel in high-dimensional spaces because the kernel trick allows them to separate classes even in complex feature spaces without explicitly mapping the data.
   - **Why Not Decision Tree**: Decision trees struggle with high-dimensional data as the number of potential splits grows exponentially, leading to overfitting or underperformance.
 
-2. **Accuracy over Interpretbaility**:
+2. **Accuracy over Interpretability**:
   
   - **Why SVM**: SVMs are often considered black-box models, focusing on accuracy rather than interpretability.
   - **Why Not Decision Tree**: Decision trees are typically interpretable, making them better if you need to explain your model.
@@ -444,7 +475,14 @@ While this SVM model performs slightly worse than our decision tree (95.6% vs. 9
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
-- Classification requires labelled data (is supervised)
+- Classifiers built with supervised techniques require labelled data to train on.
+- We usually split our data into training and test sets with 80% of the data used for training and 20% used to test it.
+- We must be careful that our training and test sets have similar characteristics.
+- Decision trees are a simple method of classification that can work well on simpler data.
+- Hyper parameters are parameters which affect the behaviour of training a model.
+- Tree depth in a decision tree is an example of a hyper parameter.
+- Support vector machines work well on more complex data with non-linear boundaries.
+- Support vector machines use a "kernel trick" to transition data into a higher dimensional space.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
