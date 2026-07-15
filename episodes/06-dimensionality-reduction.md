@@ -21,15 +21,26 @@ exercises: 30
 
 ## Dimensionality reduction
 
-As seen in the last episode, general clustering algorithms work well with low-dimensional data. In this episode we see how higher-dimensional data, such as images of handwritten text or numbers, can be processed with dimensionality reduction techniques to make the datasets more accessible for other modelling techniques. The dataset we will be using is the Scikit-Learn subset of the Modified National Institute of Standards and Technology (MNIST) dataset.
+As we saw in the last episode, general clustering algorithms work well with low-dimensional data.
+However, many machine learning datasets contain many more dimensions.
+Higher-dimensional data typically requires more memory to store, and more computational effort to process.
+
+In this episode, we will be using images of handwritten text or numbers, and processing them with dimensionality reduction techniques to make the datasets more accessible for other modelling techniques.
+The dataset we will be using is the Scikit-Learn subset of the Modified National Institute of Standards and Technology (MNIST) dataset.
 
 ![](fig/MnistExamples.png){alt='MNIST example illustrating all the classes in the dataset'}
 
-The MNIST dataset contains 70,000 images of handwritten numbers, and are labelled from 0-9 with the number that each image contains. Each image is a greyscale and 28x28 pixels in size for a total of 784 pixels per image. Each pixel can take a value between 0-255 (8bits). When dealing with a series of images in machine learning we consider each pixel to be a feature that varies according to each of the sample images. Our previous penguin dataset only had no more than 7 features to train with, however even a small 28x28 MNIST image has as much as 784 features (pixels) to work with.
+The MNIST dataset contains 70,000 images of handwritten numbers, and are labelled from 0-9 with the number that each image contains.
+Each image is a greyscale and 28x28 pixels in size for a total of 784 pixels per image. Each pixel can take a value between 0-255 (8bits).
+When dealing with a series of images in machine learning we consider each pixel to be a feature that varies according to each of the sample images.
+Our previous penguin dataset only had no more than 7 features to train with, however even a small 28x28 MNIST image has as much as 784 features (pixels) to work with.
 
 ![](fig/mnist_30000-letter.png){alt='MNIST example of a single image'}
 
-To make this episode a bit less computationally intensive, the Scikit-Learn example that we will work with is a smaller sample of 1797 images. Each image is 8x8 in size for a total of 64 pixels per image, resulting in 64 features for us to work with. The pixels can take a value between 0-15 (4bits). Let's retrieve and inspect the Scikit-Learn dataset with the following code:
+To make this episode a bit less computationally intensive, the Scikit-Learn example that we will work with is a smaller sample of 1797 images.
+Each image is 8x8 in size for a total of 64 pixels per image, resulting in 64 features for us to work with.
+The pixels can take a value between 0-15 (4bits).
+Let's retrieve and inspect the Scikit-Learn dataset with the following code:
 
 ```python
 import numpy as np
@@ -80,13 +91,22 @@ features.head()
 
 ### Our goal: using dimensionality-reduction to help with machine learning
 
-As humans we are pretty good at object and pattern recognition. We can look at the images above, inspect the intensity and position pixels relative to other pixels, and pretty quickly make an accurate guess at what the image shows. As humans we spends much of our younger lives learning these spatial relations, and so it stands to reason that computers can also extract these relations. Let's see if it is possible to use unsupervised clustering techniques to pull out relations in our MNIST dataset of number images.
+As humans we are pretty good at object and pattern recognition.
+We can look at the images above, inspect the intensity and position pixels relative to other pixels, and pretty quickly make an accurate guess at what the image shows.
+As humans we spends much of our younger lives learning these spatial relations, and so it stands to reason that computers can also extract these relations.
+To begin with, we can explore if the unsupervised clustering techniques we have learnt can pull out relations in our MNIST dataset of number images.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ### Exercise: Try to visually inspect the dataset and features for correlations
 
-As we did for previous datasets, lets visually inspect relationships between our features/pixels. Try and investigate the following pixels for relations (written "row\_column"): 0\_4, 1\_4, 2\_4, and 3\_4.
+As we did for previous datasets, we can visually inspect relationships between our features/pixels.
+Try and investigate the relationships between the following pixels:
+
+- Row 0, column 4 (column `pixel_0_4`)
+- Row 1, column 4
+- Row 2, column 4
+- Row 3, column 4
 
 :::::::::::::::  solution
 
@@ -122,13 +142,21 @@ feature_subset = []
 for i in range(4):
     feature_subset.append("pixel_"+str(i)+"_4")
 
-sns.pairplot(seaborn_data, vars=feature_subset, hue="labels",
-             palette=sns.mpl_palette("Spectral", n_colors=10))
+# We create a discrete palette of 10 colours, and colour by the `labels` column.
+sns.pairplot(
+    seaborn_data,
+    vars=feature_subset,
+    hue="labels",
+    palette=sns.mpl_palette("Spectral", n_colors=10)
+)
 ```
 
 ![](fig/mnist_pairplot.png){alt='SKLearn image with highlighted pixels'}
 
-As we can see the dataset relations are far more complex than our previous examples. The histograms show that some numbers appear in those pixel positions more than others, but the `feature_vs_feature` plots are quite messy to try and decipher. There are gaps and patches of colour suggesting that there is some kind of structure there, but it's far harder to inspect than the penguin data. We can't easily see definitive clusters in our 2D representations, and we know our clustering algorithms will take a long time to try and crunch 64 dimensions at once, so let's see if we can represent our 64D data in fewer dimensions.
+As we can see the dataset relations are far more complex than our previous examples.
+The histograms show that some numbers appear in those pixel positions more than others, but the `feature_vs_feature` plots are quite messy to try and decipher.
+There are gaps and patches of colour suggesting that there is some kind of structure there, but it's far harder to inspect than the penguin data.
+We cannot easily see definitive clusters in our 2D representations, and we know our clustering algorithms will take a long time to try and crunch 64 dimensions at once, so we want to see if we can represent our 64D data in fewer dimensions.
 
 :::::::::::::::::::::::::
 
@@ -136,18 +164,33 @@ As we can see the dataset relations are far more complex than our previous examp
 
 ## Dimensionality reduction with Scikit-Learn
 
-We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE). Both of these techniques are supported by Scikit-Learn.
+We will look at two commonly used techniques for dimensionality reduction: Principal Component Analysis (PCA) and t-distributed Stochastic Neighbor Embedding (t-SNE).
+Both of these techniques are supported by Scikit-Learn.
 
 #### Principal Component Analysis (PCA)
 
-PCA allows us to replace our 64 features with a smaller number of dimensional representations that retain the majority of our variance/relational data. Using Scikit-Learn lets apply PCA in a relatively simple way.
+PCA allows us to replace our 64 features with a smaller number of dimensional representations that retain the majority of our variance/relational data.
+For a simplified description of it, consider a plot of a straight line in a 2D X-Y plane:
 
-For more in depth explanations of PCA please see the following links:
+![](fig/simple_xy_line.png){alt='A simple lineplot of x=y'}
+
+As presented, this dataset has two dimensions.
+We can simplify things, though, by applying a transformation:
+
+![](fig/dimensionality_reduction.drawio.png){alt='The x=y lineplot, rotated so it is a line along y=0'}
+
+The variation in our dataset is now entirely contained in the new X' dimension.
+The Y' dimension is now unnecessary, and we can discard it without losing any information.
+Of course, in reality few datasets will reduce quite this well.
+
+For a more in depth explanations of PCA, see the following links:
 
 - <https://builtin.com/data-science/step-step-explanation-principal-component-analysis>
 - <https://scikit-learn.org/stable/modules/decomposition.html#pca>
 
-Let's apply PCA to the MNIST dataset and retain the two most-major components:
+Fortunately, Scikit-Learn allows us use PCA to reduce the dimensions of our data in a relatively simple way.
+
+We can apply PCA to the MNIST dataset and retain the two most-major components:
 
 ```python
 # PCA with 2 components
@@ -157,7 +200,8 @@ x_pca = pca.fit_transform(features)
 print(x_pca.shape)
 ```
 
-This returns us an array of 1797x2 where the 2 remaining columns(our new "features" or "dimensions") contain vector representations of the first principle components (column 0) and second principle components (column 1) for each of the images. We can plot these two new features against each other:
+This returns us an array of 1797x2 where the 2 remaining columns(our new "features" or "dimensions") contain vector representations of the first principle components (column 0) and second principle components (column 1) for each of the images.
+We can plot these two new features against each other:
 
 ```python
 # We are passing None becuase it is an unlabelled plot
@@ -166,7 +210,9 @@ plots_labels(x_pca, None)
 
 ![](fig/pca_unlabelled.png){alt='Reduction using PCA'}
 
-We now have a 2D representation of our 64D dataset that we can work with instead. Let's try some quick K-means clustering on our 2D representation of the data. Because we already have some knowledge about our data we can set `k=10` for the 10 digits present in the dataset.
+We now have a 2D representation of our 64D dataset that we can work with instead.
+We can try some quick K-means clustering on our 2D representation of the data.
+Because we already have some knowledge about our data we can set `k=10` for the 10 digits present in the dataset.
 
 ```python
 Kmean = skl_cluster.KMeans(n_clusters=10)
@@ -185,31 +231,58 @@ plot_clusters_labels(x_pca, labels)
 
 ![](fig/pca_labelled.png){alt='Reduction using PCA'}
 
-PCA has done a valiant effort to reduce the dimensionality of our problem from 64D to 2D while still retaining some of our key structural information. We can see that the digits `0`,`1`,`4`, and `6` cluster up reasonably well even using a simple k-means test. However it does look like there is still quite a bit of overlap between the remaining digits, especially for the digits `5` and `8`. The clustering is from perfect in the largest "blob", but not a bad effort from PCA given the substantial dimensionality reduction.
+PCA has done a valiant effort to reduce the dimensionality of our problem from 64D to 2D while still retaining some of our key structural information.
+We can see that the digits `0`,`1`,`4`, and `6` cluster up reasonably well even using a simple k-means test.
+However, it does look like there is still quite a bit of overlap between the remaining digits, especially for the digits `5` and `8`.
+The clustering is from perfect in the largest "blob", but not a bad effort from PCA given the substantial dimensionality reduction.
 
 It's worth noting that PCA does not handle outlier data well primarily due to global preservation of structural information, and so we will now look at a more complex form of learning that we can apply to this problem.
 
 #### t-distributed Stochastic Neighbor Embedding (t-SNE)
 
-t-SNE is a powerful example of *manifold learning* — a non-deterministic non-linear approach to dimensionality reduction. A **manifold** is a way to think about complex, high-dimensional data as if it exists on a simpler, lower-dimensional shape within that space. Imagine a crumpled piece of paper: while it exists in 3D space when crumpled, the surface of the paper itself is inherently 2D. Similarly, in many datasets, the meaningful patterns and relationships lie along such "lower-dimensional surfaces" within the high-dimensional space. For example, in image data like MNIST, the raw pixels (hundreds of dimensions) may seem high-dimensional, but the actual structure (the shapes of digits) is much simpler, often following a lower-dimensional manifold. Manifold learning techniques like t-SNE aim to "uncrumple" the data and flatten it into a lower-dimensional space, while preserving the relationships between points as much as possible.
+t-SNE is a powerful example of *manifold learning* — a non-deterministic non-linear approach to dimensionality reduction.
+A **manifold** is a way to think about complex, high-dimensional data as if it exists on a simpler, lower-dimensional shape within that space.
+Imagine a crumpled piece of paper: while it exists in 3D space when crumpled, the surface of the paper itself is inherently 2D.
+Similarly, in many datasets, the meaningful patterns and relationships lie along such "lower-dimensional surfaces" within the high-dimensional space.
+For example, in image data like MNIST, the raw pixels (hundreds of dimensions) may seem high-dimensional, but the actual structure (the shapes of digits) is much simpler, often following a lower-dimensional manifold.
+
+For another simplified description, wwe can extend our example from before.
+Consider another set of points on a 2D plane:
+
+![](fig/manifold_just_points.drawio.png){alt='A set of points on a 2D plane, roughly describing an arc'}
+
+They seem scattered, but we can draw a parabola that passes near, or through, all of the points.
+Then we can reduce the dimensionality of the dataset by describing each point in 1D, as its position on the line of the parabola.
+
+![](fig/manifold.drawio.png){alt='A set of points on a 2D plane, with a parabola drawn through them, and then a 1D line with those points on it at corresponding places.'}
+
+Manifold learning techniques like t-SNE aim to "uncrumple" the data and flatten it into a lower-dimensional space, while preserving the relationships between points as much as possible.
+
 
 #### Intuition for t-SNE
 
-t-SNE (**t-distributed Stochastic Neighbor Embedding**) is a method for visualizing high-dimensional data by mapping it into a low-dimensional space, typically 2D or 3D, while emphasizing *local relationships*. It focuses on keeping nearby points close together, helping to reveal clusters or patterns that may be hidden in the original high-dimensional space.
+t-SNE (**t-distributed Stochastic Neighbor Embedding**) is a method for visualizing high-dimensional data by mapping it into a low-dimensional space, typically 2D or 3D, while emphasizing *local relationships*.
+It focuses on keeping nearby points close together, helping to reveal clusters or patterns that may be hidden in the original high-dimensional space.
 
-**An analogy**: Imagine moving a group of friends from a large, crowded park into a much smaller garden while trying to keep people who are chatting with each other close. You won't care much about preserving the exact distances between groups from the original park—your main goal is to keep friends near each other in the smaller space. Similarly, t-SNE prioritizes preserving these *local connections*, while global distances between clusters may be distorted or not reflect their true relationships. This distortion happens because t-SNE sacrifices global structure to accurately capture local neighborhoods. For example:
+**An analogy**: Imagine moving a group of friends from a large, crowded park into a much smaller garden while trying to keep people who are chatting with each other close.
+You won't care much about preserving the exact distances between groups from the original park—your main goal is to keep friends near each other in the smaller space.
+Similarly, t-SNE prioritizes preserving these *local connections*, while global distances between clusters may be distorted or not reflect their true relationships.
+This distortion happens because t-SNE sacrifices global structure to accurately capture local neighborhoods. For example:
 
 - Two clusters that appear far apart in the t-SNE plot may actually be closer in the original high-dimensional space.
 - Similarly, clusters that appear close together in the plot might not actually be neighbors in the original space.
 
-As a result, while t-SNE is excellent for discovering *local patterns* (e.g., clusters, subgroups), you should be cautious about interpreting the relative distances between clusters. These are less reliable and are influenced by how the algorithm optimizes its layout in the reduced space. It's best to use t-SNE as a tool to find grouping and then validate these findings using additional analysis.
+As a result, while t-SNE is excellent for discovering *local patterns* (e.g., clusters, subgroups), you should be cautious about interpreting the relative distances between clusters.
+These are less reliable and are influenced by how the algorithm optimizes its layout in the reduced space.
+It's best to use t-SNE as a tool to find grouping and then validate these findings using additional analysis.
 
-For more in depth explanations of t-SNE and manifold learning please see the following links which also contain som very nice visual examples of manifold learning in action:
+For more in depth explanations of t-SNE and manifold learning please see the following links which also contain some very nice visual examples of manifold learning in action:
 
 - <https://thedatafrog.com/en/articles/visualizing-datasets/>
 - <https://scikit-learn.org/stable/modules/manifold.html>
 
-Scikit-Learn allows us to apply t-SNE in a relatively simple way. Lets code and apply t-SNE to the MNIST dataset in the same manner that we did for the PCA example, and reduce the data down from 64D to 2D again:
+Scikit-Learn allows us to apply t-SNE in a relatively simple way.
+We can apply t-SNE to the MNIST dataset in the same manner that we did for the PCA example, and reduce the data down from 64D to 2D again:
 
 ```python
 # t-SNE embedding
@@ -222,7 +295,8 @@ plots_labels(x_tsne, None)
 
 ![](fig/tsne_unlabelled.png){alt='Reduction using PCA'}
 
-It looks like t-SNE has done a much better job of splitting our data up into clusters using only a 2D representation of the data. Once again, let's run a simple k-means clustering on this new 2D representation, and compare with the actual color-labelled data:
+It looks like t-SNE has done a much better job of splitting our data up into clusters using only a 2D representation of the data.
+Once again, let's run a simple k-means clustering on this new 2D representation, and compare with the actual color-labelled data:
 
 ```python
 Kmean = skl_cluster.KMeans(n_clusters=10)
@@ -236,23 +310,24 @@ plot_clusters_labels(x_tsne, labels)
 
 ![](fig/tsne_clustered.png){alt='Reduction using PCA'}![](fig/tsne_labelled.png){alt='Reduction using PCA'}
 
-It looks like t-SNE has successfully separated out our digits into accurate clusters using as little as a 2D representation and a simple k-means clustering algorithm. It has worked so well that you can clearly see several clusters which can be modelled, whereas for our PCA representation we needed to rely heavily on the knowledge that we had 10 types of digits to cluster.
+It looks like t-SNE has successfully separated out our digits into accurate clusters using as little as a 2D representation and a simple k-means clustering algorithm.
+It has worked so well that you can clearly see several clusters which can be modelled, whereas for our PCA representation we needed to rely heavily on the knowledge that we had 10 types of digits to cluster.
 
 Additionally, if we had run k-means on all 64 dimensions this would likely still be computing away, whereas we have already broken down our dataset into accurate clusters, with only a handful of outliers and potential misidentifications (remember, a good ML model isn't a perfect model!)
 
-The major drawback of applying t-SNE to datasets is the large computational requirement. Furthermore, hyper-parameter tuning of t-SNE usually requires some trial and error to perfect.
+The major drawback of applying t-SNE to datasets is the large computational requirement.
+Furthermore, hyper-parameter tuning of t-SNE usually requires some trial and error to perfect.
 
-Our example here is still a relatively simple example of 8x8 images and not very typical of the modern problems that can now be solved in the field of ML and DL. To account for even higher-order input data, neural networks were developed to more accurately extract feature information.
+Our example here is still a relatively simple example of 8x8 images and not very typical of the modern problems that can now be solved in the field of ML and DL.
+To account for even higher-order input data, neural networks were developed to more accurately extract feature information.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ### Exercise: Working in three dimensions
 
-The above example has considered only two dimensions since humans
-can visualize two dimensions very well. However, there can be cases
-where a dataset requires more than two dimensions to be appropriately
-decomposed. Modify the above programs to use three dimensions and
-create appropriate plots.
+The above example has considered only two dimensions since humans can visualize two dimensions very well.
+However, there can be cases where a dataset requires more than two dimensions to be appropriately decomposed.
+Modify the above programs to use three dimensions and create appropriate plots.
 Do three dimensions allow one to better distinguish between the digits?
 
 :::::::::::::::  solution
@@ -296,11 +371,9 @@ plt.show()
 
 ### Exercise: Parameters
 
-Look up parameters that can be changed in PCA and t-SNE,
-and experiment with these. How do they change your resulting
-plots?  Might the choice of parameters lead you to make different
-conclusions about your data?
-
+Look up parameters that can be changed in PCA and t-SNE, and experiment with these.
+How do they change your resulting plots?
+Might the choice of parameters lead you to make different conclusions about your data?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -308,17 +381,14 @@ conclusions about your data?
 
 ### Exercise: Other algorithms
 
-There are other algorithms that can be used for doing dimensionality
-reduction (for example the Higher Order Singular Value Decomposition (HOSVD)).
-Do an internet search for some of these and
-examine the example data that they are used on. Are there cases where they do
-poorly? What level of care might you need to use before applying such methods
-for automation in critical scenarios?  What about for interactive data
+There are other algorithms that can be used for doing dimensionality reduction (for example the Higher Order Singular Value Decomposition (HOSVD)).
+Do an internet search for some of these and examine the example data that they are used on.
+Are there cases where they do poorly?
+What level of care might you need to use before applying such methods for automation in critical scenarios?
+What about for interactive data
 exploration?
 
-
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
 
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
@@ -327,5 +397,3 @@ exploration?
 - t-SNE is another dimensionality reduction technique for tabular data that is more general than PCA
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
