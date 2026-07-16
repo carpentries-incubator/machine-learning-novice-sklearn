@@ -305,48 +305,62 @@ Adjust the `degree=3` input variable for the `PolynomialFeatures` function to ch
 
 ### Solution
 
-Let's plot all the fitted polynomials of degree one to nine, alongside the data as before. We can also calculate the root mean squared error of each polynomial fit and print the best.
 
 ```python
-#plot the data
-plt.scatter(x_data, y_data, label="all data")
-plt.scatter(x_data_subset, y_data_subset, label="subset data")
+poly_features = PolynomialFeatures(degree=n)
+```
 
-#name a variable 'best' to store the best RMSE we find.
+We can change the `n` on this line from 3 to any other integer, and re-run to get an nth-degree polynomial fit.
+
+It's also possible to plot multiple different polynomial fits on the same plot.
+Here, we fit 1st to 5th-degree polynomials (and set the background colour to grey, so they're easier to see):
+
+```python
+plt.scatter(x_data, y_data, color="lightgrey")
+plt.scatter(x_data_subset, y_data_subset, color="grey")
+
+# name a variable 'best' to store the best RMSE we find.
 best = np.inf
 
-#loop through and plotpolynomials of degree one to nine, 
-#reusing the earlier code.
-for degree in range(1,10):
+for degree in range (1, 10):
+    # create an n-degree polynomial representation of our training data
     poly_features = PolynomialFeatures(degree=degree)
     x_poly = poly_features.fit_transform(x_data_subset)
+
     # Define our estimator/model(s) and train our model
     poly_regress = LinearRegression()
-    poly_regress.fit(x_poly,y_data_subset)
+    poly_regress.fit(x_poly, y_data_subset)
+
     # make predictions using all data, pre-process data too
     x_poly_all = poly_features.fit_transform(x_data)
     poly_data = poly_regress.predict(x_poly_all)
-    
-    poly_error = root_mean_squared_error(y_data, poly_data)
-    print("degree=",degree,"; poly error=", poly_error)
 
-    #find best degree polynomial
+    # find best degree polynomial
+    poly_error = root_mean_squared_error(y_data, poly_data)
     if poly_error < best:
         best = poly_error
-        #create a variable called degree to store the best polynomial degree.
-        best_degree = degree
-    plt.plot(x_data, poly_data, "-", label="poly fit, degree="+str(degree))
 
-#print our best degree polynomial
-print("Best degree was",best_degree,"with poly error=",best)
+        # create a variable called degree to store the best polynomial degree.
+        best_degree = degree
+
+    plt.plot(
+        x_data, poly_data, "-",
+        label=f"degree={degree}, error={poly_error:.2f}"
+    )
+
 plt.xlabel("mass g")
 plt.ylabel("depth mm")
-plt.legend(ncol=4)
+plt.legend()
 plt.show()
+
+print(f"Best degree was {best_degree}, with poly error={best}")
 ```
-![](fig/polynomial_comparison.png){alt='Comparison of several polynomial fits to the data.'}
 
+![](fig/penguin_regression_poly.png){alt='Comparison of the regressions of our dataset for 1st to 5th-degree polynomials'}
 
+The 1st-degree polynomial is just the linear fit, and we can see that increasing the degree actually improves the error, up to a point!
+We could declare the 3rd-degree polynomial to be the 'best' model for the data, but in this case it is clear that it's not actually a 'best' in a **meaningful** sense.
+Most types of models can be tweaked to reduce the errors on their fit - it's important to plot your fits so you can recognise when a model simply isn't a good match.
 
 :::::::::::::::::::::::::
 
@@ -356,62 +370,107 @@ plt.show()
 
 ### Exercise: Now try using the SplineTransformer to create a spline model
 
-The SplineTransformer is another pre-processing function that behaves in a similar way to the PolynomialFeatures function. Import the package `sklearn.preprocessing.SplinTransformer` and adjust your
-previous code to use the SplineTransformer. Can you improve the RMSE of your model by varying the `knots` and `degree` functions? Is the spline model better than the polynomial model?
+The SplineTransformer is another pre-processing function that behaves in a similar way to the PolynomialFeatures function. Import the package `sklearn.preprocessing.SplineTransformer` and adjust your
+previous code to use the SplineTransformer. Can you improve the RMSE of your model by varying the `knots` and `degree` parameters? Is the spline model better than the polynomial model?
 
 :::::::::::::::  solution
 
 ### Solution
 
 ```python
+spline_features = SplineTransformer(n_knots=n, degree=m)
+```
+
+The above line replaces the `PolynomialFeatures` function. It takes in an additional argument `knots` compared to `PolynomialFeatures`.
+Like before, we can try plotting for a range of knots on a single figure to show the fit:
+
+```python
 from sklearn.preprocessing import SplineTransformer
 
-#plot the data
-plt.scatter(x_data, y_data, label="all data")
-plt.scatter(x_data_subset, y_data_subset, label="subset data")
 
-#name a variable 'best' to store the best RMSE we find.
+plt.scatter(x_data, y_data, color="lightgrey")
+plt.scatter(x_data_subset, y_data_subset, color="grey")
+
+# name a variable 'best' to store the best RMSE we find.
 best = np.inf
 
-#loop through and plotpolynomials of degree one to nine, 
-#reusing the earlier code.
-for knot in range(2,5):
-    for degree in range(1,10):
-        spline_features =  SplineTransformer(n_knots=knot, degree=degree)
-        x_spline = spline_features.fit_transform(x_data_subset)
-        # Define our estimator/model(s) and train our model
-        spline_regress = LinearRegression()
-        spline_regress.fit(x_spline,y_data_subset)
-        # make predictions using all data, pre-process data too
-        x_spline_all = spline_features.fit_transform(x_data)
-        spline_data = spline_regress.predict(x_spline_all)
-        
-        spline_error = root_mean_squared_error(y_data, spline_data)
-        print("degree=",degree,"; slpine error=", spline_error)
-    
-        #find best degree polynomial
-        if spline_error < best:
-            best = spline_error
-            #create a variable called degree to store the best polynomial degree.
-            best_degree = degree
-            best_knot = knot
-        plt.plot(x_data, spline_data, "-", label="spline fit, degree="+str(degree)+" knot="+str(knot))
+for knots in range(2, 6):
+    # create an spline representation of our training data
+    spline_features =  SplineTransformer(n_knots=knots, degree=2)
+    x_spline = spline_features.fit_transform(x_data_subset)
 
-#print our best degree polynomial
-print("Best degree/knot was",best_degree,best_knot,"with poly error=",best)
+    # Define our estimator/model(s) and train our model
+    spline_regress = LinearRegression()
+    spline_regress.fit(x_spline, y_data_subset)
+
+    # make predictions using all data, pre-process data too
+    x_spline_all = spline_features.fit_transform(x_data)
+    spline_data = spline_regress.predict(x_spline_all)
+
+    spline_error = root_mean_squared_error(y_data, spline_data)
+
+    plt.plot(
+        x_data, spline_data, "-",
+        label=f"degree={degree}, knots={knots}, error={spline_error:.2f}"
+    )
+
 plt.xlabel("mass g")
 plt.ylabel("depth mm")
-plt.legend(ncol=4)
+plt.legend()
 plt.show()
 ```
 
-The above line replaces the `PolynomialFeatures` function. It takes in an additional argument `knots` compared to `PolynomialFeatures`. It's best performance is comparable to that of the `PolynomialFeatures` in this example (error of 1.613 fo SplineTransformer and 1.604 for PolynomialFeatures).
+![](fig/penguin_regression_spline_degree_2.png){alt='Comparison of the regressions of our dataset for 2-5 knot 2nd-degree splines'}
 
+We get more or less the same fit, and pattern in the fit, for a 2nd-degree polynomial as we increase the number of knots.
+What is actually happening is clearer if we reduce the degree down to 1:
+
+![](fig/penguin_regression_spline_degree_1.png){alt='Comparison of the regressions of our dataset for 2-5 knot 1st-degree splines'}
+
+As a 1st-degree polynomial is just a straight line, we can see that a spline is actually just a set of independent polynomial fits.
+Each fit ends on a 'knot', so a fit with `n` knots is evenly split into `n-1` different polynomials.
+
+We can do a full parameter sweep like we did in the polynomial version:
+
+```python
+# name a variable 'best' to store the best RMSE we find.
+best = np.inf
+
+for degree in range(1, 10):
+    for knots in range(1, 10):
+        # create an spline representation of our training data
+        spline_features =  SplineTransformer(n_knots=knots, degree=degree)
+        x_spline = spline_features.fit_transform(x_data_subset)
+
+        # Define our estimator/model(s) and train our model
+        spline_regress = LinearRegression()
+        spline_regress.fit(x_spline, y_data_subset)
+
+        # make predictions using all data, pre-process data too
+        x_spline_all = spline_features.fit_transform(x_data)
+        spline_data = spline_regress.predict(x_spline_all)
+
+        # find best spline
+        spline_error = root_mean_squared_error(y_data, spline_data)
+        if spline_error < best:
+            best = spline_error
+
+            # create variables to store the best polynomial degree and number of knots
+            best_degree = degree
+            best_knots = knots
+
+print(f"Best degree was {best_degree} and knots were {best_knots}, with spline error={best}")
+```
+
+We get about the same accuracy - in this case, an error of 1.66 for 3 knots with 2nd degree polynomials between them.
+
+We have done a very basic spline fit.
+More advanced spline fitting techniques try to match the gradients of the spline segments, to prevent abrupt changes of direction.
+However, for our data even a more advanced spline fit would not be a very appropriate model.
 
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
 
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
@@ -421,5 +480,3 @@ The above line replaces the `PolynomialFeatures` function. It takes in an additi
 - Scikit-Learn can perform polynomial regressions to model non-linear data.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
