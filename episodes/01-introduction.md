@@ -8,7 +8,7 @@ exercises: 10
 
 - Gain an overview of what machine learning is and the techniques available.
 - Understand how machine learning, deep learning, and artificial intelligence differ.
-- Be aware of some caveats when using machine mearning.
+- Be aware of some caveats when using machine learning.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -67,7 +67,7 @@ Now that we have explored machine learning in a bit more detail, discuss with th
 
 #### Limitations of machine learning
 
-Like any other systems machine learning has limitations, caveats, and "gotchas" to be aware of that may impact the accuracy and performance of a machine learning system.
+Like any other system, machine learning has limitations, caveats, and "gotchas" to be aware of that may impact the accuracy and performance of a machine learning system.
 
 ##### Garbage in = garbage out
 
