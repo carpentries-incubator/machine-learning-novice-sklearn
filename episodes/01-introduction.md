@@ -8,7 +8,7 @@ exercises: 10
 
 - Gain an overview of what machine learning is and the techniques available.
 - Understand how machine learning, deep learning, and artificial intelligence differ.
-- Be aware of some caveats when using machine mearning.
+- Be aware of some caveats when using machine learning.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
