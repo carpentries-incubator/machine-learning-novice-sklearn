@@ -232,11 +232,7 @@ print(f'train size: {X_train.shape}')
 print(f'test size: {X_test.shape}')
 ```
 
-Lets stack a series of regression models. In the same way the RandomForest classifier derives a results from a series of trees, we will combine the results from a series of different models in our stack. This is done using what's called an ensemble meta-estimator called a VotingRegressor.
-
-We'll apply a Voting regressor to a random forest, gradient boosting and linear regressor.
-
-Lets stack a series of regression models. In the same way the RandomForest classifier derives a results from a series of trees, we will combine the results from a series of different models in our stack. This is done using what's called an ensemble meta-estimator called a VotingRegressor.
+Let's stack a series of regression models. In the same way the RandomForest classifier derives a results from a series of trees, we will combine the results from a series of different models in our stack. This is done using what's called an ensemble meta-estimator called a VotingRegressor.
 
 We'll apply a Voting regressor to a random forest, gradient boosting and linear regressor.
 
