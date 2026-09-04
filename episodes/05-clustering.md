@@ -56,7 +56,7 @@ The algorithm needs to be told how many k clusters to look for, but a common tec
 
 ### Hyper-parameters again
 
-'K' is also an exmaple of a *hyper-parameter* for the k-means clustering technique. Another example of a hyper-parameter is the N-degrees of freedom for polynomial regression. Keep an eye out for others throughout the lesson!
+'K' is also an example of a *hyper-parameter* for the k-means clustering technique. Another example of a hyper-parameter is the N-degrees of freedom for polynomial regression. Keep an eye out for others throughout the lesson!
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
