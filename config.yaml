@@ -1,0 +1,96 @@
+#------------------------------------------------------------
+# Values for this lesson.
+#------------------------------------------------------------
+
+# Which carpentry is this (swc, dc, lc, or cp)?
+# swc: Software Carpentry
+# dc: Data Carpentry
+# lc: Library Carpentry
+# cp: Carpentries (to use for instructor training for instance)
+# incubator: The Carpentries Incubator
+# Note that you can also use a custom carpentry type. For more info,
+# see the documentation: https://carpentries.github.io/sandpaper-docs/editing.html
+carpentry: 'incubator'
+
+# Custom carpentry description
+# This will be used as the alt text for the logo
+# carpentry_description: "Custom Carpentry"
+
+# Overall title for pages.
+title: 'Introduction to Machine Learning with Scikit Learn'
+
+# Date the lesson was created (YYYY-MM-DD, this is empty by default)
+created: 2019-04-04
+
+# Comma-separated list of keywords for the lesson
+keywords: 'software, data, lesson, The Carpentries, machine learning, sklearn, scikit learn, neural networks, random forests, regression, classification, decision trees, ensemble methods, supervised learning, unsupervised learning, principal component analysis, PCA, t-distributed Stochastic Neighbor Embedding, t-SNE, ethics'
+
+# Life cycle stage of the lesson
+# possible values: pre-alpha, alpha, beta, stable
+life_cycle: 'alpha'
+
+# License of the lesson materials (recommended CC-BY 4.0)
+license: 'CC-BY 4.0'
+
+# Link to the source repository for this lesson
+source: 'https://github.com/carpentries-incubator/machine-learning-novice-sklearn'
+
+# Default branch of your lesson
+branch: 'main'
+
+# Who to contact if there are any issues
+contact: 'team@carpentries.org'
+
+# Navigation ------------------------------------------------
+#
+# Use the following menu items to specify the order of
+# individual pages in each dropdown section. Leave blank to
+# include all pages in the folder.
+#
+# Example -------------
+#
+# episodes:
+# - introduction.md
+# - first-steps.md
+#
+# learners:
+# - setup.md
+#
+# instructors:
+# - instructor-notes.md
+#
+# profiles:
+# - one-learner.md
+# - another-learner.md
+
+# Order of episodes in your lesson
+episodes: 
+- 01-introduction.md
+- 02-regression.md
+- 03-classification.md
+- 04-ensemble-methods.md
+- 05-clustering.md
+- 06-dimensionality-reduction.md
+- 07-neural-networks.md
+- 08-ethics.md
+- 09-learn-more.md
+
+# Information for Learners
+learners: 
+
+# Information for Instructors
+instructors: 
+
+# Learner Profiles
+profiles: 
+
+# Customisation ---------------------------------------------
+#
+# This space below is where custom yaml items (e.g. pinning
+# sandpaper and varnish versions) should live
+
+
+carpentry_description: Lesson Description
+url: 'https://carpentries-incubator.github.io/machine-learning-novice-sklearn'
+analytics: carpentries
+lang: en
